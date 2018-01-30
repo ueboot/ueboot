@@ -26,6 +26,7 @@
         <fastjson.version>1.2.21</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
         <shiro.version>1.4.0</shiro.version>
+        <ueboot.core.version>2.0.0</ueboot.core.version>
     </properties>
 
     <dependencyManagement>
@@ -38,12 +39,6 @@
                 <scope>test</scope>
             </dependency>
 
-            <!-- mysql数据库包 -->
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <scope>runtime</scope>
-            </dependency>
             <!-- lombok包 -->
             <dependency>
                 <groupId>org.projectlombok</groupId>

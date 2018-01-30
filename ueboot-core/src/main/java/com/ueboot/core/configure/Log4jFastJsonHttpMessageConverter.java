@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ueboot.core.exception.BusinessException;
 import com.ueboot.core.utils.XSSUtil;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpInputMessage;
@@ -27,7 +26,7 @@ import java.util.Set;
 
 /**
  * Created by yangkui on 16/12/19.
- * 对请求与返回json数据打印日志
+ * 拦截所有json格式提交的请求与返回数据打印日志
  *
  * @author yangkui
  * @version 1.0
@@ -95,14 +94,15 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Object>> validRetval = validator.validate(reqBody);
-        StringBuffer sb = new StringBuffer();
-        if (!validRetval.isEmpty()) {// 校验失败
+        StringBuilder sb = new StringBuilder();
+        // 校验失败
+        if (!validRetval.isEmpty()) {
             for (ConstraintViolation<Object> t : validRetval) {
                 sb.append(t.getPropertyPath()).append(t.getMessage()).append(",");
             }
         }
         String checkError = sb.toString();
-        if (StringUtils.isNotEmpty(checkError)) {
+        if (!isEmpty(checkError)) {
             checkError = "请求参数格式校验不通过：" + checkError;
             throw new BusinessException(checkError);
         }
@@ -119,4 +119,9 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         byte[] bytes = text.getBytes(charset);
         out.write(bytes);
     }
+
+    private boolean isEmpty(String str) {
+        return str == null || str.length() == 0;
+    }
+
 }

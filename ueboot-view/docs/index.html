@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UEBoot框架 - UEBoot框架</title>
+  <meta name="description" content="UEBoot框架，基于iView做的整个框架">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <style>
+    body:not(.ready) {
+      overflow: visible;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+</body>
+<script>
+  window.$docsify = {
+    auto2top: true,
+    name: 'ueboot',
+    subMaxLevel: 2,
+    homepage: 'update.md',
+    loadSidebar: true,
+    formatUpdated: '{YYYY}-{MM}-{DD} {HH}:{mm}',
+    // 完整配置参数
+    search: {
+      maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+      paths: "auto", // or 'auto'
+      placeholder: '搜索',
+      noData: '找不到结果',
+    }
+
+  }
+</script>
+<script src="//unpkg.com/docsify"></script>
+<script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/zoom-image.js"></script>
+</html>
