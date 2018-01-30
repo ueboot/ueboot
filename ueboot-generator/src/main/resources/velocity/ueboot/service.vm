@@ -1,0 +1,18 @@
+/*
+* Copyright (c)  ${YEAR}, xiqiao.io
+* All rights reserved.
+* ${DATE}
+*/
+package ${servicePackageName};
+
+import ${entityPackageName}.${entityFullName};
+import com.ueboot.core.service.BaseService;
+
+/**
+ * Created by ${USER}  on ${DATE}.
+ * @author ${USER}
+ * @since 2.0 by autocode
+ */
+public interface ${entityName}Service extends BaseService<${entityFullName}> {
+
+}

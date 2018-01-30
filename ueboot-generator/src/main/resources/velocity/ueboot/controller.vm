@@ -1,0 +1,82 @@
+/*
+* Copyright (c)  ${YEAR}, xiqiao.io
+* All rights reserved.
+* ${DATE}
+*/
+package ${controllerPackageName};
+
+import com.ueboot.core.http.response.Response;
+import ${controllerPackageName}.vo.*;
+import ${entityPackageName}.${entityFullName};
+import ${servicePackageName}.${entityName}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
+
+
+/**
+ *  Created by ${USER}  on ${DATE}.
+ * @author ${USER}
+ * @since 2.0 by autocode
+ */
+@Slf4j
+@RestController
+@RequestMapping(value = "/${lowEntityName}")
+public class ${entityName}Controller {
+
+    @Autowired
+    private ${entityName}Service ${lowEntityName}Service;
+
+
+    @RequiresPermissions("${lowEntityName}:read")
+    @RequestMapping(value = "/page", method = RequestMethod.POST)
+    public Response<Page<${entityName}Resp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
+                                                     Pageable pageable, @RequestBody(required = false) ${entityName}FindReq req){
+        Page<${entityFullName}> entities = ${lowEntityName}Service.findBy(pageable);
+        Page<${entityName}Resp> body = entities.map(entity -> {
+            ${entityName}Resp resp = new ${entityName}Resp();
+            BeanUtils.copyProperties(entity, resp);
+            return resp;
+        });
+
+        return new Response<>(body);
+    }
+
+
+    @RequiresPermissions("${lowEntityName}:save")
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public Response<Void> save(@RequestBody ${entityName}Req req) {
+        ${entityFullName} entity = null;
+        if (req.getId() == null) {
+            entity = new ${entityFullName}();
+        } else {
+            entity = ${lowEntityName}Service.get(req.getId());
+        }
+        BeanUtils.copyProperties(req, entity);
+        ${lowEntityName}Service.save(entity);
+        return new Response<>();
+    }
+
+    @RequiresPermissions("${lowEntityName}:delete")
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public Response<Void> delete(Long[] id) {
+        ${lowEntityName}Service.delete(id);
+        return new Response<>();
+    }
+
+    @RequiresPermissions("${lowEntityName}:read")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Response<${entityName}Resp> get(@PathVariable Long id) {
+        ${entityFullName} entity = ${lowEntityName}Service.get(id);
+        ${entityName}Resp resp = new ${entityName}Resp();
+        BeanUtils.copyProperties(entity, resp);
+        return new Response<>(resp);
+    }
+
+}

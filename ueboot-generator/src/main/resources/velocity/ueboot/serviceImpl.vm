@@ -1,0 +1,32 @@
+/*
+* Copyright (c)  ${YEAR}, xiqiao.io
+* All rights reserved.
+* ${DATE}
+*/
+package ${servicePackageName}.impl;
+
+import ${entityPackageName}.${entityFullName};
+import com.ueboot.core.repository.BaseRepository;
+import ${repositoryPackageName}.${entityName}Repository;
+import com.ueboot.core.service.impl.BaseServiceImpl;
+import ${servicePackageName}.${entityName}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * Created by ${USER}  on ${DATE}.
+ * @author ${USER}
+ * @since 2.0 by autocode
+ */
+@Slf4j
+@Service
+public class ${entityName}ServiceImpl extends BaseServiceImpl<${entityFullName}> implements ${entityName}Service{
+    @Autowired
+    private ${entityName}Repository ${lowEntityName}Repository;
+
+    @Override
+    protected BaseRepository getBaseRepository() {
+         return ${lowEntityName}Repository;
+    }
+}

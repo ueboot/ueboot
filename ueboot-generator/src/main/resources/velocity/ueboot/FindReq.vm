@@ -1,0 +1,23 @@
+/*
+* Copyright (c)  ${YEAR}, xiqiao.io
+* All rights reserved.
+* ${DATE}
+*/
+package ${controllerPackageName}.vo;
+
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+*  Created by ${USER}  on ${DATE}.
+* @author ${USER}
+* @since 2.0 by autocode
+*/
+@Data
+@NoArgsConstructor
+public class ${entityName}FindReq {
+#foreach($object in ${fields})
+    private $object.type $object.name;
+#end
+}
