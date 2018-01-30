@@ -1,4 +1,4 @@
-package com.ueboot.autocode;
+package com.ueboot.generator;
 
 import jodd.util.StringUtil;
 
@@ -12,6 +12,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
 
+/**
+ * @author yangkui
+ * 代码生成器界面
+ */
 public class GeneratorDialog extends JDialog {
     private static String separator = System.getProperty("file.separator");
 
@@ -38,12 +42,14 @@ public class GeneratorDialog extends JDialog {
         getRootPane().setDefaultButton(btnSave);
 
         btnSave.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 onOK();
             }
         });
 
         btnCancel.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -52,6 +58,7 @@ public class GeneratorDialog extends JDialog {
 // call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 onCancel();
             }
@@ -59,6 +66,7 @@ public class GeneratorDialog extends JDialog {
 
 // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 onCancel();
             }
@@ -75,23 +83,23 @@ public class GeneratorDialog extends JDialog {
             public void focusLost(FocusEvent e) {
                 String entityPackageNameValue = entityPackageName.getText();
                 if (StringUtil.isNotBlank(entityPackageNameValue)) {
-                    entityPackageNameValue = entityPackageNameValue.substring(0,entityPackageNameValue.lastIndexOf("."));
+                    entityPackageNameValue = entityPackageNameValue.substring(0, entityPackageNameValue.lastIndexOf("."));
                     if (StringUtil.isBlank(repositoryPackageName.getText())) {
-                        repositoryPackageName.setText(entityPackageNameValue.replace("entity","repository"));
+                        repositoryPackageName.setText(entityPackageNameValue.replace("entity", "repository"));
                     }
                     if (StringUtil.isBlank(servicePackageName.getText())) {
-                        servicePackageName.setText(entityPackageNameValue.replace("entity","service"));
+                        servicePackageName.setText(entityPackageNameValue.replace("entity", "service"));
                     }
                     if (StringUtil.isBlank(controllerPackageName.getText())) {
-                        controllerPackageName.setText(entityPackageNameValue.replace("entity",controllerModuleName.getText()+".controller"));
+                        controllerPackageName.setText(entityPackageNameValue.replace("entity", controllerModuleName.getText() + ".controller"));
                     }
                     if (StringUtil.isBlank(vueFilePath.getText())) {
-                        vueFilePath.setText("src"+separator+"views");
+                        vueFilePath.setText("src" + separator + "views");
                     }
                 }
             }
         });
-        btnclean.addActionListener((ActionEvent e)->{
+        btnclean.addActionListener((ActionEvent e) -> {
             //清空输入框内容
             repositoryPackageName.setText("");
             servicePackageName.setText("");
@@ -167,7 +175,9 @@ public class GeneratorDialog extends JDialog {
         }
     }
 
-    //保存当前用户输入的内容
+    /**
+     * 保存当前用户输入的内容
+     */
     private void writeDefaultSetting() {
         String userHome = System.getProperty("user.home");
         String path = userHome + separator + "ueboot.properties";
@@ -197,7 +207,7 @@ public class GeneratorDialog extends JDialog {
     private void onOK() {
         //保存当前设置
         writeDefaultSetting();
-        AutoCode ac = new AutoCode();
+        com.ueboot.generator.CodeGenerator ac = new com.ueboot.generator.CodeGenerator();
         ac.initProperties();
         String clazzName = entityPackageName.getText();
         Class<?> clz = null;
@@ -208,7 +218,7 @@ public class GeneratorDialog extends JDialog {
                 return;
             }
             String clazzNameFilePath = clazzName.replaceAll(".", separator);
-            String entityFilePath = ac.getProjectPah()  + entityModuleName.getText() + separator + "target" + separator + "classes" + separator + clazzNameFilePath;
+            String entityFilePath = ac.getProjectPah() + entityModuleName.getText() + separator + "target" + separator + "classes" + separator + clazzNameFilePath;
             URL[] urls = {new URL("file:" + entityFilePath)};
             URLClassLoader cl = new URLClassLoader(urls);
             clz = Class.forName(clazzName, true, cl);
@@ -237,7 +247,7 @@ public class GeneratorDialog extends JDialog {
                 JOptionPane.showMessageDialog(null, " serviceModuleName不能为空 ", " 提示 ", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            ac.createService(clz, servicePackageName.getText(), serviceModuleName.getText(),repositoryPackageName.getText());
+            ac.createService(clz, servicePackageName.getText(), serviceModuleName.getText(), repositoryPackageName.getText());
         }
         if (StringUtil.isNotEmpty(controllerPackageName.getText())) {
             if (StringUtil.isEmpty(controllerModuleName.getText())) {
@@ -251,7 +261,7 @@ public class GeneratorDialog extends JDialog {
                 JOptionPane.showMessageDialog(null, " vuePageModuleName不能为空 ", " 提示 ", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            ac.createPages(clz, vuePageModuleName.getText(), vueFilePath.getText(),requestPath.getText());
+            ac.createPages(clz, vuePageModuleName.getText(), vueFilePath.getText(), requestPath.getText());
         }
         JOptionPane.showMessageDialog(null, "完成！ ", " 提示 ", JOptionPane.OK_OPTION);
         // dispose();
@@ -259,14 +269,14 @@ public class GeneratorDialog extends JDialog {
 
     private void onCancel() {
 // add your code here if necessary
-       int n = JOptionPane.showConfirmDialog(null,"确定退出吗?","提示",JOptionPane.YES_NO_OPTION);
-       if(n==JOptionPane.YES_OPTION){
-           System.exit(0);
-       }
+        int n = JOptionPane.showConfirmDialog(null, "确定退出吗?", "提示", JOptionPane.YES_NO_OPTION);
+        if (n == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
     }
 
     public static void main(String[] args) {
-        com.ueboot.autocode.GeneratorDialog dialog = new com.ueboot.autocode.GeneratorDialog();
+        com.ueboot.generator.GeneratorDialog dialog = new com.ueboot.generator.GeneratorDialog();
         dialog.pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Dimension compSize = dialog.getSize();

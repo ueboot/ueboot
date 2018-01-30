@@ -1,4 +1,4 @@
-package com.ueboot.autocode;
+package com.ueboot.generator;
 
 import jodd.datetime.JDateTime;
 import lombok.Data;
@@ -23,17 +23,17 @@ import java.util.*;
 public class CodeGenerator {
     private static String separator = System.getProperty("file.separator");
 
-    private  final String USER = System.getenv("USER");
-    private  String projectPah = "";
-    private  final boolean SAVA_FILE = true;//是否生成文件
+    private final String USER = System.getenv("USER");
+    private String projectPah = "";
+    private final boolean SAVA_FILE = true;//是否生成文件
 
 
-
-    //初始化一些属性
+    /**
+     * 初始化一些属性
+     */
     public void initProperties() {
-        ///Users/yangkui/IdeaProjects/ford-wechat/api/target/classes/
-        String classPath = com.ueboot.autocode.CodeGenerator.class.getClassLoader().getResource("").getPath();
-        classPath = classPath.substring(0, classPath.indexOf(separator+"target"+separator+"classes"));
+        String classPath = com.ueboot.generator.CodeGenerator.class.getClassLoader().getResource("").getPath();
+        classPath = classPath.substring(0, classPath.indexOf(separator + "target" + separator + "classes"));
         classPath = classPath.substring(0, classPath.lastIndexOf(separator));
         if (!classPath.endsWith(separator)) {
             classPath += separator;
@@ -45,26 +45,34 @@ public class CodeGenerator {
         System.out.println(message);
     }
 
-    //生成repository及repositoryImpl类
-    public void createRepository(Class<?> clz, String repositoryPackageName,String repositoryModuleName) {
+    /**
+     * 生成repository及repositoryImpl类
+     */
+    public void createRepository(Class<?> clz, String repositoryPackageName, String repositoryModuleName) {
         log("repository类生成包名:" + repositoryPackageName);
         VelocityContext context = getBaseContext(clz);
-        String entityClassName = (String)context.get("entityName");
+        String entityClassName = (String) context.get("entityName");
         context.put("repositoryPackageName", repositoryPackageName);
         String java = getTemplateString("repository.vm", context);
         log("repository文件内容：" + java);
         String filepath = repositoryPackageName.replace(".", separator);
-        String filePath = projectPah + repositoryModuleName +separator+  "src"+separator+"main"+separator+"java" +separator  + filepath +separator + entityClassName + "Repository.java";
+        String filePath = projectPah + repositoryModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filepath + separator + entityClassName + "Repository.java";
         log("repository文件保存路径：" + filePath);
         saveFile(filePath, java);
     }
 
 
-    //生成service及serviceImpl类
-    public void createService(Class<?> clz, String servicePackageName,String serviceModuleName, String repositoryPackageName ) {
+    /**
+     * 生成service及serviceImpl类
+     * @param clz
+     * @param servicePackageName
+     * @param serviceModuleName
+     * @param repositoryPackageName
+     */
+    public void createService(Class<?> clz, String servicePackageName, String serviceModuleName, String repositoryPackageName) {
         log("service类生成包名:" + servicePackageName);
         VelocityContext context = getBaseContext(clz);
-        String entityClassName = (String)context.get("entityName");
+        String entityClassName = (String) context.get("entityName");
         context.put("servicePackageName", servicePackageName);
         String java = getTemplateString("service.vm", context);
         log("service文件内容：" + java);
@@ -75,8 +83,8 @@ public class CodeGenerator {
 
         String filepath = servicePackageName.replace(".", separator);
 
-        String interfacefilepath = projectPah + serviceModuleName +separator+ "src"+separator+"main"+separator+"java" +separator  + filepath +separator + entityClassName + "Service.java";
-        String implfilepath = projectPah + serviceModuleName +separator+ "src"+separator+"main"+separator+"java" +separator  + filepath +separator+ "impl" +separator+ entityClassName + "ServiceImpl.java";
+        String interfacefilepath = projectPah + serviceModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filepath + separator + entityClassName + "Service.java";
+        String implfilepath = projectPah + serviceModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filepath + separator + "impl" + separator + entityClassName + "ServiceImpl.java";
 
         log("service文件保存路径：" + interfacefilepath);
         log("serviceImpl文件保存路径：" + implfilepath);
@@ -85,13 +93,13 @@ public class CodeGenerator {
         saveFile(implfilepath, java2);
     }
 
-    public void createController(Class<?> clz, String controllerPackageName,String servicePackageName,String controllerModuleName) {
-        createVO(clz, controllerModuleName,controllerPackageName);
+    public void createController(Class<?> clz, String controllerPackageName, String servicePackageName, String controllerModuleName) {
+        createVO(clz, controllerModuleName, controllerPackageName);
 
         log("controller类生成包名:" + controllerPackageName);
 
         VelocityContext context = getBaseContext(clz);
-        String entityClassName = (String)context.get("entityName");
+        String entityClassName = (String) context.get("entityName");
 
         context.put("controllerPackageName", controllerPackageName);
         context.put("servicePackageName", servicePackageName);
@@ -100,21 +108,21 @@ public class CodeGenerator {
         log("controller文件内容：" + java);
         String filepath = controllerPackageName.replace(".", separator);
 
-        String controllerfilepath = projectPah + controllerModuleName +separator+ "src"+separator+"main"+separator+"java" +separator + filepath + separator + entityClassName + "Controller.java";
+        String controllerfilepath = projectPah + controllerModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filepath + separator + entityClassName + "Controller.java";
         log("controller文件保存路径：" + controllerfilepath);
         saveFile(controllerfilepath, java);
     }
 
-    private void createVO(Class<?> clz, String controllerModuleName,String controllerPackageName) {
+    private void createVO(Class<?> clz, String controllerModuleName, String controllerPackageName) {
 
-       String voPackageName =controllerPackageName + ".vo";
+        String voPackageName = controllerPackageName + ".vo";
         String filepath = voPackageName.replace(".", "/");
 
         VelocityContext context = getBaseContext(clz);
         context.put("controllerPackageName", controllerPackageName);
 
         try {
-            List<ObjectField> fields = getObjectValue(clz);
+            List<com.ueboot.autocode.ObjectField> fields = getObjectValue(clz);
             context.put("fields", fields);
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,7 +137,7 @@ public class CodeGenerator {
             String key = entry.getKey();
             String java = getTemplateString(key + ".vm", context);
             log(key + "文件内容：" + java);
-            String reqFilePath = projectPah + controllerModuleName + separator+"src"+separator+"main"+separator+"java" +separator+ filepath + separator + context.get("entityName") + key + ".java";
+            String reqFilePath = projectPah + controllerModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filepath + separator + context.get("entityName") + key + ".java";
             log(key + "文件保存路径：" + reqFilePath);
             saveFile(reqFilePath, java);
 
@@ -137,14 +145,14 @@ public class CodeGenerator {
     }
 
     //生成VUE页面
-    public void createPages(Class<?> clz, String vuePageModuleName,String vueFilePath,String requestPath) {
+    public void createPages(Class<?> clz, String vuePageModuleName, String vueFilePath, String requestPath) {
         log("pagePath:" + vueFilePath);
 
         VelocityContext context = getBaseContext(clz);
-        String entityClassName = (String)context.get("entityName");
+        String entityClassName = (String) context.get("entityName");
 
         try {
-            List<ObjectField> fields = getObjectValue(clz);
+            List<com.ueboot.autocode.ObjectField> fields = getObjectValue(clz);
             context.put("fields", fields);
         } catch (Exception e) {
             e.printStackTrace();
@@ -153,7 +161,7 @@ public class CodeGenerator {
 
         String js = getTemplateString("vue.vm", context);
         log("vue 页面文件内容：" + js);
-        String jsFilePath =projectPah + vuePageModuleName +separator+ vueFilePath + separator + entityClassName + ".vue";
+        String jsFilePath = projectPah + vuePageModuleName + separator + vueFilePath + separator + entityClassName + ".vue";
         log("vueFilePath文件保存路径：" + jsFilePath);
         saveFile(jsFilePath, js);
 
@@ -166,7 +174,7 @@ public class CodeGenerator {
         }
         try {
             File file = new File(fileName);
-            if(file.exists()){
+            if (file.exists()) {
                 FileUtils.forceDelete(file);
             }
             FileUtils.write(file, fileContent);
@@ -182,8 +190,8 @@ public class CodeGenerator {
         context.put("YEAR", Calendar.getInstance().get(Calendar.YEAR));
         context.put("entityFullName", clz.getSimpleName());
         String simpleName = clz.getSimpleName();
-        if(simpleName.endsWith("Entity")){
-            simpleName = simpleName.replace("Entity","");
+        if (simpleName.endsWith("Entity")) {
+            simpleName = simpleName.replace("Entity", "");
         }
         context.put("entityName", simpleName);
         context.put("lowEntityName", getFirstLow(simpleName));
@@ -193,16 +201,16 @@ public class CodeGenerator {
         return context;
     }
 
-    private List<ObjectField> getObjectValue(Class<?> clz) throws Exception {
+    private List<com.ueboot.autocode.ObjectField> getObjectValue(Class<?> clz) throws Exception {
         clz.getPackage().getName();
         Field[] fields = clz.getDeclaredFields();
-        List<ObjectField> list = new ArrayList<ObjectField>();
+        List<com.ueboot.autocode.ObjectField> list = new ArrayList<com.ueboot.autocode.ObjectField>();
         for (Field field : fields) {
             Class type = field.getType();
-            ObjectField field1 = new ObjectField();
+            com.ueboot.autocode.ObjectField field1 = new com.ueboot.autocode.ObjectField();
             field1.setName(field.getName());
             String typeName = field.getType().toString();
-            if(!typeName.contains("java")){
+            if (!typeName.contains("java")) {
                 continue;
             }
             field1.setType(field.getType().toString());
@@ -213,14 +221,22 @@ public class CodeGenerator {
         return list;
     }
 
-    // 把一个字符串的第一个字母大写、效率是最高的、
+    /**
+     * 把一个字符串的第一个字母大写、效率是最高的、
+     * @param fieldName
+     * @return
+     */
     private String getMethodName(String fieldName) {
         byte[] items = fieldName.getBytes();
         items[0] = (byte) ((char) items[0] - 'a' + 'A');
         return new String(items);
     }
 
-    // 把一个字符串的第一个字母大写、效率是最高的、
+    /**
+     * 把一个字符串的第一个字母大写、效率是最高的
+     * @param fieldName
+     * @return
+     */
     private String getFirstLow(String fieldName) {
         String f = fieldName.substring(0, 1);
         String l = fieldName.substring(1);
@@ -238,7 +254,7 @@ public class CodeGenerator {
         p.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
         Velocity.init(p);
 
-        Template template = Velocity.getTemplate("velocity"+separator+"ueboot"+separator + templateName, "UTF-8");
+        Template template = Velocity.getTemplate("velocity" + separator + "ueboot" + separator + templateName, "UTF-8");
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         return writer.toString();

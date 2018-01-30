@@ -22,12 +22,6 @@
     </parent>
 
     <properties>
-        <weishop.common.version>1.0</weishop.common.version>
-        <weishop.repository.version>1.0</weishop.repository.version>
-        <weishop.service.version>1.0</weishop.service.version>
-        <weishop.api.version>1.0</weishop.api.version>
-        <weishop.entity.version>1.0</weishop.entity.version>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.21</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
@@ -54,6 +48,7 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
+                <version>1.16.18</version>
             </dependency>
             <!-- Json包 -->
             <dependency>
@@ -78,7 +73,11 @@
                 <artifactId>commons-csv</artifactId>
                 <version>1.5</version>
             </dependency>
-
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.5</version>
+            </dependency>
             <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
