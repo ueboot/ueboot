@@ -27,3 +27,11 @@
     
     代码生成器，通过这个模块提供的功能可以快速生成前后端代码，完成一个单表的CRUD功能。代码生成器提供了UI界面，
     通过UI界面控制要生成的代码。
+
+## 开发帮助文档
+- 介绍
+    -  [项目描述](https://gitee.com//ueboot/ueboot-quick-dev/wikis/pages?title=项目描述&parent=介绍)
+
+## 快速使用脚手架工程
+    [脚手架工程](https://gitee.com/ueboot/ueboot-quick-dev-demo.git) https://gitee.com/ueboot/ueboot-quick-dev-demo.git
+    脚手架工程代码可以直接拿来使用，在这个基础上进行二次开发。
