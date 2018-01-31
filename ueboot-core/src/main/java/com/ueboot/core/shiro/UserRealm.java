@@ -43,7 +43,7 @@ public class UserRealm extends AuthorizingRealm {
         } else if (!this.shiroService.userExist(username, password)) {
             throw new AuthenticationException("用户名或密码不正确！");
         } else if (this.shiroService.isPassed(username, password)) {
-            throw new AuthenticationException("登陆密码已过期！");
+            throw new AuthenticationException("登录密码已过期！");
         } else {
             return new SimpleAuthenticationInfo(username, password.toCharArray(), this.getName());
         }

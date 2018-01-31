@@ -2,14 +2,33 @@ package com.ueboot.core.shiro;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
+ * Shiro权限认证服务类，代码集成时只需要实现该接口当中的所有方法即可
+ *
  * 必须有类实现该接口
+ * @author yangkui
  */
 public interface ShiroService {
 
 
+    /**
+     * 对shiro的FilterChainDefinitionMap 添加自定义的配置
+     * 如：
+     * <code>
+     *      Map<String, String> map = new HashMap<>(10);
+             //配置指定路径是否需要登录、或不需要登录,示例
+
+             //所有/public开头的路径都不需要登录即可访问
+             map.put("/public/**", "anon");
+            //所有路径需要授权才可以访问，和上面的配置作为互补。
+             map.put("/**", "authc");
+     * </code>
+     * @return
+     */
+    Map<String,String> addFilaterChainDefinition();
 
 
     /**
