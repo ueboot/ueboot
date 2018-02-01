@@ -12,7 +12,10 @@
     </modules>
     <packaging>pom</packaging>
     <name>quick-dev</name>
-    <url>http://www.ueboot.com</url>
+    <description>
+        ueboot是一个基于spring boot + vue2.0+iview2.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
+    </description>
+    <url>https://gitee.com/ueboot/ueboot-quick-dev</url>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -118,4 +121,62 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <!--构建jar包时，同时构建源码和java-doc文件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--上传到maven中央仓库的插件-->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+    <!--配置将jar包上传到maven中央仓库的地址-->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
 </project>
