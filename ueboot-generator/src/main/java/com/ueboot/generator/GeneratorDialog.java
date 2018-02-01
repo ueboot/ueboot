@@ -294,9 +294,7 @@ public class GeneratorDialog extends JDialog {
     }
 
 
-    /**
-     * @noinspection ALL
-     */
+
     public JComponent $$$getRootComponent$$$() {
         return contentPane;
     }

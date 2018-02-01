@@ -47,6 +47,9 @@ public class CodeGenerator {
 
     /**
      * 生成repository及repositoryImpl类
+     * @param clz 实体类
+     * @param repositoryPackageName repository包名路径
+     * @param repositoryModuleName repository模块名称
      */
     public void createRepository(Class<?> clz, String repositoryPackageName, String repositoryModuleName) {
         log("repository类生成包名:" + repositoryPackageName);
@@ -64,10 +67,10 @@ public class CodeGenerator {
 
     /**
      * 生成service及serviceImpl类
-     * @param clz
-     * @param servicePackageName
-     * @param serviceModuleName
-     * @param repositoryPackageName
+     * @param clz 实体类
+     * @param servicePackageName service类包名路径
+     * @param serviceModuleName  service类模块名称
+     * @param repositoryPackageName repository类包名路径
      */
     public void createService(Class<?> clz, String servicePackageName, String serviceModuleName, String repositoryPackageName) {
         log("service类生成包名:" + servicePackageName);
@@ -93,6 +96,13 @@ public class CodeGenerator {
         saveFile(implfilepath, java2);
     }
 
+    /**
+     * 生成controller类
+     * @param clz 实体类
+     * @param controllerPackageName controller类包名路径
+     * @param servicePackageName service类包名路径
+     * @param controllerModuleName controller模块名称
+     */
     public void createController(Class<?> clz, String controllerPackageName, String servicePackageName, String controllerModuleName) {
         createVO(clz, controllerModuleName, controllerPackageName);
 
@@ -122,7 +132,7 @@ public class CodeGenerator {
         context.put("controllerPackageName", controllerPackageName);
 
         try {
-            List<com.ueboot.autocode.ObjectField> fields = getObjectValue(clz);
+            List<ObjectField> fields = getObjectValue(clz);
             context.put("fields", fields);
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,7 +162,7 @@ public class CodeGenerator {
         String entityClassName = (String) context.get("entityName");
 
         try {
-            List<com.ueboot.autocode.ObjectField> fields = getObjectValue(clz);
+            List<ObjectField> fields = getObjectValue(clz);
             context.put("fields", fields);
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,13 +211,13 @@ public class CodeGenerator {
         return context;
     }
 
-    private List<com.ueboot.autocode.ObjectField> getObjectValue(Class<?> clz) throws Exception {
+    private List<ObjectField> getObjectValue(Class<?> clz) throws Exception {
         clz.getPackage().getName();
         Field[] fields = clz.getDeclaredFields();
-        List<com.ueboot.autocode.ObjectField> list = new ArrayList<com.ueboot.autocode.ObjectField>();
+        List<ObjectField> list = new ArrayList<ObjectField>();
         for (Field field : fields) {
             Class type = field.getType();
-            com.ueboot.autocode.ObjectField field1 = new com.ueboot.autocode.ObjectField();
+            ObjectField field1 = new ObjectField();
             field1.setName(field.getName());
             String typeName = field.getType().toString();
             if (!typeName.contains("java")) {
@@ -223,7 +233,7 @@ public class CodeGenerator {
 
     /**
      * 把一个字符串的第一个字母大写、效率是最高的、
-     * @param fieldName
+     * @param fieldName 字段名称
      * @return
      */
     private String getMethodName(String fieldName) {
@@ -233,8 +243,8 @@ public class CodeGenerator {
     }
 
     /**
-     * 把一个字符串的第一个字母大写、效率是最高的
-     * @param fieldName
+     * 获取第一个字符并小写
+     * @param fieldName 字段名称
      * @return
      */
     private String getFirstLow(String fieldName) {

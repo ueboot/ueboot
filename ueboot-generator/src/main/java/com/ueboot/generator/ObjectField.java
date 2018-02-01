@@ -1,4 +1,4 @@
-package com.ueboot.autocode;
+package com.ueboot.generator;
 
 /**
  * Created by 阳葵 on 15/11/1.
