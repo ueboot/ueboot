@@ -1,6 +1,7 @@
 package com.ueboot.generator;
 
 import jodd.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +18,7 @@ import java.util.Properties;
  * 代码生成器界面
  */
 public class GeneratorDialog extends JDialog {
-    private static String separator = System.getProperty("file.separator");
+    private static String separator = "/";
 
     private JPanel contentPane;
     private JTextField entityPackageName;
@@ -35,6 +36,7 @@ public class GeneratorDialog extends JDialog {
     private JTextField serviceModuleName;
     private JButton btnclean;
     private JTextField requestPath;
+    private JTextArea textArea1;
 
     public GeneratorDialog() {
         setContentPane(contentPane);
@@ -55,7 +57,6 @@ public class GeneratorDialog extends JDialog {
             }
         });
 
-// call onCancel() when cross is clicked
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             @Override
@@ -64,7 +65,6 @@ public class GeneratorDialog extends JDialog {
             }
         });
 
-// call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -223,7 +223,7 @@ public class GeneratorDialog extends JDialog {
             URLClassLoader cl = new URLClassLoader(urls);
             clz = Class.forName(clazzName, true, cl);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, " 未找到该类 ", " 提示 ", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, " 未找到"+clazzName+"类文件,请先进行编译，防止class文件无法读取 ", " 提示 ", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
@@ -231,10 +231,6 @@ public class GeneratorDialog extends JDialog {
         System.out.println("ClassPath:" + classPath);
 
         System.out.println("类名：" + clz.getSimpleName());
-        //ac.initProperties(basePackageName.getText(), adminTextField.getText(),classPath);
-
-        //createRepository(clz,moduleName);
-        //createService(clz,moduleName);
         if (StringUtil.isNotEmpty(repositoryPackageName.getText())) {
             if (StringUtil.isEmpty(repositoryModuleName.getText())) {
                 JOptionPane.showMessageDialog(null, " repositoryModuleName不能为空 ", " 提示 ", JOptionPane.ERROR_MESSAGE);
@@ -263,12 +259,10 @@ public class GeneratorDialog extends JDialog {
             }
             ac.createPages(clz, vuePageModuleName.getText(), vueFilePath.getText(), requestPath.getText());
         }
-        JOptionPane.showMessageDialog(null, "完成！ ", " 提示 ", JOptionPane.OK_OPTION);
-        // dispose();
+        JOptionPane.showMessageDialog(null, "生成成功，如使用Git，请手工add文件！ ", " 提示 ", JOptionPane.OK_OPTION);
     }
 
     private void onCancel() {
-// add your code here if necessary
         int n = JOptionPane.showConfirmDialog(null, "确定退出吗?", "提示", JOptionPane.YES_NO_OPTION);
         if (n == JOptionPane.YES_OPTION) {
             System.exit(0);
@@ -289,10 +283,7 @@ public class GeneratorDialog extends JDialog {
         dialog.setLocation((screenSize.width - compSize.width) / 2,
                 (screenSize.height - compSize.height) / 2);
         dialog.setVisible(true);
-
-        //System.exit(0);
     }
-
 
 
     public JComponent $$$getRootComponent$$$() {

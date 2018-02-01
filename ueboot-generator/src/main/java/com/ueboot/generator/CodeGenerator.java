@@ -15,13 +15,14 @@ import java.util.*;
 
 /**
  * 代码自动生成工具类
+ * 可以自动生成repository\service\controller\VO\Vue
  *
  * @author yangkui
  * @version 2.0
  */
 @Data
 public class CodeGenerator {
-    private static String separator = System.getProperty("file.separator");
+    private static String separator = "/";
 
     private final String USER = System.getenv("USER");
     private String projectPah = "";
@@ -47,9 +48,10 @@ public class CodeGenerator {
 
     /**
      * 生成repository及repositoryImpl类
-     * @param clz 实体类
+     *
+     * @param clz                   实体类
      * @param repositoryPackageName repository包名路径
-     * @param repositoryModuleName repository模块名称
+     * @param repositoryModuleName  repository模块名称
      */
     public void createRepository(Class<?> clz, String repositoryPackageName, String repositoryModuleName) {
         log("repository类生成包名:" + repositoryPackageName);
@@ -67,9 +69,10 @@ public class CodeGenerator {
 
     /**
      * 生成service及serviceImpl类
-     * @param clz 实体类
-     * @param servicePackageName service类包名路径
-     * @param serviceModuleName  service类模块名称
+     *
+     * @param clz                   实体类
+     * @param servicePackageName    service类包名路径
+     * @param serviceModuleName     service类模块名称
      * @param repositoryPackageName repository类包名路径
      */
     public void createService(Class<?> clz, String servicePackageName, String serviceModuleName, String repositoryPackageName) {
@@ -98,10 +101,11 @@ public class CodeGenerator {
 
     /**
      * 生成controller类
-     * @param clz 实体类
+     *
+     * @param clz                   实体类
      * @param controllerPackageName controller类包名路径
-     * @param servicePackageName service类包名路径
-     * @param controllerModuleName controller模块名称
+     * @param servicePackageName    service类包名路径
+     * @param controllerModuleName  controller模块名称
      */
     public void createController(Class<?> clz, String controllerPackageName, String servicePackageName, String controllerModuleName) {
         createVO(clz, controllerModuleName, controllerPackageName);
@@ -233,6 +237,7 @@ public class CodeGenerator {
 
     /**
      * 把一个字符串的第一个字母大写、效率是最高的、
+     *
      * @param fieldName 字段名称
      * @return
      */
@@ -244,6 +249,7 @@ public class CodeGenerator {
 
     /**
      * 获取第一个字符并小写
+     *
      * @param fieldName 字段名称
      * @return
      */
