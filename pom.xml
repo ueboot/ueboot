@@ -24,6 +24,15 @@
         <relativePath/>
     </parent>
 
+    <developers>
+        <developer>
+            <name>yangkui</name>
+            <email>yaakua@126.com</email>
+            <organization>ueboot</organization>
+            <organizationUrl>http://www.ueboot.com</organizationUrl>
+        </developer>
+    </developers>
+
     <properties>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.21</fastjson.version>
@@ -160,8 +169,24 @@
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                    <sslAllowAll>true</sslAllowAll>
                 </configuration>
+            </plugin>
+            <!--对上传到中央仓库的文件进行签名-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
 
