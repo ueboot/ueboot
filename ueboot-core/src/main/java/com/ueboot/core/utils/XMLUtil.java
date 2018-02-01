@@ -1,4 +1,5 @@
 package com.ueboot.core.utils;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -11,15 +12,20 @@ import java.util.*;
 
 /**
  * 微信相关的XML解析工具
+ *
  * @author yangkui
  */
 public class XMLUtil {
     /**
      * 解析xml,返回第一级元素键值对。如果第一级元素有子节点，则此节点的值是子节点的xml数据。
+     *
+     * @param strxml 需要解析的字符串
+     *               @return map
+     * @throws IOException IOException
      */
-    public static Map<String,String> doXMLParse(String strxml) throws  IOException {
-        if(null == strxml || "".equals(strxml)) {
-            return new HashMap<String,String>();
+    public static Map<String, String> doXMLParse(String strxml) throws IOException {
+        if (null == strxml || "".equals(strxml)) {
+            return new HashMap<String, String>();
         }
         strxml = strxml.replaceFirst("encoding=\".*\"", "encoding=\"UTF-8\"");
 
@@ -33,12 +39,12 @@ public class XMLUtil {
             Element root = doc.getRootElement();
             List list = root.elements();
             Iterator it = list.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 Element e = (Element) it.next();
                 String k = e.getName();
                 String v = "";
                 List children = e.elements();
-                if(children.isEmpty()) {
+                if (children.isEmpty()) {
                     v = e.getTextTrim();
                 } else {
                     v = XMLUtil.getChildrenText(children);
@@ -50,39 +56,39 @@ public class XMLUtil {
 
         } catch (DocumentException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             //关闭流
             in.close();
         }
 
-        
+
         return m;
     }
-    
+
     /**
      * 获取子结点的xml
-     * @param children
-     * @return String
+     *
+     * @param children 子节点列表
+     * @return String 子节点XML
      */
-    @SuppressWarnings("rawtypes")
     public static String getChildrenText(List children) {
         StringBuffer sb = new StringBuffer();
-        if(!children.isEmpty()) {
+        if (!children.isEmpty()) {
             Iterator it = children.iterator();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 Element e = (Element) it.next();
                 String name = e.getName();
                 String value = e.getTextTrim();
                 List list = e.elements();
                 sb.append("<" + name + ">");
-                if(!list.isEmpty()) {
+                if (!list.isEmpty()) {
                     sb.append(XMLUtil.getChildrenText(list));
                 }
                 sb.append(value);
                 sb.append("</" + name + ">");
             }
         }
-        
+
         return sb.toString();
     }
 
@@ -108,14 +114,14 @@ public class XMLUtil {
                 "  <transaction_id><![CDATA[1004400740201409030005092168]]></transaction_id>\n" +
                 "</xml>";
         try {
-           Map<String,String> map= XMLUtil.doXMLParse(xml);
-           Set<String> keySet = map.keySet();
-            Iterator<String> it= keySet.iterator();
-            while (it.hasNext()){
+            Map<String, String> map = XMLUtil.doXMLParse(xml);
+            Set<String> keySet = map.keySet();
+            Iterator<String> it = keySet.iterator();
+            while (it.hasNext()) {
                 String key = it.next();
-                System.out.println(key+"  "+map.get(key));
+                System.out.println(key + "  " + map.get(key));
             }
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 

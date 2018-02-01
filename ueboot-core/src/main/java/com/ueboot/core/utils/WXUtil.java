@@ -8,15 +8,20 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
+/**
+ * 微信API接口相关工具类
+ *
+ * @author yangkui
+ */
 public class WXUtil {
     private static final Logger logger = LoggerFactory.getLogger(WXUtil.class);
+
     /**
      * 获取32位随机字符串
-     * <p/>
      * 作者: zhoubang
      * 日期：2015年6月26日 下午3:51:44
      *
-     * @return
+     * @return 随机字符串
      */
     public static String getNonceStr() {
         Random random = new Random();
@@ -25,11 +30,10 @@ public class WXUtil {
 
     /**
      * 时间戳
-     * <p/>
      * 作者: zhoubang
      * 日期：2015年6月26日 下午3:52:08
      *
-     * @return
+     * @return 时间戳字符串
      */
     public static String getTimeStamp() {
         return String.valueOf(System.currentTimeMillis() / 1000);
@@ -60,13 +64,12 @@ public class WXUtil {
 
     /**
      * sign签名
-     * <p/>
      * 作者: zhoubang 日期：2015年6月10日 上午9:31:24
      *
-     * @param characterEncoding
-     * @param parameters
+     * @param characterEncoding 字符编码
+     * @param parameters        参数列表
      * @param appSecret         微信支付商户平台当中自己设置的密钥
-     * @return
+     * @return 签名串
      */
     public static String createSign(String characterEncoding, SortedMap<Object, Object> parameters, String appSecret) {
         StringBuffer sb = new StringBuffer();
@@ -84,17 +87,21 @@ public class WXUtil {
 
         /** 支付密钥必须参与加密，放在字符串最后面 */
         sb.append("key=" + appSecret);
-        logger.info("微信支付签名原始值:{}",sb.toString());
+        logger.info("微信支付签名原始值:{}", sb.toString());
         /** 记得最后一定要转换为大写 */
         String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
-        logger.info("微信支付签名串:{}",sign);
+        logger.info("微信支付签名串:{}", sign);
         return sign;
     }
 
     /**
      * 生成JS SDK用到的签名
      *
-     * @return
+     * @param nonce_str    随机字符串
+     * @param timestamp    时间戳
+     * @param jsapi_ticket 加密值
+     * @param url          url地址
+     * @return 签名串
      */
     public static String createJSSign(String nonce_str, String timestamp, String jsapi_ticket, String url) {
         String string1;
@@ -105,7 +112,7 @@ public class WXUtil {
                 "&noncestr=" + nonce_str +
                 "&timestamp=" + timestamp +
                 "&url=" + url;
-        logger.info("生成JS SDK用到的签名,原始值:{}",string1);
+        logger.info("生成JS SDK用到的签名,原始值:{}", string1);
         try {
             MessageDigest crypt = MessageDigest.getInstance("SHA-1");
             crypt.reset();
@@ -119,10 +126,10 @@ public class WXUtil {
 
         return signature;
     }
+
     private static String byteToHex(final byte[] hash) {
         Formatter formatter = new Formatter();
-        for (byte b : hash)
-        {
+        for (byte b : hash) {
             formatter.format("%02x", b);
         }
         String result = formatter.toString();
@@ -132,11 +139,10 @@ public class WXUtil {
 
     /**
      * 将请求参数转换为xml格式的string
-     * <p/>
      * 作者: zhoubang 日期：2015年6月10日 上午9:25:51
      *
-     * @param parameters
-     * @return
+     * @param parameters 参数列表
+     * @return xml格式的字符串
      */
     public static String getRequestXml(SortedMap<Object, Object> parameters) {
         StringBuffer sb = new StringBuffer();
@@ -159,8 +165,11 @@ public class WXUtil {
 
     /**
      * 发送xml格式数据到微信服务器 告知微信服务器回调信息已经收到。
-     * <p/>
      * 作者: zhoubang 日期：2015年6月10日 上午9:27:33
+     *
+     * @param return_code 返回代码
+     * @param return_msg  返回内容
+     * @return 返回给微信端的报文格式
      */
     public static String setResponseXML(String return_code, String return_msg) {
         return "<xml><return_code><![CDATA[" + return_code

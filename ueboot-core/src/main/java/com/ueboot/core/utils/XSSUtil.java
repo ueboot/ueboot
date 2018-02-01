@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
  * SQL注入示例：  key=' update '
  */
 public class XSSUtil {
-    public static Logger logger = LoggerFactory.getLogger(XSSUtil.class);
-    public static String inj_str = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
+    private static Logger logger = LoggerFactory.getLogger(XSSUtil.class);
+    private static String inj_str = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
             "char|declare|sitename|net user|xp_cmdshell|;|or|-|+|,|like'|and|exec|execute|insert|create|drop|" +
             "table|from|grant|use|group_concat|column_name|" +
             "information_schema.columns|table_schema|union|where|select|delete|update|order|by|count|*|" +
@@ -21,6 +21,9 @@ public class XSSUtil {
 
     /**
      * 校验 是否是非法XSS攻击字符
+     *
+     * @param value 需要校验的字符串
+     * @return 校验后的字符串
      */
     public static String checkXssStr(String value) {
         if (StringUtil.isNotBlank(value) && sql_inj(value)) {
@@ -34,8 +37,8 @@ public class XSSUtil {
     /**
      * SQL注入检测
      *
-     * @param str
-     * @return
+     * @param str 需要校验的字符串
+     * @return 校验过后的字符串
      */
     private static boolean sql_inj(String str) {
         String[] inj_stra = inj_str.split("\\|");
@@ -55,8 +58,9 @@ public class XSSUtil {
 
     /**
      * 脚本注入检测
-     * @param value
-     * @return
+     *
+     * @param value 需要校验的字符串
+     * @return 校验过后的字符串
      */
     private static String scriptingFilter(String value) {
         String str = p1.matcher(value).replaceAll("&lt;/script&gt;");

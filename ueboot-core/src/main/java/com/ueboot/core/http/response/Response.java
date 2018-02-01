@@ -5,6 +5,9 @@ import org.springframework.http.HttpStatus;
 
 /**
  * Created by Neel on 2016/12/10.
+ * @author yangkui
+ *
+ * 包装controller层所有返回对象
  */
 public class Response<T> {
 
@@ -46,7 +49,7 @@ public class Response<T> {
 
     /**
      * 该构造方法默认code 为200
-     * @param
+     * @param body 需要返回的对象
      */
     public Response(T body) {
         this(HttpStatus.OK.name(), body);

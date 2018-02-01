@@ -19,9 +19,9 @@ public class NumberUtil {
     /**
      * 生成指定的位数编号,不足补零
      *
-     * @param businessTypeStr
-     * @param number
-     * @return
+     * @param businessTypeStr 业务类型，可以为空
+     * @param number 数字
+     * @return 格式化后的数字字符串，默认为8位长度
      */
     public static String getStringNumber(String businessTypeStr, Long number) {
         String randomNoStr = String.format("%08d", number);
@@ -35,10 +35,11 @@ public class NumberUtil {
     }
 
     /**
-     * @param number  不全数字
+     * 使用日期+补位+数字的方式格式化获取字符串
+     * @param number  需要补全数字
      * @param digit   保证为数
      * @param pattern 日期格式
-     * @return
+     * @return 格式化后的字符串
      */
     public static String getOrderNo(Long number, Integer digit, String pattern) {
         String date = new JDateTime().toString(pattern);

@@ -7,7 +7,6 @@ import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSource
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
-import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +31,7 @@ public class ShiroBaseConfigure {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         bean.setSecurityManager(securityManager);
         bean.setLoginUrl("#/login");
-        Map<String, String> map = shiroService.addFilaterChainDefinition();
+        Map<String, String> map = shiroService.addFilterChainDefinition();
         bean.setFilterChainDefinitionMap(map);
         Map<String, Filter> filterMap = new HashMap<>(1);
         //替换默认的用户认证实现
@@ -67,8 +66,8 @@ public class ShiroBaseConfigure {
      * 开启shiro aop注解支持.
      * 使用代理方式;所以需要开启代码支持;
      *
-     * @param securityManager
-     * @return
+     * @param securityManager  securityManager
+     * @return AuthorizationAttributeSourceAdvisor AuthorizationAttributeSourceAdvisor
      */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
