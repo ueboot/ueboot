@@ -41,6 +41,9 @@
     代码生成器，通过这个模块提供的功能可以快速生成前后端代码，完成一个单表的CRUD功能。代码生成器提供了UI界面，
     通过UI界面控制要生成的代码。
 
+### ueboot-view 
+ - 代码参见 http://git.xiqiao.io/framework/ueboot.git
+
 ## 开发帮助文档
 - 介绍
     -  [项目描述](https://gitee.com//ueboot/ueboot-quick-dev/wikis/pages?title=项目描述&parent=介绍)
