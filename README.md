@@ -40,6 +40,22 @@
     
     代码生成器，通过这个模块提供的功能可以快速生成前后端代码，完成一个单表的CRUD功能。代码生成器提供了UI界面，
     通过UI界面控制要生成的代码。
+    
+### ueboot-parent
+    用于指定项目所必备的jar包声明，在具体的项目当中使用是，需要继承该pom文件，便于管理jar包依赖，
+    无需关心ueboot框架需要用到哪些jar文件
+    在需要用到的项目当中（maven多模块情况下通常是父模块的pom.xml文件），继承该pom.xml
+    示例：
+    
+```
+ <parent>
+        <groupId>com.ueboot</groupId>
+        <artifactId>ueboot-parent</artifactId>
+        <version>2.0.1</version>
+        <relativePath/> <!-- lookup parent from api -->
+    </parent>
+```
+    
 
 ## 开发帮助文档
 - 介绍

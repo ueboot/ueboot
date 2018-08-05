@@ -30,7 +30,6 @@ public class RedisConfig {
      * 一定要定义该bean，防止启动时出现以下异常
      * Caused by: redis.clients.jedis.exceptions.JedisDataException: ERR unknown command: CONFIG
      *
-     * @return
      */
     @Bean
     public static ConfigureRedisAction configureRedisAction() {
