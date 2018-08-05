@@ -33,13 +33,13 @@ public class CodeGenerator {
      * 初始化一些属性
      */
     public void initProperties() {
-        String classPath = com.ueboot.generator.CodeGenerator.class.getClassLoader().getResource("").getPath();
+       /* String classPath = com.ueboot.generator.CodeGenerator.class.getClassLoader().getResource("").getPath();
         classPath = classPath.substring(0, classPath.indexOf(separator + "target" + separator + "classes"));
         classPath = classPath.substring(0, classPath.lastIndexOf(separator));
         if (!classPath.endsWith(separator)) {
             classPath += separator;
-        }
-        this.projectPah = classPath;
+        }*/
+        this.projectPah = System.getProperty("user.dir");
     }
 
     private void log(String message) {

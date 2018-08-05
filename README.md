@@ -49,3 +49,10 @@
 
 [脚手架工程](https://gitee.com/ueboot/ueboot-quick-dev-demo.git) https://gitee.com/ueboot/ueboot-quick-dev-demo.git
     脚手架工程代码可以直接拿来使用，在这个基础上进行二次开发。
+    
+## 关于源码
+### 修改版本号命令
+在IDEA右侧功能的MavenProjects窗口中执行以下命令:
+` 
+versions:set -DgroupId=com.ueboot -DartifactId=*   -DnewVersion=2.0.1
+`

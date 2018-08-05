@@ -9,6 +9,7 @@
     <modules>
         <module>ueboot-generator</module>
         <module>ueboot-core</module>
+        <module>ueboot-parent</module>
     </modules>
     <packaging>pom</packaging>
     <name>quick-dev</name>
