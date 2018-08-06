@@ -11,12 +11,12 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-parent</artifactId>
-    <version>2.0.2</version>
+    <version>2.0.3</version>
     <packaging>pom</packaging>
 
     <properties>
-        <ueboot.core.version>2.0.2</ueboot.core.version>
-        <ueboot.generator.version>2.0.2</ueboot.generator.version>
+        <ueboot.core.version>2.0.3</ueboot.core.version>
+        <ueboot.generator.version>2.0.3</ueboot.generator.version>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.21</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
