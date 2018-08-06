@@ -39,7 +39,7 @@ public class CodeGenerator {
         if (!classPath.endsWith(separator)) {
             classPath += separator;
         }*/
-        this.projectPah = System.getProperty("user.dir");
+        this.projectPah = System.getProperty("user.dir")+separator;
     }
 
     private void log(String message) {

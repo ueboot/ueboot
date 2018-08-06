@@ -217,12 +217,13 @@ public class GeneratorDialog extends JDialog {
                 JOptionPane.showMessageDialog(null, " 类名不能为空 ", " 提示 ", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            String clazzNameFilePath = clazzName.replaceAll(".", separator);
-            String entityFilePath = ac.getProjectPah() + entityModuleName.getText() + separator + "target" + separator + "classes" + separator + clazzNameFilePath;
+            String entityFilePath = ac.getProjectPah() + entityModuleName.getText() + separator + "target" + separator + "classes" + separator;
             URL[] urls = {new URL("file:" + entityFilePath)};
+            System.out.println(urls[0].toURI().toString());
             URLClassLoader cl = new URLClassLoader(urls);
             clz = Class.forName(clazzName, true, cl);
         } catch (Exception e) {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, " 未找到"+clazzName+"类文件,请先进行编译，防止class文件无法读取 ", " 提示 ", JOptionPane.ERROR_MESSAGE);
             return;
         }
