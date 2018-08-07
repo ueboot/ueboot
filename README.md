@@ -57,6 +57,9 @@
 ```
     
 
+### ueboot-view 
+ - 代码参见 http://git.xiqiao.io/framework/ueboot.git
+
 ## 开发帮助文档
 - 介绍
     -  [项目描述](https://gitee.com//ueboot/ueboot-quick-dev/wikis/pages?title=项目描述&parent=介绍)
