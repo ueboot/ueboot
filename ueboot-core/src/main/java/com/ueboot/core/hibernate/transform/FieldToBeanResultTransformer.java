@@ -17,7 +17,6 @@ import org.hibernate.transform.AliasToBeanResultTransformer;
  * 数据库返回的大写带下划线的字段属性数据直接转驼峰规则的字段实体类
  *
  * @author xiangli.ma
- * @date 2018/8/6
  */
 @Slf4j
 public class FieldToBeanResultTransformer extends AliasToBeanResultTransformer {

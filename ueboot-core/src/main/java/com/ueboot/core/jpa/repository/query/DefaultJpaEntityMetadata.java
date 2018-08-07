@@ -30,11 +30,7 @@ public class DefaultJpaEntityMetadata<T, ID extends Serializable> implements Jpa
         this.domainType = domainType;
     }
 
-    /**
-     * Creates a new {@link DefaultJpaEntityMetadata} for the given domain type.
-     *
-     * @param domainType must not be {@literal null}.
-     */
+
     public DefaultJpaEntityMetadata(Class<T> domainType, Metamodel metamodel) {
 
         Assert.notNull(domainType, "Domain type must not be null!");
@@ -57,19 +53,13 @@ public class DefaultJpaEntityMetadata<T, ID extends Serializable> implements Jpa
         this.idMetadata = new IdMetadata<T>((IdentifiableType<T>) type);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.springframework.data.repository.core.EntityMetadata#getJavaType()
-     */
+
     @Override
     public Class<T> getJavaType() {
         return this.domainType;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.springframework.data.jpa.repository.support.JpaEntityMetadata#getEntityName()
-     */
+
     @Override
     public String getEntityName() {
 
@@ -79,37 +69,23 @@ public class DefaultJpaEntityMetadata<T, ID extends Serializable> implements Jpa
         return hasName ? entity.name() : domainType.getSimpleName();
     }
 
-    /*
-	 * (non-Javadoc)
-	 * @see org.springframework.data.repository.core.EntityInformation#getIdType()
-	 */
+
     @SuppressWarnings("unchecked")
     public Class<ID> getIdType() {
         return (Class<ID>) idMetadata.getType();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.springframework.data.jpa.repository.support.JpaEntityInformation#getIdAttribute()
-     */
+
     @Override
     public SingularAttribute<? super T, ?> getIdAttribute() {
         return idMetadata.getSimpleIdAttribute();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.springframework.data.jpa.repository.support.JpaEntityInformation#hasCompositeId()
-     */
     @Override
     public boolean hasCompositeId() {
         return !idMetadata.hasSimpleId();
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.springframework.data.jpa.repository.support.JpaEntityInformation#getIdAttributeNames()
-     */
     @Override
     public Iterable<String> getIdAttributeNames() {
 
@@ -122,10 +98,6 @@ public class DefaultJpaEntityMetadata<T, ID extends Serializable> implements Jpa
         return attributeNames;
     }
 
-    /**
-     * Simple value object to encapsulate id specific metadata.
-     *
-     */
     private static class IdMetadata<T> implements Iterable<SingularAttribute<? super T, ?>> {
 
         private final IdentifiableType<T> type;
@@ -177,10 +149,7 @@ public class DefaultJpaEntityMetadata<T, ID extends Serializable> implements Jpa
             return attributes.iterator().next();
         }
 
-        /*
-         * (non-Javadoc)
-         * @see java.lang.Iterable#iterator()
-         */
+
         @Override
         public Iterator<SingularAttribute<? super T, ?>> iterator() {
             return attributes.iterator();

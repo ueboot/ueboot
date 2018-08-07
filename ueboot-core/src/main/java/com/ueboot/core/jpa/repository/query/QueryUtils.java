@@ -9,20 +9,13 @@ import java.util.regex.Pattern;
 /**
  *
  * @author xiangli.ma
- * @date 2018/7/21
  * @since 1.0
  */
 public class QueryUtils {
 
     public static final String COUNT_QUERY_STRING = "select count(%s) from %s x";
 
-    /**
-     * Returns the query string for the given class name.
-     *
-     * @param template
-     * @param entityName
-     * @return
-     */
+
     public static String getQueryString(String template, String entityName) {
 
         Assert.hasText(entityName, "Entity name must not be null or empty!");
@@ -51,8 +44,8 @@ public class QueryUtils {
      * String queryCountString = "select count(*) " + QueryUtils.removeSelect(queryString);
      *
      * </pre>
-     * @param queryString
-     * @return
+     * @param queryString  查询语句
+     * @return  查询语句
      */
     public static String removeSelect(String queryString) {
         Assert.notNull(queryString);
@@ -65,8 +58,8 @@ public class QueryUtils {
 
     /**
      * 去掉orderBy语句,，用来生成查询总记录条数的HQL语句。
-     * @param queryString
-     * @return
+     * @param queryString  查询语句
+     * @return  查询语句
      */
     public static String removeOrderBy(String queryString) {
         Assert.notNull(queryString);
@@ -77,6 +70,7 @@ public class QueryUtils {
         }
         return queryString.substring(0,beginPos);
     }
+    private static final  Pattern pattern = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);
 
     /**
      * <pre>
@@ -86,10 +80,9 @@ public class QueryUtils {
      * queryCountString = HqlUtils.removeOrders(queryCountString);
      *
      * </pre>
-     * @param queryString
-     * @return
+     * @param queryString  查询语句
+     * @return  查询语句
      */
-    private static final  Pattern pattern = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);
     public static String removeOrders(String queryString) {
 
         Matcher matcher = pattern.matcher(queryString);
@@ -109,8 +102,8 @@ public class QueryUtils {
      * queryString = removeFetch(queryString);
      *
      * </pre>
-     * @param queryString
-     * @return
+     * @param queryString  查询语句
+     * @return  查询语句
      */
     public static String removeFetch(String queryString) {
         Assert.notNull(queryString);

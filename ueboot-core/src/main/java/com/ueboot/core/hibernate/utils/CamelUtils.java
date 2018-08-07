@@ -7,7 +7,6 @@ import java.util.regex.Pattern;
  * 数据库字段转驼峰命令
  *
  * @author xiangli.ma
- * @date 2018/8/6
  */
 public class CamelUtils {
 
@@ -33,9 +32,8 @@ public class CamelUtils {
 
     /**
      * 下划线转驼峰
-     *
-     * @param param
-     * @return
+     * @param  param 字符串
+     * @return  处理后的值
      */
     public static String underlineToCamel(String param) {
         if (param == null || "".equals(param.trim())) {

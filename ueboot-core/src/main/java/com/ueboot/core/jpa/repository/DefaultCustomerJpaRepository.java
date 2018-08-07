@@ -27,12 +27,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *
+ * 默认使用StringQuery方式实现JPA查询，实现复杂的SQL查询
+ * @author yangkui
  * @author xiangli.ma
- * @date 2018/7/21
  * @since 1.0
  */
-public class DefaultJpaRepository<T, ID extends Serializable> implements JpaRepository<T, ID>, NativeSQLRepository<T, ID>, QueryAndPagingRepository<T, ID> {
+public class DefaultCustomerJpaRepository<T, ID extends Serializable> implements NativeSQLRepository<T, ID>, QueryAndPagingRepository<T, ID>, CrudRepository<T, ID> {
 
     private static final String ID_MUST_NOT_BE_NULL = "The given id must not be null!";
 
@@ -41,7 +41,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements JpaRepo
 
     private JpaEntityMetadata<T> entityMetadata;
 
-    public DefaultJpaRepository() {
+    public DefaultCustomerJpaRepository() {
         if (!(ParameterizedType.class.isAssignableFrom(super.getClass()
                 .getGenericSuperclass().getClass()))) {
             return;
@@ -59,8 +59,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements JpaRepo
      * Saves a given entity. Use the returned instance for further operations as the save operation might have changed the
      * entity instance completely.
      *
-     * @param entity
-     * @return the saved entity
+     * @param entity 实体类
      */
     @Override
     public <S extends T> void save(S entity) {
@@ -70,8 +69,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements JpaRepo
     /**
      * Saves all given entities.
      *
-     * @param entities
-     * @return the saved entities
+     * @param entities 实体类
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
     @Override
@@ -207,7 +205,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements JpaRepo
     /**
      * Deletes a given entity.
      *
-     * @param entity
+     * @param entity 实体类
      * @throws IllegalArgumentException in case the given entity is {@literal null}.
      */
     @Override
@@ -219,7 +217,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements JpaRepo
     /**
      * Deletes the given entities.
      *
-     * @param entities
+     * @param entities 实体类
      * @throws IllegalArgumentException in case the given {@link Iterable} is {@literal null}.
      */
     @Override
@@ -255,16 +253,16 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements JpaRepo
 
     /**
      * 返回对象为Object类型，不指定具体的对象
-     * @param queryString
-     * @return
+     * @param queryString 查询语句
+     * @return 返回Object 对象
      */
     public List<Object> findObject(String queryString) {
         return findObject(queryString, NamedParams.newParams());
     }
     /**
      * 返回对象为Object类型，不指定具体的对象
-     * @param stringQuery
-     * @return
+     * @param stringQuery 查询语句
+     * @return 返回Object 对象
      */
     public List<Object> findObject(StringQuery stringQuery){
         Assert.notNull(stringQuery, "StringQuery must not be null!");
@@ -798,9 +796,5 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements JpaRepo
         setQueryParams(query, params);
         query.executeUpdate();
     }
-
-
-
-
 
 }

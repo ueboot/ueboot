@@ -5,7 +5,7 @@
 
     <groupId>com.ueboot</groupId>
     <artifactId>quick-dev</artifactId>
-    <version>2.1.0-SNAPSHOTS</version>
+    <version>2.1.0-SNAPSHOT</version>
     <modules>
         <module>ueboot-generator</module>
         <module>ueboot-core</module>
