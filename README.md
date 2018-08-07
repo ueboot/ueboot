@@ -1,3 +1,7 @@
+# 分支说明
+- master 主干分支，最终用于发布最新版本的分支
+- 2.0-dev 2.0开发分支，日常代码开发提交的分支，确定发布后合并到master分支上
+
 # ueboot快速开发平台
 [详细帮助文档](https://gitee.com/ueboot/ueboot-quick-dev/wikis/pages)
 - ueboot是一个基于`spring boot + vue2.0+iview2.0`的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
