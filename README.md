@@ -77,5 +77,5 @@
 ### 修改版本号命令
 在IDEA右侧功能的MavenProjects窗口中执行以下命令:
 ` 
-versions:set -DgroupId=com.ueboot -DartifactId=*   -DnewVersion=2.0.1
+versions:set -DgroupId=com.ueboot -DartifactId=*   -DnewVersion=2.1.0-SNAPSHOTS
 `

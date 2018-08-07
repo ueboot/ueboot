@@ -11,12 +11,13 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-parent</artifactId>
-    <version>2.0.3</version>
+    <version>2.1.0-SNAPSHOTS</version>
     <packaging>pom</packaging>
 
     <properties>
-        <ueboot.core.version>2.0.3</ueboot.core.version>
-        <ueboot.generator.version>2.0.3</ueboot.generator.version>
+        <!--每次发布当前模块时，需要修改这里的版本号-->
+        <ueboot.core.version>2.1.0-SNAPSHOTS</ueboot.core.version>
+        <ueboot.generator.version>2.1.0-SNAPSHOTS</ueboot.generator.version>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.21</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
@@ -28,10 +29,16 @@
         <poi-ooxml.version>3.17</poi-ooxml.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <commons-io.version>2.5</commons-io.version>
+        <jodd.version>3.9.1</jodd.version>
     </properties>
 
     <!--声明依赖，当前项目所需要的依赖jar包和对应的版本。在使用时，直接继承改配置文件即可，无需关心ueboot所需要依赖那些jar包-->
     <dependencies>
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-core</artifactId>
+            <version>${jodd.version}</version>
+        </dependency>
         <!--工具集-->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -85,71 +92,136 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <!--构建jar包时，同时构建源码和java-doc文件-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--上传到maven中央仓库的插件-->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                    <sslAllowAll>true</sslAllowAll>
-                </configuration>
-            </plugin>
-            <!--对上传到中央仓库的文件进行签名-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+    <profiles>
+        <profile>
+            <id>release-ossrh</id>
+            <build>
+                <plugins>
+                    <!--构建jar包时，同时构建源码和java-doc文件-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!--上传到maven中央仓库的插件-->
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <sslAllowAll>true</sslAllowAll>
+                        </configuration>
+                    </plugin>
+                    <!--对上传到中央仓库的文件进行签名-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <!--配置将jar包上传到maven中央仓库的地址-->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+
+        <profile>
+            <!--部署到maven.xiqiao.io-->
+            <id>release-xiqiao</id>
+            <build>
+                <plugins>
+                    <!--构建jar包时，同时构建源码和java-doc文件-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <!--配置将jar包上传到maven中央仓库的地址-->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>xq-snapshot</id>
+                    <url>http://maven.xiqiao.io/content/repositories/ueboot-snapshot</url>
+                </snapshotRepository>
+                <repository>
+                    <id>xq-releases</id>
+                    <url>http://maven.xiqiao.io/content/repositories/ueboot-release</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>
             <id>Center</id>
             <name>Nexus</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <url>http://maven.xiqiao.io/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -162,7 +234,7 @@
         <pluginRepository>
             <id>Center</id>
             <name>Nexus Repositories</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <url>http://maven.xiqiao.io/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -171,16 +243,4 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
-
-    <!--配置将jar包上传到maven中央仓库的地址-->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 </project>
