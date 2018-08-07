@@ -11,6 +11,7 @@
         <module>ueboot-core</module>
         <module>ueboot-parent</module>
         <module>ueboot-excel</module>
+        <module>ueboot-shiro</module>
     </modules>
     <packaging>pom</packaging>
     <name>quick-dev</name>
@@ -43,15 +44,39 @@
     </developers>
 
     <properties>
+        <!--每次发布当前模块时，需要修改这里的版本号-->
+        <ueboot.core.version>2.1.0-SNAPSHOT</ueboot.core.version>
+        <ueboot.generator.version>2.1.0-SNAPSHOT</ueboot.generator.version>
+        <ueboot.shiro.version>2.1.0-SNAPSHOT</ueboot.shiro.version>
+        <ueboot.excel.version>2.1.0-SNAPSHOT</ueboot.excel.version>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.21</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
         <shiro.version>1.4.0</shiro.version>
-        <ueboot.core.version>2.0.0</ueboot.core.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.ueboot</groupId>
+                <artifactId>ueboot-core</artifactId>
+                <version>${ueboot.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ueboot</groupId>
+                <artifactId>ueboot-generator</artifactId>
+                <version>${ueboot.generator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ueboot</groupId>
+                <artifactId>ueboot-excel</artifactId>
+                <version>${ueboot.excel.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ueboot</groupId>
+                <artifactId>ueboot-shiro</artifactId>
+                <version>${ueboot.shiro.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>

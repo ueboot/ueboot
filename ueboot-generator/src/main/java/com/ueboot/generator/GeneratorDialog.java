@@ -1,6 +1,8 @@
 package com.ueboot.generator;
 
 import jodd.util.StringUtil;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
@@ -17,6 +19,7 @@ import java.util.Properties;
  * @author yangkui
  * 代码生成器界面
  */
+
 public class GeneratorDialog extends JDialog {
     private static String separator = "/";
 
@@ -220,8 +223,8 @@ public class GeneratorDialog extends JDialog {
             String entityFilePath = ac.getProjectPah() + entityModuleName.getText() + separator + "target" + separator + "classes" + separator;
             URL[] urls = {new URL("file:" + entityFilePath)};
             System.out.println(urls[0].toURI().toString());
-            URLClassLoader cl = new URLClassLoader(urls);
-            clz = Class.forName(clazzName, true, cl);
+            URLClassLoader cl = new URLClassLoader(urls,this.getClass().getClassLoader());
+            clz = Class.forName(clazzName, false, cl);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, " 未找到"+clazzName+"类文件,请先进行编译，防止class文件无法读取 ", " 提示 ", JOptionPane.ERROR_MESSAGE);

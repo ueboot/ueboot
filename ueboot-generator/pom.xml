@@ -32,6 +32,10 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ueboot</groupId>
+            <artifactId>ueboot-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

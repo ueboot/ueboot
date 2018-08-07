@@ -2,10 +2,12 @@ package com.ueboot.generator;
 
 /**
  * Created by 阳葵 on 15/11/1.
+ * 对象字段名称
+ * @author yangkui
  */
 public class ObjectField {
     private String name;
-    private String UpperName;
+    private String upperName;
     private String type;
 
     public String getName() {
@@ -17,11 +19,11 @@ public class ObjectField {
     }
 
     public String getUpperName() {
-        return UpperName;
+        return upperName;
     }
 
     public void setUpperName(String upperName) {
-        UpperName = upperName;
+        this.upperName = upperName;
     }
 
     public String getType() {

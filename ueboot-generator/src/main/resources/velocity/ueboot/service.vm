@@ -1,5 +1,5 @@
 /*
-* Copyright (c)  ${YEAR}, xiqiao.io
+* Copyright (c)  ${YEAR}
 * All rights reserved.
 * ${DATE}
 */
@@ -9,9 +9,9 @@ import ${entityPackageName}.${entityFullName};
 import com.ueboot.core.service.BaseService;
 
 /**
- * Created by ${USER}  on ${DATE}.
+ * Created on ${DATE}.
  * @author ${USER}
- * @since 2.0 by autocode
+ * @since 2.1.0 by ueboot-generator
  */
 public interface ${entityName}Service extends BaseService<${entityFullName}> {
 

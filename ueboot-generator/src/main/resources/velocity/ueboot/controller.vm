@@ -1,5 +1,5 @@
 /*
-* Copyright (c)  ${YEAR}, xiqiao.io
+* Copyright (c)  ${YEAR}
 * All rights reserved.
 * ${DATE}
 */
@@ -12,25 +12,25 @@ import ${servicePackageName}.${entityName}Service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
 
 
 /**
- *  Created by ${USER}  on ${DATE}.
+ * Created on ${DATE}.
  * @author ${USER}
- * @since 2.0 by autocode
+ * @since 2.1.0 by ueboot-generator
  */
 @Slf4j
 @RestController
 @RequestMapping(value = "/${lowEntityName}")
 public class ${entityName}Controller {
 
-    @Autowired
+    @Resource
     private ${entityName}Service ${lowEntityName}Service;
 
 
@@ -50,7 +50,7 @@ public class ${entityName}Controller {
 
 
     @RequiresPermissions("${lowEntityName}:save")
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody ${entityName}Req req) {
         ${entityFullName} entity = null;
         if (req.getId() == null) {
@@ -64,14 +64,14 @@ public class ${entityName}Controller {
     }
 
     @RequiresPermissions("${lowEntityName}:delete")
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
         ${lowEntityName}Service.delete(id);
         return new Response<>();
     }
 
     @RequiresPermissions("${lowEntityName}:read")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public Response<${entityName}Resp> get(@PathVariable Long id) {
         ${entityFullName} entity = ${lowEntityName}Service.get(id);
         ${entityName}Resp resp = new ${entityName}Resp();

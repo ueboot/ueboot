@@ -1,7 +1,8 @@
 package com.ueboot.generator;
 
 import jodd.datetime.JDateTime;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.io.FileUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
@@ -20,26 +22,20 @@ import java.util.*;
  * @author yangkui
  * @version 2.0
  */
-@Data
-public class CodeGenerator {
+@Setter
+@Getter
+class CodeGenerator {
     private static String separator = "/";
 
     private final String USER = System.getenv("USER");
     private String projectPah = "";
-    private final boolean SAVA_FILE = true;//是否生成文件
 
 
     /**
      * 初始化一些属性
      */
     public void initProperties() {
-       /* String classPath = com.ueboot.generator.CodeGenerator.class.getClassLoader().getResource("").getPath();
-        classPath = classPath.substring(0, classPath.indexOf(separator + "target" + separator + "classes"));
-        classPath = classPath.substring(0, classPath.lastIndexOf(separator));
-        if (!classPath.endsWith(separator)) {
-            classPath += separator;
-        }*/
-        this.projectPah = System.getProperty("user.dir")+separator;
+        this.projectPah = System.getProperty("user.dir") + separator;
     }
 
     private void log(String message) {
@@ -145,7 +141,7 @@ public class CodeGenerator {
         Map<String, String> transCodes = new HashMap<String, String>();
         transCodes.put("FindReq", "");
         transCodes.put("Resp", "");
-        transCodes.put("Req", "");
+        transCodes.put("Reqbody", "");
 
         for (Map.Entry<String, String> entry : transCodes.entrySet()) {
             String key = entry.getKey();
@@ -183,9 +179,6 @@ public class CodeGenerator {
 
 
     private void saveFile(String fileName, String fileContent) {
-        if (!SAVA_FILE) {
-            return;
-        }
         try {
             File file = new File(fileName);
             if (file.exists()) {
@@ -199,8 +192,8 @@ public class CodeGenerator {
 
     private VelocityContext getBaseContext(Class<?> clz) {
         VelocityContext context = new VelocityContext();
-        String entity_package_name = clz.getPackage().getName();
-        context.put("entityPackageName", entity_package_name);
+        String entityPackageName = clz.getPackage().getName();
+        context.put("entityPackageName", entityPackageName);
         context.put("YEAR", Calendar.getInstance().get(Calendar.YEAR));
         context.put("entityFullName", clz.getSimpleName());
         String simpleName = clz.getSimpleName();
@@ -220,10 +213,15 @@ public class CodeGenerator {
         Field[] fields = clz.getDeclaredFields();
         List<ObjectField> list = new ArrayList<ObjectField>();
         for (Field field : fields) {
+            //static类型的字段不处理
+            if(Modifier.isStatic(field.getModifiers())){
+                continue;
+            }
             Class type = field.getType();
             ObjectField field1 = new ObjectField();
             field1.setName(field.getName());
             String typeName = field.getType().toString();
+            //只对简单类型的字段做处理
             if (!typeName.contains("java")) {
                 continue;
             }
@@ -239,7 +237,7 @@ public class CodeGenerator {
      * 把一个字符串的第一个字母大写、效率是最高的、
      *
      * @param fieldName 字段名称
-     * @return
+     * @return 第一个字母大写后的字符串
      */
     private String getMethodName(String fieldName) {
         byte[] items = fieldName.getBytes();
@@ -251,7 +249,7 @@ public class CodeGenerator {
      * 获取第一个字符并小写
      *
      * @param fieldName 字段名称
-     * @return
+     * @return 第一个字符并小写的字符串
      */
     private String getFirstLow(String fieldName) {
         String f = fieldName.substring(0, 1);

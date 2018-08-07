@@ -1,5 +1,5 @@
 /*
-* Copyright (c)  ${YEAR}, xiqiao.io
+* Copyright (c)  ${YEAR}
 * All rights reserved.
 * ${DATE}
 */
@@ -10,9 +10,9 @@ import com.ueboot.core.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- *  Created by ${USER}  on ${DATE}.
+ * Created on ${DATE}.
  * @author ${USER}
- * @since 2.0 by autocode
+ * @since 2.1.0 by ueboot-generator
  */
 @Repository
 public interface ${entityName}Repository extends BaseRepository<${entityFullName}, Long> {

@@ -1,20 +1,22 @@
 /*
-* Copyright (c)  ${YEAR}, xiqiao.io
+* Copyright (c)  ${YEAR}
 * All rights reserved.
 * ${DATE}
 */
 package ${controllerPackageName}.vo;
 
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 /**
-*  Created by ${USER}  on ${DATE}.
-* @author ${USER}
-* @since 2.0 by autocode
-*/
-@Data
+ * Created on ${DATE}.
+ * @author ${USER}
+ * @since 2.1.0 by ueboot-generator
+ */
+@Setter
+@Getter
 @NoArgsConstructor
 public class ${entityName}FindReq {
 #foreach($object in ${fields})
