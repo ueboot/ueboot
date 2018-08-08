@@ -70,7 +70,7 @@ public class OrganizationController {
         return new Response<>();
     }
 
-    @RequiresPermissions("organization:read")
+    //@RequiresPermissions("organization:read")
     @GetMapping(value = "/{id}")
     public Response<OrganizationResp> get(@PathVariable Long id) {
         Organization entity = organizationService.get(id);

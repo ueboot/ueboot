@@ -26,7 +26,7 @@ public class WebExceptionHandler {
     @Order(1)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
-    public Response<Void> handleBusinessException(BusinessException e) throws IOException {
+    public Response<Void> handleBusinessException(BusinessException e) {
         return new Response<>(e.getCode() == null ? HttpStatus.INTERNAL_SERVER_ERROR.value() + "" : e.getCode(), e.getMessage(), null);
     }
 
@@ -43,17 +43,17 @@ public class WebExceptionHandler {
     /**
      * 全局处理Exception
      * 错误的情况下返回500
-     * @param e
-     * @param req
-     * @return
+     * @param e 异常信息
+     * @param req 请求信息
+     * @return 全局的错误提示
      */
-    /*@ExceptionHandler(value = {Exception.class})
+    @ExceptionHandler(value = {Exception.class})
     @Order(100)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Response<Void> handleOtherExceptions(final Exception e, final WebRequest req) {
         //记录日志
         log.error(e.getMessage(), e);
-        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "请求异常", null);
-    }*/
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "服务器异常:"+e.getMessage(), null);
+    }
 }

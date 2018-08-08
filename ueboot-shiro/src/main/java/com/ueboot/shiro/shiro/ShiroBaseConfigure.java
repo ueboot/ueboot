@@ -23,12 +23,14 @@ import java.util.Map;
 
 /**
  * shiro 权限配置
+ *
  * @author yangkui
  */
 @Configuration
 public class ShiroBaseConfigure {
     /**
      * 当shiroService对应的bean不存在存在时，会使用默认数据
+     *
      * @param securityManager 权限框架
      * @return ShiroFilterFactoryBean
      */
@@ -38,6 +40,10 @@ public class ShiroBaseConfigure {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         bean.setSecurityManager(securityManager);
         bean.setLoginUrl("#/login");
+        Map<String, String> map = new HashMap<>();
+        //默认所有请求不做任何认证,但是如果方法上加了注解，还是会提示用户未登录或者无权限
+        map.put("/*", "anon");
+        bean.setFilterChainDefinitionMap(map);
         Map<String, Filter> filterMap = new HashMap<>(1);
         //替换默认的用户认证实现
         filterMap.put("authc", new FormAuthenticationFilter() {
@@ -46,7 +52,7 @@ public class ShiroBaseConfigure {
             protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json");
-                response.getWriter().write("{\"status\":401,\"errorMsg\":\"尚未登录，请登录!\"}");
+                response.getWriter().write("{\"code\":401,\"errorMsg\":\"尚未登录，请登录!\"}");
             }
         });
         bean.setFilters(filterMap);
@@ -55,8 +61,9 @@ public class ShiroBaseConfigure {
 
     /**
      * 当shiroService对应的bean存在时，会使用自定义的bean来初始化部分数据
+     *
      * @param securityManager 权限框架
-     * @param shiroService 自定义权限服务类
+     * @param shiroService    自定义权限服务类
      * @return ShiroFilterFactoryBean
      */
     @Bean(name = "shiroFilter")
@@ -64,19 +71,19 @@ public class ShiroBaseConfigure {
     public ShiroFilterFactoryBean shiroFilter(@Autowired SecurityManager securityManager, ShiroService shiroService) {
         ShiroFilterFactoryBean bean = this.shiroFilter(securityManager);
         Map<String, String> map = shiroService.addFilterChainDefinition();
-        bean.setFilterChainDefinitionMap(map);
+        bean.getFilterChainDefinitionMap().putAll(map);
         return bean;
     }
 
     @Bean
     public Realm realm() {
-        return  new UserRealm();
+        return new UserRealm();
     }
 
 
     @Bean(name = "securityManager")
     public DefaultWebSecurityManager defaultWebSecurityManager(Realm realm) {
-        DefaultWebSecurityManager  securityManager = new DefaultWebSecurityManager();
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
         //TODO 增加缓存
         return securityManager;
@@ -86,7 +93,7 @@ public class ShiroBaseConfigure {
      * 开启shiro aop注解支持.
      * 使用代理方式;所以需要开启代码支持;
      *
-     * @param securityManager  securityManager
+     * @param securityManager securityManager
      * @return AuthorizationAttributeSourceAdvisor AuthorizationAttributeSourceAdvisor
      */
     @Bean
@@ -97,7 +104,7 @@ public class ShiroBaseConfigure {
     }
 
     @Bean
-    public HashedCredentialsMatcher hashedCredentialsMatcher(){
+    public HashedCredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         //散列算法:这里使用MD5算法;
         hashedCredentialsMatcher.setHashAlgorithmName("md5");

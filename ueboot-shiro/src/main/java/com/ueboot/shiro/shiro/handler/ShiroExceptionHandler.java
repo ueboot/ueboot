@@ -71,7 +71,7 @@ public class ShiroExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(UnauthenticatedException e) {
         log.debug("{} was thrown", e.getClass(), e);
-        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", e.getMessage(), null);
+        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "当前用户未登录或者无权限访问", null);
     }
 
 }
