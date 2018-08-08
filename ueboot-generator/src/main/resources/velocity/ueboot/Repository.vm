@@ -10,11 +10,12 @@ import com.ueboot.core.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created on ${DATE}.
- * @author ${USER}
- * @since 2.1.0 by ueboot-generator
- */
+* 这个类里面使用spring data jpa 方式实现数据库的CRUD
+* Created on ${DATE}
+* @author ${USER}
+* @since 2.1.0 by ueboot-generator
+*/
 @Repository
-public interface ${entityName}Repository extends BaseRepository<${entityFullName}, Long> {
+public interface ${entityName}Repository extends BaseRepository<${entityFullName}, Long>,${entityName}BaseRepository {
 
 }

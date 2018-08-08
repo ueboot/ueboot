@@ -32,7 +32,7 @@ import java.util.Map;
  * @author xiangli.ma
  * @since 1.0
  */
-public class DefaultCustomerJpaRepository<T, ID extends Serializable> implements NativeSQLRepository<T, ID>, QueryAndPagingRepository<T, ID>, CrudRepository<T, ID> {
+public class DefaultJpaRepository<T, ID extends Serializable> implements NativeSQLRepository<T, ID>, QueryAndPagingRepository<T, ID>, CrudRepository<T, ID> {
 
     private static final String ID_MUST_NOT_BE_NULL = "The given id must not be null!";
 
@@ -41,7 +41,7 @@ public class DefaultCustomerJpaRepository<T, ID extends Serializable> implements
 
     private JpaEntityMetadata<T> entityMetadata;
 
-    public DefaultCustomerJpaRepository() {
+    public DefaultJpaRepository() {
         if (!(ParameterizedType.class.isAssignableFrom(super.getClass()
                 .getGenericSuperclass().getClass()))) {
             return;

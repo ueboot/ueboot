@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 
 
 /**
- * Created on ${DATE}.
+ * Created on ${DATE}
  * @author ${USER}
  * @since 2.1.0 by ueboot-generator
  */

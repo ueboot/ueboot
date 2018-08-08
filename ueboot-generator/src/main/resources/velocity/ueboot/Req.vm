@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.*;
 
 /**
- * Created on ${DATE}.
+ * 用于前端发起对象保存和更新请求时，接收请求参数
+ * Created on ${DATE}
  * @author ${USER}
  * @since 2.1.0 by ueboot-generator
  */
@@ -21,9 +22,9 @@ import org.hibernate.validator.constraints.*;
 @NoArgsConstructor
 public class ${entityName}Req {
 #foreach($object in ${fields})
-    #if($object.type.equals("String"))
-    @NotBlank
-    #end
-    private $object.type $object.name;
+  #if($object.type.equals("String"))
+  @NotBlank
+  #end
+  private $object.type $object.name;
 #end
 }

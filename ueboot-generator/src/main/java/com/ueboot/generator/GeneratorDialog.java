@@ -86,15 +86,17 @@ public class GeneratorDialog extends JDialog {
             public void focusLost(FocusEvent e) {
                 String entityPackageNameValue = entityPackageName.getText();
                 if (StringUtil.isNotBlank(entityPackageNameValue)) {
-                    entityPackageNameValue = entityPackageNameValue.substring(0, entityPackageNameValue.lastIndexOf("."));
+                    String entityName = entityPackageNameValue.substring(entityPackageNameValue.lastIndexOf("."));
+                    entityName = entityName.toLowerCase();
+                            entityPackageNameValue = entityPackageNameValue.substring(0, entityPackageNameValue.lastIndexOf("."));
                     if (StringUtil.isBlank(repositoryPackageName.getText())) {
-                        repositoryPackageName.setText(entityPackageNameValue.replace("entity", "repository"));
+                        repositoryPackageName.setText(entityPackageNameValue.replace("entity", "repository")+entityName);
                     }
                     if (StringUtil.isBlank(servicePackageName.getText())) {
-                        servicePackageName.setText(entityPackageNameValue.replace("entity", "service"));
+                        servicePackageName.setText(entityPackageNameValue.replace("entity", "service")+entityName);
                     }
                     if (StringUtil.isBlank(controllerPackageName.getText())) {
-                        controllerPackageName.setText(entityPackageNameValue.replace("entity", controllerModuleName.getText() + ".controller"));
+                        controllerPackageName.setText(entityPackageNameValue.replace("entity", controllerModuleName.getText() + ".controller")+entityName);
                     }
                     if (StringUtil.isBlank(vueFilePath.getText())) {
                         vueFilePath.setText("src" + separator + "views");

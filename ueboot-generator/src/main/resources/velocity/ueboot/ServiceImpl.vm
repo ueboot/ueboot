@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created on ${DATE}.
+ * Created on ${DATE}
  * @author ${USER}
  * @since 2.1.0 by ueboot-generator
  */

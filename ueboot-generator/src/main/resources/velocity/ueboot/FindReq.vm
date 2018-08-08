@@ -11,7 +11,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 /**
- * Created on ${DATE}.
+ * 用于前端发起查询请求时，接收请求参数
+ * Created on ${DATE}
  * @author ${USER}
  * @since 2.1.0 by ueboot-generator
  */

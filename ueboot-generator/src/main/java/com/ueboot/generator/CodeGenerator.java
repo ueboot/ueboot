@@ -54,12 +54,21 @@ class CodeGenerator {
         VelocityContext context = getBaseContext(clz);
         String entityClassName = (String) context.get("entityName");
         context.put("repositoryPackageName", repositoryPackageName);
-        String java = getTemplateString("repository.vm", context);
+        String baseJava = getTemplateString("BaseRepository.vm", context);
+        String java = getTemplateString("Repository.vm", context);
+        String java2 = getTemplateString("RepositoryImpl.vm", context);
+
         log("repository文件内容：" + java);
-        String filepath = repositoryPackageName.replace(".", separator);
-        String filePath = projectPah + repositoryModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filepath + separator + entityClassName + "Repository.java";
-        log("repository文件保存路径：" + filePath);
-        saveFile(filePath, java);
+        String filePath = repositoryPackageName.replace(".", separator);
+        String interfaceFilePath = projectPah + repositoryModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filePath + separator + entityClassName + "Repository.java";
+        String baseFilePath = projectPah + repositoryModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filePath + separator + entityClassName + "BaseRepository.java";
+        String implFilePath = projectPah + repositoryModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filePath + separator + "impl" + separator + entityClassName + "RepositoryImpl.java";
+        log("baseRepository文件保存路径：" + baseFilePath);
+        log("repository文件保存路径：" + interfaceFilePath);
+        log("repositoryImpl文件保存路径：" + implFilePath);
+        saveFile(baseFilePath, baseJava);
+        saveFile(interfaceFilePath, java);
+        saveFile(implFilePath, java2);
     }
 
 
@@ -76,23 +85,23 @@ class CodeGenerator {
         VelocityContext context = getBaseContext(clz);
         String entityClassName = (String) context.get("entityName");
         context.put("servicePackageName", servicePackageName);
-        String java = getTemplateString("service.vm", context);
+        String java = getTemplateString("Service.vm", context);
         log("service文件内容：" + java);
         context.put("repositoryPackageName", repositoryPackageName);
 
-        String java2 = getTemplateString("serviceImpl.vm", context);
+        String java2 = getTemplateString("ServiceImpl.vm", context);
         log("serviceImpl文件内容：" + java2);
 
-        String filepath = servicePackageName.replace(".", separator);
+        String filePath = servicePackageName.replace(".", separator);
 
-        String interfacefilepath = projectPah + serviceModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filepath + separator + entityClassName + "Service.java";
-        String implfilepath = projectPah + serviceModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filepath + separator + "impl" + separator + entityClassName + "ServiceImpl.java";
+        String interfaceFilePath = projectPah + serviceModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filePath + separator + entityClassName + "Service.java";
+        String implFilePath = projectPah + serviceModuleName + separator + "src" + separator + "main" + separator + "java" + separator + filePath + separator + "impl" + separator + entityClassName + "ServiceImpl.java";
 
-        log("service文件保存路径：" + interfacefilepath);
-        log("serviceImpl文件保存路径：" + implfilepath);
+        log("service文件保存路径：" + interfaceFilePath);
+        log("serviceImpl文件保存路径：" + implFilePath);
 
-        saveFile(interfacefilepath, java);
-        saveFile(implfilepath, java2);
+        saveFile(interfaceFilePath, java);
+        saveFile(implFilePath, java2);
     }
 
     /**
@@ -114,7 +123,7 @@ class CodeGenerator {
         context.put("controllerPackageName", controllerPackageName);
         context.put("servicePackageName", servicePackageName);
 
-        String java = getTemplateString("controller.vm", context);
+        String java = getTemplateString("Controller.vm", context);
         log("controller文件内容：" + java);
         String filepath = controllerPackageName.replace(".", separator);
 
@@ -141,7 +150,7 @@ class CodeGenerator {
         Map<String, String> transCodes = new HashMap<String, String>();
         transCodes.put("FindReq", "");
         transCodes.put("Resp", "");
-        transCodes.put("Reqbody", "");
+        transCodes.put("Req", "");
 
         for (Map.Entry<String, String> entry : transCodes.entrySet()) {
             String key = entry.getKey();
@@ -169,7 +178,7 @@ class CodeGenerator {
         }
         context.put("requestPath", requestPath);
 
-        String js = getTemplateString("vue.vm", context);
+        String js = getTemplateString("VUE.vm", context);
         log("vue 页面文件内容：" + js);
         String jsFilePath = projectPah + vuePageModuleName + separator + vueFilePath + separator + entityClassName + ".vue";
         log("vueFilePath文件保存路径：" + jsFilePath);
