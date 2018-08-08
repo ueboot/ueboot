@@ -1,4 +1,4 @@
-package com.ueboot.core.shiro.processor;
+package com.ueboot.shiro.shiro.processor;
 
 
 import lombok.extern.slf4j.Slf4j;

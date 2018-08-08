@@ -1,0 +1,54 @@
+server:
+  port: 8000
+  session:
+    cookie:
+      name: ueboot-shiro
+  context-path: /
+spring:
+  cache:
+    type: redis
+    cache-names: systemCache
+  session:
+    store-type: redis
+  http:
+    multipart:
+      enabled: true
+      max-file-size: 500Mb
+      max-request-size: 500Mb
+  jpa:
+    open-in-view: true
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: false
+      jadira:
+        usertype:
+          autoRegisterUserTypes: true
+          javaZone: Asia/Shanghai
+          databaseZone: Asia/Shanghai
+    show-sql: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.100.242.77:3306/ueboot-shiro?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    username: root
+    password: ookkookk
+    tomcat:
+      max-wait: 500
+      max-active: 200
+      initial-size: 5
+      max-idle: 5
+      min-idle: 5
+  redis:
+    host: 47.100.242.77
+    password: ''
+    port: 6379
+    database: 1
+    timeout: 60000
+    pool:
+      max-active: 20
+      max-wait: 1000
+      max-idle: 100
+      min-idle: 5

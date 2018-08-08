@@ -1,4 +1,4 @@
-package com.ueboot.core.shiro.handler;
+package com.ueboot.shiro.shiro.handler;
 
 import com.ueboot.core.http.response.Response;
 import lombok.extern.slf4j.Slf4j;

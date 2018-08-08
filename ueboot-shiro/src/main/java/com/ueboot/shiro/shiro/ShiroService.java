@@ -1,4 +1,4 @@
-package com.ueboot.core.shiro;
+package com.ueboot.shiro.shiro;
 
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * Shiro权限认证服务类，代码集成时只需要实现该接口当中的所有方法即可
  * <p>
- * 必须有类实现该接口
+ * 必须有类实现该接口。且bean的名称为“shiroService”
  *
  * @author yangkui
  */

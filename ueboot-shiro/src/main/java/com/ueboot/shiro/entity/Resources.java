@@ -65,7 +65,7 @@ public class Resources implements Serializable {
     private String parentPath;
 
     /** 排序 */
-    @Column(name = "RANK")
+    @Column(name = "RANK_")
     private Long rank = 0L;
 
     /** 层级 */

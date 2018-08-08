@@ -11,11 +11,15 @@
 
     <artifactId>ueboot-shiro</artifactId>
     <dependencies>
-    <!--spring-boot Start-->
-    <dependency>
-        <groupId>com.ueboot</groupId>
-        <artifactId>ueboot-core</artifactId>
-    </dependency>
+        <!--spring-boot Start-->
+        <dependency>
+            <groupId>com.ueboot</groupId>
+            <artifactId>ueboot-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
