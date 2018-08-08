@@ -1,5 +1,30 @@
-# 说明
-当前目录为权限配置相关的界面，包含登录页面、密码修改组件、资源配置、菜单配置等所有与权限相关的UI组件。每个页面会做成一个独立的Vue组件，并发布到npmjs.org上
-## 使用方法
-- 本地开发测试模式，直接运行`npm run dev`
-- 引用开发模式，通过`npm i 模块名` 引入组件
+# es6study
+
+> A Vue.js project
+
+## Build Setup
+
+``` bash
+# install dependencies
+npm install
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+# build for production with minification
+npm run build
+
+# build for production and view the bundle analyzer report
+npm run build --report
+
+# run unit tests
+npm run unit
+
+# run e2e tests
+npm run e2e
+
+# run all tests
+npm test
+```
+
+For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

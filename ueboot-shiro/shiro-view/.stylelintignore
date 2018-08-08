@@ -1,0 +1,8 @@
+/build/
+/config/
+/dist/
+/*.js
+/*.png
+/test/unit/coverage/
+/src/asserts/fonts/iconfont.js
+src/assets/*.png
