@@ -111,8 +111,9 @@ class CodeGenerator {
      * @param controllerPackageName controller类包名路径
      * @param servicePackageName    service类包名路径
      * @param controllerModuleName  controller模块名称
+     * @param requestPath  请求上下文，加了这个则会多加一个路径，默认为类名，如：/role
      */
-    public void createController(Class<?> clz, String controllerPackageName, String servicePackageName, String controllerModuleName) {
+    public void createController(Class<?> clz, String controllerPackageName, String servicePackageName, String controllerModuleName,String requestPath) {
         createVO(clz, controllerModuleName, controllerPackageName);
 
         log("controller类生成包名:" + controllerPackageName);
@@ -122,6 +123,16 @@ class CodeGenerator {
 
         context.put("controllerPackageName", controllerPackageName);
         context.put("servicePackageName", servicePackageName);
+        if(requestPath==null || "".equals(requestPath)){
+            requestPath = "/";
+        }
+        if(!requestPath.startsWith("/")){
+            requestPath = "/"+requestPath;
+        }
+        if(!requestPath.endsWith("/")){
+            requestPath +="/";
+        }
+        context.put("requestPath", requestPath);
 
         String java = getTemplateString("Controller.vm", context);
         log("controller文件内容：" + java);

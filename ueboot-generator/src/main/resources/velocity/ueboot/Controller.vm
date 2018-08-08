@@ -27,7 +27,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/${lowEntityName}")
+@RequestMapping(value = "$requestPath${lowEntityName}")
 public class ${entityName}Controller {
 
     @Resource

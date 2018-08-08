@@ -4,29 +4,27 @@
 
 <script>
     export default {
-        name: '${entityName}',
+        name: 'Permission',
         data () {
             return {
                 formGrid: {
                     options: {
                         version: 'v2',
                         url: {
-                            page: "/${requestPath}/${lowEntityName}/page",
-                            save: "/${requestPath}/${lowEntityName}/save",
-                            delete: "/${requestPath}/${lowEntityName}/delete",
+                            page: "/platform/permission/page",
+                            save: "/platform/permission/save",
+                            delete: "/platform/permission/delete",
                         }
                     },
-                    tips: {title: "${entityName}", content: "${entityName}"},
+                    tips: {title: "Permission", content: "Permission"},
 
                     form: {
                         modal: {
-                            title: "${entityName}"
+                            title: "Permission"
                         },
                         columns: [
-            #foreach($object in ${fields})
-                            {label: "$object.name", type: "text", name: "$object.name", required: true},
-            #end
-
+                                        {label: "id", type: "text", name: "id", required: true},
+            
                         ]
                     },
                     table: {
@@ -34,10 +32,8 @@
                             primaryKey: "id",
                         },
                         columns: [
-                            #foreach($object in ${fields})
-                            { title: '$object.name', key: '$object.name' },
-                            #end
-                        ]
+                                                        { title: 'id', key: 'id' },
+                                                    ]
                     }
                 }
             }

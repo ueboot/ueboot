@@ -256,7 +256,7 @@ public class GeneratorDialog extends JDialog {
                 JOptionPane.showMessageDialog(null, " controllerModuleName不能为空 ", " 提示 ", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            ac.createController(clz, controllerPackageName.getText(), servicePackageName.getText(), controllerModuleName.getText());
+            ac.createController(clz, controllerPackageName.getText(), servicePackageName.getText(), controllerModuleName.getText(),requestPath.getText());
         }
         if (StringUtil.isNotEmpty(vueFilePath.getText())) {
             if (StringUtil.isEmpty(vuePageModuleName.getText())) {
