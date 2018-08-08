@@ -31,7 +31,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * </p>
  *
  * @author: wanglijun
- * @create: 2018-07-09 22:25
  * @version：1.0
  */
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {

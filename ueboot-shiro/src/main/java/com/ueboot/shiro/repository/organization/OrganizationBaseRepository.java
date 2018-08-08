@@ -25,7 +25,7 @@ public interface OrganizationBaseRepository  {
      * 根据关键字进行分页查询，关键字匹配机构名称、代码、地址、电话字段任意一个
      * @param pageable 分页对象
      * @param keyword 关键字
-     * @return
+     * @return 分页查询结果
      */
     Page<Organization> findByKey(Pageable pageable,String keyword);
 

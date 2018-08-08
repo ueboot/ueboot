@@ -32,7 +32,7 @@ public class OrganizationRepositoryImpl extends DefaultJpaRepository<Organizatio
      *
      * @param pageable 分页对象
      * @param keyword  关键字
-     * @return
+     * @return 分页查询结果
      */
     @Override
     public Page<Organization> findByKey(Pageable pageable, String keyword) {
