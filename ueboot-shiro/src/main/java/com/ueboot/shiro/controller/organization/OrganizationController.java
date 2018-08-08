@@ -32,7 +32,18 @@ public class OrganizationController {
 
     @Resource
     private OrganizationService organizationService;
+    @PostMapping(value = "/testpage")
+    public Response<Page<OrganizationResp>> pageByKey(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
+                                                         Pageable pageable, @RequestBody(required = false) OrganizationFindReq req){
+        Page<Organization> entities = organizationService.findBy(pageable);
+        Page<OrganizationResp> body = entities.map(entity -> {
+            OrganizationResp resp = new OrganizationResp();
+            BeanUtils.copyProperties(entity, resp);
+            return resp;
+        });
 
+        return new Response<>(body);
+    }
 
     @RequiresPermissions("organization:read")
     @RequestMapping(value = "/page", method = RequestMethod.POST)

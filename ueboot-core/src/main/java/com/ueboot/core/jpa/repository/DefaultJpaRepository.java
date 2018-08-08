@@ -10,6 +10,7 @@ import org.hibernate.transform.Transformers;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.query.DefaultJpaEntityMetadata;
 import org.springframework.data.jpa.repository.query.JpaEntityMetadata;
 import org.springframework.util.Assert;
@@ -23,6 +24,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -360,7 +362,23 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
     @Override
     public Page<T> find (StringQuery stringQuery, Pageable pageable) {
         Assert.notNull(stringQuery, "StringQuery must not be null");
-
+        Sort sort = pageable.getSort();
+        int count = 0;
+        Iterator<Sort.Order> it  = sort.iterator();
+        //自动拼接order by 属性
+        while (it.hasNext()){
+            Sort.Order s =it.next();
+            String name = s.getProperty();
+            String dir = s.getDirection().name();
+            if(count ==0){
+                stringQuery.predicate(true)
+                        .query("order by " +name+" "+ dir);
+            }else{
+                stringQuery.predicate(true)
+                        .query(", "+name+" "+ dir);
+            }
+            count ++;
+        }
         String query = stringQuery.getQuery();
         NamedParams params = stringQuery.getParams();
         return find(query, params, pageable);
