@@ -4,27 +4,23 @@
     <h2>Essential Links</h2>
     <ul>
       <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
+        <router-link :to="{ name: 'Organization'}">组织机构</router-link>
+
       </li>
       <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
+        <router-link :to="{ name: 'Permission'}">Permission</router-link>
+
+      </li>
+      <li>
+        <router-link :to="{ name: 'Resources'}">Resources</router-link>
+
       </li>
       <li>
         <a
           href="https://chat.vuejs.org"
           target="_blank"
         >
-          Community Chat
+          权限
         </a>
       </li>
       <li>
@@ -32,7 +28,7 @@
           href="https://twitter.com/vuejs"
           target="_blank"
         >
-          Twitter
+         用户
         </a>
       </li>
       <br>

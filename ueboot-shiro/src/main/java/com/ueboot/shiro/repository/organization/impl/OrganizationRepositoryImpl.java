@@ -36,12 +36,12 @@ public class OrganizationRepositoryImpl extends DefaultJpaRepository<Organizatio
      */
     @Override
     public Page<Organization> findByKey(Pageable pageable, String keyword) {
-        Assert.notNull(keyword,"查询关键字不能为空");
+      //  Assert.notNull(keyword,"查询关键字不能为空");
 
         StringQuery query = StringQuery.newQuery()
                 .query("from "+Organization.class.getName()+" a ")
                 .predicateHasText(keyword)
-                .query(" a.name like =:keyword or a.address like =:keyword")
+                .query("where a.name like =:keyword or a.address like =:keyword")
                 .likeParam("keyword",keyword)
                 .predicate(Boolean.TRUE).build();
         return find(query,pageable);
