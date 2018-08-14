@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
-import Organization from '../views/Organization'
-import Permission from '../views/Permission'
-import Resources from '../views/Resources'
+import Organization from '../views/shiro/Organization'
+import Permission from '../views/shiro/Permission'
+import Resources from '../views/shiro/Resources'
 
 Vue.use(Router)
 

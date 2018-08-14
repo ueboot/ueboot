@@ -27,7 +27,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/platform/organization")
+@RequestMapping(value = "/ueboot/organization")
 public class OrganizationController {
 
     @Resource

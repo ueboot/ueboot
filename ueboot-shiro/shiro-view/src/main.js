@@ -15,7 +15,7 @@ import 'ueboot/ueboot/styles/ueboot.css'
 /* 字体图标样式 */
 import 'font-awesome/scss/font-awesome.scss'
 Vue.use(ueboot)
-Axios.init({ baseURL: process.env.CONTEXT, unauthorizedUrl: process.env.CONTEXT_HTML + "/#/login" });
+ueboot.Axios.init({ baseURL: process.env.CONTEXT, unauthorizedUrl: process.env.CONTEXT_HTML + '/#/login' })
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

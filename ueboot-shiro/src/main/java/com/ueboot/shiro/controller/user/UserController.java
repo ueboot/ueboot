@@ -27,7 +27,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/platform/user")
+@RequestMapping(value = "/ueboot/user")
 public class UserController {
 
     @Resource

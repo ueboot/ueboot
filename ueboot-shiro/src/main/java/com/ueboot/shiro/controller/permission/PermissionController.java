@@ -27,7 +27,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/platform/permission")
+@RequestMapping(value = "/ueboot/permission")
 public class PermissionController {
 
     @Resource

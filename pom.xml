@@ -12,6 +12,7 @@
         <module>ueboot-parent</module>
         <module>ueboot-excel</module>
         <module>ueboot-shiro</module>
+        <module>ueboot-file</module>
     </modules>
     <packaging>pom</packaging>
     <name>quick-dev</name>

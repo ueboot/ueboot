@@ -29,4 +29,15 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
     protected BaseRepository getBaseRepository() {
          return resourcesRepository;
     }
+
+    /**
+     * 根据用户名查找用户的授权的资源
+     *
+     * @param username 用户名
+     * @return 当前用户授权后的资源列表
+     */
+    @Override
+    public Resources[] getUserResources(String username) {
+        return new Resources[0];
+    }
 }
