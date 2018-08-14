@@ -11,6 +11,8 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.*;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 用于前端发起对象保存和更新请求时，接收请求参数
  * Created on 2018-08-08 11:53:52

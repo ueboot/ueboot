@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 * @author ${USER}
 * @since 2.1.0 by ueboot-generator
 */
-@Repository
 public interface ${entityName}BaseRepository  {
 
 }

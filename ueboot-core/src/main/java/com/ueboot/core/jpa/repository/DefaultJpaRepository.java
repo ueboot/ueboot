@@ -34,7 +34,7 @@ import java.util.Map;
  * @author xiangli.ma
  * @since 1.0
  */
-public class DefaultJpaRepository<T, ID extends Serializable> implements NativeSQLRepository<T, ID>, QueryAndPagingRepository<T, ID>, CrudRepository<T, ID> {
+public class DefaultJpaRepository<T, ID extends Serializable> {
 
     private static final String ID_MUST_NOT_BE_NULL = "The given id must not be null!";
 
@@ -57,189 +57,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return entityMetadata.getJavaType();
     }
 
-    /**
-     * Saves a given entity. Use the returned instance for further operations as the save operation might have changed the
-     * entity instance completely.
-     *
-     * @param entity 实体类
-     */
-    @Override
-    public <S extends T> void save(S entity) {
-        em.persist(entity);
-    }
-
-    /**
-     * Saves all given entities.
-     *
-     * @param entities 实体类
-     * @throws IllegalArgumentException in case the given entity is {@literal null}.
-     */
-    @Override
-    public <S extends T> void save(Collection<S> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return;
-        }
-        for (S entity : entities) {
-            save(entity);
-        }
-    }
-
-    @Override
-    public <S extends T> void update(S entity) {
-        em.merge(entity);
-    }
-
-    @Override
-    public <S extends T> void update(Collection<S> entities) {
-        if (entities == null || entities.isEmpty()) {
-            return;
-        }
-        for(S entity : entities) {
-            update(entity);
-        }
-    }
-
-    /**
-     * Retrieves an entity by its id.
-     *
-     * @param id must not be {@literal null}.
-     * @return the entity with the given id or {@literal null} if none found
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
-     */
-    @Override
-    public T get(ID id) {
-        Assert.notNull(id, ID_MUST_NOT_BE_NULL);
-        Class<T> domainType = getDomainClass();
-        return em.find(domainType, id);
-    }
-
-    /**
-     * Returns whether an entity with the given id exists.
-     *
-     * @param id must not be {@literal null}.
-     * @return true if an entity with the given id exists, {@literal false} otherwise
-     * @throws IllegalArgumentException if {@code id} is {@literal null}
-     */
-    @Override
-    public boolean exists(ID id) {
-        Assert.notNull(id, ID_MUST_NOT_BE_NULL);
-        return get(id) != null;
-    }
-
-    /**
-     * Returns all instances of the type.
-     *
-     * @return altities
-     */
-    @Override
-    public List<T> findAll() {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
-        CriteriaQuery<T> query = builder.createQuery(getDomainClass());
-        return em.createQuery(query).getResultList();
-    }
-
-    /**
-     * Returns the number of entities available.
-     *
-     * @return the number of entities
-     */
-    @Override
-    public long count() {
-        String countQueryString = QueryUtils.getCountQueryString(entityMetadata.getEntityName());
-        return em.createQuery(countQueryString, Long.class).getSingleResult();
-    }
-
-
-
-    /**
-     * Returns the number of entities available.
-     *
-     * @return the number of entities
-     */
-    @Override
-    public long countBy(StringQuery stringQuery) {
-        Assert.notNull(stringQuery, "StringQuery must not be null");
-        String queryString = stringQuery.getQuery();
-        String countQueryString = QueryUtils.genCountQueryString(queryString);
-        NamedParams params = stringQuery.getParams();
-
-        Query countQuery = em.createQuery(countQueryString);
-        setQueryParams(countQuery, params);
-        Long count = (Long) countQuery.getSingleResult();
-
-        return count;
-    }
-
-    /**
-     * Returns the number of entities available.
-     *
-     * @return the number of entities
-     */
-    @Override
-    public long countBySql(StringQuery stringQuery) {
-        Assert.notNull(stringQuery, "StringQuery must not be null");
-        String queryString = stringQuery.getQuery();
-        String countQueryString = QueryUtils.genCountQueryString(queryString);
-        NamedParams params = stringQuery.getParams();
-
-        Query countQuery = em.createNativeQuery(countQueryString);
-        setQueryParams(countQuery, params);
-        Long count = (Long) countQuery.getSingleResult();
-
-        return count;
-    }
-
-    /**
-     * Deletes the entity with the given id.
-     *
-     * @param id must not be {@literal null}.
-     * @throws IllegalArgumentException in case the given {@code id} is {@literal null}
-     */
-    @Override
-    public void delete(ID id) {
-        Assert.notNull(id, ID_MUST_NOT_BE_NULL);
-
-        T entity = get(id);
-
-        delete(entity);
-    }
-
-    /**
-     * Deletes a given entity.
-     *
-     * @param entity 实体类
-     * @throws IllegalArgumentException in case the given entity is {@literal null}.
-     */
-    @Override
-    public void delete(T entity) {
-        Assert.notNull(entity, "The entity must not be null!");
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
-    }
-
-    /**
-     * Deletes the given entities.
-     *
-     * @param entities 实体类
-     * @throws IllegalArgumentException in case the given {@link Iterable} is {@literal null}.
-     */
-    @Override
-    public void delete(Collection<? extends T> entities) {
-        Assert.notNull(entities, "The given Iterable of entities not be null!");
-
-        for (T entity : entities) {
-            delete(entity);
-        }
-    }
-
-    /**
-     * Deletes all entities managed by the repository.
-     */
-    @Override
-    public void deleteAll() {
-        for (T element : findAll()) {
-            delete(element);
-        }
-    }
 
     private void setQueryParams(Query query, NamedParams params) {
         if (params.isEmpty()) {
@@ -276,20 +93,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
 
 
 
-    @Override
-    public List<T> find(String queryString) {
-        return find(queryString, NamedParams.newParams());
-    }
-
-    @Override
-    public List<T> find(StringQuery stringQuery) {
-        Assert.notNull(stringQuery, "StringQuery must not be null!");
-
-        String query = stringQuery.getQuery();
-        NamedParams params = stringQuery.getParams();
-        return find(query, params);
-    }
-
     public <S> List<S> find(StringQuery stringQuery, Class<S> transformerClass) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
 
@@ -307,15 +110,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return query.getResultList();
     }
 
-    @Override
-    public List<T> find(String queryString, NamedParams params) {
-        Assert.notNull(queryString, "Query must not be null!");
-        Assert.notNull(params, "NamedParams must not be null!");
 
-        Query query = em.createQuery(queryString);
-        setQueryParams(query, params);
-        return query.getResultList();
-    }
 
     public <S> List<S> find(String queryString, NamedParams params, Class<S> transformerClass) {
         Assert.notNull(queryString, "Query must not be null!");
@@ -327,11 +122,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return query.unwrap(QueryImpl.class).setResultTransformer(Transformers.aliasToBean(transformerClass)).list();
     }
 
-
-    @Override
-    public Page<T> find(String queryString, Pageable pageable) {
-        return find(queryString, NamedParams.newParams(), pageable);
-    }
 
     public Page<T> findByPage(StringQuery stringQuery, Pageable pageable) {
         String queryString = stringQuery.getQuery();
@@ -359,7 +149,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return page;
     }
 
-    @Override
     public Page<T> find (StringQuery stringQuery, Pageable pageable) {
         Assert.notNull(stringQuery, "StringQuery must not be null");
         Sort sort = pageable.getSort();
@@ -372,7 +161,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
             String dir = s.getDirection().name();
             if(count ==0){
                 stringQuery.predicate(true)
-                        .query("order by " +name+" "+ dir);
+                        .query(" order by " +name+" "+ dir);
             }else{
                 stringQuery.predicate(true)
                         .query(", "+name+" "+ dir);
@@ -383,7 +172,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         NamedParams params = stringQuery.getParams();
         return find(query, params, pageable);
     }
-    @Override
     public <S> Page<S> find(StringQuery stringQuery, Pageable pageable, Class<S> transformerClass) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
         Assert.notNull(pageable, "PageRequest must not be null!");
@@ -394,7 +182,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
 
         return find(query, params, pageable, transformerClass);
     }
-    @Override
     public <S> Page<S> find(StringQuery stringQuery, Pageable pageable, ResultTransformer transformer) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
         Assert.notNull(pageable, "PageRequest must not be null!");
@@ -406,7 +193,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return find(query, params, pageable, transformer);
     }
 
-    @Override
     public Page<T> find(String queryString, NamedParams params, Pageable pageable) {
         Assert.hasText(queryString, "Query must has text!");
 
@@ -414,7 +200,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return find(queryString, queryCount, params, pageable);
     }
 
-    @Override
     public <S> Page<S> find(String queryString, NamedParams params, Pageable pageable, Class<S> transformerClasse) {
         Assert.hasText(queryString, "Query must has text!");
 
@@ -422,7 +207,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return find(queryString, queryCount, params, pageable, transformerClasse);
     }
 
-    @Override
     public <S> Page<S> find(String queryString, NamedParams params, Pageable pageable, ResultTransformer transformer) {
         Assert.hasText(queryString, "Query must has text!");
 
@@ -430,22 +214,18 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return find(queryString, queryCount, params, pageable, transformer);
     }
 
-    @Override
     public Page<T> find(String queryString, String queryCount, Pageable pageable) {
         return find(queryString, queryCount, NamedParams.newParams(), pageable);
     }
 
-    @Override
     public <S> Page<S> find(String queryString, String queryCount, Pageable pageable, Class<S> transformerClasse) {
         return find(queryString, queryCount, NamedParams.newParams(), pageable, transformerClasse);
     }
 
-    @Override
     public <S> Page<S> find(String queryString, String queryCount, Pageable pageable, ResultTransformer transformer) {
         return find(queryString, queryCount, NamedParams.newParams(), pageable, transformer);
     }
 
-    @Override
     public Page<T> find(StringQuery queryString, StringQuery queryCount, Pageable pageable) {
         Assert.notNull(queryString, "StringQuery must not be null!");
         Assert.notNull(queryCount, "StringQuery count must not be null!");
@@ -455,7 +235,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         NamedParams params = queryString.getParams();
         return find(query, count, params, pageable);
     }
-    @Override
     public <S> Page<S> find(StringQuery queryString, StringQuery queryCount, Pageable pageable, Class<S> transformerClass) {
         Assert.notNull(queryString, "StringQuery must not be null!");
         Assert.notNull(queryCount, "StringQuery count must not be null!");
@@ -466,7 +245,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         NamedParams params = queryString.getParams();
         return find(query, count, params, pageable, transformerClass);
     }
-    @Override
     public <S> Page<S> find(StringQuery queryString, StringQuery queryCount, Pageable pageable, ResultTransformer transformer) {
         Assert.notNull(queryString, "StringQuery must not be null!");
         Assert.notNull(queryCount, "StringQuery count must not be null!");
@@ -478,7 +256,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return find(query, count, params, pageable, transformer);
     }
 
-    @Override
     public Page<T> find(String queryString, String queryCount, NamedParams params, Pageable pageable) {
         Assert.hasText(queryString, "Query must has text!");
         Assert.hasText(queryCount, "Query count must has text!");
@@ -501,7 +278,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return page;
     }
 
-    @Override
     public <S> Page<S> find(String queryString, String queryCount, NamedParams params, Pageable pageable, Class<S> transformerClass) {
         Assert.hasText(queryString, "Query must has text!");
         Assert.hasText(queryCount, "Query count must has text!");
@@ -526,7 +302,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return page;
     }
 
-    @Override
     public <S> Page<S> find(String queryString, String queryCount, NamedParams params, Pageable pageable, ResultTransformer transformer) {
         Assert.hasText(queryString, "Query must has text!");
         Assert.hasText(queryCount, "Query count must has text!");
@@ -570,7 +345,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
     }
 
 
-    @Override
     public List<T> findBySql(String sql) {
         return findBySql(sql, NamedParams.newParams());
     }
@@ -603,7 +377,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
     }
 
 
-    @Override
     public List<T> findBySql(StringQuery stringQuery) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
 
@@ -719,7 +492,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return em;
     }
 
-    @Override
     public List<T> findBySql(String sql, NamedParams params) {
         Assert.notNull(sql, "Query must not be null!");
         Assert.notNull(params, "NamedParams must not be null!");
@@ -729,12 +501,10 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return query.getResultList();
     }
 
-    @Override
     public Page<T> findBySql(String sql, Pageable pageable) {
         return findBySql(sql, NamedParams.newParams(), pageable);
     }
 
-    @Override
     public Page<T> findBySql(StringQuery stringQuery, Pageable pageable) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
 
@@ -743,7 +513,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return findBySql(query, params, pageable);
     }
 
-    @Override
     public Page<T> findBySql(String sql, NamedParams params, Pageable pageable) {
         Assert.hasText(sql, "Sql must has text!");
 
@@ -751,12 +520,10 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return findBySql(sql, queryCount, params, pageable);
     }
 
-    @Override
     public Page<T> findBySql(String sql, String countSql, Pageable pageable) {
         return findBySql(sql, countSql, NamedParams.newParams(), pageable);
     }
 
-    @Override
     public Page<T> findBySql(StringQuery queryString, StringQuery queryCount, Pageable pageable) {
         Assert.notNull(queryString, "StringQuery must not be null!");
         Assert.notNull(queryCount, "StringQuery count must not be null!");
@@ -767,7 +534,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return findBySql(query, count, params, pageable);
     }
 
-    @Override
     public Page<T> findBySql(String sql, String countSql, NamedParams params, Pageable pageable) {
         Assert.hasText(sql, "Query must has text!");
         Assert.hasText(countSql, "Count sql must has text!");
@@ -790,12 +556,10 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         return page;
     }
 
-    @Override
     public void executeUpdateBySql(String sql) {
         executeUpdateBySql(sql, NamedParams.newParams());
     }
 
-    @Override
     public void executeUpdateBySql(StringQuery stringQuery) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
 
@@ -805,7 +569,6 @@ public class DefaultJpaRepository<T, ID extends Serializable> implements NativeS
         executeUpdateBySql(query, params);
     }
 
-    @Override
     public void executeUpdateBySql(String sql, NamedParams params) {
         Assert.notNull(params, "Query params must not be null!");
         Assert.hasText(sql, "Sql must has text!");
