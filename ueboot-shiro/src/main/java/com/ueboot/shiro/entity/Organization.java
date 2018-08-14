@@ -46,7 +46,7 @@ public class Organization extends AbstractVersionEntity<Long> {
     private String telephone;
 
     /** 机构类型，[机构|部门|other] */
-    @Column(name = "TYPE", columnDefinition="enum('机构', '部门')")
+    @Column(name = "TYPE")
     private String type;
 
     /** 父CODE */
