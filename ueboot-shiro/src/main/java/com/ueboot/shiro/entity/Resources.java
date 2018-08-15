@@ -41,7 +41,7 @@ public class Resources implements Serializable {
     private String name;
 
     /** 资源类型，[menu|button|other] */
-    @Column(name = "RESOURCE_TYPE", columnDefinition="enum('菜单组', '菜单','功能', '其他')")
+    @Column(name = "RESOURCE_TYPE")
     private String resourceType;
 
     /** 资源路径 */
