@@ -11,5 +11,11 @@
 
     <artifactId>ueboot-file</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ueboot</groupId>
+            <artifactId>ueboot-core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
