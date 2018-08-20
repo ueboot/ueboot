@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ueboot.file.exceptions.FileUploadException;
 import com.ueboot.file.service.FileUploadService;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 
 /**
@@ -108,7 +109,6 @@ public class FileUploadController {
 		long t1 = System.currentTimeMillis();
 		logger.info("开始上传文件{},业务识别码:{},SN号:{}", new Object[] {uploadFileName, businessCode, snCode });
 		FileUpload f = this.fileUploadService.validateFile(snCode, encryptValue, uploadFileName, file);
-
 		Long fileSize = file.getSize();
 
 		if (f != null) {

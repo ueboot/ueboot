@@ -8,12 +8,14 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author yangkui
+ */
 @Slf4j
 @Component
 public class ShiroProcessor {
 
 	public void login(String username, String password, String captcha) {
-		log.info("/login  username: {}  password: {}  captcha: {}", username, password, captcha);
 
 		UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 		Subject currentUser = SecurityUtils.getSubject();
@@ -28,7 +30,7 @@ public class ShiroProcessor {
 			token.clear();
 			throw new AuthenticationException();
 		}
-		log.info("用户[" + username + "]登录认证通过(这里可以进行一些认证通过后的一些系统参数初始化操作)");
+		log.info("用户[" + username + "]登录认证通过");
 	}
 
 	public void logout() {

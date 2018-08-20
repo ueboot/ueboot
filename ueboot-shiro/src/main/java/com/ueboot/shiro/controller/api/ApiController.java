@@ -49,10 +49,15 @@ public class ApiController {
     @PostMapping(value = "/public/login")
     public Response<Void> login(@RequestBody LoginVo params) {
         log.info("/login  username: {}  password: {}  captcha: {}", params.getUsername(), params.getPassword(), params.getCaptcha());
-
         this.shiroProcessor.login(params.getUsername(), params.getPassword(), params.getCaptcha());
-
         return new Response<>().message("登录成功");
+    }
+
+    @PostMapping(value = "/public/logout")
+    public Response<Void> logout(@RequestBody LoginVo params) {
+        log.info("/logout  username: {} ", params.getUsername(), params.getPassword(), params.getCaptcha());
+        this.shiroProcessor.logout();
+        return new Response<>().message("退出成功");
     }
 
     /**
