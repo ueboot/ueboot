@@ -42,7 +42,7 @@ export default {
       } else {
         axios.post('/backend/security/updatePassword', {oldPassword: md5(this.originalPassword + this.username), newPassword: md5(this.newPassword + this.username)}).then(res => {
           console.log(res)
-          this.$message({
+          this.$Message({
             type: 'success',
             message: '修改成功'
           })
@@ -59,29 +59,34 @@ export default {
 }
 </script>
 <style scoped>
-  .fl{
+  .fl {
     float: left;
   }
-  .fr{
+
+  .fr {
     float: right;
   }
-  .clearfix:after {
+
+  .clearfix::after {
     content: "";
     display: block;
     visibility: hidden;
     height: 0;
     clear: both;
   }
+
   .clearfix {
     zoom: 1;
   }
-  .x-Center{
+
+  .x-Center {
     display: flex;
     display: -webkit-flex;
     -webkit-justify-content: center;
     justify-content: center;
   }
-  .xy-Center{
+
+  .xy-Center {
     display: flex;
     display: -webkit-flex;
     -webkit-align-items: center;
@@ -89,7 +94,8 @@ export default {
     -webkit-justify-content: center;
     justify-content: center;
   }
-  .y-Center{
+
+  .y-Center {
     display: flex;
     display: -webkit-flex;
     -webkit-align-items: center;

@@ -1,228 +1,101 @@
-<style>
-  @import '../resources/css/base.css';
-  @import '../resources/css/styles.css';
-</style>
 <template>
-  <el-container>
-    <el-aside width="auto">
-      <el-row type="flex" align="middle" class="logo">
-        <!--<img src="../asserts/images/logo.png"/>-->
-        <span>光伏好销售</span>
-      </el-row>
-      <el-menu :router="true" class="el-menu-vertical" text-color="#cfcfcf" active-text-color="#FFFFFF" background-color="#222837" :collapse="collapsed">
-        <el-menu-item-group>
-          <span slot="title">设置</span>
-            <el-menu-item index="0" :route="{name: 'Index'}">
-              <i class="el-icon-view" style="color: #be6d0d"></i>
-              <span slot="title" class="clear_margin">统计</span>
-            </el-menu-item>
-          <el-submenu index="1">
-            <div slot="title">
-              <i class="el-icon-picture" style="color: #19be6b"></i>
-              <span >首页设置</span>
-            </div>
-            <el-menu-item index="1-1" :route="{name: 'IndexAd'}" >
-              <span slot="title">开屏广告</span>
-            </el-menu-item>
-            <el-menu-item index="1-2" :route="{name: 'IndexSliderAd'}">
-              <i  style="color: #bdbe0a"></i>
-              <span slot="title">轮播广告</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <div slot="title">
-              <i class="el-icon-mobile-phone" style="color: #19be6b"></i>
-              <span slot="title">用户管理</span>
-            </div>
-            <el-menu-item index="2-1" :route="{name: 'XuserList'}">
-              <i ></i>
-              <span slot="title">用户列表</span>
-            </el-menu-item>
-            <el-menu-item index="2-2" :route="{name: 'Teamlist'}">
-              <i ></i>
-              <span slot="title">团队列表</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="3">
-            <div slot="title">
-              <i class="el-icon-vueboot-friend" style="color: #19be6b"></i>
-              <span slot="title">数据管理</span>
-            </div>
-            <el-menu-item index="3-1" :route="{name: 'customerData'}">
-              <i ></i>
-              <span slot="title">客户列表</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="4">
-            <div slot="title">
-              <i class="el-icon-service" style="color: #19be6b"></i>
-              <span slot="title">用户反馈</span>
-            </div>
-            <el-menu-item index="4-1" :route="{name: 'FeedbackList'}">
-              <i ></i>
-              <span slot="title">用户反馈</span>
-            </el-menu-item>
-            <el-menu-item index="4-2" :route="{name: 'FeedbackRoofList'}">
-              <i ></i>
-              <span slot="title">特殊屋型</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="5">
-            <div slot="title">
-              <i class="el-icon-setting" style="color: #19be6b"></i>
-              <span slot="title">安全设置</span>
-            </div>
-            <el-menu-item index="5-1" :route="{name: 'ModifyPassword'}">
-              <i></i>
-              <span slot="title">修改密码</span>
-            </el-menu-item>
-          </el-submenu>
-          <!--<el-menu-item index="6" :route="{name: 'Home'}">-->
-            <!--<i></i>-->
-            <!--<span slot="title">首页</span>-->
-          <!--</el-menu-item>-->
-          <!--<el-menu-item index="7" :route="{name: 'SettingDetails'}">-->
-            <!--<i></i>-->
-            <!--<span slot="title">进度详情</span>-->
-          <!--</el-menu-item>-->
-          <!--<el-menu-item index="8" :route="{name: 'CustomerData'}">-->
-            <!--<i></i>-->
-            <!--<span slot="title">客户资料</span>-->
-          <!--</el-menu-item>-->
-          <!--<el-menu-item index="9" :route="{name: 'Signin'}">-->
-            <!--<i></i>-->
-            <!--<span slot="title">签到统计</span>-->
-          <!--</el-menu-item>-->
-          <!--<el-submenu index="2">
-            <div slot="title">
-              <i class="el-icon-vueboot-friendadd" style="color: #19be6b"></i>
-              <span slot="title">权限管理</span>
-            </div>
-            <el-menu-item index="2-1" >
-              <i class="el-icon-vueboot-dot-o"></i>
-              <span slot="title">资源管理</span>
-            </el-menu-item>
-            <el-menu-item index="2-2" >
-              <i class="el-icon-vueboot-dot-o"></i>
-              <span slot="title">角色权限</span>
-            </el-menu-item>
-          </el-submenu>
-          <el-submenu index="3">
-            <div slot="title">
-              <i class="el-icon-vueboot-friend" style="color: #2d8cf0"></i>
-              <span slot="title">用户管理</span>
-            </div>
-            <el-menu-item index="3-1">
-              <i class="el-icon-vueboot-dot-o"></i>
-              <span slot="title">用户管理</span>
-            </el-menu-item>
-          </el-submenu>-->
-        </el-menu-item-group>
-
-        <!--<el-menu-item-group v-for="(menu, m) in data.menus" v-if="menu.resourceType === '菜单组' && !menu.parentCode" :key="m">
-          <span slot="title">{{menu.name}}</span>
-          <el-submenu :index="menu2.id+''" v-for="(menu2, n) in data.menus" v-if="menu2.parentCode === menu.code" :key="n">
-            <div slot="title">
-              <i :class="menu2.theme.icon" :style="{color: menu2.theme.color}"></i>
-              <span slot="title">{{menu2.name}}</span>
-            </div>
-            <el-menu-item :index="menu2.id + '' + menu3.id" v-for="(menu3, i) in data.menus" v-if="menu3.parentCode === menu2.code" :key="i" :route="menu3.url">
-              <i class="el-icon-vueboot-dot-o"></i>
-              <span slot="title">{{menu3.name}}</span>
-            </el-menu-item>
-          </el-submenu>
-        </el-menu-item-group>
-
-      <el-submenu :index="menu.id+''" v-for="(menu, m) in data.menus" v-if="menu.resourceType === '菜单' && !menu.parentCode" :key="m">
-        <div slot="title">
-          <i :class="menu.theme.icon" :style="{color: menu.theme.color}"></i>
-          <span slot="title">{{menu.name}}</span>
-        </div>
-        <el-menu-item :index="menu.id + '' + menu2.id" v-for="(menu2, n) in data.menus" v-if="menu2.parentCode === menu2.code" :key="n" :route="menu2.url">
-          <i class="el-icon-vueboot-dot-o"></i>
-          <span slot="title">{{menu2.name}}</span>
-        </el-menu-item>
-      </el-submenu>-->
-
-      </el-menu>
-    </el-aside>
-    <el-container>
-      <el-header height="54px">
-        <el-row type="flex" class="warp" justify="right" align="middle" style="height: 54px;" :gutter="8">
-         <!-- <el-col>
-            <el-button class="circle none toggle" size="mini" round icon="el-icon-vueboot-menu"/>
-          </el-col>-->
-          <el-col>
-
-          </el-col>
-          <el-col :span="5" :xs="5" :sm="5" :lg="3" :xl="2">
-            <el-row justify="right" align="middle" type="flex">
-              <el-col :span="10">
-                <img class="header" height="36" src="../asserts/images/header.png"/>
-              </el-col>
-              <el-col :span="14">
-                <el-dropdown @command="handleCommand">
-                    <span class="el-dropdown-link">
-                      {{loginName}}<i class="el-icon-arrow-down el-icon--right"></i>
-                    </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <!--<el-dropdown-item  command="a" >修改密码</el-dropdown-item>-->
-                    <el-dropdown-item  command="b" >退出系统</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </el-col>
-            </el-row>
-          </el-col>
-
-        </el-row>
-      </el-header>
-      <el-main>
-        <transition name="fade" mode="out-in">
-          <div style="background:#eee;padding: 20px">
-            <router-view/>
+  <div class="layout">
+    <Layout>
+      <Header :style="{color: '#fff'}">
+        <Menu mode="horizontal" theme="dark" active-name="1">
+          <div class="layout-logo">
+            <a class="header-logo">
+              <img src="../assets/logo.png" alt="." class="header-img">
+              <span class="header-span">虚拟架构查询</span>
+            </a>
           </div>
-        </transition>
-      </el-main>
+          <div class="layout-nav">
+            <MenuItem name="1">
+              <a href="javascript:void(0)" @click="logout" class="header-menu ">
+                <Icon type="android-exit" style="color:red;"></Icon>
+                <span style="cursor:pointer;">退出系统</span>
+              </a>
+            </MenuItem>
+            <!--<MenuItem name="2">-->
+            <!--<a href="javascript:void(0)" @click="resetPwd" class="header-menu">-->
+            <!--<Icon type="edit" style="color:#657180;"></Icon>-->
+            <!--<span style="cursor:pointer;">修改密码</span>-->
+            <!--</a>-->
+            <!--</MenuItem>-->
+
+          </div>
+        </Menu>
+
+      </Header>
+      <Layout>
+        <Sider hide-trigger :style="{background: '#fff',height: '100%'}">
+          <Menu :theme="theme" :width="menuWidth" :style="{ 'min-height' : clientHeight - 112 + 'px'}" @on-select="menuClick" :active-name="activeMenuName"
+                :open-names="openMenuNames">
+            <template  v-for="(menu, index) in menus">
+              <Submenu :name="'m'+menu.id" v-if="menu.parentId == null" :key="index">
+                <template slot="title">
+                  <Icon :type="menu.themeJson.icon" size="15" :color="menu.themeJson.color" style="margin-right: 3px;" v-if="menu.themeJson"></Icon>
+                  <span class="layout-text">{{menu.name}}</span>
+                </template>
+                <template v-for="child in menus">
+                  <Menu-item :name="'m'+child.id" :key="child.id" v-if="child.parentId === menu.id">
+
+                    <Icon :type="child.themeJson.icon" :size="iconSize" v-if="child.themeJson"></Icon>
+                    <span class="layout-text">{{child.name}}</span>
+                  </Menu-item>
+                </template>
+              </Submenu>
+            </template>
+          </Menu>
+        </Sider>
+        <Layout :style="{padding: '0 24px 0 24px',width:'100%',maxWidth:clientWidth - 200 +'px'}">
+          <Breadcrumb :style="{margin: '24px 0'}">
+            <BreadcrumbItem v-for="(item, index) in breadItems" :key="'bread'+index">{{item.name}}</BreadcrumbItem>
+          </Breadcrumb>
+          <Content :style="{padding: '14px', minHeight: clientHeight - 175+ 'px', background: '#fff',width:'100%',maxWidth:'100% !important'}">
+            <transition>
+              <router-view></router-view>
+            </transition>
+          </Content>
+          <div class="layout-copy">
+            2018 &copy; ueboot权限管理系统
+          </div>
+        </Layout>
+      </Layout>
+
       <!--修改密码弹出层-->
       <div>
-        <el-dialog :visible.sync="passwordModel" title="修改密码" :modal="true">
-          <el-form  ref="passwordForm" :model="pwdForm" :rules="pwdRule" label-width="100">
-            <el-form-item prop="originPwd" label="原密码">
-              <el-input type="password" v-model="pwdForm.originPwd" placeholder="请输入原密码">
-                <i class="ios-locked-outline" slot="prepend"></i>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="新密码" prop="newPwd">
-              <el-input type="password" v-model="pwdForm.newPwd" placeholder="请输入新密码">
-                <i class="ios-locked-outline" slot="prepend"></i>
-              </el-input>
-            </el-form-item>
-            <el-form-item label="确认密码" prop="surePwd">
-              <el-input type="password" v-model="pwdForm.surePwd" placeholder="确认密码">
-                <i class="ios-locked-outline" slot="prepend"></i>
-              </el-input>
-            </el-form-item>
-          </el-form>
+        <Modal v-model="passwordModel" title="修改密码" :mask-closable="false">
+          <Form ref="passwordForm" :model="pwdForm" :rules="pwdRule" :label-width="100">
+            <Form-item prop="originPwd" label="原密码">
+              <i-input type="password" v-model="pwdForm.originPwd" placeholder="请输入原密码">
+                <Icon type="ios-locked-outline" slot="prepend"></Icon>
+              </i-input>
+            </Form-item>
+            <Form-item label="新密码" prop="newPwd">
+              <i-input type="password" v-model="pwdForm.newPwd" placeholder="请输入新密码">
+                <Icon type="ios-locked-outline" slot="prepend"></Icon>
+              </i-input>
+            </Form-item>
+            <Form-item label="确认密码" prop="surePwd">
+              <i-input type="password" v-model="pwdForm.surePwd" placeholder="确认密码">
+                <Icon type="ios-locked-outline" slot="prepend"></Icon>
+              </i-input>
+            </Form-item>
+          </Form>
           <div slot="footer">
-            <el-button type="primary" @click="handlePasswordSubmit('passwordForm')">提交</el-button>
-            <el-button type="ghost" @click="resetPasswordForm('passwordForm')">重置</el-button>
-            <el-button type="ghost" @click="passwordModel=false">取消</el-button>
+            <Button type="primary" @click="handlePasswordSubmit('passwordForm')">提交</Button>
+            <Button type="ghost" @click="resetPasswordForm('passwordForm')">重置</Button>
+            <Button type="ghost" @click="passwordModel=false">取消</Button>
           </div>
-        </el-dialog>
+        </Modal>
       </div>
-
-    </el-container>
-  </el-container>
+    </Layout>
+  </div>
 </template>
+
 <script>
-import axios from 'axios'
-import ElFooter from 'element-ui/packages/footer/src/main'
-import md5 from 'md5'
-import values from '../utils/values'
-
 export default {
-
-  components: {ElFooter},
   data () {
     const validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -241,9 +114,18 @@ export default {
       }
     }
     return {
-      collapsed: false,
       loginName: '', // 登录账号名称
+      lastLoginTime: '', // 上次登录时间
+      state: '',
+      toggle: true,
+      theme: 'light',
+      menuWidth: '200px',
+      activeMenuName: '',
       menus: [],
+      breadItems: [], // 面包屑导航,
+      openMenuNames: [''],
+      clientHeight: document.documentElement.clientHeight,
+      clientWidth: document.documentElement.clientWidth,
       passwordModel: false, // 弹出修改密码弹出层
       pwdForm: {
         originPwd: '',
@@ -263,177 +145,292 @@ export default {
       }
     }
   },
-  computed: {},
+  watch: {
+    $route (to, from) {
+      this.initBreadItems(to)
+    }
+  },
   methods: {
-    handleCommand (cmd) {
-      if (cmd === 'a') {
-        this.passwordModel = true
-      } else if (cmd === 'b') {
-        this.logout()
-      }
-    },
-    logout () {
-      // 退出系统
-      this.$confirm('确定要退出当前系统吗', {
-        callback: (action) => {
-          if (action === 'confirm') {
-            axios.post('/backend/security/logout').then(() => {
-              this.$message.success('退出成功!')
-              this.$router.push({name: 'Login'})
-            }, (response) => {
-              this.$message.error(response.message ? response.message : '系统或网络异常')
+    // 监听路由变化动态改变面包屑导航，暂时只支持两级菜单
+    initBreadItems (to) {
+      this.breadItems = []
+      this.menus.forEach((n) => {
+        // 根据URL匹配，找到对应的菜单和父节点菜单ID
+        if (n.url === to.path) {
+          if (n.parentId) {
+            this.menus.forEach((m) => {
+              if (n.parentId === m.id) {
+                this.breadItems.push(m)
+                this.breadItems.push(n)
+              }
             })
+          } else {
+            this.breadItems.push(n)
           }
         }
       })
     },
+
+    init: function () {
+      // todo 先固定写死菜单，后续改为从后台读取
+
+      this.menus = [
+        // 关系数据
+        {name: '关系数据', id: 10, parentId: null, url: '/relation'},
+        {name: '育成关系', id: 11, parentId: 10, url: '/relation/rasRelation'},
+        {name: '增员关系', id: 12, parentId: 10, url: '/relation/recommendationRelation'},
+        // 机构数据
+        {name: '机构数据', id: 20, parentId: null, url: '/division'},
+        {name: '人员信息', id: 21, parentId: 20, url: '/division/roleData'},
+        {name: '部门变动', id: 22, parentId: 20, url: '/division/changeDepartment'},
+        {name: '树状人员信息', id: 23, parentId: 20, url: '/division/departmentTree'},
+        // 考核数据
+        {name: '考核数据', id: 30, parentId: null, url: '/assessment'},
+        {name: '虚拟维持考核', id: 31, parentId: 30, url: '/assessment/virtualAssessment'},
+        {name: '批处理维持考核', id: 32, parentId: 30, url: '/assessment/batchAssessment'},
+        // 直接佣金
+        {name: '直接佣金', id: 40, parentId: null, url: '/directComm'},
+        {name: '基础业绩', id: 41, parentId: 40, url: '/directComm/directComBase'}
+
+      ]
+      let matched = this.$route.matched
+      matched.forEach((m) => {
+        if (m.parent) {
+          this.menus.forEach((n) => {
+            // 根据URL匹配，找到对应的菜单和父节点菜单ID
+            if (n.url === m.path) {
+              this.initBreadItems(m)
+              this.activeMenuName = 'm' + n.id
+              this.openMenuNames.push('m' + n.parentId)
+            }
+          })
+        }
+      })
+      /* axios.get('/menus').then(response => {
+          this.menus = response.body
+          this.activeMenuName = this.$route.name
+          // 让菜单展开到路径匹配的位置
+          let matched = this.$route.matched
+          matched.forEach((m) => {
+            if (!m.parent) {
+              this.openMenuNames.push(m.name)
+            }
+          })
+        }).catch(response => {
+          console.log(response)
+        }) */
+    },
+    menuClick (id) {
+      this.menus.forEach((n) => {
+        // 根据URL匹配，找到对应的菜单和父节点菜单ID
+        if ('m' + n.id === id) {
+          this.$router.push(n.url)
+        }
+      })
+    },
+    logout () {
+      // 退出系统
+      this.$Modal.confirm({
+        title: '系统提示',
+        content: '确定要退出当前系统吗',
+        onOk: () => {
+          this.$axios.post('/structure/public/logout', {}).then((data) => {
+            this.$Message.success('退出成功!')
+            this.$router.push({name: 'login'})
+          }, (response) => {
+            this.$log.d(response)
+            this.$Notice.error({
+              title: '系统异常',
+              desc: response.message ? response.message : '系统或网络异常'
+            })
+          })
+        }
+      })
+    },
+    resetPwd (name) {
+      // 修改密码
+      this.resetPasswordForm('passwordForm')
+      this.passwordModel = true
+    },
+    operationConfig () {
+      let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user')) || {}
+      let userType = sessionUser.userType
+      this.routerConfig.routes.forEach(function (item) {
+        if (item.role === userType) {
+          item.isHide = false
+        } else {
+          item.isHide = true
+        }
+      })
+    },
     resetPasswordForm (name) {
-      console.log(this.$refs)
       this.$refs[name].resetFields()
     },
     handlePasswordSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
+          let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user'))
           let jsonData = {
-            oldPassword: md5(this.pwdForm.originPwd + this.loginName),
-            newPassword: md5(this.pwdForm.newPwd + this.loginName)
+            oldPassword: this.pwdForm.originPwd,
+            newPassword: this.pwdForm.newPwd,
+            userType: sessionUser.userType,
+            userId: sessionUser.userId
           }
-          axios.post('/backend/security/updatePassword', jsonData).then((data) => {
+          this.$axios.post('/ueboot/api/private/updatePassword', jsonData).then((data) => {
             // 关闭浮层
             this.passwordModel = false
-            this.$message.success('修改成功,下次登录请用新密码登录, 谢谢!')
+            this.$Modal.success({
+              title: '系统提示',
+              content: '修改成功,下次登录请用新密码登录, 谢谢!'
+            })
           }, (response) => {
-            this.$message.error(response.message ? response.message : '系统或网络异常')
+            this.$log.d(response)
+            this.$Notice.error({
+              title: '系统异常',
+              desc: response.message ? response.message : '系统或网络异常'
+            })
           })
         }
       })
     }
   },
+  computed: {
+    iconSize () {
+      return this.toggle ? '14px' : '24px'
+    }
+  },
+  created () {
+    this.init()
+  },
   mounted () {
-    let sessionUser = JSON.parse(sessionStorage.getItem(values.storage.user)) || {}
-    this.loginName = sessionUser.username// 登录账号名称
+    let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user')) || {}
+    this.loginName = sessionUser.userName// 登录账号名称
+    this.lastLoginTime = sessionUser.lastLoginTime// 上次登录时间
   }
 }
 </script>
 
 <style scoped>
-  .el-container {
-    height: 100%;
-    background: white;
+  *[v-cloak] {
+    display: none;
   }
 
-  .el-aside {
-    background: #222837;
+  /* 解决内容与菜单两个区域会换行的问题 */
+  .ivu-layout {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-flex: 1;
+    -ms-flex: auto;
+    flex: auto;
+    background: #f5f7f9;
   }
 
-  .el-header {
-    background-color: #FFFFFF;
-    color: #333;
-    /*line-height: 56px;*/
-    /*vertical-align: middle;*/
-    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
+  .ivu-layout.ivu-layout-has-sider {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
   }
 
-  .header {
-    border-radius: 30px;
-    line-height: 36px;
+  .ivu-layout-sider {
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    background: #515a6e;
+    min-width: 0;
   }
 
-  .el-menu {
-    border-right: solid 0px #e6e6e6;
+  .ivu-layout-content {
+    -webkit-box-flex: 1;
+    -ms-flex: auto;
+    flex: auto;
   }
 
-  .el-menu .el-submenu.is-active {
+  .layout {
+    background: #f5f7f9;
+    position: relative;
+    overflow: auto;
   }
 
-  .el-menu-vertical:not(.el-menu--collapse) {
-    width: 230px;
-    min-height: 400px;
-  }
-
-  .el-submenu [class^="el-icon-vueboot-"] {
-    padding-bottom: 2px;
-  }
-
-  .el-submenu__title {
-    height: 45px;
-    line-height: 45px;
-    font-size: 13px;
-    padding-left: 40px;
-    transition: border-color 0.1s, background-color 0.1s, color 0.1s;
-  }
-
-  .el-menu .el-submenu.is-active .el-submenu__title {
-    border-left: solid 4px #fc6c2e !important;
-  }
-
-  .el-menu-item {
-    height: 45px;
-    line-height: 45px;
-    min-width: 220px;
-    background-color: #1f212d !important;
-    font-size: 13px;
-    padding-left: 21px !important;
-  }
-
-  .el-menu-item.is-active {
-    background-color: #1c1f27 !important;
-  }
-
-  .el-menu-item.is-active [class^="el-icon-vueboot-"] {
-    font-weight: bold;
-  }
-
-  .toggle {
-    margin-left: -6px;
-  }
-
-  .el-main {
-    padding: 0px;
-  }
-
-  .logo {
-    height: 120px;
-    padding-top: 20px;
-    padding-left: 24px;
-  }
-  .logo span {
-    font-weight: bold;
-    font-size: 24px;
-    color: #bfbec0;
-    margin-left:25px;
-  }
-  .el-menu-item span{
-    margin-left: 32px;
-    text-align: left;
-  }
-  .el-menu-item .clear_margin {
-    margin: 0;
-  }
-
-  .el-footer {
-    text-align: center;
-    line-height: 60px;
-  }
-
-  .item {
-    /*margin-top: 10px;*/
-    /*margin-right: 50px;*/
-  }
-  .fl{
+  .layout-logo {
+    width: 200px;
+    height: 30px;
+    border-radius: 3px;
     float: left;
+    position: relative;
   }
-  .fr{
-    float: right;
+
+  .layout-nav {
+    width: 130px;
+    margin: 0 auto;
+    margin-right: 0;
   }
-  .clearfix:after {
-    content: "";
-    display: block;
-    visibility: hidden;
-    height: 0;
-    clear: both;
+
+  .layout-copy {
+    text-align: center;
+    padding: 5px 0 5px;
+    color: #9ea7b4;
   }
-  .clearfix {
-    zoom: 1;
+
+  .ivu-layout-header a {
+    color: #fff !important;
   }
+
+  .header-menu:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .header-logo {
+    background: 0 0;
+    text-decoration: none;
+    outline: 0;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    display: inline-block;
+    float: none !important;
+    height: auto;
+    padding: 0 20px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 50px;
+    text-align: center;
+    color: #eaebed !important;
+  }
+
+  .header-img {
+    border-style: none;
+    display: inline-block !important;
+    max-height: 20px;
+    margin-top: -4px;
+    vertical-align: middle;
+    visibility: visible;
+    border: 0;
+    color: #eaebed !important;
+  }
+
+  .header-span {
+    box-sizing: border-box;
+    color: rgb(184, 196, 201);
+    cursor: pointer;
+    display: inline;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", 微软雅黑, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    height: auto;
+    line-height: 50px;
+    margin-left: 5px;
+    text-align: center;
+  }
+
+  .layout-ceiling-main .header-menu {
+    font-size: 14px;
+    display: inline-block;
+    text-align: center;
+    width: 90px;
+  }
+
 </style>

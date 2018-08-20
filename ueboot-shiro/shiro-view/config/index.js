@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       //本地代理
-      '/platform/*': {
+      '/ueboot/*': {
         target: 'http://localhost:8000',
         debug:true,
         changeOrigin: true,

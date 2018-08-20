@@ -11,9 +11,9 @@ export default {
         options: {
           version: 'v2',
           url: {
-            page: '/platform/permission/page',
-            save: '/platform/permission/save',
-            delete: '/platform/permission/delete'
+            page: '/ueboot/permission/page',
+            save: '/ueboot/permission/save',
+            delete: '/ueboot/permission/delete'
           }
         },
         tips: {title: 'Permission', content: 'Permission'},

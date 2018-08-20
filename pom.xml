@@ -50,6 +50,7 @@
         <ueboot.generator.version>2.1.0-SNAPSHOT</ueboot.generator.version>
         <ueboot.shiro.version>2.1.0-SNAPSHOT</ueboot.shiro.version>
         <ueboot.excel.version>2.1.0-SNAPSHOT</ueboot.excel.version>
+        <ueboot.file.version>2.1.0-SNAPSHOT</ueboot.file.version>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.21</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
@@ -77,6 +78,11 @@
                 <groupId>com.ueboot</groupId>
                 <artifactId>ueboot-shiro</artifactId>
                 <version>${ueboot.shiro.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ueboot</groupId>
+                <artifactId>ueboot-file</artifactId>
+                <version>${ueboot.file.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>

@@ -4,35 +4,33 @@
 
 <script>
 export default {
-  name: 'Resources',
+  name: 'Organization',
   data () {
     return {
       formGrid: {
         options: {
           version: 'v2',
           url: {
-            page: '/platform/resources/page',
-            save: '/platform/resources/save',
-            delete: '/platform/resources/delete'
+            page: '/ueboot/organization/testpage',
+            save: '/ueboot/organization/save',
+            delete: '/ueboot/organization/delete'
           }
         },
-        tips: {title: 'Resources', content: 'Resources'},
+        tips: {title: 'Organization', content: 'Organization'},
 
         form: {
           modal: {
-            title: 'Resources'
+            title: 'Organization'
           },
           columns: [
             {label: 'id', type: 'text', name: 'id', required: true},
             {label: 'code', type: 'text', name: 'code', required: true},
             {label: 'name', type: 'text', name: 'name', required: true},
-            {label: 'resourceType', type: 'text', name: 'resourceType', required: true},
-            {label: 'url', type: 'text', name: 'url', required: true},
-            {label: 'themeJson', type: 'text', name: 'themeJson', required: true},
-            {label: 'permission', type: 'text', name: 'permission', required: true},
+            {label: 'address', type: 'text', name: 'address', required: true},
+            {label: 'telephone', type: 'text', name: 'telephone', required: true},
+            {label: 'type', type: 'text', name: 'type', required: true},
             {label: 'parentCode', type: 'text', name: 'parentCode', required: true},
             {label: 'parentPath', type: 'text', name: 'parentPath', required: true},
-            {label: 'rank', type: 'text', name: 'rank', required: true},
             {label: 'level', type: 'text', name: 'level', required: true},
             {label: 'available', type: 'text', name: 'available', required: true}
 
@@ -46,13 +44,11 @@ export default {
             { title: 'id', key: 'id' },
             { title: 'code', key: 'code' },
             { title: 'name', key: 'name' },
-            { title: 'resourceType', key: 'resourceType' },
-            { title: 'url', key: 'url' },
-            { title: 'themeJson', key: 'themeJson' },
-            { title: 'permission', key: 'permission' },
+            { title: 'address', key: 'address' },
+            { title: 'telephone', key: 'telephone' },
+            { title: 'type', key: 'type' },
             { title: 'parentCode', key: 'parentCode' },
             { title: 'parentPath', key: 'parentPath' },
-            { title: 'rank', key: 'rank' },
             { title: 'level', key: 'level' },
             { title: 'available', key: 'available' }
           ]
