@@ -14,6 +14,7 @@ import java.io.IOException;
 
 /**
  * Created by Richard on 16/8/17.
+ * 所有异常在http层面的状态返回都是200，但是返回报文体里面的code为异常代码如：401，500，403等
  * @author yangkui
  * 全局异常拦截
  */
@@ -24,7 +25,7 @@ public class WebExceptionHandler {
 
     @ExceptionHandler({BusinessException.class})
     @Order(1)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleBusinessException(BusinessException e) {
         return new Response<>(e.getCode() == null ? HttpStatus.INTERNAL_SERVER_ERROR.value() + "" : e.getCode(), e.getMessage(), null);
@@ -34,7 +35,7 @@ public class WebExceptionHandler {
 
     @ExceptionHandler(value = {IllegalArgumentException.class})
     @Order(2)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleIllegalArgumentExceptions(final Exception e, final WebRequest req) {
         return new Response<>(HttpStatus.BAD_REQUEST.value() + "", e.getMessage(), null);
@@ -49,11 +50,11 @@ public class WebExceptionHandler {
      */
     @ExceptionHandler(value = {Exception.class})
     @Order(100)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleOtherExceptions(final Exception e, final WebRequest req) {
         //记录日志
         log.error(e.getMessage(), e);
-        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "服务器异常:"+e.getMessage(), null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "服务器系统异常", null);
     }
 }
