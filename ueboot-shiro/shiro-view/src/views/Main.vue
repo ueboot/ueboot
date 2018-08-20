@@ -276,7 +276,7 @@ export default {
             userType: sessionUser.userType,
             userId: sessionUser.userId
           }
-          this.$axios.post('/ueboot/api/private/updatePassword', jsonData).then((data) => {
+          this.$axios.post('/ueboot/shiro/private/updatePassword', jsonData).then((data) => {
             // 关闭浮层
             this.passwordModel = false
             this.$Modal.success({

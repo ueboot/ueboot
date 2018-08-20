@@ -58,7 +58,7 @@ export default {
     },
     // 确认登录操作
     handleSubmit (name) {
-      if (this.formCustom.userName === '') {
+      if (this.formCustom.username === '') {
         this.$Notice.error({
           title: '消息提示',
           desc: '账号不能为空'
@@ -72,7 +72,7 @@ export default {
         })
         return
       }
-      if (this.formCustom.validCode === '') {
+      if (this.formCustom.captcha === '') {
         this.$Notice.error({
           title: '消息提示',
           desc: '验证码不能为空'
@@ -80,12 +80,12 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.post('/ueboot/api/public/login', this.formCustom).then(response => {
+      this.$axios.post('/ueboot/shiro/public/login', this.formCustom).then(response => {
         this.$Message.success('登录成功')
         this.$router.push({name: 'rasRelation'})
         this.loading = false
       }, (response) => {
-        this.$Message.error(response.message)
+        this.$Notice.error({desc:response.message})
         this.changeCaptchaUrl()
         this.formCustom.captcha = ''
         this.loading = false
@@ -94,7 +94,7 @@ export default {
   },
   computed: {
     captchaUrl: function () {
-      return process.env.CONTEXT + '/ueboot/api/public/captcha?time=' + this.now
+      return process.env.CONTEXT + '/ueboot/shiro/public/captcha?time=' + this.now
     }
   },
   mounted () {}

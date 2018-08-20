@@ -31,10 +31,10 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/ueboot/api")
+@RequestMapping(value = "/ueboot/shiro")
 public class ApiController {
 
-    private static final String CAPTCHA_KEY = "IO_XIQIAO_SHIRO_CAPTCHA_CODE";
+    private static final String CAPTCHA_KEY = "UEBOOT_SHIRO_CAPTCHA_CODE";
 
     private final ShiroProcessor shiroProcessor;
 
@@ -47,17 +47,25 @@ public class ApiController {
     }
 
     @PostMapping(value = "/public/login")
-    public Response<Void> login(@RequestBody LoginVo params) {
-        log.info("/login  username: {}  password: {}  captcha: {}", params.getUsername(), params.getPassword(), params.getCaptcha());
-        this.shiroProcessor.login(params.getUsername(), params.getPassword(), params.getCaptcha());
-        return new Response<>().message("登录成功");
+    public Response<Void> login(@RequestBody LoginVo params, HttpServletRequest request) {
+        HttpSession session = request.getSession(true);
+        String sessionCaptcha = (String) session.getAttribute(CAPTCHA_KEY);
+        log.info("从session当中获取的验证码:{},用户提交的验证码:{}", sessionCaptcha, params.getCaptcha());
+        if (sessionCaptcha != null && params.getCaptcha().toLowerCase().equals(sessionCaptcha.toLowerCase())) {
+            session.setAttribute(CAPTCHA_KEY, "");
+        } else {
+            session.setAttribute(CAPTCHA_KEY, "");
+            throw new IllegalArgumentException("验证码不正确!");
+        }
+        this.shiroProcessor.login(params.getUsername(), params.getPassword());
+        return new Response<>();
     }
 
     @PostMapping(value = "/public/logout")
     public Response<Void> logout(@RequestBody LoginVo params) {
         log.info("/logout  username: {} ", params.getUsername(), params.getPassword(), params.getCaptcha());
         this.shiroProcessor.logout();
-        return new Response<>().message("退出成功");
+        return new Response<>();
     }
 
     /**
