@@ -60,8 +60,8 @@ public class ApiController {
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
         return new Response<>();
     }
-
-    @PostMapping(value = "/public/logout")
+    @RequiresAuthentication
+    @PostMapping(value = "/private/logout")
     public Response<Void> logout(@RequestBody LoginVo params) {
         log.info("/logout  username: {} ", params.getUsername(), params.getPassword(), params.getCaptcha());
         this.shiroProcessor.logout();

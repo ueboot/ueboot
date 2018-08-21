@@ -35,14 +35,18 @@ public class ShiroBaseConfigure {
      * @return ShiroFilterFactoryBean
      */
     @Bean(name = "shiroFilter")
-    @ConditionalOnMissingBean({ShiroService.class})
-    public ShiroFilterFactoryBean shiroFilter(@Autowired SecurityManager securityManager) {
+    public ShiroFilterFactoryBean shiroFilter(@Autowired SecurityManager securityManager,ShiroService shiroService) {
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
         bean.setSecurityManager(securityManager);
         bean.setLoginUrl("#/login");
         Map<String, String> map = new HashMap<>();
-        //默认所有请求不做任何认证,但是如果方法上加了注解，还是会提示用户未登录或者无权限
-        map.put("/*", "anon");
+        //默认所有请求做认证，对部分约定目录的请求不做拦截
+        map.put("/","authc");
+        map.put("/ueboot/shiro/public/","anon");
+        map.put("/static/","anon");
+        map.put("/public/","anon");
+        Map<String, String> customMap = shiroService.addFilterChainDefinition();
+        map.putAll(customMap);
         bean.setFilterChainDefinitionMap(map);
         Map<String, Filter> filterMap = new HashMap<>(1);
         //替换默认的用户认证实现
@@ -56,22 +60,6 @@ public class ShiroBaseConfigure {
             }
         });
         bean.setFilters(filterMap);
-        return bean;
-    }
-
-    /**
-     * 当shiroService对应的bean存在时，会使用自定义的bean来初始化部分数据
-     *
-     * @param securityManager 权限框架
-     * @param shiroService    自定义权限服务类
-     * @return ShiroFilterFactoryBean
-     */
-    @Bean(name = "shiroFilter")
-    @ConditionalOnBean(name = "shiroService")
-    public ShiroFilterFactoryBean shiroFilter(@Autowired SecurityManager securityManager, ShiroService shiroService) {
-        ShiroFilterFactoryBean bean = this.shiroFilter(securityManager);
-        Map<String, String> map = shiroService.addFilterChainDefinition();
-        bean.getFilterChainDefinitionMap().putAll(map);
         return bean;
     }
 

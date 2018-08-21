@@ -32,7 +32,7 @@ public class User extends AbstractVersionEntity<Long> {
     /** 用户名 */
     @NotEmpty(message = "用户名不能为空")
     @Column(name = "USERNAME")
-    private String username;
+    private String userName;
 
     /** 密码 */
     @NotEmpty(message = "密码不能为空")
