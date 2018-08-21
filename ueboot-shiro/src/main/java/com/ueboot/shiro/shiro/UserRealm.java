@@ -1,6 +1,6 @@
 package com.ueboot.shiro.shiro;
 
-import com.ueboot.core.utils.SpringContextUtils;
+import com.ueboot.shiro.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -9,7 +9,9 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 /**
@@ -20,58 +22,44 @@ import java.util.Set;
 @Slf4j
 public class UserRealm extends AuthorizingRealm {
 
+    @Resource
     private ShiroService shiroService;
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String) this.getAvailablePrincipal(principals);
-        if(!this.checkShiroService()){
-            return null;
-        }
-        Set<String> roleNames = this.shiroService.getUserRoleNames(username);
-
+        Set<String> roleNames = this.shiroService.getUserRoleCodes(username);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
-        for (String role : roleNames) {
-            Collection<String> permissions = this.shiroService.getRolePermission(role);
-            info.addStringPermissions(permissions);
-        }
+        Collection<String> permissions = this.shiroService.getRolePermission(roleNames);
+        info.addStringPermissions(permissions);
         return info;
     }
 
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        if(!this.checkShiroService()){
-            return null;
-        }
         UsernamePasswordToken upToken = (UsernamePasswordToken) token;
         String username = upToken.getUsername();
         String password = String.valueOf(upToken.getPassword());
         if (StringUtils.isEmpty(username)) {
             throw new AuthenticationException("用户名不能为空！");
-        } else if (StringUtils.isEmpty(password)) {
+        }
+        if (StringUtils.isEmpty(password)) {
             throw new AuthenticationException("密码不能为空！");
-        } else if (!this.shiroService.userExist(username, password)) {
-            throw new AuthenticationException("用户名或密码不正确！");
-        } else if (this.shiroService.isPassed(username, password)) {
-            throw new AuthenticationException("登录密码已过期！");
-        } else {
-            return new SimpleAuthenticationInfo(username, password.toCharArray(), this.getName());
         }
+        User user = this.shiroService.getUser(username);
+        if (user == null) {
+            throw new AuthenticationException("用户不存在");
+        }
+        if (user.isLocked()) {
+            throw new LockedAccountException("账号已经被锁定，无法操作！");
+        }
+        if (user.getCredentialExpiredDate() != null && new Date().compareTo(user.getCredentialExpiredDate()) > -1) {
+            throw new AuthenticationException("密码已经过期，无法操作！");
+        }
+        //判断密码是否一致，会在父类里面执行
+        return new SimpleAuthenticationInfo(username, password.toCharArray(), this.getName());
 
     }
-
-    private boolean checkShiroService() {
-        if (this.shiroService == null) {
-            shiroService = SpringContextUtils.getBeanByClass(ShiroService.class);
-            if (shiroService == null) {
-                log.error("！！！shiro权限认证功能启用失败！！！");
-                log.error("shiroService接口未找到相应的实现类，请实现com.ueboot.core.shiro.ShiroService接口，并定义成spring bean");
-                return false;
-            }
-        }
-        return true;
-    }
-
 
 }

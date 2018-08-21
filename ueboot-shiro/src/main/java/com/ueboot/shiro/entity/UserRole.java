@@ -1,11 +1,11 @@
 package com.ueboot.shiro.entity;
 
+import com.ueboot.core.entity.AbstractVersionEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 /**
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "SYS_USER_ROLE")
-public class UserRole implements Serializable {
+public class UserRole extends AbstractVersionEntity<Long> {
 
     @Id
     @Column(name = "ID")

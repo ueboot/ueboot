@@ -1,6 +1,8 @@
 package com.ueboot.shiro.shiro;
 
 
+import com.ueboot.shiro.shiro.credential.RetryLimitHashedCredentialsMatcher;
+import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
@@ -64,8 +66,11 @@ public class ShiroBaseConfigure {
     }
 
     @Bean
-    public Realm realm() {
-        return new UserRealm();
+    public Realm realm(CredentialsMatcher credentialsMatcher) {
+        UserRealm realm = new UserRealm();
+        //自定义密码校验器
+        realm.setCredentialsMatcher(credentialsMatcher);
+        return realm;
     }
 
 
@@ -76,6 +81,8 @@ public class ShiroBaseConfigure {
         //TODO 增加缓存
         return securityManager;
     }
+
+
 
     /**
      * 开启shiro aop注解支持.
@@ -91,14 +98,19 @@ public class ShiroBaseConfigure {
         return authorizationAttributeSourceAdvisor;
     }
 
+    /***
+     * 密码凭证匹配器
+     * @return
+     */
     @Bean
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        //散列算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        //散列的次数，比如散列两次，相当于 md5(md5(""));
-        hashedCredentialsMatcher.setHashIterations(2);
-        return hashedCredentialsMatcher;
+    public CredentialsMatcher hashedCredentialsMatcher() {
+        HashedCredentialsMatcher  matcher=new RetryLimitHashedCredentialsMatcher();
+        matcher.setHashAlgorithmName ("SHA-512");
+        //散列的次数，比如散列两次
+        matcher.setHashIterations (2);
+        matcher.setStoredCredentialsHexEncoded (Boolean.TRUE);
+        return matcher;
     }
+
 
 }

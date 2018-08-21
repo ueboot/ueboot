@@ -1,7 +1,10 @@
 package com.ueboot.shiro.shiro;
 
-import com.ueboot.shiro.entity.Role;
+import com.ueboot.shiro.entity.Permission;
 import com.ueboot.shiro.entity.User;
+import com.ueboot.shiro.entity.UserRole;
+import com.ueboot.shiro.repository.permission.PermissionRepository;
+import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.user.UserService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
@@ -20,6 +23,11 @@ public class DefaultShiroServiceImpl implements ShiroService {
     @Resource
     private UserService userService;
 
+    @Resource
+    private UserRoleRepository userRoleRepository;
+
+    @Resource
+    private PermissionRepository permissionRepository;
 
     /**
      * 对shiro的FilterChainDefinitionMap 添加自定义的配置
@@ -49,64 +57,45 @@ public class DefaultShiroServiceImpl implements ShiroService {
      * 判断用户是否存在
      *
      * @param username 用户名
-     * @param password 未加密的密码
      * @return 是否存在
      */
     @Override
-    public boolean userExist(String username, String password) {
-        User user =this.userService.findByUserNameAndPassword(username, password);
-        return user!=null;
-    }
-
-    /**
-     * 判断用户密码是否过期
-     *
-     * @param username 用户名
-     * @param password 密码
-     * @return true 过期,false 未过期
-     */
-    @Override
-    public boolean isPassed(String username, String password) {
-        return false;
+    public User getUser(String username) {
+        return this.userService.findByUserName(username);
     }
 
     /**
      * 获取用户的角色名称集合
      *
-     * @param username 用户名
+     * @param userName 用户名
      * @return 用户角色列表
      */
     @Override
-    public Set<String> getUserRoleNames(String username) {
-        List<Role> roles = this.userRoleRepository.findByUsername(username, Boolean.FALSE);
-
+    public Set<String> getUserRoleCodes(String userName) {
+        List<UserRole> roles = this.userRoleRepository.findByUserUserName(userName);
         Set<String> names = new HashSet<>();
-        for (Role role : roles) {
-            names.add(role.getRole());
+        for (UserRole role : roles) {
+            names.add(role.getRole().getName());
         }
-
         return names;
     }
 
     /**
      * 获取用户的权限列表
      *
-     * @param username 用户名
+     * @param roleCodes 角色名称
      * @return 用户权限列表
      */
     @Override
-    public Set<String> getUserPermission(String username) {
-        return null;
-    }
+    public List<String> getRolePermission(Set<String> roleCodes) {
 
-    /**
-     * 获取用户的权限列表
-     *
-     * @param role 角色名称
-     * @return 用户权限列表
-     */
-    @Override
-    public List<String> getRolePermission(String role) {
-        return null;
+        List<Permission> permissionList = this.permissionRepository.findByRoleCodeIn(roleCodes);
+
+        List<String> names = new ArrayList<>();
+        for (Permission p : permissionList) {
+            names.add(p.getResource().getPermission());
+        }
+        return names;
+
     }
 }

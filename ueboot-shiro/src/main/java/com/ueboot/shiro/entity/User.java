@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by zl  on 2017-11-10 15:39:14.
@@ -38,5 +39,17 @@ public class User extends AbstractVersionEntity<Long> {
     @NotEmpty(message = "密码不能为空")
     @Column(name = "PASSWORD")
     private String password;
+
+    /**
+     * 是否被锁，被锁后，无法登陆
+     */
+    @Column(name = "IS_LOCKED")
+    private boolean locked;
+
+    /**
+     * 密码过期日期，如果为空，则永远不过期
+     */
+    @Column(name = "CREDENTIAL_EXPIRED_DATE")
+    private Date credentialExpiredDate;
 
 }

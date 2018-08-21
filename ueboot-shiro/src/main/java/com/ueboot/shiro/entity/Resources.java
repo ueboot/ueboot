@@ -1,5 +1,6 @@
 package com.ueboot.shiro.entity;
 
+import com.ueboot.core.entity.AbstractVersionEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "SYS_RESOURCES")
-public class Resources implements Serializable {
+public class Resources extends AbstractVersionEntity<Long> {
 
     /**
      * 资源类型：菜单组（仅仅是一个组的名称，没有后台接口功能）

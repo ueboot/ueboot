@@ -88,7 +88,7 @@ export default {
         this.$Notice.error({desc:response.message})
         this.changeCaptchaUrl()
         this.formCustom.captcha = ''
-        this.loading = false
+       this.loading = false
       })
     }
   },
@@ -114,7 +114,6 @@ export default {
   }
 
   .login .ivu-btn {
-    letter-spacing: 8px;
     font-size: 13px;
   }
 

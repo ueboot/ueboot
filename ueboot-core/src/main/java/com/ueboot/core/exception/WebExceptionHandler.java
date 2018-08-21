@@ -15,6 +15,7 @@ import java.io.IOException;
 /**
  * Created by Richard on 16/8/17.
  * 所有异常在http层面的状态返回都是200，但是返回报文体里面的code为异常代码如：401，500，403等
+ *
  * @author yangkui
  * 全局异常拦截
  */
@@ -32,7 +33,6 @@ public class WebExceptionHandler {
     }
 
 
-
     @ExceptionHandler(value = {IllegalArgumentException.class})
     @Order(2)
     @ResponseStatus(value = HttpStatus.OK)
@@ -44,12 +44,13 @@ public class WebExceptionHandler {
     /**
      * 全局处理Exception
      * 错误的情况下返回500
-     * @param e 异常信息
+     *
+     * @param e   异常信息
      * @param req 请求信息
      * @return 全局的错误提示
      */
     @ExceptionHandler(value = {Exception.class})
-    @Order(100)
+    @Order(Integer.MIN_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleOtherExceptions(final Exception e, final WebRequest req) {

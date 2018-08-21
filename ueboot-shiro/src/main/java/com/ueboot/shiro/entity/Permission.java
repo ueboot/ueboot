@@ -1,6 +1,7 @@
 package com.ueboot.shiro.entity;
 
 
+import com.ueboot.core.entity.AbstractVersionEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Entity
 @Table(name = "SYS_PERMISSION")
-public class Permission implements Serializable {
+public class Permission extends AbstractVersionEntity<Long> {
 
     @Id
     @Column(name = "ID")
@@ -26,11 +27,11 @@ public class Permission implements Serializable {
     private Long id;
 
     @ManyToOne(fetch= FetchType.EAGER)
-    @JoinColumn(name="RESOURCE_CODE", referencedColumnName = "CODE")
+    @JoinColumn(name="RESOURCE_ID")
     private Resources resource;
 
     @ManyToOne(fetch= FetchType.LAZY)
-    @JoinColumn(name="ROLE_CODE", referencedColumnName = "CODE")
+    @JoinColumn(name="ROLE_ID")
     private Role role;
 
 }

@@ -9,6 +9,9 @@ import com.ueboot.shiro.entity.Permission;
 import com.ueboot.core.repository.BaseRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Set;
+
 /**
 * 这个类里面使用spring data jpa 方式实现数据库的CRUD
 * Created on 2018-08-08 14:05:30
@@ -17,5 +20,10 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface PermissionRepository extends BaseRepository<Permission, Long>,PermissionBaseRepository {
-
+    /**
+     * 根据角色代码查询角色所诉的权限
+     * @param roleCodes 角色代码集合
+     * @return 权限列表
+     */
+    List<Permission> findByRoleCodeIn(Set<String> roleCodes);
 }

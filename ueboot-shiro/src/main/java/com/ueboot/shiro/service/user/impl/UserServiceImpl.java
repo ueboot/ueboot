@@ -34,11 +34,10 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
      * 根据用户名和密码查找用户
      *
      * @param userName 用户名
-     * @param password 密码
      * @return 用户，不存在则返回空对象
      */
     @Override
-    public User findByUserNameAndPassword(String userName, String password) {
-        return userRepository.findByUserNameAndPassword(userName,password);
+    public User findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
 }

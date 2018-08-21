@@ -16,10 +16,9 @@ import com.ueboot.core.service.BaseService;
 public interface UserService extends BaseService<User> {
 
     /**
-     * 根据用户名和密码查找用户
+     * 根据用户名查找用户
      * @param userName 用户名
-     * @param password 密码
      * @return 用户，不存在则返回空对象
      */
-    User findByUserNameAndPassword(String userName,String password);
+    User findByUserName(String userName);
 }
