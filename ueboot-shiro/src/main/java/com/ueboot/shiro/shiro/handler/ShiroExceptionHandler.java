@@ -26,7 +26,7 @@ public class ShiroExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleException(UnknownAccountException e) {
-        log.error("进行登录验证..验证未通过,未知账户");
+        log.error("进行登录验证..验证未通过,未知账户 {}",e.getMessage());
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "验证未通过,未知账户", null);
     }
     @ExceptionHandler(IncorrectCredentialsException.class)
@@ -34,15 +34,15 @@ public class ShiroExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleException(IncorrectCredentialsException e) {
-        log.error("进行登录验证..验证未通过,错误的凭证");
-        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "验证未通过,错误的凭证", null);
+        log.error("用户名或密码错误:{}",e.getMessage());
+        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "用户名或密码错误", null);
     }
     @ExceptionHandler(LockedAccountException.class)
     @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleException(LockedAccountException e) {
-        log.error("进行登录验证..验证未通过,账户已锁定");
+        log.error("进行登录验证..验证未通过,账户已锁定 {}",e.getMessage());
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "验证未通过,账户已锁定", null);
     }
     @ExceptionHandler(ExcessiveAttemptsException.class)
@@ -50,8 +50,8 @@ public class ShiroExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleException(ExcessiveAttemptsException e) {
-        log.error("进行登录验证..验证未通过,错误次数过多");
-        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "验证未通过,错误次数过多", null);
+        log.error("进行登录验证..验证未通过,错误次数过多 {}",e.getMessage());
+        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "登录失败,密码错误次数过多", null);
     }
 
     @ExceptionHandler(AuthorizationException.class)
@@ -59,7 +59,7 @@ public class ShiroExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleException(AuthorizationException e) {
-        log.error("进行登录验证..验证未通过");
+        log.error("进行登录验证..验证未通过 {}",e.getMessage());
         return new Response<>(HttpStatus.FORBIDDEN.value() + "", "当前用户无权限访问", null);
     }
 

@@ -45,7 +45,7 @@ export default {
       // 登录form
       formCustom: {
         username: 'admin',
-        password: '&UJM8ik,',
+        password: '111111',
         captcha: ''
       },
       now: new Date()

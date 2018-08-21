@@ -1,12 +1,15 @@
 package com.ueboot.shiro.shiro;
 
 import com.ueboot.shiro.entity.User;
+import com.ueboot.shiro.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -57,8 +60,11 @@ public class UserRealm extends AuthorizingRealm {
         if (user.getCredentialExpiredDate() != null && new Date().compareTo(user.getCredentialExpiredDate()) > -1) {
             throw new AuthenticationException("密码已经过期，无法操作！");
         }
-        //判断密码是否一致，会在父类里面执行
-        return new SimpleAuthenticationInfo(username, password.toCharArray(), this.getName());
+        ByteSource credentialsSalt = ByteSource.Util.bytes(username);
+        //密码经过sha512两次加密与默认的加密策略一致
+        String hashPwd = PasswordUtil.sha512(username, password);
+        //判断密码是否一致，会在父类里面执行 ,与数据库中用户名和密码进行比对，密码盐值加密，第4个参数传入realName
+        return new SimpleAuthenticationInfo(username, hashPwd, credentialsSalt, this.getName());
 
     }
 

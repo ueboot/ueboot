@@ -10,6 +10,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.crypto.hash.Hash;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashMap;
@@ -34,6 +35,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @version：1.0
  */
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
+
+
     /**密码重试缓存*/
     private Map<String, AtomicInteger> passwordRetryCache=new HashMap<> ();
     /**密码重试最大次数* 默认为：5*/

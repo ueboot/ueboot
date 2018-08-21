@@ -50,7 +50,7 @@ public class ApiController {
     public Response<Void> login(@RequestBody LoginVo params, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String sessionCaptcha = (String) session.getAttribute(CAPTCHA_KEY);
-        log.info("从session当中获取的验证码:{},用户提交的验证码:{}", sessionCaptcha, params.getCaptcha());
+        log.debug("从session当中获取的验证码:{},用户提交的验证码:{}", sessionCaptcha, params.getCaptcha());
         if (sessionCaptcha != null && params.getCaptcha().toLowerCase().equals(sessionCaptcha.toLowerCase())) {
             session.setAttribute(CAPTCHA_KEY, "");
         } else {
