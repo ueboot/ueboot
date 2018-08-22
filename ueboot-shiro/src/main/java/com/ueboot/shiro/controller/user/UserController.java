@@ -37,7 +37,7 @@ public class UserController {
     private UserService userService;
 
 
-    @RequiresPermissions("user:read")
+    @RequiresPermissions("ueboot:user:read")
     @PostMapping(value = "/page")
     public Response<Page<UserResp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
                                                      Pageable pageable, @RequestBody(required = false) UserFindReq req){
@@ -52,7 +52,7 @@ public class UserController {
     }
 
 
-    @RequiresPermissions("user:save")
+    @RequiresPermissions("ueboot:user:save")
     @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody UserReq req) {
         User entity = null;
@@ -66,14 +66,14 @@ public class UserController {
         return new Response<>();
     }
 
-    @RequiresPermissions("user:delete")
+    @RequiresPermissions("ueboot:user:delete")
     @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
         userService.delete(id);
         return new Response<>();
     }
 
-    @RequiresPermissions("user:read")
+    @RequiresPermissions("ueboot:user:read")
     @GetMapping(value = "/{id}")
     public Response<UserResp> get(@PathVariable Long id) {
         User entity = userService.get(id);

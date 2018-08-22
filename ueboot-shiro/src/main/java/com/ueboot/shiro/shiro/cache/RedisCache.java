@@ -37,7 +37,7 @@ public class RedisCache implements Cache {
 
     @Override
     public Object put(Object o, Object o2) throws CacheException {
-         this.redisTemplate.opsForValue().set(this.getKey(o), JSON.toJSON(o2));
+         this.redisTemplate.opsForValue().set(this.getKey(o), o2);
          return o2;
     }
 

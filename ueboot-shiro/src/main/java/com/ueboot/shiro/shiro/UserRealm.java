@@ -25,6 +25,11 @@ import java.util.Set;
 @Slf4j
 public class UserRealm extends AuthorizingRealm {
 
+    /**
+     * 超级用户，可以对权限功能进行设置，无需赋权也可以，防止新系统第一次无法登陆进去进行操作。
+     */
+    public static final String SUPER_USER = "root";
+
     @Resource
     private ShiroService shiroService;
 
@@ -34,6 +39,10 @@ public class UserRealm extends AuthorizingRealm {
         Set<String> roleNames = this.shiroService.getUserRoleCodes(username);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
         Collection<String> permissions = this.shiroService.getRolePermission(roleNames);
+        //如果是指定的超级用户，则默认有一个最高权限，可以访问权限设置的功能
+        if(SUPER_USER.equals(username)){
+            permissions.add("ueboot:*");
+        }
         info.addStringPermissions(permissions);
         return info;
     }

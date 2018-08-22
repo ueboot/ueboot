@@ -34,7 +34,7 @@ public class PermissionController {
     private PermissionService permissionService;
 
 
-    @RequiresPermissions("permission:read")
+    @RequiresPermissions("ueboot:permission:read")
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     public Response<Page<PermissionResp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
                                                      Pageable pageable, @RequestBody(required = false) PermissionFindReq req){
@@ -49,7 +49,7 @@ public class PermissionController {
     }
 
 
-    @RequiresPermissions("permission:save")
+    @RequiresPermissions("ueboot:permission:save")
     @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody PermissionReq req) {
         Permission entity = null;
@@ -63,14 +63,14 @@ public class PermissionController {
         return new Response<>();
     }
 
-    @RequiresPermissions("permission:delete")
+    @RequiresPermissions("ueboot:permission:delete")
     @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
         permissionService.delete(id);
         return new Response<>();
     }
 
-    @RequiresPermissions("permission:read")
+    @RequiresPermissions("ueboot:permission:read")
     @GetMapping(value = "/{id}")
     public Response<PermissionResp> get(@PathVariable Long id) {
         Permission entity = permissionService.get(id);

@@ -11,6 +11,7 @@ import java.io.Serializable;
 
 /**
  * 菜单和按钮资源，用于控制菜单显示的位置、给予角色相关的权限。
+ *
  * @author Neel
  */
 @Setter
@@ -33,47 +34,57 @@ public class Resources extends AbstractVersionEntity<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** 代码 */
-    @Column(name = "CODE")
-    private String code;
 
-    /** 资源名称 */
+    /**
+     * 资源名称
+     */
     @Column(name = "NAME")
     private String name;
 
-    /** 资源类型，[menu|button|other] */
+    /**
+     * 资源类型，[menu|button|other]
+     */
     @Column(name = "RESOURCE_TYPE")
     private String resourceType;
 
-    /** 资源路径 */
+    /**
+     * 资源路径
+     */
     @Column(name = "URL")
     private String url;
 
-    /** 界面渲染描述JSON */
+    /**
+     * 界面渲染描述JSON
+     */
     @Column(name = "THEME_JSON")
     private String themeJson;
 
-    /** 权限描述 （权限字符串,menu例子：chRole:*，button例子：chRole:create,chRole:update,chRole:delete,chRole:view） */
+    /**
+     * 权限描述 （权限字符串,menu例子：chRole:*，button例子：chRole:create,chRole:update,chRole:delete,chRole:view）
+     */
     @Column(name = "PERMISSION")
     private String permission;
+    /**
+     * 父级资源
+     */
+    @Column(name = "PARENT_ID")
+    private Resources parent;
 
-    /** 父CODE */
-    @Column(name = "PARENT_CODE")
-    private String parentCode;
+    /**
+     * 父级资源名称
+     */
+    @Column
+    private String parentName;
 
-    /** 父CODE集合 如：1-10- */
-    @Column(name = "PARENT_PATH")
-    private String parentPath;
-
-    /** 排序 */
+    /**
+     * 排序
+     */
     @Column(name = "RANK_")
     private Long rank = 0L;
 
-    /** 层级 */
-    @Column(name = "LEVEL")
-    private Long level = 0L;
-
-    /** 是否启用 */
+    /**
+     * 是否启用
+     */
     @Column(name = "AVAILABLE")
     private Boolean available = Boolean.FALSE;
 

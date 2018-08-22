@@ -44,7 +44,7 @@ export default {
       loading: false,
       // 登录form
       formCustom: {
-        username: 'admin',
+        username: 'root',
         password: '111111',
         captcha: ''
       },

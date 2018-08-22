@@ -32,24 +32,10 @@ import javax.annotation.Resource;
 public class OrganizationController {
 
     @Resource
-    private RedisTemplate redisTemplate;
-
-    @Resource
     private OrganizationService organizationService;
-    @PostMapping(value = "/testpage")
-    public Response<Page<OrganizationResp>> pageByKey(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
-                                                         Pageable pageable, @RequestBody(required = false) OrganizationFindReq req){
-        Page<Organization> entities = organizationService.findByKey(pageable,req.getName());
-        Page<OrganizationResp> body = entities.map(entity -> {
-            OrganizationResp resp = new OrganizationResp();
-            BeanUtils.copyProperties(entity, resp);
-            return resp;
-        });
 
-        return new Response<>(body);
-    }
 
-    @RequiresPermissions("organization:read")
+    @RequiresPermissions("ueboot:organization:read")
     @RequestMapping(value = "/page", method = RequestMethod.POST)
     public Response<Page<OrganizationResp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
                                                      Pageable pageable, @RequestBody(required = false) OrganizationFindReq req){
@@ -64,7 +50,7 @@ public class OrganizationController {
     }
 
 
-    @RequiresPermissions("organization:save")
+    @RequiresPermissions("ueboot:organization:save")
     @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody OrganizationReq req) {
         Organization entity = null;
@@ -78,14 +64,14 @@ public class OrganizationController {
         return new Response<>();
     }
 
-    @RequiresPermissions("organization:delete")
+    @RequiresPermissions("ueboot:organization:delete")
     @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
         organizationService.delete(id);
         return new Response<>();
     }
 
-    //@RequiresPermissions("organization:read")
+    @RequiresPermissions("ueboot:organization:read")
     @GetMapping(value = "/{id}")
     public Response<OrganizationResp> get(@PathVariable Long id) {
         Organization entity = organizationService.get(id);

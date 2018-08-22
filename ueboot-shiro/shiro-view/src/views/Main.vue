@@ -225,7 +225,7 @@ export default {
         title: '系统提示',
         content: '确定要退出当前系统吗',
         onOk: () => {
-          this.$axios.post('/structure/public/logout', {}).then((data) => {
+          this.$axios.post('/ueboot/shiro/private/logout', {}).then((data) => {
             this.$Message.success('退出成功!')
             this.$router.push({name: 'login'})
           }, (response) => {

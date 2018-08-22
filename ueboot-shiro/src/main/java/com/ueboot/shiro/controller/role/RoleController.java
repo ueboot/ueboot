@@ -34,7 +34,7 @@ public class RoleController {
     private RoleService roleService;
 
 
-    @RequiresPermissions("role:read")
+    @RequiresPermissions("ueboot:role:read")
     @PostMapping(value = "/page")
     public Response<Page<RoleResp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
                                                      Pageable pageable, @RequestBody(required = false) RoleFindReq req){
@@ -49,7 +49,7 @@ public class RoleController {
     }
 
 
-    @RequiresPermissions("role:save")
+    @RequiresPermissions("ueboot:role:save")
     @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody RoleReq req) {
         Role entity = null;
@@ -63,14 +63,14 @@ public class RoleController {
         return new Response<>();
     }
 
-    @RequiresPermissions("role:delete")
+    @RequiresPermissions("ueboot:role:delete")
     @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
         roleService.delete(id);
         return new Response<>();
     }
 
-    @RequiresPermissions("role:read")
+    @RequiresPermissions("ueboot:role:read")
     @GetMapping(value = "/{id}")
     public Response<RoleResp> get(@PathVariable Long id) {
         Role entity = roleService.get(id);

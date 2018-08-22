@@ -1,7 +1,7 @@
 /*
 * Copyright (c)  2018
 * All rights reserved.
-* 2018-08-08 14:06:03
+* 2018-08-22 19:58:32
 */
 package com.ueboot.shiro.controller.resources;
 
@@ -21,7 +21,7 @@ import javax.annotation.Resource;
 
 
 /**
- * Created on 2018-08-08 14:06:03
+ * Created on 2018-08-22 19:58:32
  * @author yangkui
  * @since 2.1.0 by ueboot-generator
  */
@@ -34,8 +34,8 @@ public class ResourcesController {
     private ResourcesService resourcesService;
 
 
-    @RequiresPermissions("resources:read")
-    @RequestMapping(value = "/page", method = RequestMethod.POST)
+    @RequiresPermissions("ueboot:resources:read")
+    @PostMapping(value = "/page")
     public Response<Page<ResourcesResp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
                                                      Pageable pageable, @RequestBody(required = false) ResourcesFindReq req){
         Page<Resources> entities = resourcesService.findBy(pageable);
@@ -49,7 +49,7 @@ public class ResourcesController {
     }
 
 
-    @RequiresPermissions("resources:save")
+    @RequiresPermissions("ueboot:resources:save")
     @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody ResourcesReq req) {
         Resources entity = null;
@@ -63,14 +63,14 @@ public class ResourcesController {
         return new Response<>();
     }
 
-    @RequiresPermissions("resources:delete")
+    @RequiresPermissions("ueboot:resources:delete")
     @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
         resourcesService.delete(id);
         return new Response<>();
     }
 
-    @RequiresPermissions("resources:read")
+    @RequiresPermissions("ueboot:resources:read")
     @GetMapping(value = "/{id}")
     public Response<ResourcesResp> get(@PathVariable Long id) {
         Resources entity = resourcesService.get(id);
