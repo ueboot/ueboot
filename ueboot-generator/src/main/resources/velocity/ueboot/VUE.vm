@@ -1,15 +1,14 @@
 <template>
-    <u-form-grid :data="formGrid"></u-form-grid>
+    <u-form-grid :data="formGrid" ref="formGrid"></u-form-grid>
 </template>
 
 <script>
     export default {
         name: '${entityName}',
-        data () {
+        data() {
             return {
                 formGrid: {
                     options: {
-                        version: 'v2',
                         url: {
                             page: "/${requestPath}/${lowEntityName}/page",
                             save: "/${requestPath}/${lowEntityName}/save",
@@ -23,9 +22,9 @@
                             title: "${entityName}"
                         },
                         columns: [
-            #foreach($object in ${fields})
+                            #foreach($object in ${fields})
                             {label: "$object.name", type: "text", name: "$object.name", required: true},
-            #end
+                            #end
 
                         ]
                     },
@@ -35,15 +34,15 @@
                         },
                         columns: [
                             #foreach($object in ${fields})
-                            { title: '$object.name', key: '$object.name' },
+                            {title: '$object.name', key: '$object.name'},
                             #end
                         ]
                     }
                 }
             }
         },
-        methods: {
-
-        }
+        methods: {}
     }
 </script>
+
+

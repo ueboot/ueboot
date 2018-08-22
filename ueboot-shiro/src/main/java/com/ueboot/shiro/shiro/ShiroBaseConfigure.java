@@ -1,9 +1,12 @@
 package com.ueboot.shiro.shiro;
 
 
+import com.ueboot.shiro.shiro.cache.ShiroRedisCahceManger;
 import com.ueboot.shiro.shiro.credential.RetryLimitHashedCredentialsMatcher;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -13,8 +16,10 @@ import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.Filter;
 import javax.servlet.ServletRequest;
@@ -29,6 +34,7 @@ import java.util.Map;
  * @author yangkui
  */
 @Configuration
+@Slf4j
 public class ShiroBaseConfigure {
     /**
      * 当shiroService对应的bean不存在存在时，会使用默认数据
@@ -53,6 +59,13 @@ public class ShiroBaseConfigure {
         Map<String, Filter> filterMap = new HashMap<>(1);
         //替换默认的用户认证实现
         filterMap.put("authc", new FormAuthenticationFilter() {
+            //为了输出日志，重载实现类
+            @Override
+            public boolean onPreHandle(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+                log.info(request.getRemoteHost());
+                return super.onPreHandle(request, response, mappedValue);
+            }
+
             //重载跳转登录页面的逻辑，默认父类是使用重定向，这里改为返回标示，供前端判断
             @Override
             protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
@@ -73,12 +86,39 @@ public class ShiroBaseConfigure {
         return realm;
     }
 
-
-    @Bean(name = "securityManager")
-    public DefaultWebSecurityManager defaultWebSecurityManager(Realm realm) {
+    /**
+     * 当用户的环境配置了redisTemplate时则使用Redis做缓存
+     * @param realm realm
+     * @param redisTemplate spring RedisTemplate
+     * @return DefaultWebSecurityManager
+     */
+    @Bean
+    @ConditionalOnProperty(
+            value = {"spring.redis"},
+            matchIfMissing = true)
+    public DefaultWebSecurityManager defaultWebSecurityManager(Realm realm, RedisTemplate<Object,Object> redisTemplate) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
-        //TODO 增加缓存
+        //使用自定义的Redis缓存实现，依赖redisTemplate，keyNamespace可以默认为空
+        ShiroRedisCahceManger cacheManager = new ShiroRedisCahceManger("",redisTemplate);
+        securityManager.setCacheManager(cacheManager);
+        return securityManager;
+    }
+    /**
+     * 当用户的环境配置了没有配置redisTemplate时则使用ehcache做缓存
+     * @param realm realm
+     * @return DefaultWebSecurityManager
+     */
+    @Bean
+    @ConditionalOnProperty(
+            value = {"spring.redis"},
+            matchIfMissing = false)
+    public DefaultWebSecurityManager webSecurityManager(Realm realm) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(realm);
+        //使用ehcache当缓存
+        EhCacheManager cacheManager = new EhCacheManager();
+        securityManager.setCacheManager(cacheManager);
         return securityManager;
     }
 
@@ -103,6 +143,7 @@ public class ShiroBaseConfigure {
      * @return
      */
     @Bean
+    @ConditionalOnMissingBean
     public CredentialsMatcher hashedCredentialsMatcher() {
         HashedCredentialsMatcher  matcher=new RetryLimitHashedCredentialsMatcher();
         matcher.setHashAlgorithmName ("SHA-512");

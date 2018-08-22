@@ -176,21 +176,12 @@ export default {
 
       this.menus = [
         // 关系数据
-        {name: '关系数据', id: 10, parentId: null, url: '/relation'},
-        {name: '育成关系', id: 11, parentId: 10, url: '/relation/rasRelation'},
-        {name: '增员关系', id: 12, parentId: 10, url: '/relation/recommendationRelation'},
-        // 机构数据
-        {name: '机构数据', id: 20, parentId: null, url: '/division'},
-        {name: '人员信息', id: 21, parentId: 20, url: '/division/roleData'},
-        {name: '部门变动', id: 22, parentId: 20, url: '/division/changeDepartment'},
-        {name: '树状人员信息', id: 23, parentId: 20, url: '/division/departmentTree'},
-        // 考核数据
-        {name: '考核数据', id: 30, parentId: null, url: '/assessment'},
-        {name: '虚拟维持考核', id: 31, parentId: 30, url: '/assessment/virtualAssessment'},
-        {name: '批处理维持考核', id: 32, parentId: 30, url: '/assessment/batchAssessment'},
-        // 直接佣金
-        {name: '直接佣金', id: 40, parentId: null, url: '/directComm'},
-        {name: '基础业绩', id: 41, parentId: 40, url: '/directComm/directComBase'}
+        {name: '权限管理', id: 10, parentId: null, url: ''},
+        {name: '用户管理', id: 11, parentId: 10, url: '/ueboot/shiro/User'},
+        {name: '角色管理', id: 12, parentId: 10, url: '/ueboot/shiro/Role'},
+        {name: '菜单管理', id: 13, parentId: 10, url: '/ueboot/shiro/Resources'},
+        {name: '权限设置', id: 14, parentId: 10, url: '/ueboot/shiro/Permission'},
+
 
       ]
       let matched = this.$route.matched

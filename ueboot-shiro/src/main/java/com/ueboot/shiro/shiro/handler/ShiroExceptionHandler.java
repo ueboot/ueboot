@@ -59,7 +59,7 @@ public class ShiroExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleException(AuthorizationException e) {
-        log.error("进行登录验证..验证未通过 {}",e.getMessage());
+        log.error("权限验证未通过 {}",e.getMessage());
         return new Response<>(HttpStatus.FORBIDDEN.value() + "", "当前用户无权限访问", null);
     }
 
@@ -78,7 +78,7 @@ public class ShiroExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(UnauthenticatedException e) {
         log.debug("{} was thrown", e.getClass(), e);
-        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "当前用户未登录或者无权限访问", null);
+        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "当前用户无权限访问", null);
     }
 
 }
