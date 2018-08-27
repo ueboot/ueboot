@@ -16,15 +16,7 @@ import java.util.List;
 
 /**
  * 增加自定义注解PageableLimits的支持
- * 在Controller类当中的方法上增加注解即可实现
- * <code>
- *     public Response<Page<UserResp>> page(@PageableLimits(maxSize = 10000)
- *                                              @PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
- *                                                      Pageable pageable, @RequestBody(required = false) UserFindReq req){
- *        //something
- *         return new Response<>(body);
- *     }
- * </code>
+ * 在Controller类当中的方法上增加注解即可实现@PageableLimits(maxSize = 10000)
  * @author yangkui
  */
 @Configuration

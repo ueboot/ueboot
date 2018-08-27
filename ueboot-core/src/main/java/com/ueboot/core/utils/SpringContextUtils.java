@@ -47,19 +47,20 @@ public class SpringContextUtils implements ApplicationContextAware {
 
     /***
      * 根据一个bean的id获取配置文件中相应的bean
-     * @param  beanId
-     * @return Object
+     * @param  beanName beanName
+     * @return Object bean对象
      */
-    public static Object getBean(String beanId) throws BeansException {
-        if (applicationContext.containsBean(beanId)) {
-            applicationContext.getBean(beanId);
+    public static Object getBean(String beanName) throws BeansException {
+        if (applicationContext.containsBean(beanName)) {
+            applicationContext.getBean(beanName);
         }
         return null;
     }
 
     /***
      * 根据一个bean的类型获取配置文件中相应的bean
-     *
+     * @param  requiredType 指定类类型
+     * @return Object bean对象
      */
     public static <T> T getBeanByClass(Class<T> requiredType) throws BeansException {
         return applicationContext.getBean(requiredType);
@@ -67,7 +68,8 @@ public class SpringContextUtils implements ApplicationContextAware {
 
     /**
      * 如果BeanFactory包含一个与所给名称匹配的bean定义，则返回true
-     * @param name
+     * @param name beanname
+     * @return 是否存在
      */
     public static Boolean containsBean(String name) {
         return applicationContext.containsBean(name);

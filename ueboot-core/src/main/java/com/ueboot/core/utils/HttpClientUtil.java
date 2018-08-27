@@ -68,6 +68,8 @@ public class HttpClientUtil {
 	 * 通过get方式获取指定地址的内容
 	 *
 	 * @param url     需要访问的地址如：http://www.baidu.com
+	 * @param socketTime  链接超时时间
+	 * @param connectTimeout  链接超时时间
 	 * @param charset 字符编码，将地址返回的内容进行字符编码，如果为空则默认为：UTF-8
 	 * @return 地址对应的内容
 	 */
@@ -109,14 +111,14 @@ public class HttpClientUtil {
 	/**
 	 * 使用post方式提交参数
 	 *
-	 * @param url
+	 * @param url url
 	 * @param params         提交的参数已key,value的形式保存在map当中
-	 * @param socketTime
-	 * @param connectTimeout
-	 * @param charset
-	 * @return
-	 * @throws ClientProtocolException
-	 * @throws IOException
+	 * @param socketTime 链接超时时间
+	 * @param connectTimeout 链接超时时间
+	 * @param charset 字符集
+	 * @return 返回值
+	 * @throws ClientProtocolException ClientProtocolException
+	 * @throws IOException IOException
 	 */
 	public static String post(String url, Map<String, String> params, int socketTime, int connectTimeout,
 	                          String charset) throws ClientProtocolException, IOException {
@@ -164,9 +166,9 @@ public class HttpClientUtil {
 	 * @param charset        请求报文字符编码，默认为UTF-8
 	 * @param requestCharset 返回报文字符编码，默认为UTF-8
 	 * @param contentType    http内容类型
-	 * @return
-	 * @throws ClientProtocolException
-	 * @throws IOException
+	 * @return 返回值
+	 * @throws ClientProtocolException ClientProtocolException
+	 * @throws IOException IOException
 	 */
 	public static String post(String url, String content, int socketTime, int connectTimeout, String requestCharset, String charset, String contentType)
 			throws IOException {
@@ -211,8 +213,10 @@ public class HttpClientUtil {
 	 * 默认：
 	 * 1.超时时间为30秒
 	 * 2.编码为utf-8
-	 *
+	 * @param content content
+	 * @param url  url
 	 * @throws IOException
+	 * @return 返回值
 	 */
 	public static String postXml(String url, String content) throws IOException {
 		return post(url, content, 30000, 30000, "UTF-8", "UTF-8", "application/xml;charset=UTF-8");
@@ -222,9 +226,11 @@ public class HttpClientUtil {
 	 * 使用默认参数发送JSON格式内容
 	 * 默认：
 	 * 1.超时时间为30秒
-	 * 2.编码为utf-8
-	 *
-	 * @throws IOException
+	 * 	 2.编码为utf-8
+	 * 	 @param content content
+	 * 	 @param url  url
+	 * 	 @throws IOException
+	 * 	 @return 返回值
 	 */
 	public static String postJSON(String url, String content) throws IOException {
 		return post(url, content, 30000, 30000, "UTF-8", "UTF-8", "application/json; charset=UTF-8");
@@ -282,7 +288,6 @@ public class HttpClientUtil {
 		System.out.println("#####" + retval);
 	}
 
-	//测试调用微信消息通知接口
 	public static void testJson() {
 		String retval = "";
 		String json = "";
