@@ -1,8 +1,8 @@
 /*
-* Copyright (c)  2018
-* All rights reserved.
-* 2018-08-22 19:58:32
-*/
+ * Copyright (c)  2018
+ * All rights reserved.
+ * 2018-08-22 19:58:32
+ */
 package com.ueboot.shiro.controller.resources;
 
 import com.alibaba.fastjson.JSON;
@@ -22,12 +22,15 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
 /**
  * Created on 2018-08-22 19:58:32
+ *
  * @author yangkui
  * @since 2.1.0 by ueboot-generator
  */
@@ -39,16 +42,32 @@ public class ResourcesController {
     @Resource
     private ResourcesService resourcesService;
 
+    @RequiresPermissions("ueboot:resources:read")
+    @PostMapping(value = "/list")
+    public Response<List<ResourcesResp>> list() {
+        List<Resources> all = this.resourcesService.findAll();
+        List<ResourcesResp> retval = new ArrayList<>();
+        all.forEach((r) -> {
+            ResourcesResp resp = new ResourcesResp();
+            BeanUtils.copyProperties(r, resp);
+            if (r.getParent() != null) {
+                resp.setParentId(r.getParent().getId());
+            }
+            retval.add(resp);
+        });
+        return new Response<>(retval);
+    }
+
 
     @RequiresPermissions("ueboot:resources:read")
     @PostMapping(value = "/page")
-    public Response<Page<ResourcesResp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
-                                                     Pageable pageable, @RequestBody(required = false) ResourcesFindReq req){
+    public Response<Page<ResourcesResp>> page(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.DESC)
+                                                      Pageable pageable, @RequestBody(required = false) ResourcesFindReq req) {
         Page<Resources> entities = resourcesService.findBy(pageable);
         Page<ResourcesResp> body = entities.map(entity -> {
             ResourcesResp resp = new ResourcesResp();
             BeanUtils.copyProperties(entity, resp);
-            if(entity.getParent()!=null){
+            if (entity.getParent() != null) {
                 resp.setParentId(entity.getParent().getId());
             }
             return resp;
@@ -69,19 +88,19 @@ public class ResourcesController {
         }
         BeanUtils.copyProperties(req, entity);
         //菜单样式配置
-        Map<String,String> theme = new HashMap<>();
-        if(StringUtil.isNotBlank(req.getIconName())){
-            theme.put("iconName",req.getIconName());
+        Map<String, String> theme = new HashMap<>();
+        if (StringUtil.isNotBlank(req.getIconName())) {
+            theme.put("iconName", req.getIconName());
         }
-        if(StringUtil.isNotBlank(req.getFontColor())){
-            theme.put("fontColor",req.getFontColor());
+        if (StringUtil.isNotBlank(req.getFontColor())) {
+            theme.put("fontColor", req.getFontColor());
         }
-        if(theme.size()>0){
+        if (theme.size() > 0) {
             entity.setThemeJson(JSON.toJSONString(theme));
         }
-        if(req.getParentId() !=0L){
+        if (req.getParentId() != 0L) {
             Resources parent = resourcesService.findById(req.getParentId());
-            Assert.notNull(parent,"父节点不存在");
+            Assert.notNull(parent, "父节点不存在");
             entity.setParent(parent);
             entity.setParentName(parent.getName());
         }
