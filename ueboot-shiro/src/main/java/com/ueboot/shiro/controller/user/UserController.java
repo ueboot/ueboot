@@ -5,6 +5,7 @@
 */
 package com.ueboot.shiro.controller.user;
 
+import com.ueboot.core.http.annotation.PageableLimits;
 import com.ueboot.core.http.response.Response;
 import com.ueboot.shiro.controller.user.vo.UserFindReq;
 import com.ueboot.shiro.controller.user.vo.UserReq;
@@ -39,7 +40,8 @@ public class UserController {
 
     @RequiresPermissions("ueboot:user:read")
     @PostMapping(value = "/page")
-    public Response<Page<UserResp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
+    public Response<Page<UserResp>> page(@PageableLimits(maxSize = 10000)
+                                             @PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
                                                      Pageable pageable, @RequestBody(required = false) UserFindReq req){
         Page<User> entities = userService.findBy(pageable);
         Page<UserResp> body = entities.map(entity -> {
@@ -61,6 +63,8 @@ public class UserController {
         } else {
             entity = userService.get(req.getId());
         }
+
+
         BeanUtils.copyProperties(req, entity);
         userService.save(entity);
         return new Response<>();

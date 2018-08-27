@@ -48,13 +48,13 @@ export default {
         password: '111111',
         captcha: ''
       },
-      now: new Date()
+      now: new Date().getMilliseconds()
     }
   },
   methods: {
     // 刷新验证码
     changeCaptchaUrl: function () {
-      this.now = new Date()
+      this.now = new Date().getMilliseconds()
     },
     // 确认登录操作
     handleSubmit (name) {
@@ -82,13 +82,13 @@ export default {
       this.loading = true
       this.$axios.post('/ueboot/shiro/public/login', this.formCustom).then(response => {
         this.$Message.success('登录成功')
-        this.$router.push({name: 'rasRelation'})
+        this.$router.push({name: 'User'})
         this.loading = false
       }, (response) => {
-        this.$Notice.error({desc:response.message})
+        this.$Notice.error({desc: response.message})
         this.changeCaptchaUrl()
         this.formCustom.captcha = ''
-       this.loading = false
+        this.loading = false
       })
     }
   },

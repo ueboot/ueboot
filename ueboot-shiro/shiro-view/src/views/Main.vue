@@ -12,7 +12,7 @@
           <div class="layout-nav">
             <MenuItem name="1">
               <a href="javascript:void(0)" @click="logout" class="header-menu ">
-                <Icon type="android-exit" style="color:red;"></Icon>
+                <Icon type="md-exit" style="color:red;"></Icon>
                 <span style="cursor:pointer;">退出系统</span>
               </a>
             </MenuItem>
@@ -85,8 +85,8 @@
           </Form>
           <div slot="footer">
             <Button type="primary" @click="handlePasswordSubmit('passwordForm')">提交</Button>
-            <Button type="ghost" @click="resetPasswordForm('passwordForm')">重置</Button>
-            <Button type="ghost" @click="passwordModel=false">取消</Button>
+            <Button type="default" @click="resetPasswordForm('passwordForm')">重置</Button>
+            <Button type="default" @click="passwordModel=false">取消</Button>
           </div>
         </Modal>
       </div>
@@ -180,8 +180,7 @@ export default {
         {name: '用户管理', id: 11, parentId: 10, url: '/ueboot/shiro/User'},
         {name: '角色管理', id: 12, parentId: 10, url: '/ueboot/shiro/Role'},
         {name: '菜单管理', id: 13, parentId: 10, url: '/ueboot/shiro/Resources'},
-        {name: '权限设置', id: 14, parentId: 10, url: '/ueboot/shiro/Permission'},
-
+        {name: '权限设置', id: 14, parentId: 10, url: '/ueboot/shiro/Permission'}
 
       ]
       let matched = this.$route.matched

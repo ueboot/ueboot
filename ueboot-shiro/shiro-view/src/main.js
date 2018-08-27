@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import iView from 'iView'
 
 import ueboot from 'ueboot'
 
@@ -11,10 +12,11 @@ import 'ueboot/ue-theme/index.less'
 /* ueboot 的组件样式 */
 import 'ueboot/ueboot/styles/ueboot.css'
 /* 替换ueboot当中的默认样式 */
-import './styles/iview/custom.less'
+// import './styles/iview/custom.less'
+import 'iview/dist/styles/iview.css'
 /* 字体图标样式 */
-import 'font-awesome/scss/font-awesome.scss'
-
+import 'font-awesome/css/font-awesome.css'
+Vue.use(iView)
 Vue.use(ueboot)
 ueboot.Axios.init({baseURL: process.env.CONTEXT, unauthorizedUrl: process.env.CONTEXT_HTML + '/#/login'})
 Vue.config.productionTip = false
