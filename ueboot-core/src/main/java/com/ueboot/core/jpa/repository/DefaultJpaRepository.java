@@ -30,6 +30,7 @@ import java.util.Map;
 
 /**
  * 默认使用StringQuery方式实现JPA查询，实现复杂的SQL查询
+ *
  * @author yangkui
  * @author xiangli.ma
  * @since 1.0
@@ -72,25 +73,27 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
 
     /**
      * 返回对象为Object类型，不指定具体的对象
+     *
      * @param queryString 查询语句
      * @return 返回Object 对象
      */
     public List<Object> findObject(String queryString) {
         return findObject(queryString, NamedParams.newParams());
     }
+
     /**
      * 返回对象为Object类型，不指定具体的对象
+     *
      * @param stringQuery 查询语句
      * @return 返回Object 对象
      */
-    public List<Object> findObject(StringQuery stringQuery){
+    public List<Object> findObject(StringQuery stringQuery) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
 
         String query = stringQuery.getQuery();
         NamedParams params = stringQuery.getParams();
         return findObject(query, params);
     }
-
 
 
     public <S> List<S> find(StringQuery stringQuery, Class<S> transformerClass) {
@@ -110,7 +113,20 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         return query.getResultList();
     }
 
+    public <S> List<S> find(StringQuery stringQuery) {
+        Assert.notNull(stringQuery, "Query must not be null!");
+        String queryString = stringQuery.getQuery();
+        NamedParams params = stringQuery.getParams();
 
+        Assert.hasText(queryString, "Query must has text!");
+        Assert.notNull(params, "QueryParams must not be null!");
+
+        Query query = em.createQuery(queryString);
+        setQueryParams(query, params);
+
+        return query.getResultList();
+
+    }
 
     public <S> List<S> find(String queryString, NamedParams params, Class<S> transformerClass) {
         Assert.notNull(queryString, "Query must not be null!");
@@ -145,33 +161,34 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         setQueryParams(countQuery, params);
         Long total = (Long) countQuery.getSingleResult();
 
-        Page page = new PageImpl(resultList, pageable,total);
+        Page page = new PageImpl(resultList, pageable, total);
         return page;
     }
 
-    public Page<T> find (StringQuery stringQuery, Pageable pageable) {
+    public Page<T> find(StringQuery stringQuery, Pageable pageable) {
         Assert.notNull(stringQuery, "StringQuery must not be null");
         Sort sort = pageable.getSort();
         int count = 0;
-        Iterator<Sort.Order> it  = sort.iterator();
+        Iterator<Sort.Order> it = sort.iterator();
         //自动拼接order by 属性
-        while (it.hasNext()){
-            Sort.Order s =it.next();
+        while (it.hasNext()) {
+            Sort.Order s = it.next();
             String name = s.getProperty();
             String dir = s.getDirection().name();
-            if(count ==0){
+            if (count == 0) {
                 stringQuery.predicate(true)
-                        .query(" order by " +name+" "+ dir);
-            }else{
+                        .query(" order by " + name + " " + dir);
+            } else {
                 stringQuery.predicate(true)
-                        .query(", "+name+" "+ dir);
+                        .query(", " + name + " " + dir);
             }
-            count ++;
+            count++;
         }
         String query = stringQuery.getQuery();
         NamedParams params = stringQuery.getParams();
         return find(query, params, pageable);
     }
+
     public <S> Page<S> find(StringQuery stringQuery, Pageable pageable, Class<S> transformerClass) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
         Assert.notNull(pageable, "PageRequest must not be null!");
@@ -182,6 +199,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
 
         return find(query, params, pageable, transformerClass);
     }
+
     public <S> Page<S> find(StringQuery stringQuery, Pageable pageable, ResultTransformer transformer) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
         Assert.notNull(pageable, "PageRequest must not be null!");
@@ -235,6 +253,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         NamedParams params = queryString.getParams();
         return find(query, count, params, pageable);
     }
+
     public <S> Page<S> find(StringQuery queryString, StringQuery queryCount, Pageable pageable, Class<S> transformerClass) {
         Assert.notNull(queryString, "StringQuery must not be null!");
         Assert.notNull(queryCount, "StringQuery count must not be null!");
@@ -245,6 +264,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         NamedParams params = queryString.getParams();
         return find(query, count, params, pageable, transformerClass);
     }
+
     public <S> Page<S> find(StringQuery queryString, StringQuery queryCount, Pageable pageable, ResultTransformer transformer) {
         Assert.notNull(queryString, "StringQuery must not be null!");
         Assert.notNull(queryCount, "StringQuery count must not be null!");
@@ -432,6 +452,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
 
         return sqlQuery.setResultTransformer(transformer).list();
     }
+
     public Page findBySql(StringQuery stringQuery, Pageable pageable, ResultTransformer transformer) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
         Assert.notNull(pageable, "PageRequest must not be null!");
