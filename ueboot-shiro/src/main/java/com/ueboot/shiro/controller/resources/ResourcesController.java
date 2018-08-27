@@ -5,19 +5,25 @@
 */
 package com.ueboot.shiro.controller.resources;
 
+import com.alibaba.fastjson.JSON;
 import com.ueboot.core.http.response.Response;
 import com.ueboot.shiro.controller.resources.vo.*;
 import com.ueboot.shiro.entity.Resources;
 import com.ueboot.shiro.service.resources.ResourcesService;
+import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.util.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -42,6 +48,9 @@ public class ResourcesController {
         Page<ResourcesResp> body = entities.map(entity -> {
             ResourcesResp resp = new ResourcesResp();
             BeanUtils.copyProperties(entity, resp);
+            if(entity.getParent()!=null){
+                resp.setParentId(entity.getParent().getId());
+            }
             return resp;
         });
 
@@ -59,6 +68,24 @@ public class ResourcesController {
             entity = resourcesService.get(req.getId());
         }
         BeanUtils.copyProperties(req, entity);
+        //菜单样式配置
+        Map<String,String> theme = new HashMap<>();
+        if(StringUtil.isNotBlank(req.getIconName())){
+            theme.put("iconName",req.getIconName());
+        }
+        if(StringUtil.isNotBlank(req.getFontColor())){
+            theme.put("fontColor",req.getFontColor());
+        }
+        if(theme.size()>0){
+            entity.setThemeJson(JSON.toJSONString(theme));
+        }
+        if(req.getParentId() !=0L){
+            Resources parent = resourcesService.findById(req.getParentId());
+            Assert.notNull(parent,"父节点不存在");
+            entity.setParent(parent);
+            entity.setParentName(parent.getName());
+        }
+
         resourcesService.save(entity);
         return new Response<>();
     }

@@ -7,15 +7,12 @@ import iView from 'iView'
 
 import ueboot from 'ueboot'
 
-/* 自定义样式(此处为iview的自定义样式，详情参考iview的文档) */
-import 'ueboot/ue-theme/index.less'
-/* ueboot 的组件样式 */
-import 'ueboot/ueboot/styles/ueboot.css'
-/* 替换ueboot当中的默认样式 */
-// import './styles/iview/custom.less'
-import 'iview/dist/styles/iview.css'
-/* 字体图标样式 */
+/* ueboot封装过的基于iview的自定义样式，也可以引入自己的自定义样式 */
+import 'ueboot/ue-theme/dist/iview.css'
+
+/* icon字体图标样式 */
 import 'font-awesome/css/font-awesome.css'
+
 Vue.use(iView)
 Vue.use(ueboot)
 ueboot.Axios.init({baseURL: process.env.CONTEXT, unauthorizedUrl: process.env.CONTEXT_HTML + '/#/login'})

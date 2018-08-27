@@ -34,6 +34,7 @@
         <commons-io.version>2.5</commons-io.version>
         <jodd.version>3.9.1</jodd.version>
         <druid.version>1.1.8</druid.version>
+        <ok.http.version>3.11.0</ok.http.version>
     </properties>
 
     <!--声明依赖，当前项目所需要的依赖jar包和对应的版本。在使用时，直接继承改配置文件即可，无需关心ueboot所需要依赖那些jar包-->
@@ -110,6 +111,11 @@
             <groupId>com.ueboot</groupId>
             <artifactId>ueboot-file</artifactId>
             <version>${ueboot.file.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>${ok.http.version}</version>
         </dependency>
     </dependencies>
 

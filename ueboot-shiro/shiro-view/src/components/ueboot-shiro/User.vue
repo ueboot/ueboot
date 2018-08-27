@@ -15,11 +15,6 @@ export default {
             delete: '/ueboot/user/delete'
           }
         },
-        tips: {title: 'User', content: 'User'},
-        page: {
-          pageNumber: 1,
-          pageSize: 100000
-        },
         form: {
           modal: {
             title: 'User'

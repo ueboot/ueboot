@@ -20,4 +20,6 @@ public interface ResourcesService extends BaseService<Resources> {
      * @return 当前用户授权后的资源列表
      */
     Resources[] getUserResources(String username);
+
+    Resources findById(Long id);
 }

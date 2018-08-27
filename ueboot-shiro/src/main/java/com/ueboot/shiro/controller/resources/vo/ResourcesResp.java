@@ -20,15 +20,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResourcesResp {
     private Long id;
-    private String code;
     private String name;
     private String resourceType;
     private String url;
     private String themeJson;
     private String permission;
-    private String parentCode;
-    private String parentPath;
+    private Long parentId;
+    private String parentName;
     private Long rank;
-    private Long level;
     private Boolean available;
 }

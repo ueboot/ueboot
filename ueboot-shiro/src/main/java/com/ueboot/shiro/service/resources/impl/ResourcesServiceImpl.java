@@ -40,4 +40,9 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
     public Resources[] getUserResources(String username) {
         return new Resources[0];
     }
+
+    @Override
+    public Resources findById(Long id) {
+        return resourcesRepository.findById(id);
+    }
 }

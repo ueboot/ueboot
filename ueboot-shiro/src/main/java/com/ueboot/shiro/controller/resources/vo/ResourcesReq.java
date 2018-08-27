@@ -11,6 +11,9 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.*;
 
+import javax.validation.constraints.NotNull;
+import java.util.Map;
+
 /**
  * 用于前端发起对象保存和更新请求时，接收请求参数
  * Created on 2018-08-22 19:58:32
@@ -23,22 +26,16 @@ import org.hibernate.validator.constraints.*;
 public class ResourcesReq {
     private Long id;
     @NotBlank
-    private String code;
-    @NotBlank
     private String name;
     @NotBlank
     private String resourceType;
-    @NotBlank
     private String url;
-    @NotBlank
-    private String themeJson;
-    @NotBlank
+    private String iconName;
+    private String fontColor;
+    @NotNull
+    private Long parentId;
     private String permission;
-    @NotBlank
-    private String parentCode;
-    @NotBlank
     private String parentPath;
     private Long rank;
-    private Long level;
     private Boolean available;
 }

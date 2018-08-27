@@ -17,5 +17,5 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface ResourcesRepository extends BaseRepository<Resources, Long>,ResourcesBaseRepository {
-
+    Resources findById(Long id);
 }
