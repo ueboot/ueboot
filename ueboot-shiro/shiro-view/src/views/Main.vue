@@ -300,11 +300,15 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   *[v-cloak] {
     display: none;
   }
-
+  /*覆盖iview默认样式*/
+  .ivu-layout-header{
+    padding: 0;
+    height: auto;
+  }
   /* 解决内容与菜单两个区域会换行的问题 */
   .ivu-layout {
     display: -webkit-box;
@@ -348,7 +352,6 @@ export default {
 
   .layout-logo {
     width: 200px;
-    height: 30px;
     border-radius: 3px;
     float: left;
     position: relative;
