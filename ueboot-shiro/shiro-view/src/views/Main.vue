@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <Layout>
+    <Layout style="height: 100%">
       <Header :style="{color: '#fff'}">
         <Menu mode="horizontal" theme="dark" active-name="1">
           <div class="layout-logo">
@@ -49,7 +49,7 @@
           </Menu>
         </Sider>
         <Layout :style="{padding: '0 24px 0 24px',width:'100%',maxWidth:clientWidth - 200 +'px'}">
-          <Breadcrumb :style="{margin: '24px 0'}">
+          <Breadcrumb :style="{margin: '15px 0'}">
             <BreadcrumbItem v-for="(item, index) in breadItems" :key="'bread'+index">{{item.name}}</BreadcrumbItem>
           </Breadcrumb>
           <Content :style="{padding: '14px', minHeight: clientHeight - 175+ 'px', background: '#fff',width:'100%',maxWidth:'100% !important'}">
@@ -345,6 +345,7 @@ export default {
   }
 
   .layout {
+    height: 100%;
     background: #f5f7f9;
     position: relative;
     overflow: auto;
