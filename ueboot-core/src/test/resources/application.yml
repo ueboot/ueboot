@@ -1,0 +1,54 @@
+server:
+  port: 8888
+  context-path: /admin
+spring:
+  cache:
+    type: redis
+    cache-names: systemCache
+  session:
+    store-type: redis
+  jpa:
+    database: sql_server
+    properties:
+      hibernate:
+       dialect: org.hibernate.dialect.Oracle10gDialect
+       format_sql: true
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+      ddl-auto: none
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@47.100.221.78:1521:orcl
+    username: xuqi
+    password: xuqi
+  druid:
+    initialSize: 1
+    minIdle: 1
+    maxActive: 5
+    maxWait: 60000
+    minEvictableIdleTimeMillis: 30000
+    timeBetweenEvictionRunsMillis: 60000
+    testOnBorrow: false
+    testWhileIdle: true
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,wall,log4j
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=1000
+    validationQuery:  select 1
+  redis:
+    host: 47.100.242.77
+    password: ''
+    port: 6379
+    database: 1
+    timeout: 60000
+    pool:
+      max-active: 5
+      max-wait: 1000
+      max-idle: 5
+      min-idle: 1
