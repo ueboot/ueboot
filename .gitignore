@@ -89,3 +89,4 @@ hs_err_pid*
 .idea/
 ueboot/target/generated-sources/
 *.iml
+/ueboot-shiro/
