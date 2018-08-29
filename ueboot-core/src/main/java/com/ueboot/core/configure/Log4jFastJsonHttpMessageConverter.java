@@ -40,7 +40,7 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
 
     private Charset charset = UTF8;
 
-    private SerializerFeature[] features = new SerializerFeature[0];
+    private SerializerFeature[] features =new SerializerFeature[]{SerializerFeature.DisableCircularReferenceDetect};
 
     public Log4jFastJsonHttpMessageConverter() {
         super(new MediaType("application", "json", UTF8), new MediaType("application", "*+json", UTF8));
