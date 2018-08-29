@@ -88,4 +88,4 @@ hs_err_pid*
 .gitignore
 .idea/
 ueboot/target/generated-sources/
-uebootdev.iml
+*.iml
