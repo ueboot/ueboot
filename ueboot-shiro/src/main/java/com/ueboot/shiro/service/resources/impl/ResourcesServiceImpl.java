@@ -12,6 +12,8 @@ import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.service.resources.ResourcesService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,5 +46,17 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
     @Override
     public Resources findById(Long id) {
         return resourcesRepository.findById(id);
+    }
+
+    /**
+     * 根据parentId查找分页数据
+     *
+     * @param pageable 分页数据
+     * @param parentId parentId
+     * @return Page<Resources>
+     */
+    @Override
+    public Page<Resources> findByParentId(Pageable pageable, Long parentId) {
+        return resourcesRepository.findByParentId(pageable,parentId);
     }
 }

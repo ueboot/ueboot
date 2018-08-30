@@ -67,7 +67,7 @@
     "stylelint": "^9.4.0",
     "stylelint-config-standard": "^18.2.0",
     "stylelint-webpack-plugin": "^0.10.5",
-    "ueboot": "^1.5.10",
+    "ueboot": "^1.5.12",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",

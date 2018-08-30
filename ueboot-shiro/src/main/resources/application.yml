@@ -22,7 +22,7 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
         format_sql: false
       jadira:
         usertype:
@@ -52,3 +52,10 @@ spring:
       max-wait: 1000
       max-idle: 100
       min-idle: 5
+logging:
+  level:
+    root: info
+    # 设置显示sql参数值
+    org.hibernate: info
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org.hibernate.type.descriptor.sql.BasicExtractor: trace

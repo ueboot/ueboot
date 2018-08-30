@@ -5,6 +5,9 @@
 */
 package com.ueboot.shiro.repository.resources;
 
+import com.ueboot.shiro.entity.Resources;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,4 +20,11 @@ import org.springframework.stereotype.Repository;
 */
 public interface ResourcesBaseRepository  {
 
+    /**
+     * 根据parentId查找分页数据
+     * @param pageable 分页数据
+     * @param parentId parentId
+     * @return Page<Resources>
+     */
+    Page<Resources> findByParentId(Pageable pageable, Long parentId);
 }

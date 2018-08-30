@@ -5,11 +5,15 @@
 */
 package com.ueboot.shiro.repository.resources.impl;
 
+import com.ueboot.core.jpa.repository.query.StringQuery;
 import com.ueboot.shiro.entity.Resources;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import com.ueboot.core.jpa.repository.DefaultJpaRepository;
 import com.ueboot.shiro.repository.resources.ResourcesBaseRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.Assert;
 
 /**
 * 自定义接口实现类，可以使用父类DefaultJpaRepository当中的find(),findBySql等方法实现自定义的StringQuery查询
@@ -22,4 +26,18 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class ResourcesRepositoryImpl extends DefaultJpaRepository<Resources,Long> implements ResourcesBaseRepository {
 
+    /**
+     * 根据parentId查找分页数据
+     *
+     * @param pageable 分页数据
+     * @param parentId parentId
+     * @return Page<Resources>
+     */
+    @Override
+    public Page<Resources> findByParentId(Pageable pageable, Long parentId) {
+        StringQuery query  = StringQuery.newQuery();
+        query.query("from "+Resources.class.getName()+" a where a.parent.id = :parentId or a.id = :parentId")
+                .param("parentId",parentId).predicate(true).build();
+        return find(query,pageable);
+    }
 }

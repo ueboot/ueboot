@@ -20,16 +20,5 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class ResourcesFindReq {
-    private Long id;
-    private String code;
-    private String name;
-    private String resourceType;
-    private String url;
-    private String themeJson;
-    private String permission;
-    private String parentCode;
-    private String parentPath;
-    private Long rank;
-    private Long level;
-    private Boolean available;
+    private Long parentId;
 }

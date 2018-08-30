@@ -7,6 +7,8 @@ package com.ueboot.shiro.service.resources;
 
 import com.ueboot.shiro.entity.Resources;
 import com.ueboot.core.service.BaseService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Created on 2018-08-08 14:06:03
@@ -22,4 +24,12 @@ public interface ResourcesService extends BaseService<Resources> {
     Resources[] getUserResources(String username);
 
     Resources findById(Long id);
+
+    /**
+     * 根据parentId查找分页数据
+     * @param pageable 分页数据
+     * @param parentId parentId
+     * @return Page<Resources>
+     */
+    Page<Resources> findByParentId(Pageable pageable,Long parentId);
 }

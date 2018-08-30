@@ -67,7 +67,8 @@ public class Resources extends AbstractVersionEntity<Long> {
     /**
      * 父级资源
      */
-    @Column(name = "PARENT_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARENT_ID")
     private Resources parent;
 
     /**

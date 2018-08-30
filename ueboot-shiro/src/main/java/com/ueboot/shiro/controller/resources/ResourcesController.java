@@ -61,9 +61,14 @@ public class ResourcesController {
 
     @RequiresPermissions("ueboot:resources:read")
     @PostMapping(value = "/page")
-    public Response<Page<ResourcesResp>> page(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.DESC)
+    public Response<Page<ResourcesResp>> page(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.ASC)
                                                       Pageable pageable, @RequestBody(required = false) ResourcesFindReq req) {
-        Page<Resources> entities = resourcesService.findBy(pageable);
+        Page<Resources> entities = null;
+        if (req.getParentId() == null) {
+            entities = resourcesService.findBy(pageable);
+        } else {
+            entities = resourcesService.findByParentId(pageable, req.getParentId());
+        }
         Page<ResourcesResp> body = entities.map(entity -> {
             ResourcesResp resp = new ResourcesResp();
             BeanUtils.copyProperties(entity, resp);
@@ -97,12 +102,17 @@ public class ResourcesController {
         }
         if (theme.size() > 0) {
             entity.setThemeJson(JSON.toJSONString(theme));
+        } else {
+            entity.setThemeJson(null);
         }
         if (req.getParentId() != 0L) {
             Resources parent = resourcesService.findById(req.getParentId());
             Assert.notNull(parent, "父节点不存在");
             entity.setParent(parent);
             entity.setParentName(parent.getName());
+        } else {
+            entity.setParent(null);
+            entity.setParentName(null);
         }
 
         resourcesService.save(entity);

@@ -304,11 +304,13 @@ export default {
   *[v-cloak] {
     display: none;
   }
-  /*覆盖iview默认样式*/
-  .ivu-layout-header{
+
+  /* 覆盖iview默认样式 */
+  .ivu-layout-header {
     padding: 0;
     height: auto;
   }
+
   /* 解决内容与菜单两个区域会换行的问题 */
   .ivu-layout {
     display: -webkit-box;
