@@ -1,7 +1,9 @@
 package com.ueboot.core.exception;
 
 /**
- * Created by Neel on 2015/8/14.
+ *
+ * @author Neel
+ * @date 2015/8/14
  */
 public class BusinessException extends RuntimeException {
 
@@ -21,10 +23,10 @@ public class BusinessException extends RuntimeException {
      * detail message.
      *
      * @param   code   the code.
-     * @param   s   the detail message.
+     * @param   message   the detail message.
      */
-    public BusinessException(String code, String s) {
-        super(s);
+    public BusinessException(String code, String message) {
+        super(message);
         this.code = code;
     }
 
@@ -32,10 +34,48 @@ public class BusinessException extends RuntimeException {
      * Constructs a {@code NullPointerException} with the specified
      * detail message.
      *
-     * @param   s   the detail message.
+     * @param   cause    he cause (which is saved for later retrieval by the
+     *
      */
-    public BusinessException(String s) {
-        super(s);
+    public BusinessException(Throwable cause) {
+        super(cause);
+    }
+
+
+    /**
+     * Constructs a {@code NullPointerException} with the specified
+     * detail message.
+     *
+     * @param   message    the detail message.
+     * @param   cause    he cause (which is saved for later retrieval by the
+     *
+     */
+    public BusinessException(String message,Throwable cause) {
+        super(message,cause);
+    }
+
+    /**
+     * Constructs a {@code NullPointerException} with the specified
+     * detail message.
+     *
+     * @param   code   the code.
+     * @param   message   the detail message.
+     * @param   cause  he cause (which is saved for later retrieval by the
+     *
+     */
+    public BusinessException(String code, String message,Throwable cause) {
+        super(message,cause);
+        this.code = code;
+    }
+
+    /**
+     * Constructs a {@code NullPointerException} with the specified
+     * detail message.
+     *
+     * @param   message   the detail message.
+     */
+    public BusinessException(String message) {
+        super(message);
     }
 
     public String getCode() {

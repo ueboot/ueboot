@@ -18,12 +18,9 @@ import org.springframework.util.Assert;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,9 +37,9 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
     private static final String ID_MUST_NOT_BE_NULL = "The given id must not be null!";
 
     @PersistenceContext
-    private EntityManager em;
+    protected EntityManager em;
 
-    private JpaEntityMetadata<T> entityMetadata;
+    protected JpaEntityMetadata<T> entityMetadata;
 
     public DefaultJpaRepository() {
         if (!(ParameterizedType.class.isAssignableFrom(super.getClass()

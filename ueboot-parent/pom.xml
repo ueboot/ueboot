@@ -35,6 +35,8 @@
         <jodd.version>3.9.1</jodd.version>
         <druid.version>1.1.8</druid.version>
         <ok.http.version>3.11.0</ok.http.version>
+        <jackson.version>2.8.10</jackson.version>
+        <ojdbc.version>11.2.0.3</ojdbc.version>
     </properties>
 
     <!--声明依赖，当前项目所需要的依赖jar包和对应的版本。在使用时，直接继承改配置文件即可，无需关心ueboot所需要依赖那些jar包-->
@@ -88,6 +90,11 @@
             <artifactId>druid</artifactId>
             <version>${druid.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>${ojdbc.version}</version>
+        </dependency>
         <!--ueboot核心框架-->
         <dependency>
             <groupId>com.ueboot</groupId>
@@ -117,8 +124,22 @@
             <artifactId>okhttp</artifactId>
             <version>${ok.http.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
     </dependencies>
-
     <profiles>
         <profile>
             <id>release-ossrh</id>
@@ -229,7 +250,6 @@
                     </plugin>
                 </plugins>
             </build>
-
             <!--配置将jar包上传到maven中央仓库的地址-->
             <distributionManagement>
                 <snapshotRepository>

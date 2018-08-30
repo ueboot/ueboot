@@ -78,4 +78,13 @@
 在IDEA右侧功能的MavenProjects窗口中执行以下命令:
 ` 
 versions:set -DgroupId=com.ueboot -DartifactId=*   -DnewVersion=2.1.0-SNAPSHOTS
-`
+
+
+
+### 发布到Nexus命令
+mvn  clean -X deploy -Dmaven.test.skip=true -DaltDeploymentRepository=xq-snapshot::default::file:/Users/wanglijun/repository
+
+### 参考
+```
+https://yq.aliyun.com/articles/6059
+```

@@ -8,4 +8,5 @@ import java.io.Serializable;
  * @since 1.0
  */
 public interface Repository<T, ID extends Serializable> {
+
 }

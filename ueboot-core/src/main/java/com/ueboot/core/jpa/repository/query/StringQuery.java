@@ -1,6 +1,7 @@
 package com.ueboot.core.jpa.repository.query;
 
 import org.hibernate.type.Type;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
@@ -136,7 +137,7 @@ public class StringQuery {
     }
 
     public StringQuery predicateNotEmpty(Collection collection) {
-        if (collection == null || collection.isEmpty()) {
+        if (CollectionUtils.isEmpty (collection)) {
             this.predicate = false;
         } else {
             this.predicate = true;
@@ -145,7 +146,7 @@ public class StringQuery {
     }
 
     public StringQuery predicateIsEmpty(Collection collection) {
-        if (collection == null || collection.isEmpty()) {
+        if (CollectionUtils.isEmpty (collection)) {
             this.predicate = true;
         } else {
             this.predicate = false;
