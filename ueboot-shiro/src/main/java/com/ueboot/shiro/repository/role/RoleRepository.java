@@ -17,5 +17,5 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface RoleRepository extends BaseRepository<Role, Long>,RoleBaseRepository {
-
+    Role findByName(String name);
 }

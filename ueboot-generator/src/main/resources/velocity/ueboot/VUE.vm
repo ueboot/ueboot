@@ -16,7 +16,6 @@
                         }
                     },
                     tips: {title: "${entityName}", content: "${entityName}"},
-
                     form: {
                         modal: {
                             title: "${entityName}"
@@ -34,7 +33,7 @@
                         },
                         columns: [
                             #foreach($object in ${fields})
-                            {title: '$object.name', key: '$object.name'},
+                            {title: '$object.name', key: '$object.name',minWidth:120},
                             #end
                         ]
                     }

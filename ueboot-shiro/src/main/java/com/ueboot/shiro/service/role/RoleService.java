@@ -15,4 +15,6 @@ import com.ueboot.core.service.BaseService;
  */
 public interface RoleService extends BaseService<Role> {
 
+    Role findByName(String name);
+
 }

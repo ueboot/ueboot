@@ -29,4 +29,9 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     protected BaseRepository getBaseRepository() {
          return roleRepository;
     }
+
+    @Override
+    public Role findByName(String name) {
+        return roleRepository.findByName(name);
+    }
 }

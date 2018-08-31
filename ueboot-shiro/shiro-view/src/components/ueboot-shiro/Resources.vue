@@ -97,8 +97,7 @@ export default {
               label: '是否启用',
               type: 'select',
               name: 'available',
-              data: [{'name': '启用', 'value': 'true'}, {'name': '不启用', 'value': 'false'}
-              ],
+              data: [{'name': '启用', 'value': 'true'}, {'name': '不启用', 'value': 'false'}],
               init: 'true'
             }
           ],

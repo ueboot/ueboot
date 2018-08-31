@@ -23,14 +23,7 @@ import org.hibernate.validator.constraints.*;
 public class RoleReq {
     private Long id;
     @NotBlank
-    private String code;
-    @NotBlank
-    private String orgCode;
-    @NotBlank
-    private String role;
-    @NotBlank
     private String name;
-    @NotBlank
     private String description;
     private Boolean available;
 }

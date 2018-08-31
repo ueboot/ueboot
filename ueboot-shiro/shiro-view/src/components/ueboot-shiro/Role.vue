@@ -1,5 +1,25 @@
 <template>
-  <u-form-grid :data="formGrid" ref="formGrid"></u-form-grid>
+  <div>
+   <!-- <Row>
+      <i-col :span="6">
+        <Row>
+          <Button icon="md-refresh" type="primary" @click="fetchTreeData">刷新</Button>
+          <Button icon="md-refresh" type="primary">管理角色</Button>
+        </Row>
+        <Row style="margin-top:20px">
+          <u-tree :tree="tree" @item-click="itemClick"></u-tree>
+          <Spin v-if="loadingTree">
+            <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+            <div>加载中</div>
+          </Spin>
+        </Row>
+      </i-col>
+      <i-col :span="18">
+      </i-col>
+    </Row>-->
+    <u-form-grid :data="formGrid" ref="formGrid"></u-form-grid>
+
+  </div>
 </template>
 
 <script>
@@ -7,6 +27,8 @@ export default {
   name: 'Role',
   data () {
     return {
+      loadingTree: false,
+      tree: [],
       formGrid: {
         options: {
           url: {
@@ -15,18 +37,22 @@ export default {
             delete: '/ueboot/role/delete'
           }
         },
-        tips: {title: 'Role', content: 'Role'},
-
+        toolbar: {
+          superFilter: {
+            columns: [ {type: 'hidden', name: 'roleId', init: null} ]
+          }
+        },
         form: {
           modal: {
-            title: 'Role'
+            title: '角色管理'
           },
           columns: [
-            {label: 'id', type: 'text', name: 'id', required: true},
-            {label: 'code', type: 'text', name: 'code', required: true},
-            {label: 'name', type: 'text', name: 'name', required: true},
-            {label: 'description', type: 'text', name: 'description', required: true},
-            {label: 'available', type: 'text', name: 'available', required: true}
+            {label: '角色名称', type: 'text', name: 'name', required: true},
+            {label: '角色描述', type: 'text', name: 'description'},
+            {label: '是否启用', type: 'select', name: 'available', required: true,
+              data: [{'name': '启用', 'value': 'true'}, {'name': '不启用', 'value': 'false'}],
+              init: 'true'
+            }
 
           ]
         },
@@ -35,16 +61,42 @@ export default {
             primaryKey: 'id'
           },
           columns: [
-            {title: 'id', key: 'id'},
-            {title: 'code', key: 'code'},
-            {title: 'name', key: 'name'},
-            {title: 'description', key: 'description'},
-            {title: 'available', key: 'available'}
+            {title: 'id', key: 'id',minWidth:60},
+            {title: '角色名称', key: 'name',minWidth:160},
+            {title: '角色描述', key: 'description',minWidth:100},
+            {title: '是否启用', key: 'available',
+              minWidth: 120,
+              fieldFormat: (value, row) => {
+                if (value) {
+                  return '是'
+                } else {
+                  return {value: '否', cellClassName: 'table-cell-red'}
+                }
+              }}
           ]
         }
       }
     }
   },
-  methods: {}
+  methods: {
+    fetchTreeData() {
+      this.loadingTree = true
+      this.$axios.post('/ueboot/role/list', {}).then((response) => {
+        this.loadingTree = false
+        // 默认给出一个根节点数据，后台插入的时候不校验是否存在
+        let tree = []
+        response.body.forEach((t) => {
+          let t1 = {id: t.id, 'name': t.name, parentId: null}
+          tree.push(t1)
+        })
+        this.tree = tree
+      })
+    },
+    itemClick (oriNode, oriItem, e) {
+      // 更改grid查询条件
+      this.$set(this.formGrid.toolbar.superFilter.columns[0], 'init', oriItem.id)
+      this.$refs.formGrid.$emit('reloadData')
+    },
+  }
 }
 </script>

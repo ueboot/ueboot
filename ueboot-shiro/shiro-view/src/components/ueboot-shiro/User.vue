@@ -3,7 +3,7 @@
     <u-form-grid :data="formGrid" ref="formGrid"></u-form-grid>
     <Modal v-model="resetPwdModal">
       <p slot="header">
-        请注意，正在对<span style="color:red">{{formCustom.userName}}</span> 用户进行密码重置操作！
+        请注意，正在对<span style="color:red;vertical-align: top">{{formCustom.userName}}</span> 用户进行密码重置操作！
       </p>
       <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
         <FormItem label="新密码" prop="password" required>
@@ -15,7 +15,7 @@
       </Form>
       <div slot="footer">
         <Button type="primary" @click="handleSubmit('formCustom')">提交</Button>
-        <Button @click="handleReset('formCustom')" style="margin-left: 8px">重置</Button>
+        <Button @click="()=>{this.resetPwdModal = false}" style="margin-left: 8px">取消</Button>
       </div>
     </Modal>
   </div>
@@ -38,12 +38,12 @@
         resetPwdModal: false,
         formCustom: {
           id: null,
-          userName:'',
+          userName: '',
           password: '',
           passwdCheck: '',
         },
         ruleCustom: {
-          password:[{required: true, message: '密码为必填', trigger: 'blur',type:'string'}],
+          password: [{required: true, message: '密码为必填', trigger: 'blur', type: 'string'}],
           passwdCheck: [{type: 'string', trigger: 'blur', required: true},
             {validator: validatePassCheck, trigger: 'blur'}
           ],
@@ -63,10 +63,23 @@
             },
             columns: [
               {label: '用户名', type: 'text', name: 'userName', required: true, edit: {disabled: true},},
-              {label: '密码', type: 'password', name: 'password', required: true, view: {show: false},edit: {show: false}},
               {
-                label: '重复密码', type: 'password', name: 'password2', required: true, view: {show: false},edit: {show: false}
-                , equalsTo: 'password'
+                label: '密码',
+                type: 'password',
+                name: 'password',
+                required: true,
+                view: {show: false},
+                edit: {show: false}
+              },
+              {
+                label: '重复密码',
+                type: 'password',
+                name: 'password2',
+                required: true,
+                view: {show: false},
+                edit: {show: false}
+                ,
+                equalsTo: 'password'
               },
               {
                 label: '是否被锁', type: 'select', name: 'locked',
@@ -81,7 +94,7 @@
               primaryKey: 'id',
               buttons: [
                 {
-                  key: "view", show: true, "label": "查看", "theme": "primary", click: (row, index, _this) => {
+                  key: "view", show: false, "label": "查看", "theme": "primary", click: (row, index, _this) => {
                     _this.optViewClick(row, index);
                   }
                 }, {
