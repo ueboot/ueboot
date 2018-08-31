@@ -2,11 +2,16 @@
   <div>
     <Row>
       <i-col :span="6">
-        <u-tree :tree="tree" @itemClick="itemClick"></u-tree>
-        <Spin  v-if="loadingTree">
-          <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
-          <div>加载中</div>
-        </Spin>
+        <Row>
+          <Button icon="md-refresh" type="primary" @click="fetchTreeData">刷新</Button>
+        </Row>
+        <Row style="margin-top:20px">
+          <u-tree :tree="tree" @item-click="itemClick"></u-tree>
+          <Spin  v-if="loadingTree">
+            <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+            <div>加载中</div>
+          </Spin>
+        </Row>
       </i-col>
       <i-col :span="18">
         <u-form-grid :data="formGrid" ref="formGrid"></u-form-grid>
@@ -16,6 +21,7 @@
 </template>
 
 <script>
+import deepExtend from 'deep-extend'
 export default {
   name: 'Resources',
   data () {
@@ -28,6 +34,11 @@ export default {
             page: '/ueboot/resources/page',
             save: '/ueboot/resources/save',
             delete: '/ueboot/resources/delete'
+          }
+        },
+        toolbar: {
+          superFilter: {
+            columns: [ {type: 'hidden', name: 'parentId', init: null} ]
           }
         },
         form: {
@@ -50,7 +61,7 @@ export default {
               }
             },
             {label: '资源名称', type: 'text', name: 'name', required: true},
-            {label: '父级资源', type: 'treeSelect', name: 'parentId', required: true, tree: this.tree},
+            {label: '父级资源', type: 'treeSelect', name: 'parentId', required: true, tree: []},
             {
               label: '菜单icon名称',
               type: 'text',
@@ -98,31 +109,53 @@ export default {
             data['theme'] = {'iconName': data['iconName'], 'fontColor': data['fontColor']}
             return true
           },
-          submitAfter: function () {
+          submitAfter: () => {
             // 重新加载一次树结构
             this.fetchTreeData()
           }
         },
         table: {
+          size: 'small',
           operation: {
             primaryKey: 'id'
           },
           columns: [
-            {title: 'id', key: 'id',width:80},
-            {title: '资源名称', key: 'name', width: 100},
-            {title: '资源类型', key: 'resourceType', width: 100},
+            {title: 'id', key: 'id', minWidth: 60},
+            {title: '资源名称', key: 'name', minWidth: 100},
+            {title: '资源类型', key: 'resourceType', minWidth: 100},
             {title: '资源路径', key: 'url', minWidth: 150},
-            {title: 'UI渲染', key: 'themeJson',minWidth:240},
-            {title: '权限标识符', key: 'permission', width: 120},
-            {title: '父级资源', key: 'parentName', width: 120},
-            {title: '排序', key: 'rank', width: 80},
+            {title: '菜单icon名称',
+              key: 'iconName',
+              minWidth: 100,
+              fieldFormat: (value, row) => {
+                let themeJson = row['themeJson'] || null
+                if (themeJson !== null) {
+                  return JSON.parse(themeJson)['iconName']
+                } else {
+                  return ''
+                }
+              }},
+            {title: '菜单字体颜色',
+              key: 'fontColor',
+              minWidth: 100,
+              fieldFormat: (value, row) => {
+                let themeJson = row['themeJson'] || null
+                if (themeJson !== null) {
+                  return JSON.parse(themeJson)['fontColor']
+                } else {
+                  return ''
+                }
+              }},
+            {title: '权限标识符', key: 'permission', minWidth: 140},
+            {title: '父级资源', key: 'parentName', minWidth: 100},
+            {title: '排序', key: 'rank', minWidth: 80, init: 1},
             {title: '是否启用',
               key: 'available',
-              width: 120,
-              align:'center',
+              align: 'center',
+              minWidth: 120,
               fieldFormat: (value, row) => {
                 if (value) {
-                  return {value: '是', cellClassName: 'table-cell-green'}
+                  return '是'
                 } else {
                   return {value: '否', cellClassName: 'table-cell-red'}
                 }
@@ -143,11 +176,22 @@ export default {
         this.loadingTree = false
         // 默认给出一个根节点数据，后台插入的时候不校验是否存在
         let tree = [{id: 0, 'name': '根节点', parentId: null}]
-        this.tree = response.body
+        response.body.forEach((t) => {
+          if (t.resourceType === '功能') {
+            t.icon = 'fa fa-file'
+          }
+        })
+        this.tree = [...response.body]
         // 合并数组
-        this.formTree = [...tree, ...response.body]
+        let formTree = [...tree, ...response.body]
+        // 为防止tree点击后影响整个tree数据，导致formGrid发生监听变化
+        let newTree = []
+        formTree.forEach((t) => {
+          let n = deepExtend({}, t)
+          newTree.push(n)
+        })
         // 改变form表单中对应字段的tree值，这个需要代码主动修改一次
-        this.$set(this.formGrid.form.columns[2], 'tree', this.formTree)
+        this.$set(this.formGrid.form.columns[2], 'tree', newTree)
       })
     },
     changeResourceType (value) {
@@ -185,20 +229,13 @@ export default {
         })
       }
     },
-    itemClick () {
+    itemClick (oriNode, oriItem, e) {
+      // 查询当前节点下的子节点，更改grid查询条件.和弹出表单当中的下拉框
+      this.$set(this.formGrid.toolbar.superFilter.columns[0], 'init', oriItem.id)
+      this.$set(this.formGrid.form.columns[2], 'init', oriItem.id)
 
+      this.$refs.formGrid.$emit('reloadData')
     }
   }
 }
 </script>
-<style>
-  .table-cell-green {
-    background-color: #0c6 !important;
-    color: #fff;
-  }
-
-  .table-cell-red {
-    background-color: red !important;
-    color: #fff;
-  }
-</style>

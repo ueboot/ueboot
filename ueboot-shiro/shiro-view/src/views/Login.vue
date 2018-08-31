@@ -85,7 +85,6 @@ export default {
         this.$router.push({name: 'User'})
         this.loading = false
       }, (response) => {
-        this.$Notice.error({desc: response.message})
         this.changeCaptchaUrl()
         this.formCustom.captcha = ''
         this.loading = false

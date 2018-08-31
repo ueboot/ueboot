@@ -5,6 +5,7 @@
 */
 package com.ueboot.shiro.service.user.impl;
 
+import com.ueboot.core.exception.BusinessException;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.core.repository.BaseRepository;
 import com.ueboot.shiro.repository.user.UserRepository;
@@ -39,5 +40,17 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @Override
     public User findByUserName(String userName) {
         return userRepository.findByUserName(userName);
+    }
+
+
+    /**
+     * 根据ID查找用户
+     *
+     * @param id 主键ID
+     * @return 用户对象
+     */
+    @Override
+    public User findById(Long id) {
+        return userRepository.findById(id);
     }
 }

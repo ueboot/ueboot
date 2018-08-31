@@ -36,7 +36,7 @@ public class ${entityName}Controller {
 
     @RequiresPermissions("${lowEntityName}:read")
     @PostMapping(value = "/page")
-    public Response<Page<${entityName}Resp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
+    public Response<Page<${entityName}Resp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.ASC)
                                                      Pageable pageable, @RequestBody(required = false) ${entityName}FindReq req){
         Page<${entityFullName}> entities = ${lowEntityName}Service.findBy(pageable);
         Page<${entityName}Resp> body = entities.map(entity -> {

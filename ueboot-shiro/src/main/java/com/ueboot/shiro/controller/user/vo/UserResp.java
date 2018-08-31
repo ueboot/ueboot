@@ -5,9 +5,13 @@
 */
 package com.ueboot.shiro.controller.user.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 /**
 * 用于前端发起查询请求时，返回查询结果
@@ -21,6 +25,8 @@ import lombok.Setter;
 public class UserResp {
     private Long id;
     private String orgCode;
-    private String username;
-    private String password;
+    private String userName;
+    private boolean locked;
+    @JSONField(format="yyyy-MM-dd HH:mm:ss")
+    private Date credentialExpiredDate;
 }

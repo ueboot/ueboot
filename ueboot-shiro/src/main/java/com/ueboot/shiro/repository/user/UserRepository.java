@@ -23,4 +23,10 @@ public interface UserRepository extends BaseRepository<User, Long>,UserBaseRepos
      * @return 用户，不存在则返回空对象
      */
     User findByUserName(String userName);
+    /**
+     * 根据ID查找用户
+     * @param id 主键ID
+     * @return 用户对象
+     */
+    User findById(Long id);
 }

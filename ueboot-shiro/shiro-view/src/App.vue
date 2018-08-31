@@ -23,4 +23,14 @@ export default {
   body {
     height: 100%;
   }
+
+  .table-cell-green {
+    background-color: #0c6 !important;
+    color: #fff;
+  }
+
+  .table-cell-red {
+    background-color: red !important;
+    color: #fff;
+  }
 </style>

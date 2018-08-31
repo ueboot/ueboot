@@ -56,6 +56,6 @@ logging:
   level:
     root: info
     # 设置显示sql参数值
-    org.hibernate: info
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
-    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+#    org.hibernate: info
+#    org.hibernate.type.descriptor.sql.BasicBinder: trace
+#    org.hibernate.type.descriptor.sql.BasicExtractor: trace

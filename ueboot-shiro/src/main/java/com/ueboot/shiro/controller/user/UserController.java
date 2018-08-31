@@ -5,6 +5,7 @@
 */
 package com.ueboot.shiro.controller.user;
 
+import com.ueboot.core.exception.BusinessException;
 import com.ueboot.core.http.annotation.PageableLimits;
 import com.ueboot.core.http.response.Response;
 import com.ueboot.shiro.controller.user.vo.UserFindReq;
@@ -12,6 +13,8 @@ import com.ueboot.shiro.controller.user.vo.UserReq;
 import com.ueboot.shiro.controller.user.vo.UserResp;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.service.user.UserService;
+import com.ueboot.shiro.util.PasswordUtil;
+import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
@@ -41,7 +44,7 @@ public class UserController {
     @RequiresPermissions("ueboot:user:read")
     @PostMapping(value = "/page")
     public Response<Page<UserResp>> page(@PageableLimits(maxSize = 10000)
-                                             @PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.DESC)
+                                             @PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.ASC)
                                                      Pageable pageable, @RequestBody(required = false) UserFindReq req){
         Page<User> entities = userService.findBy(pageable);
         Page<UserResp> body = entities.map(entity -> {
@@ -60,15 +63,22 @@ public class UserController {
         User entity = null;
         if (req.getId() == null) {
             entity = new User();
+            User user = this.userService.findByUserName(req.getUserName());
+            if(user!=null){
+                throw new BusinessException("当前用户名已经存在，不能重复添加!");
+            }
         } else {
-            entity = userService.get(req.getId());
+            entity = userService.findById(req.getId());
         }
 
-
-        BeanUtils.copyProperties(req, entity);
+        BeanUtils.copyProperties(req, entity,"password");
+        if(StringUtil.isNotBlank(req.getPassword())){
+            entity.setPassword(PasswordUtil.sha512(entity.getUserName(),req.getPassword()));
+        }
         userService.save(entity);
         return new Response<>();
     }
+
 
     @RequiresPermissions("ueboot:user:delete")
     @PostMapping(value = "/delete")

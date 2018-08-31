@@ -73,7 +73,7 @@ public class UserRealm extends AuthorizingRealm {
         //密码经过sha512两次加密与默认的加密策略一致
         String hashPwd = PasswordUtil.sha512(username, password);
         //判断密码是否一致，会在父类里面执行 ,与数据库中用户名和密码进行比对，密码盐值加密，第4个参数传入realName
-        return new SimpleAuthenticationInfo(username, hashPwd, credentialsSalt, this.getName());
+        return new SimpleAuthenticationInfo(username, user.getPassword(), credentialsSalt, this.getName());
 
     }
 
