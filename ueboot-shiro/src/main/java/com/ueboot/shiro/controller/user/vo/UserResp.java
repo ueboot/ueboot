@@ -26,6 +26,7 @@ public class UserResp {
     private Long id;
     private String orgCode;
     private String userName;
+    private String roleNames;
     private boolean locked;
     @JSONField(format="yyyy-MM-dd HH:mm:ss")
     private Date credentialExpiredDate;

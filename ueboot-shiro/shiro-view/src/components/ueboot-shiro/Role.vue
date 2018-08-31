@@ -79,19 +79,7 @@ export default {
     }
   },
   methods: {
-    fetchTreeData() {
-      this.loadingTree = true
-      this.$axios.post('/ueboot/role/list', {}).then((response) => {
-        this.loadingTree = false
-        // 默认给出一个根节点数据，后台插入的时候不校验是否存在
-        let tree = []
-        response.body.forEach((t) => {
-          let t1 = {id: t.id, 'name': t.name, parentId: null}
-          tree.push(t1)
-        })
-        this.tree = tree
-      })
-    },
+
     itemClick (oriNode, oriItem, e) {
       // 更改grid查询条件
       this.$set(this.formGrid.toolbar.superFilter.columns[0], 'init', oriItem.id)

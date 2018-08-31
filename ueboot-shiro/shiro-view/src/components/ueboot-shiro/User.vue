@@ -18,6 +18,20 @@
         <Button @click="()=>{this.resetPwdModal = false}" style="margin-left: 8px">取消</Button>
       </div>
     </Modal>
+    <Modal v-model="setRoleModal">
+      <p slot="header">
+        请注意，正在对<span style="color:red;vertical-align: top">{{formCustom.userName}}</span> 用户进行角色授权操作！
+      </p>
+      <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="80">
+        <FormItem label="新密码" prop="password" required>
+
+        </FormItem>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" @click="handleSubmit('formCustom')">提交</Button>
+        <Button @click="()=>{this.resetPwdModal = false}" style="margin-left: 8px">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -35,7 +49,9 @@
         }
       }
       return {
+        roleData:[],
         resetPwdModal: false,
+        setRoleModal:false,
         formCustom: {
           id: null,
           userName: '',
@@ -62,7 +78,7 @@
               title: '用户管理'
             },
             columns: [
-              {label: '用户名', type: 'text', name: 'userName', required: true, edit: {disabled: true},},
+              {label: '用户名', type: 'text', name: 'userName',required: true, edit: {disabled: true},},
               {
                 label: '密码',
                 type: 'password',
@@ -80,6 +96,13 @@
                 edit: {show: false}
                 ,
                 equalsTo: 'password'
+              },
+              {
+                label: '所属角色',
+                type: 'select',
+                name: 'roles',
+                multiple:true,
+                data:this.roleData
               },
               {
                 label: '是否被锁', type: 'select', name: 'locked',
@@ -117,7 +140,7 @@
             },
             columns: [
               {title: 'id', key: 'id', minWidth: 60, align: 'center'},
-              {title: '用户名', key: 'userName', minWidth: 140},
+              {title: '用户名', key: 'userName', minWidth: 100},
               {
                 title: '是否被锁', key: 'locked', minWidth: 80, align: 'center', fieldFormat: (value, row) => {
                   if (value) {
@@ -127,13 +150,29 @@
                   }
                 }
               },
-              {title: '密码过期时间', key: 'credentialExpiredDate', minWidth: 200, align: 'center'}
+              {title: '密码过期时间', key: 'credentialExpiredDate', minWidth: 120, align: 'center'}
             ]
           }
         }
       }
     },
+    created(){
+      this.fetchRoleData()
+    },
     methods: {
+      //查询所有角色列表
+      fetchRoleData() {
+        this.$axios.post('/ueboot/role/list', {}).then((response) => {
+          // 默认给出一个根节点数据，后台插入的时候不校验是否存在
+          let tree = []
+          response.body.forEach((t) => {
+            let t1 = { 'name': t.name, 'value': t.id}
+            tree.push(t1)
+          })
+          this.roleData = tree
+          this.$set(this.formGrid.form.columns[3], 'data', this.roleData)
+        })
+      },
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {

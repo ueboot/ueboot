@@ -15,4 +15,7 @@ import com.ueboot.core.service.BaseService;
  */
 public interface UserRoleService extends BaseService<UserRole> {
 
+
+    void saveUserRole(Long userId,Long[] roleIds);
+
 }

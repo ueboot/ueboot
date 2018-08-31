@@ -27,4 +27,12 @@ public interface UserRoleRepository extends BaseRepository<UserRole, Long>,UserR
      */
     List<UserRole> findByUserUserName(String userName);
 
+    /**
+     * 根据用户ID查询用户所属角色
+     * @param userId 用户ID
+     * @return 角色列表
+     */
+    List<UserRole> findByUserUserId(Long userId);
+
+
 }

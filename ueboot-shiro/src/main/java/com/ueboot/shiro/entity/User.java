@@ -38,6 +38,10 @@ public class User extends AbstractVersionEntity<Long> {
     @Column(name = "PASSWORD")
     private String password;
 
+    /**用户所属的角色名称，用于页面查看使用。不做权限配置*/
+    @Column(name = "ROLE_NAMES")
+    private String roleNames;
+
     /**
      * 是否被锁，被锁后，无法登陆
      */

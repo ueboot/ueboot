@@ -21,5 +21,6 @@ import org.hibernate.validator.constraints.*;
 @Getter
 @NoArgsConstructor
 public class UserRoleReq {
-    private Long id;
+    private Long userId;
+    private Long[] roleIds;
 }

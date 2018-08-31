@@ -52,14 +52,7 @@ public class UserRoleController {
     @RequiresPermissions("ueboot:userRole:save")
     @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody UserRoleReq req) {
-        UserRole entity = null;
-        if (req.getId() == null) {
-            entity = new UserRole();
-        } else {
-            entity = userRoleService.get(req.getId());
-        }
-        BeanUtils.copyProperties(req, entity);
-        userRoleService.save(entity);
+        userRoleService.saveUserRole(req.getUserId(),req.getRoleIds());
         return new Response<>();
     }
 
