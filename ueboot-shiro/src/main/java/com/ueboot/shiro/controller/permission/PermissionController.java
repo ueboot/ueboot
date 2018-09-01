@@ -6,7 +6,9 @@
 package com.ueboot.shiro.controller.permission;
 
 import com.ueboot.core.http.response.Response;
-import com.ueboot.shiro.controller.permission.vo.*;
+import com.ueboot.shiro.controller.permission.vo.PermissionFindReq;
+import com.ueboot.shiro.controller.permission.vo.PermissionReq;
+import com.ueboot.shiro.controller.permission.vo.PermissionResp;
 import com.ueboot.shiro.entity.Permission;
 import com.ueboot.shiro.service.permission.PermissionService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -48,18 +53,30 @@ public class PermissionController {
         return new Response<>(body);
     }
 
+    /**
+     * 根据角色获取角色所属的权限资源
+     * @param req
+     * @return
+     */
+    @RequiresPermissions("ueboot:permission:read")
+    @PostMapping(value = "/findByRoleId")
+    public Response<List<PermissionResp>> findByUserId(@RequestBody PermissionReq req) {
+        List<Permission> permissions = permissionService.findByRoleId(req.getRoleId());
+        List<PermissionResp> result = new ArrayList<>();
+        permissions.forEach((u)->{
+            PermissionResp resp = new PermissionResp();
+            BeanUtils.copyProperties(u,resp);
+            resp.setRoleId(u.getRole().getId());
+            resp.setResourceId(u.getResource().getId());
+            result.add(resp);
+        });
+        return new Response<>(result);
+    }
 
     @RequiresPermissions("ueboot:permission:save")
     @PostMapping(value = "/save")
     public Response<Void> save(@RequestBody PermissionReq req) {
-        Permission entity = null;
-        if (req.getId() == null) {
-            entity = new Permission();
-        } else {
-            entity = permissionService.get(req.getId());
-        }
-        BeanUtils.copyProperties(req, entity);
-        permissionService.save(entity);
+        permissionService.saveRolePermission(req.getRoleId(),req.getResourceIds());
         return new Response<>();
     }
 

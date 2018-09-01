@@ -21,9 +21,16 @@ import java.util.Set;
 @Repository
 public interface PermissionRepository extends BaseRepository<Permission, Long>,PermissionBaseRepository {
     /**
-     * 根据角色代码查询角色所诉的权限
-     * @param roleCodes 角色代码集合
+     * 根据角色名称查询角色所属的权限
+     * @param roleNames 角色名称集合
      * @return 权限列表
      */
-    List<Permission> findByRoleCodeIn(Set<String> roleCodes);
+    List<Permission> findByRoleNameIn(Set<String> roleNames);
+
+    /**
+     * 根据角色获取权限列表
+     * @param roleId 角色ID
+     * @return 资源列表
+     */
+    List<Permission> findByRoleId(Long roleId);
 }

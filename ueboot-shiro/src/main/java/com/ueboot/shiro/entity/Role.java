@@ -23,9 +23,7 @@ public class Role extends AbstractVersionEntity<Long> {
     @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    /** 角色代码 */
-    @Column(name = "CODE")
-    private String code;
+
     /** 角色名称 */
     @Column(name = "NAME")
     private String name;

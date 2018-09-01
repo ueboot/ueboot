@@ -18,6 +18,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -47,7 +49,18 @@ public class UserRoleController {
 
         return new Response<>(body);
     }
-
+    @RequiresPermissions("ueboot:userRole:read")
+    @PostMapping(value = "/findByRoleId")
+    public Response<List<UserRoleResp>> findByUserId(@RequestBody UserRoleReq req) {
+        List<UserRole> users = userRoleService.findByUserId(req.getUserId());
+        List<UserRoleResp> result = new ArrayList<>();
+        users.forEach((u)->{
+            UserRoleResp resp = new UserRoleResp();
+            BeanUtils.copyProperties(u,resp);
+            result.add(resp);
+        });
+        return new Response<>(result);
+    }
 
     @RequiresPermissions("ueboot:userRole:save")
     @PostMapping(value = "/save")

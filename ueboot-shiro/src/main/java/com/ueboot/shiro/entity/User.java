@@ -42,6 +42,10 @@ public class User extends AbstractVersionEntity<Long> {
     @Column(name = "ROLE_NAMES")
     private String roleNames;
 
+    /**用户所属的角色id，用于快速获取用户角色，分配角色时会进行更新*/
+    @Column(name="ROLE_IDS")
+    private String roleIds;
+
     /**
      * 是否被锁，被锁后，无法登陆
      */

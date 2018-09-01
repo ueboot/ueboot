@@ -83,13 +83,13 @@ public class DefaultShiroServiceImpl implements ShiroService {
     /**
      * 获取用户的权限列表
      *
-     * @param roleCodes 角色名称
+     * @param roleNames 角色名称集合
      * @return 用户权限列表
      */
     @Override
-    public List<String> getRolePermission(Set<String> roleCodes) {
+    public List<String> getRolePermission(Set<String> roleNames) {
 
-        List<Permission> permissionList = this.permissionRepository.findByRoleCodeIn(roleCodes);
+        List<Permission> permissionList = this.permissionRepository.findByRoleNameIn(roleNames);
 
         List<String> names = new ArrayList<>();
         for (Permission p : permissionList) {

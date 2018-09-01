@@ -11,7 +11,7 @@ import ${repositoryPackageName}.${entityName}Repository;
 import com.ueboot.core.service.impl.BaseServiceImpl;
 import ${servicePackageName}.${entityName}Service;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class ${entityName}ServiceImpl extends BaseServiceImpl<${entityFullName}> implements ${entityName}Service{
-    @Autowired
+    @Resource
     private ${entityName}Repository ${lowEntityName}Repository;
 
     @Override

@@ -15,7 +15,6 @@ import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.service.userrole.UserRoleService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,22 +49,18 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole> implements Us
     @Transactional(rollbackFor = Exception.class, timeout = 30, propagation = Propagation.REQUIRED)
     public void saveUserRole(Long userId, Long[] roleIds) {
         //删除原有数据
-        List<UserRole> roles = userRoleRepository.findByUserUserId(userId);
+        List<UserRole> roles = userRoleRepository.findByUserId(userId);
         if(!roles.isEmpty()){
-            this.userRoleRepository.deleteInBatch(new Iterable<UserRole>() {
-                @Override
-                public Iterator<UserRole> iterator() {
-                    return roles.iterator();
-                }
-            });
+            this.userRoleRepository.delete(roles);
         }
         //插入新数据
-        User user = new User();
-        user.setId(userId);
+        User user = userRepository.findById(userId);
         StringBuilder roleNames = new StringBuilder();
+        StringBuilder roleIdsStr = new StringBuilder();
         for (int i = 0; i < roleIds.length; i++) {
             Long roleId = roleIds[i];
             Role role = roleRepository.getOne(roleId);
+            roleIdsStr.append(roleId).append(",");
             roleNames.append(role.getName()).append(",");
             role.setId(roleId);
             UserRole userRole = new UserRole();
@@ -73,7 +68,33 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole> implements Us
             userRole.setUser(user);
             this.userRoleRepository.save(userRole);
         }
-        user.setRoleNames(roleNames.toString());
+        String roleName = roleNames.toString();
+        if(roleName.endsWith(",")){
+            roleName = roleName.substring(0,roleName.length()-1);
+        }
+        user.setRoleNames(roleName);
+        user.setRoleIds(roleIdsStr.toString());
         userRepository.save(user);
+    }
+
+    /**
+     * 根据用户ID查询用户所属角色
+     *
+     * @param userId 用户ID
+     * @return 角色列表
+     */
+    @Override
+    public List<UserRole> findByUserId(Long userId) {
+        return userRoleRepository.findByUserId(userId);
+    }
+
+    /**
+     * 根据角色ID查询角色所属用户列表
+     * @param roleId 角色ID
+     * @return 用户列表
+     */
+    @Override
+    public List<UserRole> findByRoleId(Long roleId) {
+        return userRoleRepository.findByRoleId(roleId);
     }
 }
