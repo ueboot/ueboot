@@ -1,6 +1,5 @@
 package com.ueboot.shiro.shiro.cache;
 
-import com.alibaba.fastjson.JSON;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.StringUtils;

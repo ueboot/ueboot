@@ -12,7 +12,6 @@
         <module>ueboot-parent</module>
         <module>ueboot-excel</module>
         <module>ueboot-shiro</module>
-        <module>ueboot-file</module>
     </modules>
     <packaging>pom</packaging>
     <name>quick-dev</name>
@@ -291,9 +290,13 @@
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
+                                <configuration>
+                                    <additionalparam>-Xdoclint:none</additionalparam>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

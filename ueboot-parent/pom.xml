@@ -268,7 +268,7 @@
         <repository>
             <id>Center</id>
             <name>Nexus</name>
-            <url>http://maven.xiqiao.io/nexus/content/groups/public/</url>
+            <url>http://maven.xiqiao.io/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -281,7 +281,7 @@
         <pluginRepository>
             <id>Center</id>
             <name>Nexus Repositories</name>
-            <url>http://maven.xiqiao.io/nexus/content/groups/public/</url>
+            <url>http://maven.xiqiao.io/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
