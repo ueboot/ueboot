@@ -85,7 +85,7 @@
           </Form>
           <div slot="footer">
             <Button type="primary" @click="handlePasswordSubmit('passwordForm')">提交</Button>
-            <Button type="default" @click="resetPasswordForm('passwordForm')">重置</Button>
+            <Button type="primary" @click="resetPasswordForm('passwordForm')" ghost>重置</Button>
             <Button type="default" @click="passwordModel=false">取消</Button>
           </div>
         </Modal>
@@ -181,7 +181,6 @@ export default {
         {name: '角色管理', id: 12, parentId: 10, url: '/ueboot/shiro/Role'},
         {name: '菜单管理', id: 13, parentId: 10, url: '/ueboot/shiro/Resources'},
         {name: '权限设置', id: 14, parentId: 10, url: '/ueboot/shiro/Permission'}
-
       ]
       let matched = this.$route.matched
       matched.forEach((m) => {

@@ -1,9 +1,8 @@
 {
-  "name": "shiro-view",
+  "name": "ueboot-shiro",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "阳葵 <yaakua@126.com>",
-  "private": true,
+  "description": "基于ueboot框架开发的shiro权限管理界面",
+  "author": "ueboot",
   "scripts": {
     "dev": "npm run lint && npm run style && webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "lint": "eslint  --fix  --ext .js,.vue src",
@@ -67,7 +66,7 @@
     "stylelint": "^9.4.0",
     "stylelint-config-standard": "^18.2.0",
     "stylelint-webpack-plugin": "^0.10.5",
-    "ueboot": "^1.5.20",
+    "ueboot": "^1.5.22",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",

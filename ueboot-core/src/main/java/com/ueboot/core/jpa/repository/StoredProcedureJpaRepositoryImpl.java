@@ -30,7 +30,6 @@ import java.util.Map;
  * </p>
  *
  * @author: wanglijun
- * @create: 2018-08-29 17:35
  * @version：1.0
  */
 public class StoredProcedureJpaRepositoryImpl<T, ID extends Serializable>   extends DefaultJpaRepository implements  StoredProcedureRepository{
@@ -38,7 +37,7 @@ public class StoredProcedureJpaRepositoryImpl<T, ID extends Serializable>   exte
     /***
      * 执行存储过程
      * @param stringQuery 查询对象
-     * @return Boolean
+     * @return Boolean 执行是否成功
      */
     @Override
     public Boolean executeStoredProcedure(StringQuery stringQuery){
@@ -49,8 +48,8 @@ public class StoredProcedureJpaRepositoryImpl<T, ID extends Serializable>   exte
 
     /***
      *
-     * @param stringQuery
-     * @return
+     * @param stringQuery stringQuery
+     * @return List<T> 结果集
      */
     @Override
     public List<T> executeResultList(StringQuery stringQuery) {

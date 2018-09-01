@@ -3,7 +3,6 @@ package com.ueboot.core.exception;
 /**
  *
  * @author Neel
- * @date 2015/8/14
  */
 public class BusinessException extends RuntimeException {
 

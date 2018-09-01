@@ -55,7 +55,7 @@ public class RoleController {
 
     @RequiresPermissions("ueboot:role:read")
     @PostMapping(value = "/page")
-    public Response<Page<RoleResp>> page(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.DESC)
+    public Response<Page<RoleResp>> page(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.ASC)
                                                  Pageable pageable, @RequestBody(required = false) RoleFindReq req) {
         Page<Role> entities = roleService.findBy(pageable);
         Page<RoleResp> body = entities.map(entity -> {

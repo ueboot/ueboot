@@ -17,7 +17,7 @@
     <packaging>pom</packaging>
     <name>quick-dev</name>
     <description>
-        ueboot是一个基于spring boot1.5.9 + vue2.0+iview2.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
+        ueboot是一个基于spring boot1.5.9 + vue2.0+iview3.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
     </description>
     <url>https://gitee.com/ueboot/ueboot-quick-dev</url>
 
@@ -211,9 +211,13 @@
                     <executions>
                         <execution>
                             <id>attach-javadocs</id>
+                            <phase>package</phase>
                             <goals>
                                 <goal>jar</goal>
                             </goals>
+                            <configuration>
+                                <additionalparam>-Xdoclint:none</additionalparam>
+                            </configuration>
                         </execution>
                     </executions>
                 </plugin>

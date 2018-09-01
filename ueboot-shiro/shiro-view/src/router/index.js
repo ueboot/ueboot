@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Organization from '../components/ueboot-shiro/Organization'
-import Permission from '../components/ueboot-shiro/Permission'
 import Resources from '../components/ueboot-shiro/Resources'
 import User from '../components/ueboot-shiro/User'
 import Role from '../components/ueboot-shiro/Role'
@@ -27,16 +26,6 @@ export default new Router({
           path: '/ueboot/shiro/Role',
           name: 'Role',
           component: Role
-        },
-        {
-          path: '/ueboot/shiro/Organization',
-          name: 'Organization',
-          component: Organization
-        },
-        {
-          path: '/ueboot/shiro/Permission',
-          name: 'Permission',
-          component: Permission
         },
         {
           path: '/ueboot/shiro/Resources',

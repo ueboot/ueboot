@@ -74,7 +74,7 @@ public class HttpClientUtil {
 	 * @return 地址对应的内容
 	 */
 	public static String get(String url, int socketTime, int connectTimeout, String charset)
-			throws ClientProtocolException, IOException {
+			throws  IOException {
 		CloseableHttpClient httpclient = HttpClients.custom().setConnectionManager(cm).build();
 		RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(30000).setConnectTimeout(30000).setConnectionRequestTimeout(30000).build();
 		HttpGet httpGet = new HttpGet(url);
@@ -215,7 +215,7 @@ public class HttpClientUtil {
 	 * 2.编码为utf-8
 	 * @param content content
 	 * @param url  url
-	 * @throws IOException
+	 * @throws IOException IOException
 	 * @return 返回值
 	 */
 	public static String postXml(String url, String content) throws IOException {
@@ -229,7 +229,7 @@ public class HttpClientUtil {
 	 * 	 2.编码为utf-8
 	 * 	 @param content content
 	 * 	 @param url  url
-	 * 	 @throws IOException
+	 * 	 @throws IOException IOException
 	 * 	 @return 返回值
 	 */
 	public static String postJSON(String url, String content) throws IOException {
