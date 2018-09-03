@@ -31,7 +31,7 @@
         <Sider hide-trigger :style="{background: '#fff',height: '100%'}">
           <Menu :theme="theme" :width="menuWidth" :style="{ 'min-height' : clientHeight - 112 + 'px'}"
                 @on-select="menuClick" :active-name="activeMenuName"
-                :open-names="openMenuNames">
+                :open-names="openMenuNames" accordion v-if="menus.length>0">
             <template v-for="(menu, index) in menus">
               <Submenu :name="'m'+menu.id" v-if="menu.parentId == null" :key="'sub'+index">
                 <template slot="title">
@@ -129,7 +129,7 @@ export default {
       activeMenuName: '',
       menus: [],
       breadItems: [], // 面包屑导航,
-      openMenuNames: [''],
+      openMenuNames: [],
       clientHeight: document.documentElement.clientHeight,
       clientWidth: document.documentElement.clientWidth,
       passwordModel: false, // 弹出修改密码弹出层
@@ -192,34 +192,14 @@ export default {
               if (n.url === m.path) {
                 this.initBreadItems(m)
                 this.activeMenuName = 'm' + n.id
-                this.openMenuNames.push('m' + n.parentId)
+                if(n.parentId!==''){
+                  this.openMenuNames.push('m' + n.parentId)
+                }
               }
             })
           }
         })
       })
-      /* this.menus = [
-           // 关系数据
-           {name: '权限管理', id: 10, parentId: null, url: ''},
-           {name: '用户管理', id: 11, parentId: 10, url: '/ueboot/shiro/User'},
-           {name: '角色管理', id: 12, parentId: 10, url: '/ueboot/shiro/Role'},
-           {name: '菜单管理', id: 13, parentId: 10, url: '/ueboot/shiro/Resources'},
-           {name: '权限设置', id: 14, parentId: 10, url: '/ueboot/shiro/Permission'}
-         ] */
-
-      /* axios.get('/menus').then(response => {
-            this.menus = response.body
-            this.activeMenuName = this.$route.name
-            // 让菜单展开到路径匹配的位置
-            let matched = this.$route.matched
-            matched.forEach((m) => {
-              if (!m.parent) {
-                this.openMenuNames.push(m.name)
-              }
-            })
-          }).catch(response => {
-            console.log(response)
-          }) */
     },
     menuClick (id) {
       this.menus.forEach((n) => {
@@ -301,9 +281,9 @@ export default {
     }
   },
   created () {
-    this.init()
   },
   mounted () {
+    this.init()
     let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user')) || {}
     this.loginName = sessionUser.userName// 登录账号名称
     this.lastLoginTime = sessionUser.lastLoginTime// 上次登录时间
