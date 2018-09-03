@@ -2,6 +2,7 @@ package com.ueboot.core.exception;
 
 import com.ueboot.core.http.response.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -39,6 +40,15 @@ public class WebExceptionHandler {
     @ResponseBody
     public Response<Void> handleIllegalArgumentExceptions(final Exception e, final WebRequest req) {
         return new Response<>(HttpStatus.BAD_REQUEST.value() + "", e.getMessage(), null);
+    }
+
+    @ExceptionHandler(UnauthenticatedException.class)
+    @Order(value = Integer.MIN_VALUE+1)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public Response<Void> handleException(UnauthenticatedException e) {
+        log.debug("{} was thrown", e.getClass(), e);
+        return new Response<>(HttpStatus.FORBIDDEN.value() + "", "当前用户未登录", null);
     }
 
     /**

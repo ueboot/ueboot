@@ -15,6 +15,7 @@ import com.ueboot.shiro.repository.resources.ResourcesRepository;
 import com.ueboot.shiro.repository.role.RoleRepository;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.resources.ResourcesService;
+import com.ueboot.shiro.shiro.UserRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -70,6 +71,11 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
      */
     @Override
     public Collection<Resources> getUserResources(String username) {
+        //root用户返回所有菜单，防止root账户还需要授权才能访问
+        if(UserRealm.SUPER_USER.equals(username)){
+           return  this.resourcesRepository.findAll();
+        }
+
         //找出用户的角色，根据角色查找用户的菜单
         List<UserRole> userRoleList = userRoleRepository.findByUserUserName(username);
         Set<String> roleNames = new HashSet<>();

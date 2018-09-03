@@ -13,6 +13,7 @@ import com.ueboot.shiro.controller.user.vo.UserReq;
 import com.ueboot.shiro.controller.user.vo.UserResp;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.service.user.UserService;
+import com.ueboot.shiro.shiro.UserRealm;
 import com.ueboot.shiro.util.PasswordUtil;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;

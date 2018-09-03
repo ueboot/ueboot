@@ -75,7 +75,7 @@ public class Resources extends AbstractVersionEntity<Long> {
     /**
      * 父级资源名称
      */
-    @Column
+    @Column(name = "PARENT_NAME")
     private String parentName;
 
     /**
