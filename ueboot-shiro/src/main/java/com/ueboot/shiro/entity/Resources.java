@@ -1,6 +1,7 @@
 package com.ueboot.shiro.entity;
 
 import com.ueboot.core.entity.AbstractVersionEntity;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

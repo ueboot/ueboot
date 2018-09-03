@@ -3,25 +3,25 @@
     <Layout style="height: 100%">
       <Header :style="{color: '#fff'}">
         <Menu mode="horizontal" theme="dark" active-name="1">
-          <div class="layout-logo">
+          <div class="layout-logo" :style="config.layoutLogoStyle">
             <a class="header-logo">
-              <img src="../assets/logo.png" alt="." class="header-img">
-              <span class="header-span">虚拟架构查询</span>
+              <img :src="config.logoImage" alt="." class="header-img">
+              <span class="header-span">{{config.sysTitle}}</span>
             </a>
           </div>
-          <div class="layout-nav">
+          <div class="layout-nav" :style="config.layoutNavStyle">
             <MenuItem name="1">
               <a href="javascript:void(0)" @click="logout" class="header-menu ">
                 <Icon type="md-exit" style="color:red;"></Icon>
                 <span style="cursor:pointer;">退出系统</span>
               </a>
             </MenuItem>
-            <!--<MenuItem name="2">-->
-            <!--<a href="javascript:void(0)" @click="resetPwd" class="header-menu">-->
-            <!--<Icon type="edit" style="color:#657180;"></Icon>-->
-            <!--<span style="cursor:pointer;">修改密码</span>-->
-            <!--</a>-->
-            <!--</MenuItem>-->
+            <MenuItem name="2">
+              <a href="javascript:void(0)" @click="resetPwd" class="header-menu">
+                <Icon type="md-create" style="color:#657180;"></Icon>
+                <span style="cursor:pointer;">修改密码</span>
+              </a>
+            </MenuItem>
 
           </div>
         </Menu>
@@ -29,16 +29,18 @@
       </Header>
       <Layout>
         <Sider hide-trigger :style="{background: '#fff',height: '100%'}">
-          <Menu :theme="theme" :width="menuWidth" :style="{ 'min-height' : clientHeight - 112 + 'px'}" @on-select="menuClick" :active-name="activeMenuName"
+          <Menu :theme="theme" :width="menuWidth" :style="{ 'min-height' : clientHeight - 112 + 'px'}"
+                @on-select="menuClick" :active-name="activeMenuName"
                 :open-names="openMenuNames">
-            <template  v-for="(menu, index) in menus">
-              <Submenu :name="'m'+menu.id" v-if="menu.parentId == null" :key="index">
+            <template v-for="(menu, index) in menus">
+              <Submenu :name="'m'+menu.id" v-if="menu.parentId == null" :key="'sub'+index">
                 <template slot="title">
-                  <Icon :type="menu.themeJson.icon" size="15" :color="menu.themeJson.color" style="margin-right: 3px;" v-if="menu.themeJson"></Icon>
+                  <Icon :type="menu.themeJson.icon" size="15" :color="menu.themeJson.color" style="margin-right: 3px;"
+                        v-if="menu.themeJson"></Icon>
                   <span class="layout-text">{{menu.name}}</span>
                 </template>
                 <template v-for="child in menus">
-                  <Menu-item :name="'m'+child.id" :key="child.id" v-if="child.parentId === menu.id">
+                  <Menu-item :name="'m'+child.id" :key="'child'+child.id+'m'+menu.id" v-if="child.parentId === menu.id">
 
                     <Icon :type="child.themeJson.icon" :size="iconSize" v-if="child.themeJson"></Icon>
                     <span class="layout-text">{{child.name}}</span>
@@ -52,14 +54,12 @@
           <Breadcrumb :style="{margin: '15px 0'}">
             <BreadcrumbItem v-for="(item, index) in breadItems" :key="'bread'+index">{{item.name}}</BreadcrumbItem>
           </Breadcrumb>
-          <Content :style="{padding: '14px', minHeight: clientHeight - 175+ 'px', background: '#fff',width:'100%',maxWidth:'100% !important'}">
+          <Content
+            :style="{padding: '14px', minHeight: clientHeight - 175+ 'px', background: '#fff',width:'100%',maxWidth:'100% !important'}">
             <transition>
               <router-view></router-view>
             </transition>
           </Content>
-          <div class="layout-copy">
-            2018 &copy; ueboot权限管理系统
-          </div>
         </Layout>
       </Layout>
 
@@ -95,6 +95,8 @@
 </template>
 
 <script>
+import config from '../ueboot-shiro'
+
 export default {
   data () {
     const validatePass = (rule, value, callback) => {
@@ -114,6 +116,10 @@ export default {
       }
     }
     return {
+      config: {
+        logoImage: '',
+        sysTitle: ''
+      },
       loginName: '', // 登录账号名称
       lastLoginTime: '', // 上次登录时间
       state: '',
@@ -172,42 +178,48 @@ export default {
     },
 
     init: function () {
-      // todo 先固定写死菜单，后续改为从后台读取
-
-      this.menus = [
-        // 关系数据
-        {name: '权限管理', id: 10, parentId: null, url: ''},
-        {name: '用户管理', id: 11, parentId: 10, url: '/ueboot/shiro/User'},
-        {name: '角色管理', id: 12, parentId: 10, url: '/ueboot/shiro/Role'},
-        {name: '菜单管理', id: 13, parentId: 10, url: '/ueboot/shiro/Resources'},
-        {name: '权限设置', id: 14, parentId: 10, url: '/ueboot/shiro/Permission'}
-      ]
-      let matched = this.$route.matched
-      matched.forEach((m) => {
-        if (m.parent) {
-          this.menus.forEach((n) => {
-            // 根据URL匹配，找到对应的菜单和父节点菜单ID
-            if (n.url === m.path) {
-              this.initBreadItems(m)
-              this.activeMenuName = 'm' + n.id
-              this.openMenuNames.push('m' + n.parentId)
-            }
-          })
-        }
-      })
-      /* axios.get('/menus').then(response => {
+      this.config = config.getConfig()
+      // 从后台读取当前用户的权限菜单
+      this.$axios.get('/ueboot/shiro/private/menus').then((response) => {
+        if (response.body) {
           this.menus = response.body
-          this.activeMenuName = this.$route.name
-          // 让菜单展开到路径匹配的位置
-          let matched = this.$route.matched
-          matched.forEach((m) => {
-            if (!m.parent) {
-              this.openMenuNames.push(m.name)
-            }
-          })
-        }).catch(response => {
-          console.log(response)
-        }) */
+        }
+        let matched = this.$route.matched
+        matched.forEach((m) => {
+          if (m.parent) {
+            this.menus.forEach((n) => {
+              // 根据URL匹配，找到对应的菜单和父节点菜单ID
+              if (n.url === m.path) {
+                this.initBreadItems(m)
+                this.activeMenuName = 'm' + n.id
+                this.openMenuNames.push('m' + n.parentId)
+              }
+            })
+          }
+        })
+      })
+      /* this.menus = [
+           // 关系数据
+           {name: '权限管理', id: 10, parentId: null, url: ''},
+           {name: '用户管理', id: 11, parentId: 10, url: '/ueboot/shiro/User'},
+           {name: '角色管理', id: 12, parentId: 10, url: '/ueboot/shiro/Role'},
+           {name: '菜单管理', id: 13, parentId: 10, url: '/ueboot/shiro/Resources'},
+           {name: '权限设置', id: 14, parentId: 10, url: '/ueboot/shiro/Permission'}
+         ] */
+
+      /* axios.get('/menus').then(response => {
+            this.menus = response.body
+            this.activeMenuName = this.$route.name
+            // 让菜单展开到路径匹配的位置
+            let matched = this.$route.matched
+            matched.forEach((m) => {
+              if (!m.parent) {
+                this.openMenuNames.push(m.name)
+              }
+            })
+          }).catch(response => {
+            console.log(response)
+          }) */
     },
     menuClick (id) {
       this.menus.forEach((n) => {

@@ -13,6 +13,8 @@ import com.ueboot.shiro.entity.Role;
 import com.ueboot.shiro.repository.permission.PermissionRepository;
 import com.ueboot.shiro.repository.role.RoleRepository;
 import com.ueboot.shiro.service.permission.PermissionService;
+import com.ueboot.shiro.shiro.UserRealm;
+import com.ueboot.shiro.shiro.cache.ShiroRedisCahceManger;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,6 +38,10 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
     @Resource
     private RoleRepository roleRepository;
+
+
+    @Resource
+    private UserRealm userRealm;
 
     @Override
     protected BaseRepository getBaseRepository() {
@@ -78,5 +84,9 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
             p.setRole(role);
             permissionRepository.save(p);
         });
+        //清除权限缓存
+        if(userRealm.getAuthorizationCache()!=null){
+            userRealm.getAuthorizationCache().clear();
+        }
     }
 }

@@ -79,11 +79,10 @@ public class ShiroBaseConfigure {
     }
 
     @Bean
-    public Realm realm(CredentialsMatcher credentialsMatcher) {
-        UserRealm realm = new UserRealm();
+    public Realm realm(CredentialsMatcher credentialsMatcher,UserRealm userRealm) {
         //自定义密码校验器
-        realm.setCredentialsMatcher(credentialsMatcher);
-        return realm;
+        userRealm.setCredentialsMatcher(credentialsMatcher);
+        return userRealm;
     }
 
     /**

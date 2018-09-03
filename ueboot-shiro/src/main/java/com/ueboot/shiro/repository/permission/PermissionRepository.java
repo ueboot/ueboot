@@ -33,4 +33,11 @@ public interface PermissionRepository extends BaseRepository<Permission, Long>,P
      * @return 资源列表
      */
     List<Permission> findByRoleId(Long roleId);
+
+    /**
+     * 根据资源ID查找相关资源ID的权限
+     * @param resourceId 资源ID
+     * @return 权限列表
+     */
+    List<Permission> findByResourceId(Long resourceId);
 }

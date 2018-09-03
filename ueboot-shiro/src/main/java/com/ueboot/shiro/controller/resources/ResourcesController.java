@@ -122,7 +122,7 @@ public class ResourcesController {
     @RequiresPermissions("ueboot:resources:delete")
     @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
-        resourcesService.delete(id);
+        resourcesService.deleteResource(id);
         return new Response<>();
     }
 

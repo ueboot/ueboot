@@ -20,13 +20,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * ueboot-shiro 对外提供Api接口（用户登录、退出、验证码、用户菜单、）
+ *
  * @author yangkui
  */
 @Slf4j
@@ -60,6 +58,7 @@ public class ApiController {
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
         return new Response<>();
     }
+
     @RequiresAuthentication
     @PostMapping(value = "/private/logout")
     public Response<Void> logout(@RequestBody LoginVo params) {
@@ -70,6 +69,7 @@ public class ApiController {
 
     /**
      * 获取登录用户的菜单资源
+     *
      * @return 菜单资源
      */
     @RequiresAuthentication
@@ -78,27 +78,57 @@ public class ApiController {
         Subject currentUser = SecurityUtils.getSubject();
         String username = (String) currentUser.getPrincipal();
 
-        Resources[] resources = this.resourcesService.getUserResources(username);
-
+        Collection<Resources> resources = this.resourcesService.getUserResources(username);
+        //查询出所有菜单组资源。防止授权时未勾选菜单组，导致前端页面没有菜单出现
+        List<Resources> groups = this.resourcesService.findByResourceType(Resources.RESOURCE_TYPE_GROUP);
         List<MenuVo> body = new ArrayList<>();
-
+        List<Resources> parents = new ArrayList<>();
+        Map<Long,Resources> resourcesMap = new HashMap<>();
         for (Resources resource : resources) {
-            MenuVo menu = new MenuVo();
-            BeanUtils.copyProperties(resource, menu);
-            menu.setThemeJson(StringUtils.isEmpty(resource.getThemeJson()) ? new HashMap() : JSON.parseObject(resource.getThemeJson(), Map.class));
-            body.add(menu);
+            if (Resources.RESOURCE_TYPE_BUTTON.equals(resource.getResourceType())) {
+                continue;
+            }
+            if (resource.getParent() != null) {
+                parents.add(resource.getParent());
+            }
+            resourcesMap.put(resource.getId(),resource);
+            body.add(assementMenuVo(resource));
         }
+        //查找所有父节点是否在结果集当中，不在则需要获取
+        parents.forEach((p)->{
+            Resources parent = resourcesMap.get(p.getId());
+            if(parent==null){
+                while (groups.iterator().hasNext()){
+                    Resources g = groups.iterator().next();
+                    if(p.getId().equals(g.getId())){
+                        body.add(assementMenuVo(g));
+                        groups.remove(g);
+                    }
+                }
+            }
+        });
         return new Response<>(body);
+    }
+
+    private MenuVo assementMenuVo(Resources resource){
+        MenuVo menu = new MenuVo();
+        BeanUtils.copyProperties(resource, menu);
+        if (resource.getParent() != null) {
+            menu.setParentId(resource.getParent().getId());
+        }
+        menu.setThemeJson(StringUtils.isEmpty(resource.getThemeJson()) ? new HashMap() : JSON.parseObject(resource.getThemeJson(), Map.class));
+        return  menu;
     }
 
     /**
      * 获取验证码
-     * @param request request
+     *
+     * @param request  request
      * @param response response
      * @throws IOException IOException
      */
     @RequestMapping(value = "/public/captcha", method = RequestMethod.GET)
-    public void captcha(HttpServletRequest request, HttpServletResponse response) throws  IOException {
+    public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0L);

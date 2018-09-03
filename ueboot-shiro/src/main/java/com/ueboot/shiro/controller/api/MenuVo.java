@@ -1,11 +1,13 @@
 package com.ueboot.shiro.controller.api;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Map;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class MenuVo {
 
@@ -29,13 +31,9 @@ public class MenuVo {
     /** 父ID */
     private Long parentId; //父编号
 
-    /** 父ID集合 */
-    private String parentPath; //父编号列表
-
     /** 是否启用 */
     private Boolean available = Boolean.FALSE;
-
-    /** 是否启用 */
+    /**排序*/
     private Long rank = 0L;
 
 }

@@ -6,6 +6,7 @@ import com.ueboot.shiro.entity.UserRole;
 import com.ueboot.shiro.repository.permission.PermissionRepository;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.user.UserService;
+import org.apache.shiro.util.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
@@ -87,13 +88,15 @@ public class DefaultShiroServiceImpl implements ShiroService {
      * @return 用户权限列表
      */
     @Override
-    public List<String> getRolePermission(Set<String> roleNames) {
+    public Set<String> getRolePermission(Set<String> roleNames) {
 
         List<Permission> permissionList = this.permissionRepository.findByRoleNameIn(roleNames);
 
-        List<String> names = new ArrayList<>();
+        Set<String> names = new HashSet<>();
         for (Permission p : permissionList) {
-            names.add(p.getResource().getPermission());
+            if(StringUtils.hasText(p.getResource().getPermission())){
+                names.add(p.getResource().getPermission());
+            }
         }
         return names;
 

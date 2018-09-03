@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
 * 这个类里面使用spring data jpa 方式实现数据库的CRUD
 * Created on 2018-08-22 19:58:32
@@ -20,5 +22,15 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ResourcesRepository extends BaseRepository<Resources, Long>,ResourcesBaseRepository {
     Resources findById(Long id);
+
+    List<Resources> findByParentId(Long parentId);
+
+    /**
+     * 根据资源类型查找资源列表
+     * @param resourcesType 资源类型
+     * @return 资源列表
+     */
+    List<Resources> findByResourceType(String resourcesType);
+
 
 }

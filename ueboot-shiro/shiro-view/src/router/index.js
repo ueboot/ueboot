@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Organization from '../components/ueboot-shiro/Organization'
-import Resources from '../components/ueboot-shiro/Resources'
-import User from '../components/ueboot-shiro/User'
-import Role from '../components/ueboot-shiro/Role'
+import Resources from '../views/Resources'
+import User from '../views/User'
+import Role from '../views/Role'
 import Main from '../views/Main.vue'
 import Login from '../views/Login.vue'
 

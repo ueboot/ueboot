@@ -113,12 +113,6 @@
             <artifactId>ueboot-shiro</artifactId>
             <version>${ueboot.shiro.version}</version>
         </dependency>
-        <!--ueboot文件上传与下载组件-->
-        <dependency>
-            <groupId>com.ueboot</groupId>
-            <artifactId>ueboot-file</artifactId>
-            <version>${ueboot.file.version}</version>
-        </dependency>
         <dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>

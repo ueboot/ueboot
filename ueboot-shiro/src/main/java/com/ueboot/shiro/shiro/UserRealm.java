@@ -10,6 +10,7 @@ import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ import java.util.Set;
  * @author yangkui
  */
 @Slf4j
+@Component
 public class UserRealm extends AuthorizingRealm {
 
     /**
@@ -38,7 +40,7 @@ public class UserRealm extends AuthorizingRealm {
         String username = (String) this.getAvailablePrincipal(principals);
         Set<String> roleNames = this.shiroService.getUserRoleCodes(username);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
-        Collection<String> permissions = this.shiroService.getRolePermission(roleNames);
+        Set<String> permissions = this.shiroService.getRolePermission(roleNames);
         //如果是指定的超级用户，则默认有一个最高权限，可以访问权限设置的功能
         if(SUPER_USER.equals(username)){
             permissions.add("ueboot:*");

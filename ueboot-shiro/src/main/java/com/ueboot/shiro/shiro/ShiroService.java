@@ -59,6 +59,6 @@ public interface ShiroService {
      * @param roleCodes 角色代码列表
      * @return 用户权限列表
      */
-    List<String> getRolePermission(Set<String> roleCodes);
+    Set<String> getRolePermission(Set<String> roleCodes);
 
 }
