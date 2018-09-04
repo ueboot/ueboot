@@ -1,8 +1,8 @@
 /*
-* Copyright (c)  2018
-* All rights reserved.
-* 2018-08-14 10:47:55
-*/
+ * Copyright (c)  2018
+ * All rights reserved.
+ * 2018-08-14 10:47:55
+ */
 package com.ueboot.shiro.controller.user;
 
 import com.ueboot.core.exception.BusinessException;
@@ -33,6 +33,7 @@ import java.util.Date;
 
 /**
  * Created on 2018-08-14 10:47:55
+ *
  * @author yangkui
  * @since 2.1.0 by ueboot-generator
  */
@@ -44,14 +45,14 @@ public class UserController {
     @Resource
     private UserService userService;
     @Resource
-    private  ShiroService shiroService;
+    private ShiroService shiroService;
 
 
     @RequiresPermissions("ueboot:user:read")
     @PostMapping(value = "/page")
     public Response<Page<UserResp>> page(@PageableLimits(maxSize = 10000)
-                                             @PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.ASC)
-                                                     Pageable pageable, @RequestBody(required = false) UserFindReq req){
+                                         @PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.ASC)
+                                                 Pageable pageable, @RequestBody(required = false) UserFindReq req) {
         Page<User> entities = userService.findBy(pageable);
         Page<UserResp> body = entities.map(entity -> {
             UserResp resp = new UserResp();
@@ -70,20 +71,22 @@ public class UserController {
         if (req.getId() == null) {
             entity = new User();
             User user = this.userService.findByUserName(req.getUserName());
-            if(user!=null){
+            if (user != null) {
                 throw new BusinessException("当前用户名已经存在，不能重复添加!");
             }
         } else {
             entity = userService.findById(req.getId());
         }
 
-        BeanUtils.copyProperties(req, entity,"password");
-        if(StringUtil.isNotBlank(req.getPassword())){
-            entity.setPassword(PasswordUtil.sha512(entity.getUserName(),req.getPassword()));
-            JDateTime dateTime = new JDateTime();
-            //默认密码过期日期为x个月，x个月后要求更换密码
-            Date expiredDate = dateTime.addMonth(this.shiroService.getPasswordExpiredMonth()).convertToDate();
-            entity.setCredentialExpiredDate(expiredDate);
+        BeanUtils.copyProperties(req, entity, "password");
+        if (StringUtil.isNotBlank(req.getPassword())) {
+            entity.setPassword(PasswordUtil.sha512(entity.getUserName(), req.getPassword()));
+            if (req.getCredentialExpiredDate() == null) {
+                JDateTime dateTime = new JDateTime();
+                //默认密码过期日期为x个月，x个月后要求更换密码
+                Date expiredDate = dateTime.addMonth(this.shiroService.getPasswordExpiredMonth()).convertToDate();
+                entity.setCredentialExpiredDate(expiredDate);
+            }
         }
         userService.save(entity);
         return new Response<>();

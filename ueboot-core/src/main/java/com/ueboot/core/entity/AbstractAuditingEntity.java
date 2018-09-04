@@ -40,10 +40,10 @@ import java.util.Date;
 @EntityListeners (AuditingEntityListener.class)
 public abstract class AbstractAuditingEntity<PK>  extends AbstractSuperEntity<PK> {
 
-    /** 创建人ID */
+    /** 创建人名称 */
     @CreatedBy
     @Column(name = "CREATED_BY")
-    protected Long createdBy;
+    protected String createdBy;
 
     /** 首次插入时间 */
     @CreatedDate
@@ -51,10 +51,10 @@ public abstract class AbstractAuditingEntity<PK>  extends AbstractSuperEntity<PK
     @Temporal (TemporalType.TIMESTAMP)
     protected Date createdDate;
 
-    /** 最后修改人 */
+    /** 最后修改人名称 */
     @LastModifiedBy
     @Column(name = "LAST_MODIFIED_BY")
-    protected Long lastModifiedBy;
+    protected String lastModifiedBy;
 
     /** 最后修改时间 */
     @LastModifiedDate
