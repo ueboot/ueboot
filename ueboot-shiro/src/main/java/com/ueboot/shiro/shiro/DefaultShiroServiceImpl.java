@@ -101,4 +101,14 @@ public class DefaultShiroServiceImpl implements ShiroService {
         return names;
 
     }
+
+    /**
+     * 获取密码过期月份数。新用户和修改密码后，会自动将当前过期时间设置为当前时间往后几个月
+     *
+     * @return 过期月份数
+     */
+    @Override
+    public int getPasswordExpiredMonth() {
+        return 6;
+    }
 }

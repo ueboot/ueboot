@@ -266,9 +266,7 @@ export default {
           let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user'))
           let jsonData = {
             oldPassword: this.pwdForm.originPwd,
-            newPassword: this.pwdForm.newPwd,
-            userType: sessionUser.userType,
-            userId: sessionUser.userId
+            newPassword: this.pwdForm.newPwd
           }
           this.$axios.post('/ueboot/shiro/private/updatePassword', jsonData).then((data) => {
             // 关闭浮层

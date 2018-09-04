@@ -13,8 +13,10 @@ import com.ueboot.shiro.controller.user.vo.UserReq;
 import com.ueboot.shiro.controller.user.vo.UserResp;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.service.user.UserService;
+import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.UserRealm;
 import com.ueboot.shiro.util.PasswordUtil;
+import jodd.datetime.JDateTime;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -26,6 +28,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 
 /**
@@ -40,6 +43,8 @@ public class UserController {
 
     @Resource
     private UserService userService;
+    @Resource
+    private  ShiroService shiroService;
 
 
     @RequiresPermissions("ueboot:user:read")
@@ -75,6 +80,10 @@ public class UserController {
         BeanUtils.copyProperties(req, entity,"password");
         if(StringUtil.isNotBlank(req.getPassword())){
             entity.setPassword(PasswordUtil.sha512(entity.getUserName(),req.getPassword()));
+            JDateTime dateTime = new JDateTime();
+            //默认密码过期日期为x个月，x个月后要求更换密码
+            Date expiredDate = dateTime.addMonth(this.shiroService.getPasswordExpiredMonth()).convertToDate();
+            entity.setCredentialExpiredDate(expiredDate);
         }
         userService.save(entity);
         return new Response<>();

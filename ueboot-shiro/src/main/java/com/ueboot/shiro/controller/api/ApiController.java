@@ -2,11 +2,17 @@ package com.ueboot.shiro.controller.api;
 
 
 import com.alibaba.fastjson.JSON;
+import com.ueboot.core.exception.BusinessException;
 import com.ueboot.core.http.response.Response;
 import com.ueboot.core.utils.CaptchaUtils;
 import com.ueboot.shiro.entity.Resources;
+import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.service.resources.ResourcesService;
+import com.ueboot.shiro.service.user.UserService;
+import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.processor.ShiroProcessor;
+import com.ueboot.shiro.util.PasswordUtil;
+import jodd.datetime.JDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
@@ -38,10 +44,17 @@ public class ApiController {
 
     private final ResourcesService resourcesService;
 
+    private final  UserService userService;
+
+    private final ShiroService shiroService;
+
     @Autowired
-    public ApiController(ShiroProcessor shiroProcessor, ResourcesService resourcesService) {
+    public ApiController(ShiroProcessor shiroProcessor, ResourcesService resourcesService,
+                         UserService userService,ShiroService shiroService) {
         this.shiroProcessor = shiroProcessor;
         this.resourcesService = resourcesService;
+        this.userService = userService;
+        this.shiroService = shiroService;
     }
 
     @PostMapping(value = "/public/login")
@@ -66,6 +79,29 @@ public class ApiController {
         this.shiroProcessor.logout();
         return new Response<>();
     }
+
+
+    @RequiresAuthentication
+    @RequestMapping(value = "/private/updatePassword")
+    public Response<Void> updatePassword(@RequestBody UpdatePasswordReq req) {
+       String userName = (String)SecurityUtils.getSubject().getPrincipal();
+        //加密旧密码
+        String oldPassword = PasswordUtil.sha512(userName,req.getOldPassword().toLowerCase());
+        //加密新密码
+        String newPassword = PasswordUtil.sha512(userName,req.getNewPassword().toLowerCase());
+        User user = userService.findByUserName(userName);
+        if(!user.getPassword().equals(oldPassword)){
+            throw new BusinessException("原密码输入错误,请重新输入");
+        }
+        user.setPassword(newPassword);
+        JDateTime dateTime = new JDateTime();
+        //默认密码过期日期为x个月，x个月后要求更换密码
+        Date expiredDate = dateTime.addMonth(this.shiroService.getPasswordExpiredMonth()).convertToDate();
+        user.setCredentialExpiredDate(expiredDate);
+        this.userService.save(user);
+        return new Response<Void>();
+    }
+
 
     /**
      * 获取登录用户的菜单资源
@@ -92,7 +128,7 @@ public class ApiController {
                 parents.add(resource.getParent());
             }
             resourcesMap.put(resource.getId(),resource);
-            body.add(assementMenuVo(resource));
+            body.add(assembleMenuVo(resource));
         }
         //查找所有父节点是否在结果集当中，不在则需要获取
         parents.forEach((p)->{
@@ -101,7 +137,7 @@ public class ApiController {
                 while (groups.iterator().hasNext()){
                     Resources g = groups.iterator().next();
                     if(p.getId().equals(g.getId())){
-                        body.add(assementMenuVo(g));
+                        body.add(assembleMenuVo(g));
                         groups.remove(g);
                     }
                 }
@@ -110,7 +146,7 @@ public class ApiController {
         return new Response<>(body);
     }
 
-    private MenuVo assementMenuVo(Resources resource){
+    private MenuVo assembleMenuVo(Resources resource){
         MenuVo menu = new MenuVo();
         BeanUtils.copyProperties(resource, menu);
         if (resource.getParent() != null) {

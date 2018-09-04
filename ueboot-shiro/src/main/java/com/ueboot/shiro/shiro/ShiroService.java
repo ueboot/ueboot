@@ -61,4 +61,10 @@ public interface ShiroService {
      */
     Set<String> getRolePermission(Set<String> roleCodes);
 
+    /**
+     * 获取密码过期月份数。新用户和修改密码后，会自动将当前过期时间设置为当前时间往后几个月
+     * @return 过期月份数
+     */
+    int getPasswordExpiredMonth();
+
 }
