@@ -40,12 +40,23 @@
                   <span class="layout-text">{{menu.name}}</span>
                 </template>
                 <template v-for="child in menus">
-                  <Menu-item :name="'m'+child.id" :key="'child'+child.id+'m'+menu.id" v-if="child.parentId === menu.id">
-
+                  <Menu-item :name="'m'+child.id" :key="'child'+child.id+'m'+menu.id" v-if="child.parentId === menu.id&&child.resourceType === '菜单'">
                     <Icon :type="child.themeJson.icon" :size="iconSize" v-if="child.themeJson"></Icon>
                     <span class="layout-text">{{child.name}}</span>
                   </Menu-item>
-                </template>
+                  <Submenu :name="'m'+child.id"  v-if="child.parentId === menu.id&&child.resourceType === '菜单组'">
+                    <template slot="title">
+                      <Icon :type="child.themeJson.icon" :size="iconSize" v-if="child.themeJson"></Icon>
+                      <span class="layout-text">{{child.name}}</span>
+                    </template>
+                    <template v-for="child2 in menus">
+                      <Menu-item :name="'m'+child2.id" :key="'child'+child2.id+'m'+menu.id" v-if="child2.parentId === child.id&&child2.resourceType === '菜单'">
+                        <Icon :type="child2.themeJson.icon" :size="iconSize" v-if="child2.themeJson"></Icon>
+                        <span class="layout-text">{{child2.name}}</span>
+                      </Menu-item>
+                    </template>
+                  </Submenu>
+                  </template>
               </Submenu>
             </template>
           </Menu>
@@ -183,6 +194,8 @@ export default {
       this.$axios.get('/ueboot/shiro/private/menus').then((response) => {
         if (response.body) {
           this.menus = response.body
+          //构建一个树结构
+
         }
         let matched = this.$route.matched
         matched.forEach((m) => {
@@ -192,7 +205,7 @@ export default {
               if (n.url === m.path) {
                 this.initBreadItems(m)
                 this.activeMenuName = 'm' + n.id
-                if(n.parentId!==''){
+                if (n.parentId !== '') {
                   this.openMenuNames.push('m' + n.parentId)
                 }
               }

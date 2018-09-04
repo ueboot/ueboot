@@ -7,8 +7,8 @@
         </i-col>
         <i-col span="10" class="login-form">
           <div class="login-header">
-            <img src="../assets/logo.png" height="80" alt="">
-            <p><span>ueboot权限管理系统</span></p>
+            <img :src="config.logoImage" height="80" alt="">
+            <p><span>{{config.sysTitle}}</span></p>
           </div>
           <div class="login-form">
             <Form ref="formCustom" :model="formCustom" class="login-container">
@@ -35,10 +35,12 @@
 </template>
 <script>
 import '../styles/login.less'
+import config from '../ueboot-shiro'
 
 export default {
   data () {
     return {
+      config: {},
       formName: 'formName',
       // 提交按钮loading
       loading: false,
@@ -96,7 +98,9 @@ export default {
       return process.env.CONTEXT + '/ueboot/shiro/public/captcha?time=' + this.now
     }
   },
-  mounted () {}
+  mounted () {
+    this.config = config.getConfig()
+  }
 }
 </script>
 <style>

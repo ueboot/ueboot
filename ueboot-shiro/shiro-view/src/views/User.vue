@@ -124,7 +124,7 @@ export default {
                 'label': '分配角色',
                 'theme': 'primary',
                 click: (row, index, _this) => {
-                  if(this.roleData.length===0){
+                  if (this.roleData.length === 0) {
                     this.fetchRoleData()
                   }
                   this.setRoleModal = true
