@@ -29,4 +29,6 @@ public interface UserService extends BaseService<User> {
      */
     User findById(Long id);
 
+    void deleteById(Long[] id);
+
 }

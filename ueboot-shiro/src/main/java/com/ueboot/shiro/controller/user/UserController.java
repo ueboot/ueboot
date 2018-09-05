@@ -96,7 +96,7 @@ public class UserController {
     @RequiresPermissions("ueboot:user:delete")
     @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
-        userService.delete(id);
+        userService.deleteById(id);
         return new Response<>();
     }
 

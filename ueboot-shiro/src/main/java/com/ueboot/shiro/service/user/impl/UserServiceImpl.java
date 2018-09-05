@@ -8,12 +8,17 @@ package com.ueboot.shiro.service.user.impl;
 import com.ueboot.core.exception.BusinessException;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.core.repository.BaseRepository;
+import com.ueboot.shiro.entity.UserRole;
 import com.ueboot.shiro.repository.user.UserRepository;
 import com.ueboot.core.service.impl.BaseServiceImpl;
+import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created on 2018-08-14 10:47:55
@@ -23,8 +28,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class UserServiceImpl extends BaseServiceImpl<User> implements UserService{
-    @Autowired
+    @Resource
     private UserRepository userRepository;
+
+    @Resource
+    private UserRoleRepository userRoleRepository;
 
     @Override
     protected BaseRepository getBaseRepository() {
@@ -52,5 +60,17 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @Override
     public User findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public void deleteById(Long[] id) {
+        for(Long i :id){
+            //删除用户所属角色
+            List<UserRole> userRoleList = this.userRoleRepository.findByUserId(i);
+            if(!userRoleList.isEmpty()){
+                this.userRoleRepository.delete(userRoleList);
+            }
+        }
+        this.delete(id);
     }
 }

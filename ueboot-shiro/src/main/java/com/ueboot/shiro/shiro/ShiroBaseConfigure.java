@@ -1,6 +1,7 @@
 package com.ueboot.shiro.shiro;
 
 
+import com.ueboot.shiro.shiro.auditor.JpaAuditingAwareImpl;
 import com.ueboot.shiro.shiro.cache.ShiroRedisCahceManger;
 import com.ueboot.shiro.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.servlet.Filter;
@@ -150,6 +152,14 @@ public class ShiroBaseConfigure {
         matcher.setHashIterations (2);
         matcher.setStoredCredentialsHexEncoded (Boolean.TRUE);
         return matcher;
+    }
+
+    /**
+     * 增加审计记录，根据登录用户补充创建人、修改人
+     */
+    @Bean
+    public AuditorAware auditorAware(){
+        return new JpaAuditingAwareImpl();
     }
 
 

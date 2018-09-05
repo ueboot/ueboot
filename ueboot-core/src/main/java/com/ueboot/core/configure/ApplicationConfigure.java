@@ -6,7 +6,8 @@
 
 package com.ueboot.core.configure;
 
-import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
@@ -21,25 +22,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
  */
 @Configuration
 @EnableJpaAuditing
-public class ApplicationConfigure implements AuditorAware<String> {
+public class ApplicationConfigure{
 
     @Bean
     public Log4jFastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
         return new Log4jFastJsonHttpMessageConverter();
-    }
-
-    /**
-     * Returns the current auditor of the application.
-     *
-     * @return the current auditor
-     */
-    @Override
-    public String getCurrentAuditor() {
-
-        //使用当前登录用户名称作为创建人和最后修改人字段的值
-        /*if( SecurityUtils.getSubject()!=null){
-            return (String) SecurityUtils.getSubject().getPrincipal();
-        }*/
-        return null;
     }
 }
