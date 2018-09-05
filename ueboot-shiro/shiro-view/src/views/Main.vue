@@ -39,12 +39,12 @@
                         v-if="menu.themeJson"></Icon>
                   <span class="layout-text">{{menu.name}}</span>
                 </template>
-                <template v-for="child in menus">
+                <template v-for="(child,index2) in menus">
                   <Menu-item :name="'m'+child.id" :key="'child'+child.id+'m'+menu.id" v-if="child.parentId === menu.id&&child.resourceType === '菜单'">
                     <Icon :type="child.themeJson.icon" :size="iconSize" v-if="child.themeJson"></Icon>
                     <span class="layout-text">{{child.name}}</span>
                   </Menu-item>
-                  <Submenu :name="'m'+child.id"  v-if="child.parentId === menu.id&&child.resourceType === '菜单组'">
+                  <Submenu :name="'m'+child.id"  v-if="child.parentId === menu.id&&child.resourceType === '菜单组'" :key="'subChild'+index2">
                     <template slot="title">
                       <Icon :type="child.themeJson.icon" :size="iconSize" v-if="child.themeJson"></Icon>
                       <span class="layout-text">{{child.name}}</span>
@@ -194,8 +194,7 @@ export default {
       this.$axios.get('/ueboot/shiro/private/menus').then((response) => {
         if (response.body) {
           this.menus = response.body
-          //构建一个树结构
-
+          // 构建一个树结构
         }
         let matched = this.$route.matched
         matched.forEach((m) => {
@@ -263,7 +262,6 @@ export default {
     handlePasswordSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
-          let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user'))
           let jsonData = {
             oldPassword: this.pwdForm.originPwd,
             newPassword: this.pwdForm.newPwd

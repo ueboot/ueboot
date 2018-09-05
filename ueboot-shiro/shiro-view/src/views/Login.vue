@@ -95,7 +95,7 @@ export default {
   },
   computed: {
     captchaUrl: function () {
-      return process.env.CONTEXT + '/ueboot/shiro/public/captcha?time=' + this.now
+      return process.env.CONTEXT + '/ueboot/core/public/captcha/hello/200/100/4?time=' + this.now
     }
   },
   mounted () {

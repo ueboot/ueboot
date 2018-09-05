@@ -35,10 +35,11 @@ public class ApplicationConfigure implements AuditorAware<String> {
      */
     @Override
     public String getCurrentAuditor() {
+
         //使用当前登录用户名称作为创建人和最后修改人字段的值
-        if( SecurityUtils.getSubject()!=null){
+        /*if( SecurityUtils.getSubject()!=null){
             return (String) SecurityUtils.getSubject().getPrincipal();
-        }
+        }*/
         return null;
     }
 }
