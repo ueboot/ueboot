@@ -5,6 +5,10 @@ import deepExtend from 'deep-extend'
 
 let UebootShiroConfig = {
   logoImage: '/static/img/logo.png',
+  //登录成功后的跳转路径
+  loginSuccessPath:'/',
+  //登录界面风格，可取值 ['default','ueboot1']
+  loginTheme:'ueboot1',
   sysTitle: 'ueboot权限管理',
   layoutLogoStyle: {
     width: '250px'

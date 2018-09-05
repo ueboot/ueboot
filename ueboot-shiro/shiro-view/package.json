@@ -1,6 +1,6 @@
 {
   "name": "ueboot-shiro",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "基于ueboot框架开发的shiro权限管理界面",
   "author": "ueboot",
   "scripts": {

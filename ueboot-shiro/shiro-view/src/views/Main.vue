@@ -245,17 +245,7 @@ export default {
       this.resetPasswordForm('passwordForm')
       this.passwordModel = true
     },
-    operationConfig () {
-      let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user')) || {}
-      let userType = sessionUser.userType
-      this.routerConfig.routes.forEach(function (item) {
-        if (item.role === userType) {
-          item.isHide = false
-        } else {
-          item.isHide = true
-        }
-      })
-    },
+
     resetPasswordForm (name) {
       this.$refs[name].resetFields()
     },

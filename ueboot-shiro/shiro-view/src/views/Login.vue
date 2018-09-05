@@ -1,6 +1,6 @@
 <template>
-  <div id="particles-js">
-    <div class="login">
+  <div id="particles-js" style="height: 100%">
+    <div class="login" v-if="config.loginTheme === 'default'">
       <Row class="vm-login vm-panel">
         <i-col span="14" class="login-ad">
           <span class="photo-author"></span>
@@ -31,6 +31,45 @@
         </i-col>
       </Row>
     </div>
+  <div v-if="config.loginTheme === 'ueboot1'" style="height: 100%;">
+    <div class="form-body without-side">
+      <div class="website-logo">
+        <div class="logo">
+          <img class="logo-size" :src="config.logoImage" alt="">
+        </div>
+      </div>
+      <div class="row">
+        <div class="img-holder">
+          <div class="bg"></div>
+          <div class="info-holder">
+            <img src="../assets/graphic3.svg" alt="">
+          </div>
+        </div>
+        <div class="form-holder">
+          <div class="form-content">
+            <div class="form-items">
+              <h3>系统登录</h3>
+              <p>{{config.sysTitle}}</p>
+              <Form ref="formCustom" :model="formCustom" class="login-container">
+                <i-input v-model="formCustom.username" placeholder="请输入登录账号"></i-input>
+                <i-input v-model="formCustom.password" type="password" placeholder="请输入密码"></i-input>
+                <Row type="flex" justify="space-between">
+                  <i-col span="16">
+                    <i-input type="text" @on-enter="handleSubmit('formCustom')" v-model="formCustom.captcha" :maxlength="4"
+                             placeholder="请输入验证码"></i-input>
+                  </i-col>
+                  <i-col span="8">
+                    <img :src="captchaUrl" @click="changeCaptchaUrl" width="100%" height="45px" style="border-radius: 4px"/>
+                  </i-col>
+                </Row>
+                <Button type="primary" @click="handleSubmit('formCustom')" :loading="loading" size="large">登录</Button>
+              </Form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 <script>
@@ -84,9 +123,12 @@ export default {
       this.loading = true
       this.$axios.post('/ueboot/shiro/public/login', this.formCustom).then(response => {
         this.$Message.success('登录成功')
-        this.$router.push({name: 'User'})
+        this.$router.push({path:`${this.config.loginSuccessPath}`})
         this.loading = false
       }, (response) => {
+        if(response.code === '400'){
+          this.$Notice.error({desc: response.message})
+        }
         this.changeCaptchaUrl()
         this.formCustom.captcha = ''
         this.loading = false
@@ -95,7 +137,7 @@ export default {
   },
   computed: {
     captchaUrl: function () {
-      return process.env.CONTEXT + '/ueboot/core/public/captcha/hello/200/100/4?time=' + this.now
+      return process.env.CONTEXT + '/ueboot/shiro/public/captcha?time=' + this.now
     }
   },
   mounted () {
