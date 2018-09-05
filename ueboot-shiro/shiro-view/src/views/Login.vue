@@ -123,10 +123,10 @@ export default {
       this.loading = true
       this.$axios.post('/ueboot/shiro/public/login', this.formCustom).then(response => {
         this.$Message.success('登录成功')
-        this.$router.push({path:`${this.config.loginSuccessPath}`})
+        this.$router.push({path: `${this.config.loginSuccessPath}`})
         this.loading = false
       }, (response) => {
-        if(response.code === '400'){
+        if (response.code === '400') {
           this.$Notice.error({desc: response.message})
         }
         this.changeCaptchaUrl()
