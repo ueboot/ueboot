@@ -21,8 +21,8 @@
   </div>
 </template>
 <style>
-  /*指定样式下的dropdown宽度设置为100%，避免受iview组件影响*/
-  .utree-select .ivu-dropdown-rel{
+  /* 指定样式下的dropdown宽度设置为100%，避免受iview组件影响 */
+  .utree-select .ivu-dropdown-rel {
     width: 100%;
   }
 </style>

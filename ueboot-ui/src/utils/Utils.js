@@ -44,15 +44,20 @@ export default {
       let o = {}
       if (handlerItem) {
         o = handlerItem(item)
-      } else {
+      }
+
+      else {
         if (parentPath) {
           o.path = parentPath + '\\' + item.name
-        } else {
+        }
+
+        else {
           o.path = item.name
         }
+
         // 搜索的时候，会产生label属性，显示的内容格式与name不一样
         o.text = item.label ? item.label : item.name
-        o.value = {id: item.id, name: item.name, parentId: item.parentId}
+        o.value = {id: item.id,; name: item.name,; parentId: item.parentId}
         o.selected = item.selected || false
         o.disabled = item.disabled || false
         o.loading = item.loading || false
@@ -98,7 +103,9 @@ export default {
       this.sort(roots, sort)
     }
     return roots
-  },
+  }
+
+  ,
   /**
    * 对数组对象进行排序操作
    * @param array 需要排序的对象数组

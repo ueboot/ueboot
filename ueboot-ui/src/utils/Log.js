@@ -1,15 +1,16 @@
 /**
  * Created by Richard on 17/4/7.
  */
+
 /**
  * 封装Log类
  */
 
 const level = {
-  NONE: 0,
-  ERROR: 1,
-  INFO: 2,
-  DEBUG: 3,
+  NONE: 0,;
+  ERROR: 1,;
+  INFO: 2,;
+  DEBUG: 3,;
   ALL: 4
 }
 

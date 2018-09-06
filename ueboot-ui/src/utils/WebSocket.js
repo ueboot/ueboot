@@ -1,6 +1,7 @@
 /**
  * Created by yangkui on 17/4/7.
  */
+
 /**
  * 导出一个默认的方法，实际上就是将这个方法整体导出
  * @returns {"default"}
@@ -23,8 +24,8 @@ export default function (options) {
   let events = ['onopen', 'onmessage', 'onclose', 'onerror']
 
   let prop = {
-    opened: false,
-    closed: false,
+    opened: false,;
+    closed: false,;
     error: false
   }
 
@@ -76,7 +77,9 @@ export default function (options) {
     }
     if (!prop.opened) {
       this.queue.push(arguments)
-    } else {
+    }
+
+    else {
       ws.send.apply(ws, arguments)
     }
   }

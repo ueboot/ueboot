@@ -38,10 +38,10 @@
 
 </template>
 <style>
-  /*防止tooltip不换行*/
-   .utree .ivu-tooltip-inner{
-     white-space:normal;
-   }
+  /* 防止tooltip不换行 */
+  .utree .ivu-tooltip-inner {
+    white-space: normal;
+  }
 </style>
 <script>
 import UTreeItem from './UTreeItem.vue'

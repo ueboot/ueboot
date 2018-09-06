@@ -471,7 +471,7 @@
       :closable="true"
       :mask-closable="false">
       <template>
-        <p slot="header" style="color:rgb(60, 65, 81);text-align:center">
+        <p slot="header" style="color:rgb(60, 65, 81); text-align:center">
           <Icon type="md-arrow-up"></Icon>
           <span>{{formGrid.toolbar.groups.import.modelTitle}}</span>
         </p>
@@ -498,18 +498,19 @@
     color: #7b7777 !important;
   }
 
-  .ivu-input[disabled], fieldset[disabled] .ivu-input {
+  .ivu-input[disabled],
+  fieldset[disabled] .ivu-input {
     color: #7b7777 !important;
   }
 
-  /*自定义样式*/
+  /* 自定义样式 */
   .optColumn .ivu-table-cell {
     text-align: center;
     padding-left: 5px;
     padding-right: 5px;
   }
 
-  /*table-cell当中的poptip样式覆盖*/
+  /* table-cell当中的poptip样式覆盖 */
   .ivu-table-cell .ivu-tooltip {
     display: block;
   }

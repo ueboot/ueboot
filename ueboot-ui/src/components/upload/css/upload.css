@@ -1,34 +1,50 @@
 @-webkit-keyframes vue_upload_progress {
   0% {
-    background-position: 0 0; }
+    background-position: 0 0;
+  }
+
   100% {
-    background-position: 10px 0; } }
+    background-position: 10px 0;
+  }
+}
 
 @keyframes vue_upload_progress {
   0% {
-    background-position: 0 0; }
+    background-position: 0 0;
+  }
+
   100% {
-    background-position: 10px 0; } }
+    background-position: 10px 0;
+  }
+}
 
 @-webkit-keyframes vue_upload {
   0% {
     opacity: 0;
-    -webkit-transform: scale(0) translatey(-60px);
-    transform: scale(0) translatey(-60px); }
+    -webkit-transform: scale(0) translateY(-60px);
+    transform: scale(0) translateY(-60px);
+  }
+
   100% {
     opacity: 1;
-    -webkit-transform: scale(1) translatey(0);
-    transform: scale(1) translatey(0); } }
+    -webkit-transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0);
+  }
+}
 
 @keyframes vue_upload {
   0% {
     opacity: 0;
-    -webkit-transform: scale(0) translatey(-60px);
-    transform: scale(0) translatey(-60px); }
+    -webkit-transform: scale(0) translateY(-60px);
+    transform: scale(0) translateY(-60px);
+  }
+
   100% {
     opacity: 1;
-    -webkit-transform: scale(1) translatey(0);
-    transform: scale(1) translatey(0); } }
+    -webkit-transform: scale(1) translateY(0);
+    transform: scale(1) translateY(0);
+  }
+}
 
 .ue-upload-file {
   display: block;
@@ -37,15 +53,20 @@
   z-index: 999;
   padding: 12px 16px;
   background-color: #fff;
-  }
+}
+
 .ue-upload-file .vuf-drop-area {
-  border: 1px dashed #ddd; }
+  border: 1px dashed #ddd;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-icon1 {
   display: block;
   margin: 0 auto 6px;
   width: 32px;
   height: 32px;
-  overflow: hidden; }
+  overflow: hidden;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-icon1 .vuf-icon1-arrow {
   display: block;
   margin: 0 auto;
@@ -53,31 +74,43 @@
   height: 0;
   border-bottom: 11.2px solid #999;
   border-left: 11.2px solid transparent;
-  border-right: 11.2px solid transparent; }
+  border-right: 11.2px solid transparent;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-icon1 .vuf-icon1-body {
   display: block;
   width: 9.6px;
   height: 11.2px;
   margin: 0 auto;
-  background-color: #999; }
+  background-color: #999;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-icon1 .vuf-icon1-bottom {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   display: block;
   height: 9.6px;
   border: 5px solid #999;
-  border-top: none; }
+  border-top: none;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-hint {
   font-size: 14px;
   color: #999;
-  line-height: 30px; }
+  line-height: 30px;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-loading {
   font-size: 16px;
   color: #999;
-  line-height: 30px; }
+  line-height: 30px;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-progress-wrap {
   display: block;
-  background-color: rgba(0, 0, 0, 0.14); }
+  background-color: rgba(0, 0, 0, 0.14);
+}
+
 .ue-upload-file .vuf-drop-area .vuf-progress-wrap .vuf-progress {
   position: relative;
   margin-top: 12px;
@@ -92,7 +125,9 @@
   background-image: linear-gradient(-45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
   background-size: 10px 10px;
   -webkit-animation: vue_upload_progress 0.3s linear infinite;
-  animation: vue_upload_progress 0.3s linear infinite; }
+  animation: vue_upload_progress 0.3s linear infinite;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-progress-wrap .vuf-progress::after {
   content: '';
   position: absolute;
@@ -105,7 +140,9 @@
   -webkit-box-shadow: 0 1px 4px 0 rgba(68, 170, 119, 0.7);
   box-shadow: 0 1px 4px 0 rgba(68, 170, 119, 0.7);
   border-radius: 100%;
-  background-color: #4a7; }
+  background-color: #4a7;
+}
+
 .ue-upload-file .vuf-drop-area .vuf-no-supported-hint {
   display: block;
   position: absolute;
@@ -118,13 +155,19 @@
   background-color: #eee;
   text-align: center;
   color: #888;
-  font-size: 14px; }
+  font-size: 14px;
+}
+
 .ue-upload-file .vuf-drop-area:hover {
   cursor: pointer;
   border-color: #ccc;
-  background-color: rgba(0, 0, 0, 0.06); }
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
 .ue-upload-file .vuf-drop-area:hover .vuf-hint {
-  color: #777; }
+  color: #777;
+}
+
 .ue-upload-file .vuf-error,
 .ue-upload-file .vuf-success {
   display: block;
@@ -133,15 +176,21 @@
   height: 24px;
   color: #d10;
   text-align: center;
-  vertical-align: top; }
+  vertical-align: top;
+}
+
 .ue-upload-file .vuf-success {
-  color: #4a7; }
+  color: #4a7;
+}
+
 .ue-upload-file .vuf-icon3 {
   position: relative;
   display: inline-block;
   width: 20px;
   height: 20px;
-  top: 4px; }
+  top: 4px;
+}
+
 .ue-upload-file .vuf-icon3::after {
   position: absolute;
   top: 3px;
@@ -154,14 +203,19 @@
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
-  content: ''; }
+  content: '';
+}
+
 .ue-upload-file .vuf-icon2 {
   position: relative;
   display: inline-block;
   width: 20px;
   height: 20px;
-  top: 4px; }
-.ue-upload-file .vuf-icon2::after, .ue-upload-file .vuf-icon2::before {
+  top: 4px;
+}
+
+.ue-upload-file .vuf-icon2::after,
+.ue-upload-file .vuf-icon2::before {
   content: '';
   position: absolute;
   top: 9px;
@@ -171,8 +225,11 @@
   background-color: #d10;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
-  transform: rotate(45deg); }
+  transform: rotate(45deg);
+}
+
 .ue-upload-file .vuf-icon2::after {
   -webkit-transform: rotate(-45deg);
   -ms-transform: rotate(-45deg);
-  transform: rotate(-45deg); }
+  transform: rotate(-45deg);
+}
