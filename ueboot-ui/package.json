@@ -6,7 +6,8 @@
   "main": "ueboot/ueboot.js",
   "homepage": "http://www.ueboot.com",
   "scripts": {
-    "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8084 --config build/webpack.dev.conf.js",
+    "style": "stylelint  --fix  --ext .css,.vue src",
+    "dev": "npm run lint && npm run style && webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8899 --config build/webpack.dev.conf.js",
     "dist:style": "gulp --gulpfile build/build-style.js",
     "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
     "dist:prod": "webpack --config build/webpack.dist.prod.config.js",
@@ -22,10 +23,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://git.xiqiao.io/xiqiao/ueboot.git"
+    "url": "https://github.com/ueboot/ueboot.git"
   },
   "bugs": {
-    "url": "https://git.coding.net/xiqiao/ueboot/issues"
+    "url": "https://github.com/ueboot/ueboot/issues"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
@@ -40,6 +41,7 @@
     "connect-history-api-fallback": "^1.3.0",
     "copy-webpack-plugin": "^4.0.1",
     "core-util-is": "^1.0.2",
+    "css-loader": "^0.28.11",
     "docsify": "^4.7.0",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.14.1",
@@ -75,7 +77,6 @@
   "dependencies": {
     "axios": "^0.16.2",
     "babel-polyfill": "^6.26.0",
-    "css-loader": "^0.28.0",
     "deep-extend": "^0.5.0",
     "file-loader": "^0.11.1",
     "font-awesome": "^4.7.0",
@@ -86,8 +87,7 @@
     "md5": "^2.2.1",
     "moment": "^2.22.2",
     "style-loader": "^0.18.2",
-    "url-loader": "^0.5.8",
-    "vue-jstree": "^2.1.6"
+    "url-loader": "^0.5.8"
   },
   "engines": {
     "node": ">= 4.0.0",

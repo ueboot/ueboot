@@ -17,10 +17,11 @@ import TreeSelect from '../views/demo/TreeSelect'
 import UebootResources from '../views/ueboot-shiro/Resources'
 import UebootUser from '../views/ueboot-shiro/User'
 import UebootRole from '../views/ueboot-shiro/Role'
+import UebootMain from '../../src/views/shiro/Main'
 
 
 import Form from "../views/demo/Form.vue";
-import Login from '../views/Login'
+import Login from '../../src/views/shiro/Login'
 
 Vue.use(Router)
 
@@ -29,25 +30,17 @@ export default new Router({
   scrollBehavior: () => ({
     y: 0
   }),
-  /**
-   * 针对后台管理系统，所有第一层路由的component为Home.除非需要跳出主界面
-   * 页面上的菜单只会渲染到二级目录(第一层的children)。第三层的children只用于路由。不渲染菜单
-   * isHide属性必填，用于决定页面是否渲染此菜单。
-   * name名称在整个数组当做不能重复
-   * 其余规则遵守vue-route规范即可。
-   */
   routes: [
     {
       path: '/login',
       name: 'Login',
       component: Login,
-      isHide: false,
     },
     {
       path: '/',
       name: '框架示例',
       isHide: false,
-      component: Home,
+      component: UebootMain,
       children: [
         {
           path: 'UebootUser',
@@ -146,8 +139,6 @@ export default new Router({
           isHide: false,
         },
         {path: 'activities/secKillActivity', name: '秒杀活动', component: SecKillActivity, isHide: false,},
-
-
       ]
     }
   ]

@@ -1,20 +1,24 @@
 import Log from './utils/Log'
 import UTree from './components/tree/UTree.vue';
+import UTreeSelect from './components/tree-select/UTreeSelect.vue';
 import UFormGrid from './components/form-grid/UFormGrid.vue';
 import UForm from "./components/form/UForm.vue";
 import WebSocket from "./utils/WebSocket";
 import Axios from "./utils/Axios";
 import axios from "axios";
 import Utils from "./utils/Utils";
+import ShiroConfig from './utils/ShiroConfig'
 
 const ueboot = {
   UTree,
   UFormGrid,
+  UTreeSelect,
   Log,
   Axios,
   WebSocket,
   UForm,
-  Utils
+  Utils,
+  ShiroConfig
 };
 
 const install = function (Vue, opts = {}) {
@@ -23,7 +27,6 @@ const install = function (Vue, opts = {}) {
     Vue.component(key, ueboot[key]);
   });
 
-  // Vue.prototype.$http = Axios;
   Vue.prototype.$log = Log;
   Vue.prototype.$utils=Utils;
   Vue.prototype.$axios=axios;
@@ -34,5 +37,5 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
 }
 
-module.exports = Object.assign(ueboot, {install});   // eslint-disable-line no-undef
+module.exports = Object.assign(ueboot, {install});
 

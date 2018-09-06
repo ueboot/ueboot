@@ -112,25 +112,5 @@ export default {
         return b[sort["field"]] - a[sort["field"]];
       }
     })
-  },
-
-  getCascaderData(data, parentId) {
-    //1.查找root
-    let items = [];
-    data.forEach((item) => {
-      if (item['parentId'] === parentId) {
-        let value = {
-          id: item.id,
-          label: item.name,
-          value: item.value,
-          attr: item,
-          parentId: item.parentId,
-          children: []
-        };
-        value.children = this.getCascaderData(data, item.id);
-        items.push(value);
-      }
-    });
-    return items;
-  },
+  }
 }

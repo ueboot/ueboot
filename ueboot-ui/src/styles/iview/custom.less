@@ -1,17 +1,13 @@
-@import "color/colors";
-
 // Prefix
 @css-prefix             : ivu-;
 @css-prefix-iconfont    : ivu-icon;
 
 // Color
-@primary-color          : rgb(68, 80, 121);
+@primary-color          : #2d8cf0;
 @info-color             : #2db7f5;
-@success-color          : #00cc66;
-@processing-color       : @primary-color;
-@warning-color          : #ff9900;
+@success-color          : #0c6;
+@warning-color          : #f90;
 @error-color            : #d11407;
-@normal-color           : #e6ebf1;
 @link-color             : #2e3344;
 @link-hover-color       : tint(@link-color, 20%);
 @link-active-color      : shade(@link-color, 5%);
@@ -28,7 +24,6 @@
 @text-color             : #657180;
 @font-size-base         : 13px;
 @font-size-small        : 12px;
-@font-size-large        : 16px;
 @line-height-base       : 1.5;
 @line-height-computed   : floor((@font-size-base * @line-height-base));
 @border-radius-base     : 6px;
@@ -38,28 +33,23 @@
 // Border color
 @border-color-base      : #d7dde4;  // outside
 @border-color-split     : #e3e8ee;  // inside
-@border-width-base      : 1px;            // width of the border for a component
-@border-style-base      : solid;          // style of a components border
 
 // Background color
-@background-color-base        : #f7f7f7;  // base
+@background-color-base        : #f0faff;  // base
 @background-color-select-hover: @input-disabled-bg;
-@tooltip-bg                   : rgba(70, 76, 91, .9);
+@tooltip-bg                   : rgba(70, 76, 91, 0.9);
 @head-bg                      : #f9fafc;
 @table-thead-bg               : #f5f7f9;
 @table-td-stripe-bg           : #f5f7f9;
 @table-td-hover-bg            : #ebf7ff;
 @table-td-highlight-bg        : #ebf7ff;
-@menu-dark-title              : #495060;
 @menu-dark-active-bg          : #2e3344;
-@menu-dark-subsidiary-color   : rgba(255,255,255,.7);
-@menu-dark-group-title-color  : rgba(255,255,255,.36);
 @date-picker-cell-hover-bg    : #e1f0fe;
 
 // Shadow
-@shadow-color           : rgba(0, 0, 0, .2);
+@shadow-color           : rgba(0, 0, 0, 0.2);
 @shadow-base            : @shadow-down;
-@shadow-card            : 0 1px 1px 0 rgba(0,0,0,.1);
+@shadow-card            : 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 @shadow-up              : 0 -1px 6px @shadow-color;
 @shadow-down            : 0 1px 6px @shadow-color;
 @shadow-left            : -1px 0 6px @shadow-color;
@@ -70,9 +60,6 @@
 @btn-padding-base       : 6px 15px;
 @btn-padding-large      : 6px 15px 7px 15px;
 @btn-padding-small      : 2px 7px;
-@btn-padding-base-icon  : 5px 15px 6px;
-@btn-padding-large-icon : 6px 15px 6px 15px;
-@btn-padding-small-icon : 1px 7px 2px;
 @btn-font-size          : 12px;
 @btn-font-size-large    : 14px;
 @btn-border-radius      : 4px;
@@ -101,17 +88,6 @@
 // Layout and Grid
 @grid-columns           : 24;
 @grid-gutter-width      : 0;
-@layout-body-background      : #f5f7f9;
-@layout-header-background    : #495060;
-@layout-header-height        : 64px;
-@layout-header-padding       : 0 50px;
-@layout-footer-padding       : 24px 50px;
-@layout-footer-background    : @layout-body-background;
-@layout-sider-background     : @layout-header-background;
-@layout-trigger-height       : 48px;
-@layout-trigger-color        : #fff;
-@layout-zero-trigger-width   : 36px;
-@layout-zero-trigger-height  : 42px;
 
 // Legend
 @legend-color           : #999;
@@ -130,11 +106,10 @@
 @input-color                 : @text-color;
 @input-border-color          : @border-color-base;
 @input-bg                    : #fff;
-@input-group-bg              : #f8f8f9;
 
 @input-hover-border-color    : @primary-color;
 @input-focus-border-color    : @primary-color;
-@input-disabled-bg           : #f3f3f3;
+@input-disabled-bg           : #d3fcff;
 
 // Tag
 @tag-font-size          : 12px;
@@ -169,13 +144,11 @@
 @zindex-message         : 1010;
 @zindex-notification    : 1010;
 @zindex-tooltip         : 1060;
-@zindex-transfer        : 1060;
 @zindex-loading-bar     : 2000;
-@zindex-spin-fullscreen : 2010;
 
 // Animation
-@animation-time         : .3s;
-@transition-time        : .2s;
+@animation-time         : 0.3s;
+@transition-time        : 0.2s;
 @ease-in-out            : ease-in-out;
 
 // Slider
@@ -186,16 +159,17 @@
 @slider-button-wrap-offset : -4px;
 @slider-disabled-color     : #ccc;
 
-// Avatar
-@avatar-size-base: 32px;
-@avatar-size-lg: 40px;
-@avatar-size-sm: 24px;
-@avatar-font-size-base: 18px;
-@avatar-font-size-lg: 24px;
-@avatar-font-size-sm: 14px;
-@avatar-bg: #ccc;
-@avatar-color: #fff;
-@avatar-border-radius: @border-radius-small;
+@menu-prefix-cls: ~"@{css-prefix}menu";
 
-// Anchor
-@anchor-border-width: 2px;
+.@{menu-prefix-cls} {
+  &-light&-vertical &-item {
+    border-right: 2px solid transparent;
+
+    &-active:not(.@{menu-prefix-cls}-submenu) {
+      color: @primary-color;
+      background: @background-color-base;
+      border-right: 2px solid @primary-color;
+      z-index: 2;
+    }
+  }
+}
