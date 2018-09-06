@@ -10,35 +10,32 @@ const level = {
   ERROR: 1,
   INFO: 2,
   DEBUG: 3,
-  ALL: 4,
-};
+  ALL: 4
+}
 
-let logLevel = level.INFO;
+let logLevel = level.INFO
 
 export default {
-  d() {
-    if (logLevel < level.DEBUG) return;
-    let args = Array.prototype.slice.call(arguments);
-    console.log.apply(this, args);
+  d () {
+    if (logLevel < level.DEBUG) return
+    let args = Array.prototype.slice.call(arguments)
+    console.log.apply(this, args)
   },
 
-  i() {
-    if (logLevel < level.INFO) return;
-    let args = Array.prototype.slice.call(arguments);
-    console.info.apply(this, args);
-
+  i () {
+    if (logLevel < level.INFO) return
+    let args = Array.prototype.slice.call(arguments)
+    console.info.apply(this, args)
   },
 
-  e() {
-    if (logLevel < level.ERROR) return;
-    let args = Array.prototype.slice.call(arguments);
-    console.error.apply(this, args);
-
+  e () {
+    if (logLevel < level.ERROR) return
+    let args = Array.prototype.slice.call(arguments)
+    console.error.apply(this, args)
   },
-  config(options) {
+  config (options) {
     if (options.level) {
-      logLevel = options.level;
+      logLevel = options.level
     }
   }
-};
-
+}

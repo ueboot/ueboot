@@ -1,2 +1,2 @@
-import UTreeSelect from './UTreeSelect.vue';
-export default UTreeSelect;
+import UTreeSelect from './UTreeSelect.vue'
+export default UTreeSelect

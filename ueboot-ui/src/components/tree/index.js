@@ -1,2 +1,2 @@
-import UTree from './UTree.vue';
-export default UTree;
+import UTree from './UTree.vue'
+export default UTree
