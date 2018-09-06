@@ -111,8 +111,8 @@
   }
 }
 
-/*iofrm样式*/
-.form-body.without-side {
+/* ueboot1 风格的样式 */
+.form-body {
   height: 100%;
 
   .website-logo {
@@ -139,33 +139,6 @@
       }
     }
   }
-}
-
-.form-body > .row {
-  position: relative;
-  margin-left: 0;
-  margin-right: 0;
-  height: 100%;
-  flex-wrap: wrap;
-  display: flex;
-}
-
-.img-holder {
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 550px;
-  min-height: 700px;
-  height: 100%;
-  overflow: hidden;
-  background-color: #000;
-  padding: 60px;
-  text-align: center;
-  z-index: 999;
-}
-
-.form-body.without-side {
   h3 {
     color: #000;
     text-align: left;
@@ -285,7 +258,7 @@
         margin-bottom: 14px;
         background-color: rgb(247, 247, 247);
         color: #8d8d8d;
-        height:45px;
+        height: 45px;
       }
 
       input:focus {
@@ -295,9 +268,29 @@
       }
     }
   }
-}
-
-.form-body.without-side .form-holder {
-  margin-left: 0;
-  width:100%;
+  .row {
+    position: relative;
+    margin-left: 0;
+    margin-right: 0;
+    height: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    .img-holder {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 700px;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+      padding: 60px;
+      text-align: center;
+    }
+  }
+  .form-holder {
+    margin-left: 0;
+    width: 100%;
+  }
 }
