@@ -24,8 +24,8 @@ export default function (options) {
   let events = ['onopen', 'onmessage', 'onclose', 'onerror']
 
   let prop = {
-    opened: false,;
-    closed: false,;
+    opened: false,
+    closed: false,
     error: false
   }
 
@@ -77,9 +77,7 @@ export default function (options) {
     }
     if (!prop.opened) {
       this.queue.push(arguments)
-    }
-
-    else {
+    } else {
       ws.send.apply(ws, arguments)
     }
   }

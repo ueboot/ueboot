@@ -7,10 +7,10 @@
  */
 
 const level = {
-  NONE: 0,;
-  ERROR: 1,;
-  INFO: 2,;
-  DEBUG: 3,;
+  NONE: 0,
+  ERROR: 1,
+  INFO: 2,
+  DEBUG: 3,
   ALL: 4
 }
 

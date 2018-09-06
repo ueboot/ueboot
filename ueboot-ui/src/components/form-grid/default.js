@@ -20,13 +20,13 @@ export default {
     // 按钮排列布局方式，默认为start可以设置为end
     justify: 'start',
     refresh: {
-      show: true,; label: ''
+      show: true, label: ''
     },
     create: {
-      show: true,; label: '添加'
+      show: true, label: '添加'
     },
     delete: {
-      show: true,; label: '删除',; loading: false
+      show: true, label: '删除', loading: false
     },
     groups: {
       show: false,
@@ -39,8 +39,8 @@ export default {
     buttons: null,
     // 关键字搜索框
     filter: {
-      show: false,;
-      name: 'keyWord',;
+      show: false,
+      name: 'keyWord',
       placeholder: '根据关键字搜索'
     },
     // 高级搜索框，如果columns为空，则不显示。items里面的定义和form表单的columns一致
@@ -53,12 +53,12 @@ export default {
       columns: [],
       // 根据columns动态计算出来的值，无需传入
       rows: {},
-      submit: {theme: 'primary',; label: '开始查询',; icon: 'md-search',; long: false},
-      reset: {theme: 'primary',; label: '重置',; icon: 'md-close',; long: false,; ghost: true}
+      submit: {theme: 'primary', label: '开始查询', icon: 'md-search', long: false},
+      reset: {theme: 'primary', label: '重置', icon: 'md-close', long: false, ghost: true}
     }
   },
   pageable: {
-    page: 1,;
+    page: 1,
     size: 15
   },
   // 表单提交与修改
@@ -75,22 +75,19 @@ export default {
       title: '', // 表单标题，默认为添加『查看、添加、修改』两个字.如果为空，则不显示标题;
       showClose: true, // 是否显示关闭按钮，默认为true;
       width: '' // 表单弹出框宽度
-    }
+    },
 
-    ,
     columns: [],
     // 表单提交之前（校验之后），返回如果为false,则不继续执行后续操作
     submitBefore: function (data) {
       return true
-    }
+    },
 
-    ,
     // 表单提交之后
     submitAfter: function (response) {
       return true
-    }
+    },
 
-    ,
     // 点击取消时的操作，默认为关闭窗口
     onCancel: function () {
 
@@ -103,8 +100,8 @@ export default {
     showCheckbox: true,
     // 第一列复选框样式，可以覆盖默认值
     selection: {
-      type: 'selection',;
-      width: 60,;
+      type: 'selection',
+      width: 60,
       align: 'center'
     },
     stripe: true,
@@ -119,37 +116,37 @@ export default {
       remote: false,
       // 操作按钮，针对查看、编辑、删除的事件。定义了事件则使用自定义事件
       buttons: [{
-      key: 'view',
-      show: true,
-      'label': '查看',
-      'theme': 'primary',
-      click: (row, index, _this) => {
-      _this.optViewClick(row, index)
-      }
+        key: 'view',
+        show: true,
+        'label': '查看',
+        'theme': 'primary',
+        click: (row, index, _this) => {
+          _this.optViewClick(row, index)
+        }
       }, {
-      key: 'edit',
-      show: true,
-      'label': '编辑',
-      'theme': 'primary',
-      click: (row, index, _this) => {
-      _this.optEditClick(row, index)
-      }
+        key: 'edit',
+        show: true,
+        'label': '编辑',
+        'theme': 'primary',
+        click: (row, index, _this) => {
+          _this.optEditClick(row, index)
+        }
       }, {
-      key: 'delete',
-      show: true,
-      'label': '删除',
-      'theme': 'primary',
-      ghost: true,
-      click: (row, index, _this) => {
-      _this.optDeleteClick(row, index)
-      }
+        key: 'delete',
+        show: true,
+        'label': '删除',
+        'theme': 'primary',
+        ghost: true,
+        click: (row, index, _this) => {
+          _this.optDeleteClick(row, index)
+        }
       }],
       // 默认的操作列内容。可以通过复写这个来重写自己的操作列
       column: {
-        title: '操作',;
-        key: 'action',;
-        className: 'optColumn',;
-        align: 'center',;
+        title: '操作',
+        key: 'action',
+        className: 'optColumn',
+        align: 'center',
         minWidth: 160
       }
     },
