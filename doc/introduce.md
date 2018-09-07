@@ -10,17 +10,17 @@
  
 ## 2. 包含的功能
 
-序号|组件名称|版本号|说明
--|-|-
+
+| 序号 | 组件名称 | 版本号 |说明 |
+| ------ | ------ | ------ |------ |
 1 | ueboot-core | 2.1.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
 2 | ueboot-shiro|2.1.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
 3 | ueboot-parent|2.1.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
 4 | ueboot-generator|2.1.0-SNAPSHOT|代码生成器，通可以快速生成前后端代码
-5 | ueboot-ui|1.5.22|前端UI组件，提供了一套快速开发的CRUD、Tree等组件
+5 | ueboot-ui|1.5.23|前端UI组件，提供了一套快速开发的CRUD、Tree、权限配置界面等组件
 6 | ueboot-excel|xxx|（开发中）excel相关功能
-7 | ueboot-file|xxx|（开发中）文件上传相关功能
-8 | ueboot-weixin|xxx|（开发中）微信相关功能
-9 | ueboot-shiro-ui|1.0.1| ueboot-shiro组件的前端UI界面，包含了权限配置界面
+7 | ueboot-weixin|xxx|（开发中）微信相关功能
+
 
 ### 2.1 ueboot-core
     ueboot核心功能，包含了基于spring boot所需要的基础的bean定义。自定义的一套jpa查询组件。

@@ -33,7 +33,7 @@ export default {
       if (isRoot) {
         let root = assembleItem(item, null)
         let result = getChildren(tree, item.id, item.path)
-        if (result && result.length > 0) {
+        if (result['child'] && result['child'].length > 0) {
           root.children = result['child']
         }
         root.opened = result['hasSelected']
@@ -84,7 +84,7 @@ export default {
       })
       child.forEach((item) => {
         let result = getChildren(tree, item.id, item.path)
-        if (result && result.length > 0) {
+        if (result['child'] && result['child'].length > 0) {
           item.children = result['child']
         }
         item.opened = result['hasSelected']

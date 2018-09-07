@@ -13,15 +13,18 @@ http://www.ueboot.com
  
 ## 2. 包含的功能
 
-序号|组件名称|版本号|说明
--|-|-
+
+| 序号 | 组件名称 | 版本号 |说明 |
+| ------ | ------ | ------ |------ |
 1 | ueboot-core | 2.1.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
 2 | ueboot-shiro|2.1.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
 3 | ueboot-parent|2.1.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
 4 | ueboot-generator|2.1.0-SNAPSHOT|代码生成器，通可以快速生成前后端代码
-5 | ueboot-ui|1.5.23|前端UI组件，提供了一套快速开发的CRUD、Tree、登录页面、权限管理页面等组件
+5 | ueboot-ui|1.5.23|前端UI组件，提供了一套快速开发的CRUD、Tree、权限配置界面等组件
 6 | ueboot-excel|xxx|（开发中）excel相关功能
-8 | ueboot-weixin|xxx|（开发中）微信相关功能
+7 | ueboot-weixin|xxx|（开发中）微信相关功能
+
+
 
 ### 2.1 ueboot-core
     ueboot核心功能，包含了基于spring boot所需要的基础的bean定义以及自定义的一套jpa查询组件。
@@ -50,7 +53,7 @@ http://www.ueboot.com
 ### 2.2 ueboot-shiro
 权限管理模块，基于apache shiro的一套资源权限管理功能。可以支持前后端接口级别的权限管理，也支持后台管理系统当中的菜单权限。
 当前模块包含了权限相关的后台管理界面，因此在集成时需要将页面一并引入。有自己的表、页面、接口服务，在集成时需要考虑前后端一块集成。
-  ![img](./ueboot-doc/images/ueboot-shiro.png)
+  ![img](doc/images/ueboot-shiro.png)
     
 ### 2.3 ueboot-parent
 用于指定项目所必备的jar包声明，在具体的项目当中使用是，需要继承该pom文件，便于管理jar包依赖，无需关心ueboot框架需要用到哪些jar文件
@@ -71,7 +74,7 @@ http://www.ueboot.com
     
 代码生成器，通过这个模块提供的功能可以快速生成前后端代码，完成一个单表的CRUD功能。代码生成器提供了UI界面，通过UI界面控制要生成的代码。
   
-![img](./ueboot-doc/images/代码生成器.png)
+![img](doc/images/代码生成器.png)
     
 
 ### 2.5 ueboot-ui
@@ -80,22 +83,22 @@ http://www.ueboot.com
 可以直接集成这些成体系的UI界面，配合后端接口，快速搭建一套具备完整的用户登录、密码修改权限、管理功能
 
 - 登录页面
-  ![img](./ueboot-doc/images/shiro/login.png)
+  ![img](doc/images/shiro/login.png)
     
 - 框架主题页面
-  ![img](./ueboot-doc/images/shiro/main.png)
+  ![img](doc/images/shiro/main.png)
   
 - 用户管理
-  ![img](./ueboot-doc/images/shiro/用户管理.gif) 
+  ![img](doc/images/shiro/用户管理.gif) 
    
 - 角色管理
-  ![img](./ueboot-doc/images/shiro/角色管理.gif) 
+  ![img](doc/images/shiro/角色管理.gif) 
    
 - 资源管理
-  ![img](./ueboot-doc/images/shiro/资源管理.gif)  
+  ![img](doc/images/shiro/资源管理.gif)  
   
 - 增删改查页面
-   ![img](./ueboot-doc/images/shiro/CRUD.gif)  
+   ![img](doc/images/shiro/CRUD.gif)  
 
 > 上面几个图当中的界面都是一个CRUD的界面，包含了新增记录、分页查询、修改和查看记录详情、删除记录、条件查询功能。整个页面只需要一行标签代码结合JSON配置数据
 即可实现。
