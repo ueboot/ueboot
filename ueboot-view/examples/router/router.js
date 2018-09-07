@@ -17,11 +17,11 @@ import TreeSelect from '../views/demo/TreeSelect'
 import UebootResources from '../views/ueboot-shiro/Resources'
 import UebootUser from '../views/ueboot-shiro/User'
 import UebootRole from '../views/ueboot-shiro/Role'
-import UebootMain from '../../src/views/shiro/Main'
+import UebootMain from '../../src/pages/shiro/Main'
 
 
 import Form from "../views/demo/Form.vue";
-import Login from '../../src/views/shiro/Login'
+import Login from '../../src/pages/shiro/Login'
 
 Vue.use(Router)
 

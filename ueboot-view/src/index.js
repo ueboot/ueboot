@@ -7,7 +7,7 @@ import WebSocket from './utils/WebSocket'
 import Axios from './utils/Axios'
 import axios from 'axios'
 import Utils from './utils/Utils'
-import ShiroConfig from './utils/ShiroConfig'
+import Config from './config/Config'
 
 const ueboot = {
   UTree,
@@ -18,7 +18,7 @@ const ueboot = {
   WebSocket,
   UForm,
   Utils,
-  ShiroConfig
+  Config
 }
 
 const install = function (Vue, opts = {}) {

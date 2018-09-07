@@ -3,13 +3,13 @@
     <Layout style="height: 100%">
       <Header :style="{color: '#fff'}">
         <Menu mode="horizontal" theme="dark" active-name="1">
-          <div class="layout-logo" :style="config.layoutLogoStyle">
+          <div class="layout-logo" :style="config.page_main.logoStyle">
             <a class="header-logo">
               <img :src="config.logoImage" alt="." class="header-img">
               <span class="header-span">{{config.sysTitle}}</span>
             </a>
           </div>
-          <div class="layout-nav" :style="config.layoutNavStyle">
+          <div class="layout-nav" :style="config.page_main.navStyle">
             <MenuItem name="1">
               <a href="javascript:void(0)" @click="logout" class="header-menu ">
                 <Icon type="md-exit" style="color:red;"></Icon>
@@ -106,7 +106,7 @@
 </template>
 
 <script>
-import config from '../../ueboot-shiro'
+import config from '../../config/Config'
 
 export default {
   data () {
@@ -127,10 +127,7 @@ export default {
       }
     }
     return {
-      config: {
-        logoImage: '',
-        sysTitle: ''
-      },
+      config: {},
       loginName: '', // 登录账号名称
       lastLoginTime: '', // 上次登录时间
       state: '',
@@ -229,7 +226,7 @@ export default {
         onOk: () => {
           this.$axios.post('/ueboot/shiro/private/logout', {}).then((data) => {
             this.$Message.success('退出成功!')
-            this.$router.push({name: 'Login'})
+            this.$router.push(this.config.page_main.logoutSuccessRouter)
           }, (response) => {
             this.$log.d(response)
             this.$Notice.error({

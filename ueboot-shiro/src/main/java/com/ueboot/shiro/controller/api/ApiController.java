@@ -72,7 +72,6 @@ public class ApiController {
         return new Response<>();
     }
 
-    @RequiresAuthentication
     @PostMapping(value = "/private/logout")
     public Response<Void> logout(@RequestBody LoginVo params) {
         log.info("/logout  username: {} ", params.getUsername(), params.getPassword(), params.getCaptcha());

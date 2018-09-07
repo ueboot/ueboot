@@ -1,6 +1,6 @@
 <template>
   <div id="particles-js" style="height: 100%">
-    <div class="login" v-if="config.loginTheme === 'default'">
+    <div class="login" v-if="config.loginTheme === 'theme1'">
       <Row class="vm-login vm-panel">
         <i-col span="14" class="login-ad">
           <span class="photo-author"></span>
@@ -31,7 +31,7 @@
         </i-col>
       </Row>
     </div>
-  <div v-if="config.loginTheme === 'ueboot1'" style="height: 100%;">
+  <div v-if="config.loginTheme === 'theme2'" style="height: 100%;">
     <div class="form-body without-side">
       <div class="website-logo">
         <div class="logo">
@@ -74,7 +74,7 @@
 </template>
 <script>
 import '../../styles/login.less'
-import config from '../../utils/ShiroConfig'
+import config from '../../config/Config'
 
 export default {
   data () {
@@ -123,7 +123,7 @@ export default {
       this.loading = true
       this.$axios.post('/ueboot/shiro/public/login', this.formCustom).then(response => {
         this.$Message.success('登录成功')
-        this.$router.push({path: `${this.config.loginSuccessPath}`})
+        this.$router.push(this.config.page_login.successRouter)
         this.loading = false
       }, (response) => {
         if (response.code === '400') {
@@ -137,7 +137,7 @@ export default {
   },
   computed: {
     captchaUrl: function () {
-      return process.env.CONTEXT + '/ueboot/shiro/public/captcha?time=' + this.now
+      return this.config.axios.baseURL + '/ueboot/shiro/public/captcha?time=' + this.now
     }
   },
   mounted () {
