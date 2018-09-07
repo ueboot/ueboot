@@ -1,6 +1,8 @@
 import deepExtend from 'deep-extend'
+import Log from '../utils/Log'
+import AxiosConfig from './AxiosConfig'
 
-let config = {
+let ueboot_config = {
     sysTitle: 'ueboot权限管理',
     logoImage: '/static/img/logo.png',
     page_login: {
@@ -23,6 +25,9 @@ let config = {
         baseURL:'',
         unauthorizedUrl:'/#/login'
     },
+    log:{
+        level:3,
+    }
 }
 
 /**
@@ -30,10 +35,15 @@ let config = {
  */
 export default {
     setConfig(conf) {
-        config = deepExtend({}, conf, config)
+        ueboot_config = deepExtend({},ueboot_config, conf )
+        //设置log级别
+        Log.config(ueboot_config.log)
+        //设置axios配置
+        AxiosConfig.init(ueboot_config.axios)
+
     },
     getConfig() {
-        return config
+        return ueboot_config
     }
 
 }

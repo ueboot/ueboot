@@ -2,7 +2,6 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'
 import ueboot from '../src/index'
-import {Log, Axios} from '../src/index'
 import iView from 'iview';
 /*自定义样式*/
 import '../src/styles/index.less';
@@ -11,9 +10,9 @@ import '../src/styles/index.less';
 
 Vue.use(iView);
 Vue.use(ueboot);
-Log.config({level:3})
-ueboot.Axios.init({baseURL: "", unauthorizedUrl: '/#/login'})
-
+ueboot.Config.setConfig({
+    axios:{baseURL: "", unauthorizedUrl: '/#/login'}
+})
 
 //Log.config({"level":0});
 //设置加载提示

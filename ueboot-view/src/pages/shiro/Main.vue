@@ -186,10 +186,9 @@ export default {
     },
 
     init: function () {
-      this.config = config.getConfig()
       // 从后台读取当前用户的权限菜单
       this.$axios.get('/ueboot/shiro/private/menus').then((response) => {
-        if (response.body) {
+        if (response&&response.body) {
           this.menus = response.body
           // 构建一个树结构
         }
@@ -277,6 +276,7 @@ export default {
     }
   },
   created () {
+      this.config = config.getConfig()
   },
   mounted () {
     this.init()

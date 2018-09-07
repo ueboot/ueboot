@@ -4,7 +4,6 @@ import UTreeSelect from './components/tree-select/UTreeSelect.vue'
 import UFormGrid from './components/form-grid/UFormGrid.vue'
 import UForm from './components/form/UForm.vue'
 import WebSocket from './utils/WebSocket'
-import Axios from './utils/Axios'
 import axios from 'axios'
 import Utils from './utils/Utils'
 import Config from './config/Config'
@@ -14,7 +13,6 @@ const ueboot = {
   UFormGrid,
   UTreeSelect,
   Log,
-  Axios,
   WebSocket,
   UForm,
   Utils,
