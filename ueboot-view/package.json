@@ -1,7 +1,7 @@
 {
     "name": "ueboot",
-    "version": "1.5.23",
-    "description": "UEBoot框架，基于iView开发的集成UI组件",
+    "version": "1.6.0",
+    "description": "ueboot是一个基于`spring boot + vue2.0+iview2.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）",
     "author": "ueboot",
     "homepage": "http://www.ueboot.com",
     "keywords": [

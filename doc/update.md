@@ -1,6 +1,49 @@
 
-## 1.5 版本更新记录 
+## 1.6 版本更新记录
  > 最新更新时间：{docsify-updated}
+    
+  > 从1.6.0开始，所有与ueboot相关的配置统一集中到ueboot.Config.setConfig当中。原使用1.5.X的版本需要调整配置
+
+- 1.5更新到1.6调整内容如下
+    - main.js
+    ```javascript
+      import ueboot from 'ueboot'
+      import iView from 'iview';
+      /*ueboot样式，包含登录页面、主界面、iview样式*/
+      import 'ueboot/dist/styles/ueboot.css';
+      
+      import "font-awesome/less/font-awesome.less"
+      
+      Vue.use(iView);
+      Vue.use(ueboot);
+      //axios，log,登录页面配置
+      ueboot.Config.setConfig({
+          sysTitle: 'ueboot权限管理',
+          logoImage: '/static/img/logo.png',
+          axios:{baseURL: "", unauthorizedUrl: '/#/login'}
+      })
+
+    ```
+    - router/index.js文件，引入的权限相关配置，路径发生变化
+    
+   ```javascript
+   import ShiroMain from 'ueboot/src/pages/shiro/Main'
+   import ShiroLogin from 'ueboot/src/pages/shiro/Login'
+   import ShiroUser from 'ueboot/src/pages/shiro/User'
+   import ShiroRole from 'ueboot/src/pages/shiro/Role'
+   import ShiroResources from 'ueboot/src/pages/shiro/Resources'
+
+    ``` 
+  
+- v1.6.0
+    - 整合ueboot-shiro组件，将原来分开的两个组件合并到一个组件当中，引用的路径发生变化，
+    > 更新当前版本后需要调整main.js当中的配置，以及router当中的shiro相关页面路径
+    - 统一配置入口，将axios、shiro、log相关配置统一到Config对象当中
+    - 源码整合，从当前版本开始发布的包当中会包含源码
+    - Utils工具类优化，getTreeData方法当子节点为空时，不返回child属性，防止iview的树结构出现可点击的向下箭头  
+    
+
+## 1.5 版本更新记录 
 
  > 从1.5.0 版本开始，更新iview组件到3.0，去除部分无用代码，部分组件和使用方法不兼容1.5之前的版本
  
