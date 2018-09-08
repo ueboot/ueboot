@@ -28,7 +28,8 @@
     
    ```javascript
         // ueboot提供的权限管理UI界面
-        import {Page_Login,Page_Main,Page_User,Page_Role,Page_resources} from 'ueboot'
+       import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_resources} from 'ueboot'
+      
 
     ``` 
     
