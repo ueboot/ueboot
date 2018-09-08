@@ -80,7 +80,6 @@
     </div>
 </template>
 <script>
-    import '../../styles/login.less'
     import config from '../../config/Config'
 
     export default {

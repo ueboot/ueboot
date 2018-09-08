@@ -34,6 +34,9 @@
    import ShiroResources from 'ueboot/src/pages/shiro/Resources'
 
     ``` 
+    
+- v1.6.2
+    -解决打包发布后字体文件丢失的问题    
 - v1.6.1
     bug fix
     - 权限管理-资源管理-编辑bug
