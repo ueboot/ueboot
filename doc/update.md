@@ -34,7 +34,12 @@
    import ShiroResources from 'ueboot/src/pages/shiro/Resources'
 
     ``` 
-  
+- v1.6.1
+    bug fix
+    - 权限管理-资源管理-编辑bug
+    - 权限管理-资源管理
+    - 多级菜单展示
+    - 前台-面包屑 
 - v1.6.0
     - 整合ueboot-shiro组件，将原来分开的两个组件合并到一个组件当中，引用的路径发生变化，
     > 更新当前版本后需要调整main.js当中的配置，以及router当中的shiro相关页面路径

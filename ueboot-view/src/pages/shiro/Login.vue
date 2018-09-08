@@ -44,7 +44,7 @@
                     <div class="img-holder">
                         <div class="bg"></div>
                         <div class="info-holder">
-                            <img src="../../assets/graphic3.svg" alt="">
+                            <img src="../../asserts/graphic3.svg" alt="">
                         </div>
                     </div>
                     <div class="form-holder">

@@ -1,7 +1,7 @@
 {
     "name": "ueboot",
-    "version": "1.6.0",
-    "description": "ueboot是一个基于`spring boot + vue2.0+iview2.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）",
+    "version": "1.6.2",
+    "description": "ueboot是一个基于`spring boot + vue2.0+iview3.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）",
     "author": "ueboot",
     "homepage": "http://www.ueboot.com",
     "keywords": [
@@ -76,7 +76,7 @@
         "font-awesome": "^4.7.0",
         "friendly-errors-webpack-plugin": "^1.6.1",
         "growl": "^1.10.5",
-        "gulp": "^4.0.0",
+        "gulp": "3.9.1",
         "gulp-autoprefixer": "^5.0.0",
         "gulp-clean-css": "^3.9.3",
         "gulp-less": "^4.0.0",
