@@ -53,7 +53,7 @@ http://www.ueboot.com
 ### 2.2 ueboot-shiro
 权限管理模块，基于apache shiro的一套资源权限管理功能。可以支持前后端接口级别的权限管理，也支持后台管理系统当中的菜单权限。
 当前模块包含了权限相关的后台管理界面，因此在集成时需要将页面一并引入。有自己的表、页面、接口服务，在集成时需要考虑前后端一块集成。
-  ![img](doc/images/ueboot-shiro.png)
+  ![img](docs/images/ueboot-shiro.png)
     
 ### 2.3 ueboot-parent
 用于指定项目所必备的jar包声明，在具体的项目当中使用是，需要继承该pom文件，便于管理jar包依赖，无需关心ueboot框架需要用到哪些jar文件
@@ -74,7 +74,7 @@ http://www.ueboot.com
     
 代码生成器，通过这个模块提供的功能可以快速生成前后端代码，完成一个单表的CRUD功能。代码生成器提供了UI界面，通过UI界面控制要生成的代码。
   
-![img](doc/images/代码生成器.png)
+![img](docs/images/代码生成器.png)
     
 
 ### 2.5 ueboot-ui
@@ -83,22 +83,22 @@ http://www.ueboot.com
 可以直接集成这些成体系的UI界面，配合后端接口，快速搭建一套具备完整的用户登录、密码修改权限、管理功能
 
 - 登录页面
-  ![img](doc/images/shiro/login.png)
+  ![img](docs/images/shiro/login.png)
     
 - 框架主题页面
-  ![img](doc/images/shiro/main.png)
+  ![img](docs/images/shiro/main.png)
   
 - 用户管理
-  ![img](doc/images/shiro/用户管理.gif) 
+  ![img](docs/images/shiro/用户管理.gif) 
    
 - 角色管理
-  ![img](doc/images/shiro/角色管理.gif) 
+  ![img](docs/images/shiro/角色管理.gif) 
    
 - 资源管理
-  ![img](doc/images/shiro/资源管理.gif)  
+  ![img](docs/images/shiro/资源管理.gif)  
   
 - 增删改查页面
-   ![img](doc/images/shiro/CRUD.gif)  
+   ![img](docs/images/shiro/CRUD.gif)  
 
 > 上面几个图当中的界面都是一个CRUD的界面，包含了新增记录、分页查询、修改和查看记录详情、删除记录、条件查询功能。整个页面只需要一行标签代码结合JSON配置数据
 即可实现。

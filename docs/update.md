@@ -24,12 +24,12 @@
       })
 
     ```
-    - router/index.js文件，引入的权限相关配置，路径发生变化
+    - router/index.js文件，引入的权限相关配置，路径发生变化 
     
-   ```javascript
+   ```javascript 
+       
         // ueboot提供的权限管理UI界面
-       import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_resources} from 'ueboot'
-      
+       import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
     
