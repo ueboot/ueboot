@@ -1,10 +1,12 @@
 package com.ueboot.shiro.shiro.handler;
 
+import com.ueboot.core.exception.WebExceptionHandler;
 import com.ueboot.core.http.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,10 +23,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @Slf4j
 @ControllerAdvice(basePackages = {"com.ueboot.shiro.controller"})
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class ShiroExceptionHandler {
 
     @ExceptionHandler(UnknownAccountException.class)
-    @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public Response<Void> handleException(UnknownAccountException e) {
@@ -32,7 +34,6 @@ public class ShiroExceptionHandler {
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "验证未通过,未知账户", null);
     }
     @ExceptionHandler(IncorrectCredentialsException.class)
-    @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public Response<Void> handleException(IncorrectCredentialsException e) {
@@ -40,7 +41,6 @@ public class ShiroExceptionHandler {
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "用户名或密码错误", null);
     }
     @ExceptionHandler(LockedAccountException.class)
-    @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public Response<Void> handleException(LockedAccountException e) {
@@ -48,7 +48,6 @@ public class ShiroExceptionHandler {
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "验证未通过,账户已锁定", null);
     }
     @ExceptionHandler(ExcessiveAttemptsException.class)
-    @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public Response<Void> handleException(ExcessiveAttemptsException e) {
@@ -57,7 +56,6 @@ public class ShiroExceptionHandler {
     }
     //无权限的请求，返回403，前端会进行页面跳转到登录页面
     @ExceptionHandler(AuthorizationException.class)
-    @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
     public Response<Void> handleException(AuthorizationException e) {
@@ -66,7 +64,6 @@ public class ShiroExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public Response<Void> handleException(AuthenticationException e) {
@@ -75,7 +72,6 @@ public class ShiroExceptionHandler {
     }
     //无权限的请求，返回403，前端会进行页面跳转到登录页面
     @ExceptionHandler(UnauthenticatedException.class)
-    @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
     public Response<Void> handleException(UnauthenticatedException e) {

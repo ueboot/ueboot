@@ -3,6 +3,7 @@ package com.ueboot.core.exception;
 import com.ueboot.core.http.response.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.UnauthenticatedException;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -22,11 +23,11 @@ import java.io.IOException;
  */
 @Slf4j
 @ControllerAdvice
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class WebExceptionHandler {
 
 
     @ExceptionHandler({BusinessException.class})
-    @Order(1)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleBusinessException(BusinessException e) {
@@ -35,7 +36,6 @@ public class WebExceptionHandler {
 
 
     @ExceptionHandler(value = {IllegalArgumentException.class})
-    @Order(2)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleIllegalArgumentExceptions(final Exception e, final WebRequest req) {
@@ -43,7 +43,6 @@ public class WebExceptionHandler {
     }
 
     @ExceptionHandler(UnauthenticatedException.class)
-    @Order(value = Integer.MIN_VALUE+1)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
     public Response<Void> handleException(UnauthenticatedException e) {
@@ -60,7 +59,6 @@ public class WebExceptionHandler {
      * @return 全局的错误提示
      */
     @ExceptionHandler(value = {Exception.class})
-    @Order(Integer.MIN_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
     public Response<Void> handleOtherExceptions(final Exception e, final WebRequest req) {
