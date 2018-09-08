@@ -11,8 +11,9 @@ import "font-awesome/less/font-awesome.less"
 Vue.use(iView);
 Vue.use(ueboot);
 ueboot.Config.setConfig({
+    sysTitle:'UEBOOT测试',
     axios:{baseURL: "", unauthorizedUrl: '/#/login'},
-    page_main:{menuWidth:'220px'}
+    page_main:{menuWidth:250}
 })
 
 Vue.config.productionTip = false

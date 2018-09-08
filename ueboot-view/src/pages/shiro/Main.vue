@@ -28,8 +28,8 @@
 
             </Header>
             <Layout>
-                <Sider hide-trigger :style="{background: '#fff',height: '100%'}">
-                    <Menu :theme="theme" :width="config.page_main.menuWidth"
+                <Sider hide-trigger :style="{background: '#fff',height: '100%'}" :width="config.page_main.menuWidth+'px'">
+                    <Menu :theme="theme" :width="config.page_main.menuWidth+'px'"
                           :style="{ 'min-height' : clientHeight - 112 + 'px'}"
                           @on-select="menuClick" :active-name="activeMenuName"
                           :open-names="openMenuNames" accordion v-if="menus.length>0">
@@ -70,8 +70,8 @@
                         </template>
                     </Menu>
                 </Sider>
-                <Layout :style="{padding: '0 24px 0 24px',width:'100%',maxWidth:clientWidth - 200 +'px'}">
-                    <Breadcrumb :style="{margin: '15px 0'}">
+                <Layout :style="{padding: '0 24px 0 24px',width:'100%',maxWidth:rightWidth +'px'}">
+                    <Breadcrumb :style="{margin: '12px 0'}">
                         <BreadcrumbItem v-for="(item, index) in breadItems" :key="'bread'+index">{{item.name}}
                         </BreadcrumbItem>
                     </Breadcrumb>
@@ -299,6 +299,9 @@
         computed: {
             iconSize() {
                 return this.toggle ? '14px' : '24px'
+            },
+            rightWidth(){
+                return this.clientWidth - this.config.page_main.menuWidth
             }
         },
         created() {
@@ -306,6 +309,13 @@
         },
         mounted() {
             this.init()
+            // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
+            const that = this;
+            window.onresize = function temp() {
+                window.setTimeout(()=>{
+                    that.clientWidth = document.documentElement.clientWidth;
+                },400)
+            };
             let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user')) || {}
             this.loginName = sessionUser.userName// 登录账号名称
             this.lastLoginTime = sessionUser.lastLoginTime// 上次登录时间

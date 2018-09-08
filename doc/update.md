@@ -27,11 +27,8 @@
     - router/index.js文件，引入的权限相关配置，路径发生变化
     
    ```javascript
-   import ShiroMain from 'ueboot/src/pages/shiro/Main'
-   import ShiroLogin from 'ueboot/src/pages/shiro/Login'
-   import ShiroUser from 'ueboot/src/pages/shiro/User'
-   import ShiroRole from 'ueboot/src/pages/shiro/Role'
-   import ShiroResources from 'ueboot/src/pages/shiro/Resources'
+        // ueboot提供的权限管理UI界面
+        import {Page_Login,Page_Main,Page_User,Page_Role,Page_resources} from 'ueboot'
 
     ``` 
     

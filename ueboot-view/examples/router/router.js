@@ -13,6 +13,9 @@ import Areas from "../views/setting/Areas.vue";
 import Activities from "../views/activity/Activities.vue";
 import SecKillActivity from "../views/activity/SecKillActivity.vue";
 import TreeSelect from '../views/demo/TreeSelect'
+import {Page_Login,Page_Main,Page_User,Page_Role,Page_resources} from 'ueboot'
+
+
 import UebootResources from '../../src/pages/shiro/Resources'
 import UebootUser from '../../src/pages/shiro/User'
 import UebootRole from '../../src/pages/shiro/Role'
@@ -32,27 +35,27 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      component: Login,
+      component: Page_Login,
     },
     {
       path: '/',
       name: '框架示例',
-      component: UebootMain,
+      component: Page_Main,
       children: [
         {
           path: '/ueboot/shiro/User',
           name: '用户管理',
-          component: UebootUser,
+          component: Page_User,
         },
         {
           path: '/ueboot/shiro/Resources',
           name: '资源管理',
-          component: UebootResources,
+          component: Page_resources,
         },
         {
           path: '/ueboot/shiro/Role',
           name: '角色管理',
-          component: UebootRole,
+          component: Page_Role,
         },
         {
           path: 'treeSelect',
