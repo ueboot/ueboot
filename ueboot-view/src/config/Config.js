@@ -12,6 +12,7 @@ let ueboot_config = {
         successRouter:{path:'/'}
     },
     page_main: {
+        menuWidth:'200px',
         logoStyle: {
             width: '250px'
         },
