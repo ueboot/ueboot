@@ -62,7 +62,13 @@ export default {
               }
             },
             {label: '资源名称', type: 'text', name: 'name', required: true},
-            {label: '父级资源', type: 'treeSelect', name: 'parentId', required: true, tree: []},
+            {label: '父级资源', type: 'treeSelect', name: 'parentId', required: true, tree: [],fieldFormat:(value,row)=>{
+                //如果parentId不存在，则默认为根节点
+                    if(!value){
+                        return 0
+                    }
+                    return value
+                }},
             {
               label: '菜单icon名称',
               type: 'text',
