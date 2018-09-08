@@ -208,6 +208,14 @@
                 // 从后台读取当前用户的权限菜单
                 this.$axios.get('/ueboot/shiro/private/menus').then((response) => {
                     if (response && response.body) {
+                        response.body.forEach((o)=>{
+                            //默认设置为0
+                            if(!o.rank){
+                                o.rank = 0
+                            }
+                        })
+                        //倒序排
+                        this.$utils.sort(response.body,{field:'rank',sort:'desc'})
                         this.menus = response.body
                     }
                     let matched = this.$route.matched
