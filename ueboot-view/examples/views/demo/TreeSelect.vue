@@ -14,12 +14,11 @@
 <script type="application/javascript">
 
   import UTreeSelect from "../../../src/components/tree-select/UTreeSelect";
-  import treeData from '../../assets/treeBefore.json'
   export default {
     components: {UTreeSelect},
     data () {
       return {
-        tree: treeData.body,
+        tree: [],
         tree2:[
           {id: 1, "name": "根节点1", parentId: null,opened:true},
           {"name": "一级子节点", id: 2, parentId: 1,icon:'fa fa-check icon-state-success'},

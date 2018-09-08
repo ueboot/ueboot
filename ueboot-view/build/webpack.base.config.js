@@ -98,6 +98,7 @@ module.exports = {
                         loader: 'less-loader',
                         options: {
                             sourceMap: true,
+                            javascriptEnabled: true
                         },
                     },
                 ]
