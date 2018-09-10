@@ -32,7 +32,7 @@
                     <Menu :theme="theme" :width="config.page_main.menuWidth+'px'"
                           :style="{ 'min-height' : clientHeight - 112 + 'px'}"
                           @on-select="menuClick" :active-name="activeMenuName"
-                          :open-names="openMenuNames" accordion v-if="menus.length>0">
+                          :open-names="openMenuNames" accordion>
                         <template v-for="(menu, index) in menus">
                             <Submenu :name="'m'+menu.id" v-if="menu.parentId == null" :key="'sub'+index">
                                 <template slot="title">

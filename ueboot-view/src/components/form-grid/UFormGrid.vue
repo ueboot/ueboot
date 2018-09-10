@@ -804,6 +804,9 @@ export default {
     // 重置查询条件
     resetSuperFilterSearch () {
       this.$refs[this.formGrid.toolbar.superFilter.name].resetFields()
+        if(util.isFunction(this.formGrid.toolbar.superFilter.reset.click)){
+            this.formGrid.toolbar.superFilter.reset.click()
+        }
     },
     // 高级搜索框按钮
     superFilterSearch (page) {

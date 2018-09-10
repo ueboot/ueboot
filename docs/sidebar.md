@@ -4,7 +4,7 @@
 - [更新记录](update.md)
 - [开发约定](开发约定.md)
 - Java功能与组件
-- [默认功能](java/默认功能.md)
+- [常用配置](java/常用配置.md)
 - [StringQuery使用示例](java/StringQuery使用示例.md)
 - [权限组件](java/权限组件.md)
 - [文件上传](java/文件上传.md)

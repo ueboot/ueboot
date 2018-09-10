@@ -5,6 +5,7 @@
   > 从1.6.0开始，所有与ueboot相关的配置统一集中到ueboot.Config.setConfig当中。原使用1.5.X的版本需要调整配置
 
 - 1.5更新到1.6调整内容如下
+    - 安装依赖`npm install font-awesome --save-dev` `npm install iview --save-dev`
     - main.js
     ```javascript
       import ueboot from 'ueboot'
