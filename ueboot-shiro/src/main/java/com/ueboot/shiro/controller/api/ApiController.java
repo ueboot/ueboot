@@ -169,7 +169,7 @@ public class ApiController {
         response.setDateHeader("Expires", 0L);
         response.setContentType("image/jpeg");
         String captcha = CaptchaUtils.generate(4);
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession();
         session.setAttribute(CAPTCHA_KEY, captcha.toLowerCase());
         int w = 200;
         int h = 80;

@@ -18,6 +18,7 @@
 
                 <i-input v-if="item.type === 'text'" v-model="queryParams[item.name]" :icon="item.icon"
                          :placeholder="item.placeholder" @on-focus="item.onFocus?item.onFocus.apply():()=>{}"
+                         @on-click="(value)=>{item.click?item.click.call(this,value):()=>{}}"
                          :maxlength="item.maxlength" :readonly="item.readonly" :disabled="item.disabled">
                   <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
                   <span slot="append" v-if="item.append">{{item.append}}</span>
