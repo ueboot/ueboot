@@ -33,7 +33,9 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
-    
+- v1.6.6
+    - 重置按钮增加click事件，允许自定义事件（默认会先执行表单重置，再执行自定义事件）
+    - Main.vue文件当中的菜单位置，默认不隐藏    
 - v1.6.2
     -解决打包发布后字体文件丢失的问题    
 - v1.6.1
