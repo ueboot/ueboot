@@ -266,7 +266,7 @@
         <!--form表单-->
         <Modal
             v-model="modal.editModal"
-            :title="formGrid.form.modal.title"
+            :title="modal.title"
             :closable="modal.closable"
             :mask-closable="modal.maskClosable"
             :loading="modal.loading"
@@ -433,7 +433,7 @@
         <!--查看详情界面-->
         <Modal
             v-model="modal.viewModal"
-            :title="formGrid.form.modal.title"
+            :title="modal.title"
             :closable="modal.closable"
             :mask-closable="modal.maskClosable"
             :loading="modal.loading"
@@ -623,6 +623,7 @@
                 self: this,
                 loadingStatus: false,
                 modal: {
+                    title:"",
                     // 显示编辑模态窗口
                     editModal: false,
                     // 显示查看模态窗口
@@ -668,7 +669,6 @@
                 handler: function (newValue, oldValue) {
                     Log.d('监听到data.form.columns变化,%o', newValue)
                     this.formGrid.form = deepExtend({}, this.formGrid.form, newValue)
-                    // 对搜索表单数据进行处理
                     this.renderForm()
                     if (this.formGrid.form.isView) {
                         this.setFormColumns('view')
@@ -1023,7 +1023,12 @@
                     columns = []
                 }
                 this.formRows = rows
-
+                //如果title是字符串，则直接使用字符串，否则使用对应类型的标题
+                if(util.isString(this.formGrid.form.modal.title)){
+                    this.modal.title = this.formGrid.form.modal.title
+                }else{
+                    this.modal.title = this.formGrid.form.modal.title[type]
+                }
                 Log.d('formRows:%o ,form.data:%o', this.formRows, this.formGrid.form.data)
             },
             /**

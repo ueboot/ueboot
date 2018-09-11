@@ -33,6 +33,23 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
+- v1.6.8 
+    - formGird组件当中的表单title属性支持定义添加、编辑、查看三种状态时不同的title内容
+    如：
+    ```javascript
+      form: {
+                labelWidth: 100,
+                modal: {
+                  title: {
+                      add:'添加资源',
+                      edit:'编辑资源',
+                      view:'资源详情'
+                  }
+                }
+              }
+    ```
+- v1.6.7
+    - 解决查询表单当中的“查询”“重置”两个按钮会换行的问题
 - v1.6.6
     - 重置按钮增加click事件，允许自定义事件（默认会先执行表单重置，再执行自定义事件）
     - Main.vue文件当中的菜单位置，默认不隐藏    

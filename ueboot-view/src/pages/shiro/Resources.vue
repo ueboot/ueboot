@@ -45,7 +45,11 @@ export default {
         form: {
           labelWidth: 100,
           modal: {
-            title: '资源管理'
+            title: {
+                add:'添加资源',
+                edit:'编辑资源',
+                view:'资源详情'
+            }
           },
           columns: [
             {
