@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router/router'
 import ueboot from '../src/index'
 import iView from 'iview';
+import 'babel-polyfill'
 /*自定义样式*/
 import '../src/styles/index.less';
 

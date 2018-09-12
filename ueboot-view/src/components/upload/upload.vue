@@ -306,5 +306,6 @@ export default {
 }
 </script>
 
-<style scoped>@import "./css/upload.css"
+<style scoped>
+    @import "./css/upload.css";
 </style>

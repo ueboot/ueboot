@@ -18,7 +18,8 @@ module.exports = merge(webpackBaseConfig, {
 
     // 入口
     entry: {
-        main: './examples/main',
+        app:['babel-polyfill','./examples/main'],
+        // main: './examples/main',
         vendors: ['vue', 'vue-router']
     },
     // 输出
@@ -43,6 +44,7 @@ module.exports = merge(webpackBaseConfig, {
                 { from: /.*/, to: path.posix.join("/", 'index.html') },
             ],
         },
+        host:'192.168.1.103',
         hot: true,
         contentBase: false, // since we use CopyWebpackPlugin.
         compress: true,
