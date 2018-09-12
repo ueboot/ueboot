@@ -252,7 +252,7 @@
                    :columns="formGrid.table.columns"
                    :data="formGrid.table.data" :stripe="formGrid.table.stripe" :loading="formGrid.table.loading"
                    :size="formGrid.table.size"
-                   :no-data-text="formGrid.table.noDataText" @on-selection-change="onSelectionChange" :ref="tableRef"
+                   :no-data-text="table.noDataText" @on-selection-change="onSelectionChange" :ref="tableRef"
                    @on-select="onSelect" @on-select-all="onSelectAll"></Table>
         </Row>
         <!--page-->
@@ -648,7 +648,10 @@
                 // grid查询参数
                 queryParams: {},
                 //
-                formGrid: {}
+                formGrid: {},
+                table:{
+                    noDataText:'',
+                }
             }
         },
         created() {
@@ -688,6 +691,8 @@
                 Log.d('初始化queryParams:%o', this.queryParams)
                 // 和默认值进行合并，一定要加一个{},防止修改掉defaultData对象，导致页面切换时数据异常
                 this.formGrid = deepExtend({}, defaultData, this.formGrid)
+                this.table.noDataText = this.formGrid.table.noDataText
+
                 this.renderForm()
                 // 对搜索表单数据进行处理
                 this.renderSearchForm()
@@ -878,7 +883,7 @@
                 }
             },
             fetchData() {
-                this.formGrid.table.noDataText = '正在努力为您加载数据,请稍候...'
+                this.table.noDataText = this.formGrid.table.tableLoadingText
                 let data = this.queryParams
                 Log.d('pageData QueryData:%o', data)
                 let page = this.formGrid.pageable.page
@@ -892,7 +897,7 @@
                 this.$axios.post(this.formGrid.options.url.page, data, {params: params}).then(response => {
                     if (this.formGrid) {
                         this.formGrid.table.loading = false
-                        this.formGrid.table.noDataText = '抱歉！已努力查询，但还是没有找到您要的数据。'
+                        this.table.noDataText  = this.formGrid.table.noDataText
                         this.formGrid.table.data = response.body.content
                         this.formGrid.pageable.total = response.body.totalElements
                         this.$forceUpdate()
@@ -903,7 +908,7 @@
                     if (this.formGrid) {
                         this.formGrid.table.loading = false
                         this.formGrid.table.data = []
-                        this.formGrid.table.noDataText = '数据查询出现异常，需要管理员查看后台日志，寻找原因。'
+                        this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText
                     }
                     this.$forceUpdate()
                     return false

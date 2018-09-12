@@ -5238,7 +5238,10 @@ exports.default = {
 
             queryParams: {},
 
-            formGrid: {}
+            formGrid: {},
+            table: {
+                noDataText: ''
+            }
         };
     },
     created: function created() {
@@ -5278,6 +5281,8 @@ exports.default = {
             _Log2.default.d('初始化queryParams:%o', this.queryParams);
 
             this.formGrid = (0, _deepExtend2.default)({}, _default3.default, this.formGrid);
+            this.table.noDataText = this.formGrid.table.noDataText;
+
             this.renderForm();
 
             this.renderSearchForm();
@@ -5473,7 +5478,7 @@ exports.default = {
         fetchData: function fetchData() {
             var _this6 = this;
 
-            this.formGrid.table.noDataText = '正在努力为您加载数据,请稍候...';
+            this.table.noDataText = this.formGrid.table.tableLoadingText;
             var data = this.queryParams;
             _Log2.default.d('pageData QueryData:%o', data);
             var page = this.formGrid.pageable.page;
@@ -5489,7 +5494,7 @@ exports.default = {
 
                 if (this.formGrid) {
                     this.formGrid.table.loading = false;
-                    this.formGrid.table.noDataText = '抱歉！已努力查询，但还是没有找到您要的数据。';
+                    this.table.noDataText = this.formGrid.table.noDataText;
                     this.formGrid.table.data = response.body.content;
                     this.formGrid.pageable.total = response.body.totalElements;
                     this.$forceUpdate();
@@ -5502,7 +5507,7 @@ exports.default = {
                 if (this.formGrid) {
                     this.formGrid.table.loading = false;
                     this.formGrid.table.data = [];
-                    this.formGrid.table.noDataText = '数据查询出现异常，需要管理员查看后台日志，寻找原因。';
+                    this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
                 }
                 this.$forceUpdate();
                 return false;
@@ -9728,8 +9733,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9c85e342_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__ = __webpack_require__(165);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9c85e342_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9c85e342_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__ = __webpack_require__(165);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(145)
@@ -9750,8 +9755,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9c85e342_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9c85e342_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -9899,6 +9904,8 @@ exports.default = {
     },
     stripe: true,
     noDataText: '已努力查询，但还是没找到！',
+    tableLoadingText: '正在努力为您加载数据,请稍候...',
+    tableLoadedErrorText: '数据查询出现异常，需要管理员查看后台日志，寻找原因。',
 
     operation: {
       keys: ['id'],
@@ -10791,7 +10798,7 @@ var render = function render() {
         _vm.$set(_vm.formGrid.pageable, _vm.formGrid.toolbar.filter.name, $$v);
       }, expression: "formGrid.pageable[formGrid.toolbar.filter.name]" } }, [_c('Button', { attrs: { "slot": "append", "icon": "md-search" }, on: { "click": function click($event) {
         _vm.pageData(1);
-      } }, slot: "append" })], 1)], 1) : _vm._e(), _vm._v(" "), _c('i-col')], 2) : _vm._e(), _vm._v(" "), _c('Row', { staticStyle: { "margin-top": "10px" } }, [_c('Table', { ref: _vm.tableRef, attrs: { "width": _vm.formGrid.table.width, "height": _vm.formGrid.table.height, "border": "", "columns": _vm.formGrid.table.columns, "data": _vm.formGrid.table.data, "stripe": _vm.formGrid.table.stripe, "loading": _vm.formGrid.table.loading, "size": _vm.formGrid.table.size, "no-data-text": _vm.formGrid.table.noDataText }, on: { "on-selection-change": _vm.onSelectionChange, "on-select": _vm.onSelect, "on-select-all": _vm.onSelectAll } })], 1), _vm._v(" "), _c('Row', { staticStyle: { "margin-top": "10px" }, attrs: { "justify": "end", "type": "flex" } }, [_c('Page', { attrs: { "total": _vm.formGrid.pageable.total, "show-elevator": "", "show-sizer": "", "show-total": "", "current": _vm.formGrid.pageable.page, "pageSize": _vm.formGrid.pageable.size, "placement": "top" }, on: { "on-change": _vm.changePage, "on-page-size-change": _vm.changePageSize } })], 1), _vm._v(" "), _c('Modal', { attrs: { "title": _vm.modal.title, "closable": _vm.modal.closable, "mask-closable": _vm.modal.maskClosable, "loading": _vm.modal.loading, "scrollable": _vm.modal.scrollable, "width": _vm.modal.width }, model: { value: _vm.modal.editModal, callback: function callback($$v) {
+      } }, slot: "append" })], 1)], 1) : _vm._e(), _vm._v(" "), _c('i-col')], 2) : _vm._e(), _vm._v(" "), _c('Row', { staticStyle: { "margin-top": "10px" } }, [_c('Table', { ref: _vm.tableRef, attrs: { "width": _vm.formGrid.table.width, "height": _vm.formGrid.table.height, "border": "", "columns": _vm.formGrid.table.columns, "data": _vm.formGrid.table.data, "stripe": _vm.formGrid.table.stripe, "loading": _vm.formGrid.table.loading, "size": _vm.formGrid.table.size, "no-data-text": _vm.table.noDataText }, on: { "on-selection-change": _vm.onSelectionChange, "on-select": _vm.onSelect, "on-select-all": _vm.onSelectAll } })], 1), _vm._v(" "), _c('Row', { staticStyle: { "margin-top": "10px" }, attrs: { "justify": "end", "type": "flex" } }, [_c('Page', { attrs: { "total": _vm.formGrid.pageable.total, "show-elevator": "", "show-sizer": "", "show-total": "", "current": _vm.formGrid.pageable.page, "pageSize": _vm.formGrid.pageable.size, "placement": "top" }, on: { "on-change": _vm.changePage, "on-page-size-change": _vm.changePageSize } })], 1), _vm._v(" "), _c('Modal', { attrs: { "title": _vm.modal.title, "closable": _vm.modal.closable, "mask-closable": _vm.modal.maskClosable, "loading": _vm.modal.loading, "scrollable": _vm.modal.scrollable, "width": _vm.modal.width }, model: { value: _vm.modal.editModal, callback: function callback($$v) {
         _vm.$set(_vm.modal, "editModal", $$v);
       }, expression: "modal.editModal" } }, [_c('Form', { ref: _vm.formGrid.form.name, attrs: { "model": _vm.formGrid.form.data, "label-position": _vm.formGrid.form.labelPosition, "label-width": _vm.formGrid.form.labelWidth, "rules": _vm.ruleValidate } }, _vm._l(_vm.formRows, function (row, index1) {
     return _c('Row', { key: 'formRow' + index1 }, _vm._l(row, function (item, index2) {

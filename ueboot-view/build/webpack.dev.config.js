@@ -44,7 +44,7 @@ module.exports = merge(webpackBaseConfig, {
                 { from: /.*/, to: path.posix.join("/", 'index.html') },
             ],
         },
-        host:'192.168.1.103',
+        host:'localhost',
         hot: true,
         contentBase: false, // since we use CopyWebpackPlugin.
         compress: true,

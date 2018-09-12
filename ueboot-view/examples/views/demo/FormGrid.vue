@@ -247,6 +247,9 @@
                         size: 100000,
                     },
                     table: {
+                        noDataText: '已努力查询，但还是没找到！1',
+                        tableLoadingText:'正在努力为您加载数据,请稍候1...',
+                        tableLoadedErrorText:'数据查询出现异常，需要管理员查看后台日志，寻找原因1。',
                         operation: {
                             primaryKey: "createTime",
                             buttons: [{
