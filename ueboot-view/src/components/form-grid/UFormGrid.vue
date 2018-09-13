@@ -19,7 +19,6 @@
                                 <i-input v-if="item.type === 'text'" v-model="queryParams[item.name]" :icon="item.icon"
                                          :placeholder="item.placeholder"
                                          @on-focus="item.onFocus?item.onFocus.apply():()=>{}"
-                                         @on-click="(value)=>{item.click?item.click.call(this,value):()=>{}}"
                                          :maxlength="item.maxlength" :readonly="item.readonly"
                                          :disabled="item.disabled">
                                     <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
@@ -858,9 +857,11 @@
             // 重置查询条件
             resetSuperFilterSearch() {
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields()
+                this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns)
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
                     this.formGrid.toolbar.superFilter.reset.click()
                 }
+                this.$forceUpdate()
             },
             // 高级搜索框按钮
             superFilterSearch(page) {
@@ -971,6 +972,7 @@
             // 重置表单
             handleReset() {
                 this.$refs[this.formGrid.form.name].resetFields()
+                this.$forceUpdate()
             },
             // 模态窗口点击取消按钮事件
             cancel() {

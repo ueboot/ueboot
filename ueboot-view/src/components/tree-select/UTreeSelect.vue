@@ -193,6 +193,7 @@ export default {
       this.inputValue = item.name
       this.$emit('item-click', node, item, e)
       // 调用一下input的blur事件，用于触发表单校验
+        this.$forceUpdate()
     },
     handleClose () {
       this.visible = false

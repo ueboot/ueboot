@@ -3,36 +3,44 @@
         <Layout style="height: 100%">
             <Header :style="{color: '#fff'}">
                 <Menu mode="horizontal" theme="dark" active-name="1">
-                    <div class="layout-logo" :style="config.page_main.logoStyle">
-                        <a class="header-logo">
-                            <img :src="config.logoImage" alt="." class="header-img">
-                            <span class="header-span">{{config.sysTitle}}</span>
-                        </a>
-                    </div>
-                    <div class="layout-nav" :style="config.page_main.navStyle">
-                        <MenuItem name="1">
-                            <a href="javascript:void(0)" @click="logout" class="header-menu ">
-                                <Icon type="md-exit" style="color:red;"></Icon>
-                                <span style="cursor:pointer;">退出系统</span>
+                    <div class="layout-parent">
+                        <div class="layout-logo" :style="config.page_main.logoStyle">
+                            <a class="header-logo">
+                                <img :src="config.logoImage" :alt="config.sysTitle" class="header-img">
+                                <span class="header-span">{{config.sysTitle}}</span>
                             </a>
-                        </MenuItem>
-                        <MenuItem name="2">
-                            <a href="javascript:void(0)" @click="resetPwd" class="header-menu">
-                                <Icon type="md-create" style="color:#657180;"></Icon>
-                                <span style="cursor:pointer;">修改密码</span>
-                            </a>
-                        </MenuItem>
-
+                        </div>
+                        <div class="layout-nav" :style="config.page_main.navStyle">
+                            <Row>
+                                <i-col span="12">
+                                    <MenuItem name="1">
+                                        <a href="javascript:void(0)" @click="logout" class="header-menu ">
+                                            <Icon type="md-exit" style="color:red;"></Icon>
+                                            <span style="cursor:pointer;">退出系统</span>
+                                        </a>
+                                    </MenuItem>
+                                </i-col>
+                                <i-col span="12">
+                                    <MenuItem name="2">
+                                        <a href="javascript:void(0)" @click="resetPwd" class="header-menu">
+                                            <Icon type="md-create" style="color:#657180;"></Icon>
+                                            <span style="cursor:pointer;">修改密码</span>
+                                        </a>
+                                    </MenuItem>
+                                </i-col>
+                            </Row>
+                        </div>
                     </div>
                 </Menu>
 
             </Header>
             <Layout>
-                <Sider hide-trigger :style="{background: '#fff',height: '100%'}" :width="config.page_main.menuWidth+'px'">
+                <Sider hide-trigger :style="{background: '#fff',height: '100%'}"
+                       :width="config.page_main.menuWidth+'px'">
                     <Menu :theme="theme" :width="config.page_main.menuWidth+'px'"
                           :style="{ 'min-height' : clientHeight - 112 + 'px'}"
                           @on-select="menuClick" :active-name="activeMenuName"
-                          :open-names="openMenuNames" accordion>
+                          :open-names="openMenuNames" accordion v-if="menus.length>0">
                         <template v-for="(menu, index) in menus">
                             <Submenu :name="'m'+menu.id" v-if="menu.parentId == null" :key="'sub'+index">
                                 <template slot="title">
@@ -69,6 +77,8 @@
                             </Submenu>
                         </template>
                     </Menu>
+                    <!--增加一个空白的div，防止菜单列表未加载完成时，页面没有占位，导致右侧内容左移-->
+                    <div :style="{width: config.page_main.menuWidth+'px'}"  v-else></div>
                 </Sider>
                 <Layout :style="{padding: '0 24px 0 24px',width:'100%',maxWidth:rightWidth +'px'}">
                     <Breadcrumb :style="{margin: '12px 0'}">
@@ -171,31 +181,30 @@
         },
         watch: {
             $route(to, from) {
-                this.initBreadItems(to)
+                this.initBreadItems(to,this.menus)
             }
         },
         methods: {
             // 监听路由变化动态改变面包屑导航，暂时只支持两级菜单
-            initBreadItems(to) {
+            initBreadItems(to,array) {
                 this.breadItems = []
-                this.menus.forEach((n) => {
-
+                array.forEach((n) => {
                     // 根据URL匹配，找到对应的菜单和父节点菜单ID
                     if (n.url === to.path) {
-                        let parents =this.findParentMenu(n)
+                        let parents = this.findParentMenu(n,array)
                         parents.push(n)
                         this.breadItems = parents
                     }
                 })
             },
             //查找父级菜单
-            findParentMenu(child) {
+            findParentMenu(child,array) {
                 let parent = []
-                for (let m of this.menus) {
+                for (let m of array) {
                     if (child.parentId === m.id) {
-                        if(m.parentId){
-                            let parent2 = this.findParentMenu(m)
-                            if (parent2.length >0) {
+                        if (m.parentId) {
+                            let parent2 = this.findParentMenu(m,array)
+                            if (parent2.length > 0) {
                                 parent = parent2
                             }
                         }
@@ -207,32 +216,40 @@
             init: function () {
                 // 从后台读取当前用户的权限菜单
                 this.$axios.get('/ueboot/shiro/private/menus').then((response) => {
+                    let menus = []
                     if (response && response.body) {
-                        response.body.forEach((o)=>{
+                        response.body.forEach((o) => {
                             //默认设置为0
-                            if(!o.rank){
+                            if (!o.rank) {
                                 o.rank = 0
                             }
                         })
+                        menus = response.body
                         //倒序排
-                        this.$utils.sort(response.body,{field:'rank',sort:'desc'})
-                        this.menus = response.body
+                        this.$utils.sort(menus, {field: 'rank', sort: 'desc'})
                     }
                     let matched = this.$route.matched
                     matched.forEach((m) => {
                         if (m.parent) {
-                            this.menus.forEach((n) => {
+                            menus.forEach((n) => {
                                 // 根据URL匹配，找到对应的菜单和父节点菜单ID
                                 if (n.url === m.path) {
-                                    this.initBreadItems(m)
+                                    this.initBreadItems(m,menus)
                                     this.activeMenuName = 'm' + n.id
                                     if (n.parentId !== '') {
-                                        this.openMenuNames.push('m' + n.parentId)
+                                        //从面包屑导航数组当中获取需要打开的父级菜单
+                                        this.breadItems.forEach((b) => {
+                                            if (b.id !== n.id) {
+                                                this.openMenuNames.push('m' + b.id)
+                                            }
+                                        })
                                     }
                                 }
                             })
                         }
                     })
+                    this.menus = menus
+
                 })
             },
             menuClick(id) {
@@ -300,7 +317,7 @@
             iconSize() {
                 return this.toggle ? '14px' : '24px'
             },
-            rightWidth(){
+            rightWidth() {
                 return this.clientWidth - this.config.page_main.menuWidth
             }
         },
@@ -312,9 +329,9 @@
             // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
             const that = this;
             window.onresize = function temp() {
-                window.setTimeout(()=>{
+                window.setTimeout(() => {
                     that.clientWidth = document.documentElement.clientWidth;
-                },400)
+                }, 400)
             };
             let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user')) || {}
             this.loginName = sessionUser.userName// 登录账号名称
@@ -376,23 +393,14 @@
         overflow: auto;
     }
 
+    .layout-parent {
+        display: flex;
+        justify-content: space-between;
+    }
+
     .layout-logo {
-        width: 200px;
         border-radius: 3px;
-        float: left;
         position: relative;
-    }
-
-    .layout-nav {
-        width: 130px;
-        margin: 0 auto;
-        margin-right: 0;
-    }
-
-    .layout-copy {
-        text-align: center;
-        padding: 5px 0 5px;
-        color: #9ea7b4;
     }
 
     .ivu-layout-header a {

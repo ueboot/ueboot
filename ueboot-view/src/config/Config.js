@@ -9,15 +9,19 @@ let ueboot_config = {
         // 登录界面风格，可取值 ['theme1','theme2']
         theme: 'theme2',
         //登录成功后的跳转路径
-        successRouter:{path:'/'}
+        successRouter:{path:'/'},
+        //logo图片行内样式
+        logoStyle:"width:100px;height:100px;",
+        bgImage:'@/asserts/graphic3.svg',
+        formTitle:'系统登录'
     },
     page_main: {
         menuWidth:'200px',
         logoStyle: {
-            width: '250px'
+            minWidth: '250px'
         },
         navStyle: {
-            width: '220px'
+            minWidth: '220px'
         },
         //退出登录成功后跳转的路由配置
         logoutSuccessRouter:{name:'Login'}

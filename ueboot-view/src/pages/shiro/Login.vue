@@ -1,5 +1,5 @@
 <template>
-    <div id="particles-js" style="height: 100%">
+    <div style="height: 100%">
         <div class="login" v-if="config.page_login.theme === 'theme1'">
             <Row class="vm-login vm-panel">
                 <i-col span="14" class="login-ad">
@@ -7,7 +7,7 @@
                 </i-col>
                 <i-col span="10" class="login-form">
                     <div class="login-header">
-                        <img :src="config.logoImage" height="80" alt="">
+                        <img :src="config.logoImage" :alt="config.sysTitle">
                         <p><span>{{config.sysTitle}}</span></p>
                     </div>
                     <div class="login-form">
@@ -37,20 +37,20 @@
             <div class="form-body without-side">
                 <div class="website-logo">
                     <div class="logo">
-                        <img class="logo-size" :src="config.logoImage" alt="">
+                        <img class="logo-size" :src="config.logoImage" :alt="config.sysTitle" :style="config.page_login.logoStyle" v-if="config.logoImage!==''">
                     </div>
                 </div>
                 <div class="row">
                     <div class="img-holder">
                         <div class="bg"></div>
                         <div class="info-holder">
-                            <img src="../../asserts/graphic3.svg" alt="">
+                            <img src="~@/asserts/graphic3.svg"  alt="">
                         </div>
                     </div>
                     <div class="form-holder">
                         <div class="form-content">
                             <div class="form-items">
-                                <h3>系统登录</h3>
+                                <h3>{{config.page_login.formTitle}}</h3>
                                 <p>{{config.sysTitle}}</p>
                                 <Form ref="formCustom" :model="formCustom" class="login-container">
                                     <i-input v-model="formCustom.username" placeholder="请输入登录账号"></i-input>
@@ -154,6 +154,10 @@
     }
 </script>
 <style>
+    *[v-cloak] {
+        display: none;
+    }
+
     .login .ivu-btn-primary {
         color: #fff;
         background-color: #41b883;
