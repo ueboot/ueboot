@@ -1801,10 +1801,10 @@ var ueboot_config = {
     page_main: {
         menuWidth: '200px',
         logoStyle: {
-            width: '250px'
+            minWidth: '250px'
         },
         navStyle: {
-            width: '220px'
+            minWidth: '220px'
         },
 
         logoutSuccessRouter: { name: 'Login' }
@@ -2981,8 +2981,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8df8491e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__ = __webpack_require__(143);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8df8491e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8df8491e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6a73739a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6a73739a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6a73739a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(132)
@@ -3003,8 +3003,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8df8491e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8df8491e_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6a73739a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6a73739a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -3241,6 +3241,8 @@ exports.default = {
       this.$emit('input', parseInt(item.id));
       this.inputValue = item.name;
       this.$emit('item-click', node, item, e);
+
+      this.$forceUpdate();
     },
     handleClose: function handleClose() {
       this.visible = false;
@@ -5207,7 +5209,7 @@ exports.default = {
                         superFilter: { columns: [] }
                     },
                     form: { data: {}, modal: {}, columns: [] },
-                    table: { operation: { buttons: null, column: {} }, data: [] }
+                    table: { operation: { buttons: null, column: {} }, data: [], query: {} }
                 };
             }
         }
@@ -5239,8 +5241,6 @@ exports.default = {
             selections: [],
 
             formRows: [],
-
-            queryParams: {},
 
             formGrid: {},
             table: {
@@ -5282,8 +5282,6 @@ exports.default = {
         init: function init() {
             this.formGrid = (0, _deepExtend2.default)({}, this.formGrid, this.data);
 
-            _Log2.default.d('初始化queryParams:%o', this.queryParams);
-
             this.formGrid = (0, _deepExtend2.default)({}, _default3.default, this.formGrid);
             this.table.noDataText = this.formGrid.table.noDataText;
 
@@ -5313,7 +5311,6 @@ exports.default = {
 
             if (this.formGrid.toolbar.superFilter && this.formGrid.toolbar.superFilter.columns) {
                 this.setSelectItems(this.formGrid.toolbar.superFilter.columns);
-                this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
                 this.searchRuleValidate = this.getRuleValidate(this.formGrid.toolbar.superFilter.columns);
 
                 var rows = [];
@@ -5335,9 +5332,10 @@ exports.default = {
                         c.span = span;
                         columns.push(c);
                         i++;
-                    } else {
-                        this.queryParams[c.name] = c.init;
+                        this.formGrid.table.query[c.name] = null;
                     }
+
+                    this.$set(this.formGrid.table.query, c.name, c.init);
                 }.bind(this));
                 if (columns.length > 0 && columns.length < colNumber) {
                     if (!allHidden) {
@@ -5415,17 +5413,6 @@ exports.default = {
             _Log2.default.d('rules:%o', rules);
             return rules;
         },
-        setSuperFilterInitValue: function setSuperFilterInitValue(columns) {
-            var _this4 = this;
-
-            columns.forEach(function (c) {
-                (0, _newArrowCheck3.default)(this, _this4);
-
-                if (c.init) {
-                    this.queryParams[c.name] = c.init;
-                }
-            }.bind(this));
-        },
         noticeError: function noticeError(title, desc) {
             this.$Notice.error({
                 title: title,
@@ -5460,14 +5447,14 @@ exports.default = {
             this.pageData(page);
         },
         pageData: function pageData(page) {
-            var _this5 = this;
+            var _this4 = this;
 
             if (page && typeof page === 'number') {
                 this.formGrid.pageable.page = page;
             }
             if (this.formGrid.toolbar.superFilter.rows.length > 0) {
                 this.$refs[this.formGrid.toolbar.superFilter.name].validate(function (valid) {
-                    (0, _newArrowCheck3.default)(this, _this5);
+                    (0, _newArrowCheck3.default)(this, _this4);
 
                     if (valid) {
                         this.fetchData();
@@ -5480,10 +5467,10 @@ exports.default = {
             }
         },
         fetchData: function fetchData() {
-            var _this6 = this;
+            var _this5 = this;
 
             this.table.noDataText = this.formGrid.table.tableLoadingText;
-            var data = this.queryParams;
+            var data = this.formGrid.table.query;
             _Log2.default.d('pageData QueryData:%o', data);
             var page = this.formGrid.pageable.page;
             var size = this.formGrid.pageable.size;
@@ -5494,7 +5481,7 @@ exports.default = {
             var params = { page: page, size: size };
             this.formGrid.table.loading = true;
             this.$axios.post(this.formGrid.options.url.page, data, { params: params }).then(function (response) {
-                (0, _newArrowCheck3.default)(this, _this6);
+                (0, _newArrowCheck3.default)(this, _this5);
 
                 if (this.formGrid) {
                     this.formGrid.table.loading = false;
@@ -5505,7 +5492,7 @@ exports.default = {
                 }
                 _Log2.default.d('接口返回对象,%o', response);
             }.bind(this)).catch(function (response) {
-                (0, _newArrowCheck3.default)(this, _this6);
+                (0, _newArrowCheck3.default)(this, _this5);
 
                 this.noticeError('数据查询出现异常', response.message ? response.message : '系统或网络异常');
                 if (this.formGrid) {
@@ -5514,7 +5501,6 @@ exports.default = {
                     this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
                 }
                 this.$forceUpdate();
-                return false;
             }.bind(this));
         },
         changePage: function changePage(page) {
@@ -5532,10 +5518,10 @@ exports.default = {
             this.pageData();
         },
         handleSubmit: function handleSubmit() {
-            var _this7 = this;
+            var _this6 = this;
 
             this.$refs[this.formGrid.form.name].validate(function (valid) {
-                (0, _newArrowCheck3.default)(this, _this7);
+                (0, _newArrowCheck3.default)(this, _this6);
 
                 if (valid) {
                     if (!this.formGrid.form.submitBefore(this.formGrid.form.data)) {
@@ -5543,7 +5529,7 @@ exports.default = {
                     }
                     this.formGrid.form.loading = true;
                     this.$axios.post(this.formGrid.options.url.save, this.formGrid.form.data).then(function (response) {
-                        (0, _newArrowCheck3.default)(this, _this7);
+                        (0, _newArrowCheck3.default)(this, _this6);
 
                         this.formGrid.form.loading = false;
                         this.$Notice.success({
@@ -5561,7 +5547,7 @@ exports.default = {
                         this.formGrid.form.submitAfter(response.body);
                         this.$forceUpdate();
                     }.bind(this)).catch(function (response) {
-                        (0, _newArrowCheck3.default)(this, _this7);
+                        (0, _newArrowCheck3.default)(this, _this6);
 
                         this.formGrid.form.loading = false;
                         this.noticeError('表单提交失败', response.message ? response.message : '系统或网络异常');
@@ -5576,6 +5562,7 @@ exports.default = {
         },
         handleReset: function handleReset() {
             this.$refs[this.formGrid.form.name].resetFields();
+            this.$forceUpdate();
         },
         cancel: function cancel() {
             this.modal.editModal = false;
@@ -5584,7 +5571,7 @@ exports.default = {
             }
         },
         setFormColumns: function setFormColumns(type) {
-            var _this8 = this;
+            var _this7 = this;
 
             this.handleReset();
 
@@ -5636,7 +5623,7 @@ exports.default = {
             var colNumber = this.formGrid.form.colNumber;
             var count = 0;
             o.columns.forEach(function (c) {
-                (0, _newArrowCheck3.default)(this, _this8);
+                (0, _newArrowCheck3.default)(this, _this7);
 
                 if (count > 0 && count % colNumber === 0) {
                     rows.push(columns);
@@ -5662,7 +5649,7 @@ exports.default = {
             _Log2.default.d('formRows:%o ,form.data:%o', this.formRows, this.formGrid.form.data);
         },
         setSelectItems: function setSelectItems(target) {
-            var _this9 = this;
+            var _this8 = this;
 
             var _loop = function _loop(c) {
                 if (c.type !== 'select') {
@@ -5677,18 +5664,18 @@ exports.default = {
                         var value = data.split(':')[1];
 
                         _Log2.default.d('select 组件查询数据字典:%s', value);
-                        _this9.$axios.post(_this9.formGrid.options.url.im, { parentValue: value }).then(function (response) {
-                            (0, _newArrowCheck3.default)(this, _this9);
+                        _this8.$axios.post(_this8.formGrid.options.url.im, { parentValue: value }).then(function (response) {
+                            (0, _newArrowCheck3.default)(this, _this8);
 
                             this.$set(c, 'items', response.body);
-                        }.bind(_this9));
+                        }.bind(_this8));
                     } else if (data.indexOf('url:') === 0) {
                         var url = data.split(':')[1];
-                        _this9.$axios.post(url, {}).then(function (response) {
-                            (0, _newArrowCheck3.default)(this, _this9);
+                        _this8.$axios.post(url, {}).then(function (response) {
+                            (0, _newArrowCheck3.default)(this, _this8);
 
                             this.$set(c, 'items', response.body);
-                        }.bind(_this9));
+                        }.bind(_this8));
                     } else {
                         _Log2.default.e('当前select定义的data不符合规范,%s', data);
                     }
@@ -5725,7 +5712,7 @@ exports.default = {
             }
         },
         setCascaderData: function setCascaderData(target) {
-            var _this10 = this;
+            var _this9 = this;
 
             var _loop2 = function _loop2(c) {
                 if (c.type !== 'cascader') {
@@ -5734,15 +5721,15 @@ exports.default = {
                 _Log2.default.d('setCascaderData,%o', c);
                 var data = c.data || '';
                 if (_coreUtilIs2.default.isArray(data)) {
-                    c.items = _this10.initCascader(data);
+                    c.items = _this9.initCascader(data);
                 } else if (_coreUtilIs2.default.isString(data)) {
                     if (data.indexOf('url:') === 0) {
                         var url = data.split(':')[1];
-                        _this10.$axios.post(url, {}).then(function (response) {
-                            (0, _newArrowCheck3.default)(this, _this10);
+                        _this9.$axios.post(url, {}).then(function (response) {
+                            (0, _newArrowCheck3.default)(this, _this9);
 
                             this.$set(c, 'items', this.initCascader(response.body));
-                        }.bind(_this10));
+                        }.bind(_this9));
                     } else {
                         _Log2.default.e('当前cascader定义的data不符合规范,%s', data);
                     }
@@ -5779,11 +5766,11 @@ exports.default = {
             }
         },
         initCascader: function initCascader(data) {
-            var _this11 = this;
+            var _this10 = this;
 
             var root = [];
             data.forEach(function (item) {
-                (0, _newArrowCheck3.default)(this, _this11);
+                (0, _newArrowCheck3.default)(this, _this10);
 
                 if (!item.parentId || item.parentId === null) {
                     var o = {
@@ -5802,12 +5789,12 @@ exports.default = {
             return root;
         },
         getCascaderChildren: function getCascaderChildren(data, parent) {
-            var _this12 = this;
+            var _this11 = this;
 
             var sort = this.sort;
             var child = [];
             data.forEach(function (item) {
-                (0, _newArrowCheck3.default)(this, _this12);
+                (0, _newArrowCheck3.default)(this, _this11);
 
                 if (item.parentId === parent.id) {
                     var o = {
@@ -5825,7 +5812,7 @@ exports.default = {
 
             if (sort) {
                 child.sort(function (a, b) {
-                    (0, _newArrowCheck3.default)(this, _this12);
+                    (0, _newArrowCheck3.default)(this, _this11);
 
                     if (sort['sort'] === 'desc') {
                         return b[sort['field']] - a[sort['field']];
@@ -5843,7 +5830,7 @@ exports.default = {
             this.modal.editModal = true;
         },
         batchDelete: function batchDelete() {
-            var _this13 = this;
+            var _this12 = this;
 
             if (this.selections.length === 0) {
                 this.noticeError('数据删除失败', '没有选中任意数据');
@@ -5851,7 +5838,7 @@ exports.default = {
             }
             var keys = [];
             this.selections.forEach(function (item) {
-                (0, _newArrowCheck3.default)(this, _this13);
+                (0, _newArrowCheck3.default)(this, _this12);
 
                 var p = this.getPrimaryKey(item);
                 if (p) {
@@ -5865,7 +5852,7 @@ exports.default = {
                 title: '删除数据',
                 content: '<span style="color:red">确定删除选中的记录吗？</span>',
                 onOk: function onOk() {
-                    (0, _newArrowCheck3.default)(this, _this13);
+                    (0, _newArrowCheck3.default)(this, _this12);
 
                     var key = this.formGrid.table.operation.primaryKey;
                     var data = {};
@@ -5876,7 +5863,7 @@ exports.default = {
                     _Log2.default.d('要删除的数据:%o', params);
                     this.formGrid.toolbar.delete.loading = true;
                     this.$axios.post(this.formGrid.options.url.delete, data, params).then(function (response) {
-                        (0, _newArrowCheck3.default)(this, _this13);
+                        (0, _newArrowCheck3.default)(this, _this12);
 
                         this.formGrid.toolbar.delete.loading = false;
                         this.$Notice.success({
@@ -5885,7 +5872,7 @@ exports.default = {
                         });
                         this.pageData();
                     }.bind(this)).catch(function (response) {
-                        (0, _newArrowCheck3.default)(this, _this13);
+                        (0, _newArrowCheck3.default)(this, _this12);
 
                         this.formGrid.toolbar.delete.loading = false;
                         this.noticeError('删除失败', response.message ? response.message : '系统或网络异常');
@@ -5894,7 +5881,7 @@ exports.default = {
                     }.bind(this));
                 }.bind(this),
                 onCancel: function onCancel() {
-                    (0, _newArrowCheck3.default)(this, _this13);
+                    (0, _newArrowCheck3.default)(this, _this12);
                 }.bind(this)
             });
         },
@@ -5916,14 +5903,14 @@ exports.default = {
         ccOnChange: function ccOnChange(value, selectedData) {},
         tableViewClick: function tableViewClick(params) {},
         renderColumn: function renderColumn() {
-            var _this14 = this;
+            var _this13 = this;
 
             this.formGrid.table.columns.forEach(function (c) {
-                (0, _newArrowCheck3.default)(this, _this14);
+                (0, _newArrowCheck3.default)(this, _this13);
 
                 if (c.renderType && !_coreUtilIs2.default.isFunction(c.render)) {
                     c.render = function (h, params) {
-                        (0, _newArrowCheck3.default)(this, _this14);
+                        (0, _newArrowCheck3.default)(this, _this13);
 
                         var _this = this;
                         var originKey = c.key;
@@ -5997,7 +5984,7 @@ exports.default = {
                     }.bind(this);
                 } else if (_coreUtilIs2.default.isFunction(c.fieldFormat) || _coreUtilIs2.default.isFunction(c.format)) {
                     c.render = function (h, params) {
-                        (0, _newArrowCheck3.default)(this, _this14);
+                        (0, _newArrowCheck3.default)(this, _this13);
 
                         var formatValue = this.tableFieldFormat(c, h, params);
                         return h('span', {}, formatValue);
@@ -6037,10 +6024,10 @@ exports.default = {
             return formatValue;
         },
         renderOpt: function renderOpt(column) {
-            var _this15 = this;
+            var _this14 = this;
 
             column.render = function (h, params) {
-                (0, _newArrowCheck3.default)(this, _this15);
+                (0, _newArrowCheck3.default)(this, _this14);
 
                 var _this = this;
 
@@ -6069,7 +6056,7 @@ exports.default = {
 
                 var array = [];
                 this.formGrid.table.operation.buttons.forEach(function (b, index) {
-                    (0, _newArrowCheck3.default)(this, _this15);
+                    (0, _newArrowCheck3.default)(this, _this14);
 
                     if (b.show) {
                         array.push(create(h, params, b.theme, b.label, b.click, b.ghost));
@@ -6079,7 +6066,7 @@ exports.default = {
             }.bind(this);
         },
         getFormData: function getFormData(row, type) {
-            var _this16 = this;
+            var _this15 = this;
 
             var data = this.getPrimaryKey(row) || '';
             if (data === '') {
@@ -6094,7 +6081,7 @@ exports.default = {
                 data = null;
 
                 this.$axios.post(this.formGrid.options.url.get, data, params).then(function (response) {
-                    (0, _newArrowCheck3.default)(this, _this16);
+                    (0, _newArrowCheck3.default)(this, _this15);
 
                     var data = response.body;
                     this.formatFormField(data);
@@ -6106,7 +6093,7 @@ exports.default = {
                     }
                     this.$forceUpdate();
                 }.bind(this)).catch(function (response) {
-                    (0, _newArrowCheck3.default)(this, _this16);
+                    (0, _newArrowCheck3.default)(this, _this15);
 
                     this.noticeError('获取数据失败', response.body);
                     this.$forceUpdate();
@@ -6198,13 +6185,13 @@ exports.default = {
             }
         },
         optDeleteClick: function optDeleteClick(row, index) {
-            var _this17 = this;
+            var _this16 = this;
 
             this.$Modal.confirm({
                 title: '删除数据',
                 content: '<span style="color:red">确定删除该记录吗？</span>',
                 onOk: function onOk() {
-                    (0, _newArrowCheck3.default)(this, _this17);
+                    (0, _newArrowCheck3.default)(this, _this16);
 
                     var key = this.formGrid.table.operation.primaryKey;
                     var keys = [];
@@ -6223,11 +6210,11 @@ exports.default = {
 
                     _Log2.default.d('delete params :%o', params);
                     this.$axios.post(this.formGrid.options.url.delete, data, params).then(function (response) {
-                        (0, _newArrowCheck3.default)(this, _this17);
+                        (0, _newArrowCheck3.default)(this, _this16);
 
                         this.pageData();
                     }.bind(this)).catch(function (response) {
-                        (0, _newArrowCheck3.default)(this, _this17);
+                        (0, _newArrowCheck3.default)(this, _this16);
 
                         this.noticeError('数据删除失败', response.message ? response.message : '系统或网络异常');
                         this.$forceUpdate();
@@ -6235,7 +6222,7 @@ exports.default = {
                     }.bind(this));
                 }.bind(this),
                 onCancel: function onCancel() {
-                    (0, _newArrowCheck3.default)(this, _this17);
+                    (0, _newArrowCheck3.default)(this, _this16);
                 }.bind(this)
             });
         },
@@ -6246,11 +6233,11 @@ exports.default = {
             this.exportPageData();
         },
         exportPageData: function exportPageData(size) {
-            var _this18 = this;
+            var _this17 = this;
 
             if (this.formGrid.toolbar.superFilter.columns.length > 0) {
                 this.$refs[this.formGrid.toolbar.superFilter.name].validate(function (valid) {
-                    (0, _newArrowCheck3.default)(this, _this18);
+                    (0, _newArrowCheck3.default)(this, _this17);
 
                     if (valid) {
                         this.fetchExcelData(size);
@@ -6263,10 +6250,10 @@ exports.default = {
             }
         },
         fetchExcelData: function fetchExcelData(size) {
-            var _this19 = this;
+            var _this18 = this;
 
             var data = {};
-            data = (0, _deepExtend2.default)({}, this.queryParams);
+            data = (0, _deepExtend2.default)({}, this.formGrid.table.query);
             var page = this.formGrid.pageable.page;
             var pageSize = this.formGrid.pageable.size;
             if (size) {
@@ -6281,7 +6268,7 @@ exports.default = {
             var body = [];
             _Log2.default.d('exportPageData QueryData:%o', data);
             this.$axios.post(this.formGrid.options.url.page, data, { params: params }).then(function (response) {
-                (0, _newArrowCheck3.default)(this, _this19);
+                (0, _newArrowCheck3.default)(this, _this18);
 
                 body = response.body.content;
                 var columns = [];
@@ -6293,7 +6280,7 @@ exports.default = {
                 this.defaultExport(columns, body);
                 this.$forceUpdate();
             }.bind(this)).catch(function (response) {
-                (0, _newArrowCheck3.default)(this, _this19);
+                (0, _newArrowCheck3.default)(this, _this18);
 
                 this.$set(this.formGrid.table, 'data', []);
                 this.noticeError('数据查询出现异常', '系统服务或网络异常');
@@ -6313,40 +6300,41 @@ exports.default = {
         }
     },
     mounted: function mounted() {
+
         if (this.formGrid.options.autoLoad) {
             this.pageData();
         }
         this.$nextTick(function () {
-            var _this20 = this;
+            var _this19 = this;
 
             this.$on('reloadData', function () {
-                (0, _newArrowCheck3.default)(this, _this20);
+                (0, _newArrowCheck3.default)(this, _this19);
 
                 this.$nextTick(function () {
-                    (0, _newArrowCheck3.default)(this, _this20);
+                    (0, _newArrowCheck3.default)(this, _this19);
 
                     this.reloadData();
                 }.bind(this));
             }.bind(this));
 
             this.$on('refreshData', function () {
-                (0, _newArrowCheck3.default)(this, _this20);
+                (0, _newArrowCheck3.default)(this, _this19);
 
                 this.$nextTick(function () {
-                    (0, _newArrowCheck3.default)(this, _this20);
+                    (0, _newArrowCheck3.default)(this, _this19);
 
                     this.pageData();
                 }.bind(this));
             }.bind(this));
 
             this.$on('uploadSuccess', function (jsonData, scope) {
-                (0, _newArrowCheck3.default)(this, _this20);
+                (0, _newArrowCheck3.default)(this, _this19);
 
                 _Log2.default.d('uploadSuccess:' + jsonData + '+ scope:' + scope);
             }.bind(this));
 
             this.$on('uploadFail', function (jsonData, scope) {
-                (0, _newArrowCheck3.default)(this, _this20);
+                (0, _newArrowCheck3.default)(this, _this19);
 
                 _Log2.default.d('uploadFail:' + jsonData + '+ scope:' + scope);
             }.bind(this));
@@ -6354,7 +6342,6 @@ exports.default = {
     },
     beforeDestroy: function beforeDestroy() {
         this.formGrid = null;
-        this.queryParams = null;
         this.modal = null;
         this.ruleValidate = null;
         this.selections = null;
@@ -7285,37 +7272,37 @@ exports.default = {
 
     watch: {
         $route: function $route(to, from) {
-            this.initBreadItems(to);
+            this.initBreadItems(to, this.menus);
         }
     },
     methods: {
-        initBreadItems: function initBreadItems(to) {
+        initBreadItems: function initBreadItems(to, array) {
             var _this2 = this;
 
             this.breadItems = [];
-            this.menus.forEach(function (n) {
+            array.forEach(function (n) {
                 (0, _newArrowCheck3.default)(this, _this2);
 
                 if (n.url === to.path) {
-                    var parents = this.findParentMenu(n);
+                    var parents = this.findParentMenu(n, array);
                     parents.push(n);
                     this.breadItems = parents;
                 }
             }.bind(this));
         },
-        findParentMenu: function findParentMenu(child) {
+        findParentMenu: function findParentMenu(child, array) {
             var parent = [];
             var _iteratorNormalCompletion = true;
             var _didIteratorError = false;
             var _iteratorError = undefined;
 
             try {
-                for (var _iterator = (0, _getIterator3.default)(this.menus), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                for (var _iterator = (0, _getIterator3.default)(array), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var m = _step.value;
 
                     if (child.parentId === m.id) {
                         if (m.parentId) {
-                            var parent2 = this.findParentMenu(m);
+                            var parent2 = this.findParentMenu(m, array);
                             if (parent2.length > 0) {
                                 parent = parent2;
                             }
@@ -7347,6 +7334,7 @@ exports.default = {
             this.$axios.get('/ueboot/shiro/private/menus').then(function (response) {
                 (0, _newArrowCheck3.default)(this, _this3);
 
+                var menus = [];
                 if (response && response.body) {
                     response.body.forEach(function (o) {
                         (0, _newArrowCheck3.default)(this, _this3);
@@ -7355,28 +7343,35 @@ exports.default = {
                             o.rank = 0;
                         }
                     }.bind(this));
+                    menus = response.body;
 
-                    this.$utils.sort(response.body, { field: 'rank', sort: 'desc' });
-                    this.menus = response.body;
+                    this.$utils.sort(menus, { field: 'rank', sort: 'desc' });
                 }
                 var matched = this.$route.matched;
                 matched.forEach(function (m) {
                     (0, _newArrowCheck3.default)(this, _this3);
 
                     if (m.parent) {
-                        this.menus.forEach(function (n) {
+                        menus.forEach(function (n) {
                             (0, _newArrowCheck3.default)(this, _this3);
 
                             if (n.url === m.path) {
-                                this.initBreadItems(m);
+                                this.initBreadItems(m, menus);
                                 this.activeMenuName = 'm' + n.id;
                                 if (n.parentId !== '') {
-                                    this.openMenuNames.push('m' + n.parentId);
+                                    this.breadItems.forEach(function (b) {
+                                        (0, _newArrowCheck3.default)(this, _this3);
+
+                                        if (b.id !== n.id) {
+                                            this.openMenuNames.push('m' + b.id);
+                                        }
+                                    }.bind(this));
                                 }
                             }
                         }.bind(this));
                     }
                 }.bind(this));
+                this.menus = menus;
             }.bind(this));
         },
         menuClick: function menuClick(id) {
@@ -9737,8 +9732,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__ = __webpack_require__(165);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_392cf59c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__ = __webpack_require__(165);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_392cf59c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_392cf59c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(145)
@@ -9759,8 +9754,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_338291ad_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_392cf59c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_392cf59c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -9806,7 +9801,7 @@ exports.push([module.i, "\n.ivu-input .ivu-input-disabled {\n    color: #7b7777 
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _newArrowCheck2 = __webpack_require__(2);
@@ -9816,154 +9811,154 @@ var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  options: {
-    autoLoad: true,
-    url: {
-      save: '',
-      delete: '',
-      page: '',
-      get: '',
-      im: '/admin/api/dic/find/parent' }
-  },
-  tips: { 'title': '', 'content': '' },
-  toolbar: {
-    show: true,
-
-    justify: 'start',
-    refresh: {
-      show: true, label: ''
+    options: {
+        autoLoad: true,
+        url: {
+            save: '',
+            delete: '',
+            page: '',
+            get: '',
+            im: '/admin/api/dic/find/parent' }
     },
-    create: {
-      show: true, label: '添加'
+    tips: { 'title': '', 'content': '' },
+    toolbar: {
+        show: true,
+
+        justify: 'start',
+        refresh: {
+            show: true, label: ''
+        },
+        create: {
+            show: true, label: '添加'
+        },
+        delete: {
+            show: true, label: '删除', loading: false
+        },
+        groups: {
+            show: false,
+            label: '导入/导出',
+            import: {
+                show: false, size: 50 * 1024, modelTitle: '上传文件', templatePath: '', params: {}
+            }
+        },
+
+        buttons: null,
+
+        filter: {
+            show: false,
+            name: 'keyWord',
+            placeholder: '根据关键字搜索'
+        },
+
+        superFilter: {
+            show: false,
+            label: '高级搜索',
+            labelWidth: 80,
+            name: 'searchForm',
+            colNumber: 4,
+            columns: [],
+
+            rows: {},
+            submit: { theme: 'primary', label: '开始查询', icon: 'md-search', long: false },
+            reset: { theme: 'primary', label: '重置条件', icon: 'md-close', long: false, ghost: true }
+        }
     },
-    delete: {
-      show: true, label: '删除', loading: false
-    },
-    groups: {
-      show: false,
-      label: '导入/导出',
-      import: {
-        show: false, size: 50 * 1024, modelTitle: '上传文件', templatePath: '', params: {}
-      }
+    pageable: {
+        page: 1,
+        size: 15
     },
 
-    buttons: null,
+    form: {
+        name: 'formName',
+        labelPosition: 'right',
+        loading: false,
+        labelWidth: 80,
 
-    filter: {
-      show: false,
-      name: 'keyWord',
-      placeholder: '根据关键字搜索'
-    },
+        colNumber: 2,
+        modal: {
+            title: '',
+            showClose: true,
+            width: '' },
 
-    superFilter: {
-      show: false,
-      label: '高级搜索',
-      labelWidth: 80,
-      name: 'searchForm',
-      colNumber: 4,
-      columns: [],
+        columns: [],
 
-      rows: {},
-      submit: { theme: 'primary', label: '开始查询', icon: 'md-search', long: false },
-      reset: { theme: 'primary', label: '重置', icon: 'md-close', long: false, ghost: true }
+        submitBefore: function submitBefore(data) {
+            return true;
+        },
+
+        submitAfter: function submitAfter(response) {
+            return true;
+        },
+
+        onCancel: function onCancel() {},
+        data: {} },
+    table: {
+        height: '',
+        showCheckbox: true,
+
+        selection: {
+            type: 'selection',
+            width: 60,
+            align: 'center'
+        },
+        stripe: true,
+        noDataText: '已努力查询，但还是没找到！',
+        tableLoadingText: '正在努力为您加载数据,请稍候...',
+        tableLoadedErrorText: '数据查询出现异常，需要管理员查看后台日志，寻找原因。',
+
+        operation: {
+            keys: ['id'],
+
+            show: true,
+
+            remote: false,
+
+            buttons: [{
+                key: 'view',
+                show: true,
+                'label': '查看',
+                'theme': 'primary',
+                click: function click(row, index, _this) {
+                    (0, _newArrowCheck3.default)(undefined, undefined);
+
+                    _this.optViewClick(row, index);
+                }.bind(undefined)
+            }, {
+                key: 'edit',
+                show: true,
+                'label': '编辑',
+                'theme': 'primary',
+                click: function click(row, index, _this) {
+                    (0, _newArrowCheck3.default)(undefined, undefined);
+
+                    _this.optEditClick(row, index);
+                }.bind(undefined)
+            }, {
+                key: 'delete',
+                show: true,
+                'label': '删除',
+                'theme': 'primary',
+                ghost: true,
+                click: function click(row, index, _this) {
+                    (0, _newArrowCheck3.default)(undefined, undefined);
+
+                    _this.optDeleteClick(row, index);
+                }.bind(undefined)
+            }],
+
+            column: {
+                title: '操作',
+                key: 'action',
+                className: 'optColumn',
+                align: 'center',
+                minWidth: 160
+            }
+        },
+
+        data: [],
+
+        query: {}
     }
-  },
-  pageable: {
-    page: 1,
-    size: 15
-  },
-
-  form: {
-    name: 'formName',
-    labelPosition: 'right',
-    loading: false,
-    labelWidth: 80,
-
-    colNumber: 2,
-    modal: {
-      title: '',
-      showClose: true,
-      width: '' },
-
-    columns: [],
-
-    submitBefore: function submitBefore(data) {
-      return true;
-    },
-
-    submitAfter: function submitAfter(response) {
-      return true;
-    },
-
-    onCancel: function onCancel() {},
-    data: {} },
-  table: {
-    height: '',
-    showCheckbox: true,
-
-    selection: {
-      type: 'selection',
-      width: 60,
-      align: 'center'
-    },
-    stripe: true,
-    noDataText: '已努力查询，但还是没找到！',
-    tableLoadingText: '正在努力为您加载数据,请稍候...',
-    tableLoadedErrorText: '数据查询出现异常，需要管理员查看后台日志，寻找原因。',
-
-    operation: {
-      keys: ['id'],
-
-      show: true,
-
-      remote: false,
-
-      buttons: [{
-        key: 'view',
-        show: true,
-        'label': '查看',
-        'theme': 'primary',
-        click: function click(row, index, _this) {
-          (0, _newArrowCheck3.default)(undefined, undefined);
-
-          _this.optViewClick(row, index);
-        }.bind(undefined)
-      }, {
-        key: 'edit',
-        show: true,
-        'label': '编辑',
-        'theme': 'primary',
-        click: function click(row, index, _this) {
-          (0, _newArrowCheck3.default)(undefined, undefined);
-
-          _this.optEditClick(row, index);
-        }.bind(undefined)
-      }, {
-        key: 'delete',
-        show: true,
-        'label': '删除',
-        'theme': 'primary',
-        ghost: true,
-        click: function click(row, index, _this) {
-          (0, _newArrowCheck3.default)(undefined, undefined);
-
-          _this.optDeleteClick(row, index);
-        }.bind(undefined)
-      }],
-
-      column: {
-        title: '操作',
-        key: 'action',
-        className: 'optColumn',
-        align: 'center',
-        minWidth: 160
-      }
-    },
-
-    data: []
-  },
-  queryParams: {}
-
 };
 
 /***/ }),
@@ -10727,32 +10722,26 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var render = function render() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_vm.formGrid.tips.title ? _c('Row', [_c('Alert', [_vm._v("\n            " + _vm._s(_vm.formGrid.tips.title) + "\n            "), _vm.formGrid.tips.content ? _c('span', { attrs: { "slot": "desc" }, slot: "desc" }, [_vm._v(" " + _vm._s(_vm.formGrid.tips.content))]) : _vm._e()])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.superFilter.rows.length > 0 ? _c('Row', [_c('Form', { ref: _vm.formGrid.toolbar.superFilter.name, attrs: { "model": _vm.queryParams, "label-position": _vm.formGrid.toolbar.superFilter.labelPosition, "label-width": _vm.formGrid.toolbar.superFilter.labelWidth, "rules": _vm.searchRuleValidate } }, [_c('i-col', { attrs: { "span": 24 } }, _vm._l(_vm.formGrid.toolbar.superFilter.rows, function (row, index1) {
+  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_vm.formGrid.tips.title ? _c('Row', [_c('Alert', [_vm._v("\n            " + _vm._s(_vm.formGrid.tips.title) + "\n            "), _vm.formGrid.tips.content ? _c('span', { attrs: { "slot": "desc" }, slot: "desc" }, [_vm._v(" " + _vm._s(_vm.formGrid.tips.content))]) : _vm._e()])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.superFilter.rows.length > 0 ? _c('Row', [_c('i-form', { ref: _vm.formGrid.toolbar.superFilter.name, attrs: { "model": _vm.formGrid.table.query, "label-position": _vm.formGrid.toolbar.superFilter.labelPosition, "label-width": _vm.formGrid.toolbar.superFilter.labelWidth, "rules": _vm.searchRuleValidate } }, _vm._l(_vm.formGrid.toolbar.superFilter.rows, function (row, index1) {
     return _c('Row', { key: 'row' + index1 }, _vm._l(row, function (item, index2) {
       var this$1 = this;
       return _c('i-col', { key: 'superfilter' + index2, attrs: { "span": item.span } }, [_c('Form-item', { attrs: { "label": item.label, "prop": item.name } }, [item.type === 'text' ? _c('i-input', { attrs: { "icon": item.icon, "placeholder": item.placeholder, "maxlength": item.maxlength, "readonly": item.readonly, "disabled": item.disabled }, on: { "on-focus": function onFocus($event) {
             item.onFocus ? item.onFocus.apply() : function () {};
-          }, "on-click": function onClick(value) {
-            item.click ? item.click.call(this$1, value) : function () {};
-          } }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }, [item.prepend ? _c('span', { attrs: { "slot": "prepend" }, slot: "prepend" }, [_vm._v(_vm._s(item.prepend))]) : _vm._e(), _vm._v(" "), item.append ? _c('span', { attrs: { "slot": "append" }, slot: "append" }, [_vm._v(_vm._s(item.append))]) : _vm._e()]) : _vm._e(), _vm._v(" "), item.type === 'password' ? _c('i-input', { attrs: { "type": item.type, "placeholder": item.placeholder, "disabled": item.disabled }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'hidden' ? _c('input', { directives: [{ name: "model", rawName: "v-model", value: _vm.queryParams[item.name], expression: "queryParams[item.name]" }], attrs: { "type": "hidden" }, domProps: { "value": _vm.queryParams[item.name] }, on: { "input": function input($event) {
-            if ($event.target.composing) {
-              return;
-            }_vm.$set(_vm.queryParams, item.name, $event.target.value);
-          } } }) : _vm._e(), _vm._v(" "), item.type === 'switch' ? _c('i-switch', { attrs: { "disabled": item.disabled }, on: { "on-change": item.change }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'number' ? _c('InputNumber', { staticStyle: { "width": "100%" }, attrs: { "type": item.type, "icon": item.icon, "placeholder": item.placeholder, "disabled": item.disabled, "max": item.max, "min": item.min, "step": item.step }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'email' ? _c('i-input', { attrs: { "type": item.type, "icon": item.icon, "disabled": item.disabled, "maxlength": item.maxlength, "readonly": item.readonly, "placeholder": item.placeholder }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'cascader' ? _c('Cascader', { attrs: { "data": item.items, "render-format": item.format ? item.format : _vm.cascaderFormat, "change-on-select": !!item.changeOnSelect }, on: { "on-change": function onChange(value) {
+          } }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }, [item.prepend ? _c('span', { attrs: { "slot": "prepend" }, slot: "prepend" }, [_vm._v(_vm._s(item.prepend))]) : _vm._e(), _vm._v(" "), item.append ? _c('span', { attrs: { "slot": "append" }, slot: "append" }, [_vm._v(_vm._s(item.append))]) : _vm._e()]) : _vm._e(), _vm._v(" "), item.type === 'password' ? _c('i-input', { attrs: { "type": item.type, "placeholder": item.placeholder, "disabled": item.disabled }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'switch' ? _c('i-switch', { attrs: { "disabled": item.disabled }, on: { "on-change": item.change }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'number' ? _c('InputNumber', { staticStyle: { "width": "100%" }, attrs: { "type": item.type, "icon": item.icon, "placeholder": item.placeholder, "disabled": item.disabled, "max": item.max, "min": item.min, "step": item.step }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'email' ? _c('i-input', { attrs: { "type": item.type, "icon": item.icon, "disabled": item.disabled, "maxlength": item.maxlength, "readonly": item.readonly, "placeholder": item.placeholder }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'cascader' ? _c('Cascader', { attrs: { "data": item.items, "render-format": item.format ? item.format : _vm.cascaderFormat, "change-on-select": !!item.changeOnSelect }, on: { "on-change": function onChange(value) {
             item.onChange ? item.onChange.call(this$1, value) : function () {};
-          } }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'select' ? _c('i-select', { attrs: { "clearable": item.clearable, "filterable": item.filterable, "multiple": item.multiple, "placeholder": item.placeholder, "value": item.init }, on: { "on-change": function onChange(value) {
+          } }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'select' ? _c('i-select', { attrs: { "clearable": item.clearable, "filterable": item.filterable, "multiple": item.multiple, "placeholder": item.placeholder, "value": item.init }, on: { "on-change": function onChange(value) {
             item.onChange ? item.onChange.call(this$1, value) : function () {};
           }, "on-query-change": function onQueryChange(value) {
             item.onQueryChange ? item.onQueryChange.call(this$1, value) : function () {};
@@ -10760,33 +10749,33 @@ var render = function render() {
             item.onClear ? item.onClear.call(this$1, value) : function () {};
           }, "on-open-change": function onOpenChange(value) {
             item.onOpenChange ? item.onOpenChange.call(this$1, value) : function () {};
-          } }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }, _vm._l(item.items, function (option, index) {
-        return _c('Option', { key: 'o' + index, attrs: { "value": option.value } }, [_vm._v("\n                                    " + _vm._s(option.name) + "\n                                ")]);
-      })) : item.type === 'radio' ? [_c('Radio-group', { attrs: { "disabled": item.disabled }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }, _vm._l(item.items, function (o, index) {
-        return _c('Radio', { key: index, attrs: { "label": o.label } }, [_vm._v("\n                                        " + _vm._s(o.name) + "\n                                    ")]);
-      }))] : item.type === 'treeSelect' ? [_c('u-tree-select', { attrs: { "tree": item.tree, "refName": item.name, "fixed": item.fixed, "size": item.size, "maxHeight": item.maxHeight, "sort": item.sort, "klass": item.klass, "collapse": item.collapse, "async": item.async }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } })] : _vm._e(), _vm._v(" "), item.type === 'date' ? _c('DatePicker', { attrs: { "type": "date", "placeholder": item.placeholder ? item.placeholder : '', "format": item.format ? item.format : 'yyyy-MM-dd', "option": item.option, "placement": item.placement, "options": item.options, "confirm": item.confirm, "open": item.open, "size": item.size, "clearable": item.clearable, "readonly": item.readonly, "editable": item.editable, "transfer": item.transfer }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'daterange' ? _c('DatePicker', { attrs: { "type": item.type, "placeholder": item.placeholder ? item.placeholder : '', "format": item.format ? item.format : 'yyyy-MM-dd', "placement": item.placement, "options": item.options, "confirm": item.confirm, "open": item.open, "size": item.size, "clearable": item.clearable, "readonly": item.readonly, "editable": item.editable, "transfer": item.transfer }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'datetime' || item.type === 'datetimerange' ? _c('DatePicker', { attrs: { "type": item.type, "placeholder": item.placeholder ? item.placeholder : '', "format": item.format ? item.format : 'yyyy-MM-dd HH:mm:ss', "placement": item.placement, "options": item.options, "confirm": item.confirm, "open": item.open, "size": item.size, "clearable": item.clearable, "readonly": item.readonly, "editable": item.editable, "transfer": item.transfer }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'month' || item.type === 'year' ? _c('DatePicker', { attrs: { "type": item.type, "placeholder": item.placeholder ? item.placeholder : '', "format": item.format ? item.format : null, "placement": item.placement, "options": item.options, "confirm": item.confirm, "open": item.open, "size": item.size, "clearable": item.clearable, "readonly": item.readonly, "editable": item.editable, "transfer": item.transfer }, model: { value: _vm.queryParams[item.name], callback: function callback($$v) {
-            _vm.$set(_vm.queryParams, item.name, $$v);
-          }, expression: "queryParams[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'checkbox' ? _c('Checkbox-group', { attrs: { "disabled": item.disabled }, model: { value: _vm.formGrid.form.data[item.name], callback: function callback($$v) {
+          } }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }, _vm._l(item.items, function (option, index) {
+        return _c('Option', { key: 'o' + index, attrs: { "value": option.value } }, [_vm._v("\n                                " + _vm._s(option.name) + "\n                            ")]);
+      })) : item.type === 'radio' ? [_c('Radio-group', { attrs: { "disabled": item.disabled }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }, _vm._l(item.items, function (o, index) {
+        return _c('Radio', { key: index, attrs: { "label": o.label } }, [_vm._v("\n                                    " + _vm._s(o.name) + "\n                                ")]);
+      }))] : item.type === 'treeSelect' ? [_c('u-tree-select', { attrs: { "tree": item.tree, "refName": item.name, "fixed": item.fixed, "size": item.size, "maxHeight": item.maxHeight, "sort": item.sort, "klass": item.klass, "collapse": item.collapse, "async": item.async }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } })] : _vm._e(), _vm._v(" "), item.type === 'date' ? _c('DatePicker', { attrs: { "type": "date", "placeholder": item.placeholder ? item.placeholder : '', "format": item.format ? item.format : 'yyyy-MM-dd', "option": item.option, "placement": item.placement, "options": item.options, "confirm": item.confirm, "open": item.open, "size": item.size, "clearable": item.clearable, "readonly": item.readonly, "editable": item.editable, "transfer": item.transfer }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'daterange' ? _c('DatePicker', { attrs: { "type": item.type, "placeholder": item.placeholder ? item.placeholder : '', "format": item.format ? item.format : 'yyyy-MM-dd', "placement": item.placement, "options": item.options, "confirm": item.confirm, "open": item.open, "size": item.size, "clearable": item.clearable, "readonly": item.readonly, "editable": item.editable, "transfer": item.transfer }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'datetime' || item.type === 'datetimerange' ? _c('DatePicker', { attrs: { "type": item.type, "placeholder": item.placeholder ? item.placeholder : '', "format": item.format ? item.format : 'yyyy-MM-dd HH:mm:ss', "placement": item.placement, "options": item.options, "confirm": item.confirm, "open": item.open, "size": item.size, "clearable": item.clearable, "readonly": item.readonly, "editable": item.editable, "transfer": item.transfer }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'month' || item.type === 'year' ? _c('DatePicker', { attrs: { "type": item.type, "placeholder": item.placeholder ? item.placeholder : '', "format": item.format ? item.format : null, "placement": item.placement, "options": item.options, "confirm": item.confirm, "open": item.open, "size": item.size, "clearable": item.clearable, "readonly": item.readonly, "editable": item.editable, "transfer": item.transfer }, model: { value: _vm.formGrid.table.query[item.name], callback: function callback($$v) {
+            _vm.$set(_vm.formGrid.table.query, item.name, $$v);
+          }, expression: "formGrid.table.query[item.name]" } }) : _vm._e(), _vm._v(" "), item.type === 'checkbox' ? _c('Checkbox-group', { attrs: { "disabled": item.disabled }, model: { value: _vm.formGrid.form.data[item.name], callback: function callback($$v) {
             _vm.$set(_vm.formGrid.form.data, item.name, $$v);
           }, expression: "formGrid.form.data[item.name]" } }, _vm._l(item.items, function (o, index) {
-        return _c('Checkbox', { key: index, attrs: { "label": o.label } }, [_vm._v(_vm._s(o.name) + "\n                                ")]);
+        return _c('Checkbox', { key: index, attrs: { "label": o.label } }, [_vm._v(_vm._s(o.name) + "\n                            ")]);
       })) : _vm._e(), _vm._v(" "), item.type === 'queryButton' && _vm.formGrid.toolbar.superFilter.submit ? [item.type === 'queryButton' && _vm.formGrid.toolbar.superFilter.submit ? _c('Button', { attrs: { "type": _vm.formGrid.toolbar.superFilter.submit.theme, "icon": _vm.formGrid.toolbar.superFilter.submit.icon, "disabled": _vm.formGrid.toolbar.superFilter.submit.disabled, "loading": _vm.formGrid.toolbar.superFilter.submit.loading, "size": _vm.formGrid.toolbar.superFilter.submit.size, "ghost": _vm.formGrid.toolbar.superFilter.submit.ghost, "shape": _vm.formGrid.toolbar.superFilter.submit.shape, "long": _vm.formGrid.toolbar.superFilter.submit.long }, on: { "click": function click($event) {
             _vm.superFilterSearch(1);
-          } } }, [_vm._v("\n                                    " + _vm._s(_vm.formGrid.toolbar.superFilter.submit.label) + "\n                                ")]) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.superFilter.reset ? _c('Button', { attrs: { "type": _vm.formGrid.toolbar.superFilter.reset.theme, "icon": _vm.formGrid.toolbar.superFilter.reset.icon, "disabled": _vm.formGrid.toolbar.superFilter.reset.disabled, "loading": _vm.formGrid.toolbar.superFilter.reset.loading, "size": _vm.formGrid.toolbar.superFilter.reset.size, "ghost": _vm.formGrid.toolbar.superFilter.reset.ghost, "shape": _vm.formGrid.toolbar.superFilter.reset.shape, "long": _vm.formGrid.toolbar.superFilter.reset.long }, on: { "click": _vm.resetSuperFilterSearch } }, [_vm._v("\n                                    " + _vm._s(_vm.formGrid.toolbar.superFilter.reset.label) + "\n                                ")]) : _vm._e()] : _vm._e()], 2)], 1);
+          } } }, [_vm._v("\n                                " + _vm._s(_vm.formGrid.toolbar.superFilter.submit.label) + "\n                            ")]) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.superFilter.reset ? _c('Button', { attrs: { "type": _vm.formGrid.toolbar.superFilter.reset.theme, "icon": _vm.formGrid.toolbar.superFilter.reset.icon, "disabled": _vm.formGrid.toolbar.superFilter.reset.disabled, "loading": _vm.formGrid.toolbar.superFilter.reset.loading, "size": _vm.formGrid.toolbar.superFilter.reset.size, "ghost": _vm.formGrid.toolbar.superFilter.reset.ghost, "shape": _vm.formGrid.toolbar.superFilter.reset.shape, "long": _vm.formGrid.toolbar.superFilter.reset.long }, on: { "click": _vm.resetSuperFilterSearch } }, [_vm._v("\n                                " + _vm._s(_vm.formGrid.toolbar.superFilter.reset.label) + "\n                            ")]) : _vm._e()] : _vm._e()], 2)], 1);
     }));
-  }))], 1)], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.show ? _c('Row', { attrs: { "gutter": 5, "type": "flex", "justify": _vm.formGrid.toolbar.justify } }, [_vm.formGrid.toolbar.refresh && _vm.formGrid.toolbar.refresh.show ? _c('i-col', [_c('Button', { attrs: { "type": "primary", "icon": "md-refresh" }, on: { "click": function click($event) {
+  }))], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.show ? _c('Row', { attrs: { "gutter": 5, "type": "flex", "justify": _vm.formGrid.toolbar.justify } }, [_vm.formGrid.toolbar.refresh && _vm.formGrid.toolbar.refresh.show ? _c('i-col', [_c('Button', { attrs: { "type": "primary", "icon": "md-refresh" }, on: { "click": function click($event) {
         _vm.pageData();
       } } }, [_vm._v(_vm._s(_vm.formGrid.toolbar.refresh.label))])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.create && _vm.formGrid.toolbar.create.show ? _c('i-col', [_c('Button', { attrs: { "type": "primary", "icon": "md-add" }, on: { "click": _vm.formAdd } }, [_vm._v(_vm._s(_vm.formGrid.toolbar.create.label))])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.delete && _vm.formGrid.toolbar.delete.show ? _c('i-col', [_c('Button', { attrs: { "type": "primary", "icon": "md-trash", "loading": _vm.formGrid.toolbar.delete.loading, "ghost": "" }, on: { "click": _vm.batchDelete } }, [!_vm.formGrid.toolbar.delete.loading ? _c('span', [_vm._v("  " + _vm._s(_vm.formGrid.toolbar.delete.label))]) : _c('span', [_vm._v(_vm._s(_vm.formGrid.toolbar.delete.label) + "中...")])])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.button ? _vm._l(_vm.formGrid.toolbar.button, function (button, index) {
     return _c('i-col', { key: index }, [_c('Button', { attrs: { "type": button.theme, "icon": button.icon, "custom-icon": button.customIcon, "ghost": button.ghost, "disabled": button.disabled, "to": button.to, "replace": button.replace, "target": button.target, "loading": button.loading, "size": button.size, "shape": button.shape, "long": button.long }, on: { "click": function click($event) {
@@ -53255,8 +53244,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__ = __webpack_require__(88);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3a1acb7c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3a1acb7c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3a1acb7c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(194)
@@ -53277,8 +53266,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3a1acb7c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3a1acb7c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -53311,7 +53300,7 @@ exports = module.exports = __webpack_require__(9)(true);
 
 
 // module
-exports.push([module.i, "\n*[v-cloak] {\n    display: none;\n}\n\n/* 覆盖iview默认样式 */\n.ivu-layout-header {\n    padding: 0;\n    height: auto;\n}\n\n/* 解决内容与菜单两个区域会换行的问题 */\n.ivu-layout {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n    -ms-flex-direction: column;\n    flex-direction: column;\n    -webkit-box-flex: 1;\n    -ms-flex: auto;\n    flex: auto;\n    background: #f5f7f9;\n}\n.ivu-layout.ivu-layout-has-sider {\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -ms-flex-direction: row;\n    flex-direction: row;\n}\n.ivu-layout-sider {\n    transition: all 0.2s ease-in-out;\n    position: relative;\n    background: #515a6e;\n    min-width: 0;\n}\n.ivu-layout-content {\n    -webkit-box-flex: 1;\n    -ms-flex: auto;\n    flex: auto;\n}\n.layout {\n    height: 100%;\n    background: #f5f7f9;\n    position: relative;\n    overflow: auto;\n}\n.layout-logo {\n    width: 200px;\n    border-radius: 3px;\n    float: left;\n    position: relative;\n}\n.layout-nav {\n    width: 130px;\n    margin: 0 auto;\n    margin-right: 0;\n}\n.layout-copy {\n    text-align: center;\n    padding: 5px 0 5px;\n    color: #9ea7b4;\n}\n.ivu-layout-header a {\n    color: #fff !important;\n}\n.header-menu:hover {\n    background-color: rgba(0, 0, 0, 0.05);\n}\n.header-logo {\n    background: 0 0;\n    text-decoration: none;\n    outline: 0;\n    cursor: pointer;\n    transition: color 0.2s ease;\n    display: inline-block;\n    float: none !important;\n    height: auto;\n    padding: 0 20px;\n    font-size: 20px;\n    font-weight: 700;\n    line-height: 50px;\n    text-align: center;\n    color: #eaebed !important;\n}\n.header-img {\n    border-style: none;\n    display: inline-block !important;\n    max-height: 20px;\n    margin-top: -4px;\n    vertical-align: middle;\n    visibility: visible;\n    border: 0;\n    color: #eaebed !important;\n}\n.header-span {\n    box-sizing: border-box;\n    color: rgb(184, 196, 201);\n    cursor: pointer;\n    display: inline;\n    font-family: \"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", 微软雅黑, Arial, sans-serif;\n    font-size: 20px;\n    font-weight: bold;\n    height: auto;\n    line-height: 50px;\n    margin-left: 5px;\n    text-align: center;\n}\n.layout-ceiling-main .header-menu {\n    font-size: 14px;\n    display: inline-block;\n    text-align: center;\n    width: 90px;\n}\n\n", "", {"version":3,"sources":["/Users/yangkui/workspace/ueboot-quick-dev-gitee/ueboot-view/src/pages/shiro/Main.vue"],"names":[],"mappings":";AACA;IACI,cAAc;CACjB;;AAED,iBAAiB;AACjB;IACI,WAAW;IACX,aAAa;CAChB;;AAED,uBAAuB;AACvB;IACI,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;IAC9B,2BAA2B;IAC3B,uBAAuB;IACvB,oBAAoB;IACpB,eAAe;IACf,WAAW;IACX,oBAAoB;CACvB;AACD;IACI,+BAA+B;IAC/B,8BAA8B;IAC9B,wBAAwB;IACxB,oBAAoB;CACvB;AACD;IACI,iCAAiC;IACjC,mBAAmB;IACnB,oBAAoB;IACpB,aAAa;CAChB;AACD;IACI,oBAAoB;IACpB,eAAe;IACf,WAAW;CACd;AACD;IACI,aAAa;IACb,oBAAoB;IACpB,mBAAmB;IACnB,eAAe;CAClB;AACD;IACI,aAAa;IACb,mBAAmB;IACnB,YAAY;IACZ,mBAAmB;CACtB;AACD;IACI,aAAa;IACb,eAAe;IACf,gBAAgB;CACnB;AACD;IACI,mBAAmB;IACnB,mBAAmB;IACnB,eAAe;CAClB;AACD;IACI,uBAAuB;CAC1B;AACD;IACI,sCAAsC;CACzC;AACD;IACI,gBAAgB;IAChB,sBAAsB;IACtB,WAAW;IACX,gBAAgB;IAChB,4BAA4B;IAC5B,sBAAsB;IACtB,uBAAuB;IACvB,aAAa;IACb,gBAAgB;IAChB,gBAAgB;IAChB,iBAAiB;IACjB,kBAAkB;IAClB,mBAAmB;IACnB,0BAA0B;CAC7B;AACD;IACI,mBAAmB;IACnB,iCAAiC;IACjC,iBAAiB;IACjB,iBAAiB;IACjB,uBAAuB;IACvB,oBAAoB;IACpB,UAAU;IACV,0BAA0B;CAC7B;AACD;IACI,uBAAuB;IACvB,0BAA0B;IAC1B,gBAAgB;IAChB,gBAAgB;IAChB,wHAAwH;IACxH,gBAAgB;IAChB,kBAAkB;IAClB,aAAa;IACb,kBAAkB;IAClB,iBAAiB;IACjB,mBAAmB;CACtB;AACD;IACI,gBAAgB;IAChB,sBAAsB;IACtB,mBAAmB;IACnB,YAAY;CACf","file":"Main.vue","sourcesContent":["\n*[v-cloak] {\n    display: none;\n}\n\n/* 覆盖iview默认样式 */\n.ivu-layout-header {\n    padding: 0;\n    height: auto;\n}\n\n/* 解决内容与菜单两个区域会换行的问题 */\n.ivu-layout {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n    -ms-flex-direction: column;\n    flex-direction: column;\n    -webkit-box-flex: 1;\n    -ms-flex: auto;\n    flex: auto;\n    background: #f5f7f9;\n}\n.ivu-layout.ivu-layout-has-sider {\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -ms-flex-direction: row;\n    flex-direction: row;\n}\n.ivu-layout-sider {\n    transition: all 0.2s ease-in-out;\n    position: relative;\n    background: #515a6e;\n    min-width: 0;\n}\n.ivu-layout-content {\n    -webkit-box-flex: 1;\n    -ms-flex: auto;\n    flex: auto;\n}\n.layout {\n    height: 100%;\n    background: #f5f7f9;\n    position: relative;\n    overflow: auto;\n}\n.layout-logo {\n    width: 200px;\n    border-radius: 3px;\n    float: left;\n    position: relative;\n}\n.layout-nav {\n    width: 130px;\n    margin: 0 auto;\n    margin-right: 0;\n}\n.layout-copy {\n    text-align: center;\n    padding: 5px 0 5px;\n    color: #9ea7b4;\n}\n.ivu-layout-header a {\n    color: #fff !important;\n}\n.header-menu:hover {\n    background-color: rgba(0, 0, 0, 0.05);\n}\n.header-logo {\n    background: 0 0;\n    text-decoration: none;\n    outline: 0;\n    cursor: pointer;\n    transition: color 0.2s ease;\n    display: inline-block;\n    float: none !important;\n    height: auto;\n    padding: 0 20px;\n    font-size: 20px;\n    font-weight: 700;\n    line-height: 50px;\n    text-align: center;\n    color: #eaebed !important;\n}\n.header-img {\n    border-style: none;\n    display: inline-block !important;\n    max-height: 20px;\n    margin-top: -4px;\n    vertical-align: middle;\n    visibility: visible;\n    border: 0;\n    color: #eaebed !important;\n}\n.header-span {\n    box-sizing: border-box;\n    color: rgb(184, 196, 201);\n    cursor: pointer;\n    display: inline;\n    font-family: \"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", 微软雅黑, Arial, sans-serif;\n    font-size: 20px;\n    font-weight: bold;\n    height: auto;\n    line-height: 50px;\n    margin-left: 5px;\n    text-align: center;\n}\n.layout-ceiling-main .header-menu {\n    font-size: 14px;\n    display: inline-block;\n    text-align: center;\n    width: 90px;\n}\n\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n*[v-cloak] {\n    display: none;\n}\n\n/* 覆盖iview默认样式 */\n.ivu-layout-header {\n    padding: 0;\n    height: auto;\n}\n\n/* 解决内容与菜单两个区域会换行的问题 */\n.ivu-layout {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n    -ms-flex-direction: column;\n    flex-direction: column;\n    -webkit-box-flex: 1;\n    -ms-flex: auto;\n    flex: auto;\n    background: #f5f7f9;\n}\n.ivu-layout.ivu-layout-has-sider {\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -ms-flex-direction: row;\n    flex-direction: row;\n}\n.ivu-layout-sider {\n    transition: all 0.2s ease-in-out;\n    position: relative;\n    background: #515a6e;\n    min-width: 0;\n}\n.ivu-layout-content {\n    -webkit-box-flex: 1;\n    -ms-flex: auto;\n    flex: auto;\n}\n.layout {\n    height: 100%;\n    background: #f5f7f9;\n    position: relative;\n    overflow: auto;\n}\n.layout-parent {\n    display: flex;\n    justify-content: space-between;\n}\n.layout-logo {\n    border-radius: 3px;\n    position: relative;\n}\n.ivu-layout-header a {\n    color: #fff !important;\n}\n.header-menu:hover {\n    background-color: rgba(0, 0, 0, 0.05);\n}\n.header-logo {\n    background: 0 0;\n    text-decoration: none;\n    outline: 0;\n    cursor: pointer;\n    transition: color 0.2s ease;\n    display: inline-block;\n    float: none !important;\n    height: auto;\n    padding: 0 20px;\n    font-size: 20px;\n    font-weight: 700;\n    line-height: 50px;\n    text-align: center;\n    color: #eaebed !important;\n}\n.header-img {\n    border-style: none;\n    display: inline-block !important;\n    max-height: 20px;\n    margin-top: -4px;\n    vertical-align: middle;\n    visibility: visible;\n    border: 0;\n    color: #eaebed !important;\n}\n.header-span {\n    box-sizing: border-box;\n    color: rgb(184, 196, 201);\n    cursor: pointer;\n    display: inline;\n    font-family: \"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", 微软雅黑, Arial, sans-serif;\n    font-size: 20px;\n    font-weight: bold;\n    height: auto;\n    line-height: 50px;\n    margin-left: 5px;\n    text-align: center;\n}\n.layout-ceiling-main .header-menu {\n    font-size: 14px;\n    display: inline-block;\n    text-align: center;\n    width: 90px;\n}\n\n", "", {"version":3,"sources":["/Users/yangkui/workspace/ueboot-quick-dev-gitee/ueboot-view/src/pages/shiro/Main.vue"],"names":[],"mappings":";AACA;IACI,cAAc;CACjB;;AAED,iBAAiB;AACjB;IACI,WAAW;IACX,aAAa;CAChB;;AAED,uBAAuB;AACvB;IACI,qBAAqB;IACrB,qBAAqB;IACrB,cAAc;IACd,6BAA6B;IAC7B,8BAA8B;IAC9B,2BAA2B;IAC3B,uBAAuB;IACvB,oBAAoB;IACpB,eAAe;IACf,WAAW;IACX,oBAAoB;CACvB;AACD;IACI,+BAA+B;IAC/B,8BAA8B;IAC9B,wBAAwB;IACxB,oBAAoB;CACvB;AACD;IACI,iCAAiC;IACjC,mBAAmB;IACnB,oBAAoB;IACpB,aAAa;CAChB;AACD;IACI,oBAAoB;IACpB,eAAe;IACf,WAAW;CACd;AACD;IACI,aAAa;IACb,oBAAoB;IACpB,mBAAmB;IACnB,eAAe;CAClB;AACD;IACI,cAAc;IACd,+BAA+B;CAClC;AACD;IACI,mBAAmB;IACnB,mBAAmB;CACtB;AACD;IACI,uBAAuB;CAC1B;AACD;IACI,sCAAsC;CACzC;AACD;IACI,gBAAgB;IAChB,sBAAsB;IACtB,WAAW;IACX,gBAAgB;IAChB,4BAA4B;IAC5B,sBAAsB;IACtB,uBAAuB;IACvB,aAAa;IACb,gBAAgB;IAChB,gBAAgB;IAChB,iBAAiB;IACjB,kBAAkB;IAClB,mBAAmB;IACnB,0BAA0B;CAC7B;AACD;IACI,mBAAmB;IACnB,iCAAiC;IACjC,iBAAiB;IACjB,iBAAiB;IACjB,uBAAuB;IACvB,oBAAoB;IACpB,UAAU;IACV,0BAA0B;CAC7B;AACD;IACI,uBAAuB;IACvB,0BAA0B;IAC1B,gBAAgB;IAChB,gBAAgB;IAChB,wHAAwH;IACxH,gBAAgB;IAChB,kBAAkB;IAClB,aAAa;IACb,kBAAkB;IAClB,iBAAiB;IACjB,mBAAmB;CACtB;AACD;IACI,gBAAgB;IAChB,sBAAsB;IACtB,mBAAmB;IACnB,YAAY;CACf","file":"Main.vue","sourcesContent":["\n*[v-cloak] {\n    display: none;\n}\n\n/* 覆盖iview默认样式 */\n.ivu-layout-header {\n    padding: 0;\n    height: auto;\n}\n\n/* 解决内容与菜单两个区域会换行的问题 */\n.ivu-layout {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-orient: vertical;\n    -webkit-box-direction: normal;\n    -ms-flex-direction: column;\n    flex-direction: column;\n    -webkit-box-flex: 1;\n    -ms-flex: auto;\n    flex: auto;\n    background: #f5f7f9;\n}\n.ivu-layout.ivu-layout-has-sider {\n    -webkit-box-orient: horizontal;\n    -webkit-box-direction: normal;\n    -ms-flex-direction: row;\n    flex-direction: row;\n}\n.ivu-layout-sider {\n    transition: all 0.2s ease-in-out;\n    position: relative;\n    background: #515a6e;\n    min-width: 0;\n}\n.ivu-layout-content {\n    -webkit-box-flex: 1;\n    -ms-flex: auto;\n    flex: auto;\n}\n.layout {\n    height: 100%;\n    background: #f5f7f9;\n    position: relative;\n    overflow: auto;\n}\n.layout-parent {\n    display: flex;\n    justify-content: space-between;\n}\n.layout-logo {\n    border-radius: 3px;\n    position: relative;\n}\n.ivu-layout-header a {\n    color: #fff !important;\n}\n.header-menu:hover {\n    background-color: rgba(0, 0, 0, 0.05);\n}\n.header-logo {\n    background: 0 0;\n    text-decoration: none;\n    outline: 0;\n    cursor: pointer;\n    transition: color 0.2s ease;\n    display: inline-block;\n    float: none !important;\n    height: auto;\n    padding: 0 20px;\n    font-size: 20px;\n    font-weight: 700;\n    line-height: 50px;\n    text-align: center;\n    color: #eaebed !important;\n}\n.header-img {\n    border-style: none;\n    display: inline-block !important;\n    max-height: 20px;\n    margin-top: -4px;\n    vertical-align: middle;\n    visibility: visible;\n    border: 0;\n    color: #eaebed !important;\n}\n.header-span {\n    box-sizing: border-box;\n    color: rgb(184, 196, 201);\n    cursor: pointer;\n    display: inline;\n    font-family: \"Helvetica Neue\", Helvetica, \"PingFang SC\", \"Hiragino Sans GB\", \"Microsoft YaHei\", 微软雅黑, Arial, sans-serif;\n    font-size: 20px;\n    font-weight: bold;\n    height: auto;\n    line-height: 50px;\n    margin-left: 5px;\n    text-align: center;\n}\n.layout-ceiling-main .header-menu {\n    font-size: 14px;\n    display: inline-block;\n    text-align: center;\n    width: 90px;\n}\n\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -53327,13 +53316,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var render = function render() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "layout" }, [_c('Layout', { staticStyle: { "height": "100%" } }, [_c('Header', { style: { color: '#fff' } }, [_c('Menu', { attrs: { "mode": "horizontal", "theme": "dark", "active-name": "1" } }, [_c('div', { staticClass: "layout-logo", style: _vm.config.page_main.logoStyle }, [_c('a', { staticClass: "header-logo" }, [_c('img', { staticClass: "header-img", attrs: { "src": _vm.config.logoImage, "alt": _vm.config.sysTitle } }), _vm._v(" "), _c('span', { staticClass: "header-span" }, [_vm._v(_vm._s(_vm.config.sysTitle))])])]), _vm._v(" "), _c('div', { staticClass: "layout-nav", style: _vm.config.page_main.navStyle }, [_c('MenuItem', { attrs: { "name": "1" } }, [_c('a', { staticClass: "header-menu ", attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.logout } }, [_c('Icon', { staticStyle: { "color": "red" }, attrs: { "type": "md-exit" } }), _vm._v(" "), _c('span', { staticStyle: { "cursor": "pointer" } }, [_vm._v("退出系统")])], 1)]), _vm._v(" "), _c('MenuItem', { attrs: { "name": "2" } }, [_c('a', { staticClass: "header-menu", attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.resetPwd } }, [_c('Icon', { staticStyle: { "color": "#657180" }, attrs: { "type": "md-create" } }), _vm._v(" "), _c('span', { staticStyle: { "cursor": "pointer" } }, [_vm._v("修改密码")])], 1)])], 1)])], 1), _vm._v(" "), _c('Layout', [_c('Sider', { style: { background: '#fff', height: '100%' }, attrs: { "hide-trigger": "", "width": _vm.config.page_main.menuWidth + 'px' } }, [_c('Menu', { style: { 'min-height': _vm.clientHeight - 112 + 'px' }, attrs: { "theme": _vm.theme, "width": _vm.config.page_main.menuWidth + 'px', "active-name": _vm.activeMenuName, "open-names": _vm.openMenuNames, "accordion": "" }, on: { "on-select": _vm.menuClick } }, [_vm._l(_vm.menus, function (menu, index) {
+  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "layout" }, [_c('Layout', { staticStyle: { "height": "100%" } }, [_c('Header', { style: { color: '#fff' } }, [_c('Menu', { attrs: { "mode": "horizontal", "theme": "dark", "active-name": "1" } }, [_c('div', { staticClass: "layout-parent" }, [_c('div', { staticClass: "layout-logo", style: _vm.config.page_main.logoStyle }, [_c('a', { staticClass: "header-logo" }, [_c('img', { staticClass: "header-img", attrs: { "src": _vm.config.logoImage, "alt": _vm.config.sysTitle } }), _vm._v(" "), _c('span', { staticClass: "header-span" }, [_vm._v(_vm._s(_vm.config.sysTitle))])])]), _vm._v(" "), _c('div', { staticClass: "layout-nav", style: _vm.config.page_main.navStyle }, [_c('Row', [_c('i-col', { attrs: { "span": "12" } }, [_c('MenuItem', { attrs: { "name": "1" } }, [_c('a', { staticClass: "header-menu ", attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.logout } }, [_c('Icon', { staticStyle: { "color": "red" }, attrs: { "type": "md-exit" } }), _vm._v(" "), _c('span', { staticStyle: { "cursor": "pointer" } }, [_vm._v("退出系统")])], 1)])], 1), _vm._v(" "), _c('i-col', { attrs: { "span": "12" } }, [_c('MenuItem', { attrs: { "name": "2" } }, [_c('a', { staticClass: "header-menu", attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.resetPwd } }, [_c('Icon', { staticStyle: { "color": "#657180" }, attrs: { "type": "md-create" } }), _vm._v(" "), _c('span', { staticStyle: { "cursor": "pointer" } }, [_vm._v("修改密码")])], 1)])], 1)], 1)], 1)])])], 1), _vm._v(" "), _c('Layout', [_c('Sider', { style: { background: '#fff', height: '100%' }, attrs: { "hide-trigger": "", "width": _vm.config.page_main.menuWidth + 'px' } }, [_vm.menus.length > 0 ? _c('Menu', { style: { 'min-height': _vm.clientHeight - 112 + 'px' }, attrs: { "theme": _vm.theme, "width": _vm.config.page_main.menuWidth + 'px', "active-name": _vm.activeMenuName, "open-names": _vm.openMenuNames, "accordion": "" }, on: { "on-select": _vm.menuClick } }, [_vm._l(_vm.menus, function (menu, index) {
     return [menu.parentId == null ? _c('Submenu', { key: 'sub' + index, attrs: { "name": 'm' + menu.id } }, [_c('template', { slot: "title" }, [menu.themeJson ? _c('Icon', { staticStyle: { "margin-right": "3px" }, attrs: { "type": menu.themeJson.icon, "size": "15", "color": menu.themeJson.color } }) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "layout-text" }, [_vm._v(_vm._s(menu.name))])], 1), _vm._v(" "), _vm._l(_vm.menus, function (child, index2) {
       return [child.parentId === menu.id && child.resourceType === '菜单' ? _c('Menu-item', { key: 'child' + child.id + 'm' + menu.id, attrs: { "name": 'm' + child.id } }, [child.themeJson ? _c('Icon', { attrs: { "type": child.themeJson.icon, "size": _vm.iconSize } }) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "layout-text" }, [_vm._v(_vm._s(child.name))])], 1) : _vm._e(), _vm._v(" "), child.parentId === menu.id && child.resourceType === '菜单组' ? _c('Submenu', { key: 'subChild' + index2, attrs: { "name": 'm' + child.id } }, [_c('template', { slot: "title" }, [child.themeJson ? _c('Icon', { attrs: { "type": child.themeJson.icon, "size": _vm.iconSize } }) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "layout-text" }, [_vm._v(_vm._s(child.name))])], 1), _vm._v(" "), _vm._l(_vm.menus, function (child2) {
         return [child2.parentId === child.id && child2.resourceType === '菜单' ? _c('Menu-item', { key: 'child' + child2.id + 'm' + menu.id, attrs: { "name": 'm' + child2.id } }, [child2.themeJson ? _c('Icon', { attrs: { "type": child2.themeJson.icon, "size": _vm.iconSize } }) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "layout-text" }, [_vm._v(_vm._s(child2.name))])], 1) : _vm._e()];
       })], 2) : _vm._e()];
     })], 2) : _vm._e()];
-  })], 2)], 1), _vm._v(" "), _c('Layout', { style: { padding: '0 24px 0 24px', width: '100%', maxWidth: _vm.rightWidth + 'px' } }, [_c('Breadcrumb', { style: { margin: '12px 0' } }, _vm._l(_vm.breadItems, function (item, index) {
+  })], 2) : _c('div', { style: { width: _vm.config.page_main.menuWidth + 'px' } })], 1), _vm._v(" "), _c('Layout', { style: { padding: '0 24px 0 24px', width: '100%', maxWidth: _vm.rightWidth + 'px' } }, [_c('Breadcrumb', { style: { margin: '12px 0' } }, _vm._l(_vm.breadItems, function (item, index) {
     return _c('BreadcrumbItem', { key: 'bread' + index }, [_vm._v(_vm._s(item.name) + "\n                    ")]);
   })), _vm._v(" "), _c('Content', { style: { padding: '14px', minHeight: _vm.clientHeight - 175 + 'px', background: '#fff', width: '100%', maxWidth: '100% !important' } }, [_c('transition', { attrs: { "name": "fade", "mode": "out-in" } }, [_c('router-view')], 1)], 1)], 1)], 1), _vm._v(" "), _c('div', [_c('Modal', { attrs: { "title": "修改密码", "mask-closable": false }, model: { value: _vm.passwordModel, callback: function callback($$v) {
         _vm.passwordModel = $$v;
@@ -53364,8 +53353,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_5e63b773_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_5e63b773_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_5e63b773_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_ac5aa27a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_ac5aa27a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_ac5aa27a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(198)
@@ -53386,8 +53375,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_5e63b773_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_5e63b773_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_ac5aa27a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_ac5aa27a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -53420,7 +53409,7 @@ exports = module.exports = __webpack_require__(9)(true);
 
 
 // module
-exports.push([module.i, "\n.login .ivu-btn-primary {\n    color: #fff;\n    background-color: #41b883;\n    border-color: #41b883;\n}\n.login .ivu-btn-primary:hover {\n    color: #fff;\n    background-color: #5ed19e;\n    border-color: #5ed19e;\n}\n.login .ivu-btn {\n    font-size: 13px;\n}\nbody {\n    margin: 0;\n    font: normal 75% Arial, Helvetica, sans-serif;\n}\n\n", "", {"version":3,"sources":["/Users/yangkui/workspace/ueboot-quick-dev-gitee/ueboot-view/src/pages/shiro/Login.vue"],"names":[],"mappings":";AACA;IACI,YAAY;IACZ,0BAA0B;IAC1B,sBAAsB;CACzB;AACD;IACI,YAAY;IACZ,0BAA0B;IAC1B,sBAAsB;CACzB;AACD;IACI,gBAAgB;CACnB;AACD;IACI,UAAU;IACV,8CAA8C;CACjD","file":"Login.vue","sourcesContent":["\n.login .ivu-btn-primary {\n    color: #fff;\n    background-color: #41b883;\n    border-color: #41b883;\n}\n.login .ivu-btn-primary:hover {\n    color: #fff;\n    background-color: #5ed19e;\n    border-color: #5ed19e;\n}\n.login .ivu-btn {\n    font-size: 13px;\n}\nbody {\n    margin: 0;\n    font: normal 75% Arial, Helvetica, sans-serif;\n}\n\n"],"sourceRoot":""}]);
+exports.push([module.i, "\n*[v-cloak] {\n    display: none;\n}\n.login .ivu-btn-primary {\n    color: #fff;\n    background-color: #41b883;\n    border-color: #41b883;\n}\n.login .ivu-btn-primary:hover {\n    color: #fff;\n    background-color: #5ed19e;\n    border-color: #5ed19e;\n}\n.login .ivu-btn {\n    font-size: 13px;\n}\nbody {\n    margin: 0;\n    font: normal 75% Arial, Helvetica, sans-serif;\n}\n\n", "", {"version":3,"sources":["/Users/yangkui/workspace/ueboot-quick-dev-gitee/ueboot-view/src/pages/shiro/Login.vue"],"names":[],"mappings":";AACA;IACI,cAAc;CACjB;AACD;IACI,YAAY;IACZ,0BAA0B;IAC1B,sBAAsB;CACzB;AACD;IACI,YAAY;IACZ,0BAA0B;IAC1B,sBAAsB;CACzB;AACD;IACI,gBAAgB;CACnB;AACD;IACI,UAAU;IACV,8CAA8C;CACjD","file":"Login.vue","sourcesContent":["\n*[v-cloak] {\n    display: none;\n}\n.login .ivu-btn-primary {\n    color: #fff;\n    background-color: #41b883;\n    border-color: #41b883;\n}\n.login .ivu-btn-primary:hover {\n    color: #fff;\n    background-color: #5ed19e;\n    border-color: #5ed19e;\n}\n.login .ivu-btn {\n    font-size: 13px;\n}\nbody {\n    margin: 0;\n    font: normal 75% Arial, Helvetica, sans-serif;\n}\n\n"],"sourceRoot":""}]);
 
 // exports
 
@@ -53446,7 +53435,7 @@ var render = function render() {
         _vm.$set(_vm.formCustom, "captcha", $$v);
       }, expression: "formCustom.captcha" } })], 1), _vm._v(" "), _c('i-col', { attrs: { "span": "8" } }, [_c('img', { staticStyle: { "border-radius": "4px" }, attrs: { "src": _vm.captchaUrl, "width": "100%", "height": "45px" }, on: { "click": _vm.changeCaptchaUrl } })])], 1), _vm._v(" "), _c('Button', { attrs: { "type": "primary", "loading": _vm.loading }, on: { "click": function click($event) {
         _vm.handleSubmit('formCustom');
-      } } }, [_vm._v("登录")])], 1)], 1), _vm._v(" "), _c('div', { staticClass: "login-footer" })])], 1)], 1) : _vm._e(), _vm._v(" "), _vm.config.page_login.theme === 'theme2' ? _c('div', { staticStyle: { "height": "100%" } }, [_c('div', { staticClass: "form-body without-side" }, [_c('div', { staticClass: "website-logo" }, [_c('div', { staticClass: "logo" }, [_c('img', { staticClass: "logo-size", style: _vm.config.page_login.logoStyle, attrs: { "src": _vm.config.logoImage, "alt": _vm.config.sysTitle } })])]), _vm._v(" "), _c('div', { staticClass: "row" }, [_vm._m(0), _vm._v(" "), _c('div', { staticClass: "form-holder" }, [_c('div', { staticClass: "form-content" }, [_c('div', { staticClass: "form-items" }, [_c('h3', [_vm._v(_vm._s(_vm.config.page_login.formTitle))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.config.sysTitle))]), _vm._v(" "), _c('Form', { ref: "formCustom", staticClass: "login-container", attrs: { "model": _vm.formCustom } }, [_c('i-input', { attrs: { "placeholder": "请输入登录账号" }, model: { value: _vm.formCustom.username, callback: function callback($$v) {
+      } } }, [_vm._v("登录")])], 1)], 1), _vm._v(" "), _c('div', { staticClass: "login-footer" })])], 1)], 1) : _vm._e(), _vm._v(" "), _vm.config.page_login.theme === 'theme2' ? _c('div', { staticStyle: { "height": "100%" } }, [_c('div', { staticClass: "form-body without-side" }, [_c('div', { staticClass: "website-logo" }, [_c('div', { staticClass: "logo" }, [_vm.config.logoImage !== '' ? _c('img', { staticClass: "logo-size", style: _vm.config.page_login.logoStyle, attrs: { "src": _vm.config.logoImage, "alt": _vm.config.sysTitle } }) : _vm._e()])]), _vm._v(" "), _c('div', { staticClass: "row" }, [_vm._m(0), _vm._v(" "), _c('div', { staticClass: "form-holder" }, [_c('div', { staticClass: "form-content" }, [_c('div', { staticClass: "form-items" }, [_c('h3', [_vm._v(_vm._s(_vm.config.page_login.formTitle))]), _vm._v(" "), _c('p', [_vm._v(_vm._s(_vm.config.sysTitle))]), _vm._v(" "), _c('Form', { ref: "formCustom", staticClass: "login-container", attrs: { "model": _vm.formCustom } }, [_c('i-input', { attrs: { "placeholder": "请输入登录账号" }, model: { value: _vm.formCustom.username, callback: function callback($$v) {
         _vm.$set(_vm.formCustom, "username", $$v);
       }, expression: "formCustom.username" } }), _vm._v(" "), _c('i-input', { attrs: { "type": "password", "placeholder": "请输入密码" }, model: { value: _vm.formCustom.password, callback: function callback($$v) {
         _vm.$set(_vm.formCustom, "password", $$v);
@@ -53468,7 +53457,7 @@ exports.staticRenderFns = staticRenderFns;
 /* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "11163833bbbbfc4690ff09d483e3516f.svg";
+module.exports = __webpack_require__.p + "d08aa8e488ee5522f87fa984d80bc1a0.svg";
 
 /***/ }),
 /* 202 */

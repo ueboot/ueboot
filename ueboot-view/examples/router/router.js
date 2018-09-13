@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import TreeDemo from "../views/demo/Tree.vue"
+import FormDemo from "../views/demo/Form.vue"
 import FormGrid from "../views/demo/FormGrid.vue";
 import FormGrid2 from "../views/demo/FormGrid2.vue";
 import FormGrid3 from "../views/demo/FormGrid3.vue";
@@ -15,7 +16,6 @@ import SecKillActivity from "../views/activity/SecKillActivity.vue";
 import TreeSelect from '../views/demo/TreeSelect'
 import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
-import Form from "../views/demo/Form.vue";
 import Login from '../../src/pages/shiro/Login'
 
 Vue.use(Router)
@@ -91,9 +91,9 @@ export default new Router({
           component: ListKnowledge,
         },
         {
-          path: 'form',
+          path: 'FormDemo',
           name: 'Form表单',
-          component: Form,
+          component: FormDemo,
         },
         {
           path: 'customers',

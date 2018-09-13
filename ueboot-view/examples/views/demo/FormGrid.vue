@@ -25,6 +25,7 @@
             return {
                 formGrid: {
                     options: {
+                        autoLoad:false,
                         url: {
                             /*query: "http://wodewj.oss-cn-shanghai.aliyuncs.com/dev/data.json"*/
                             page: "/ueboot/user/page"
@@ -45,6 +46,14 @@
                                     required: true
                                 },
                                 {
+                                    type: "text",
+                                    label: "姓名",
+                                    name: "name2",
+                                    icon: "plus",
+                                    placeholder: "请填写姓名2",
+                                    required: true
+                                },
+                               /* {
                                     type: "daterange",
                                     label: "日期范围",
                                     name: "daterange",
@@ -59,7 +68,6 @@
                                     placeholder: "选择日期",
                                     option: {},
                                     format: "",
-                                    required: true
                                 },
                                 {
                                     type: "datetime",
@@ -77,7 +85,6 @@
                                     placeholder: "选择月份",
                                     option: {},
                                     format: "",
-                                    required: true
                                 },
                                 {
                                     type: "datetimerange",
@@ -108,11 +115,9 @@
                                     clearable: true,
                                     filterable: false,
                                     multiple: false,
-                                    required: true,
-                                    init: 'haha',
                                     onChange: (value) => {
                                         console.log(value)
-                                        this.resetSuperFilter(value)
+                                        //this.resetSuperFilter(value)
                                     },
                                     data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },
@@ -130,8 +135,7 @@
                                     name: "province3",
                                     label: "树状下拉框",
                                     tree: tree,
-                                    required: true
-                                },
+                                },*/
                             ],
                         },
                         button: [
@@ -247,7 +251,7 @@
                         size: 100000,
                     },
                     table: {
-                        noDataText: '已努力查询，但还是没找到！1',
+                        noDataText: '已努力查询，但还是没找到！',
                         tableLoadingText:'正在努力为您加载数据,请稍候1...',
                         tableLoadedErrorText:'数据查询出现异常，需要管理员查看后台日志，寻找原因1。',
                         operation: {

@@ -33,7 +33,10 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
-    
+- v1.6.11
+    - 解决登录页面背景图片问题
+    - 解决主界面右侧按钮宽度自适应问题  
+    - 解决菜单未匹配路径的问题  
 - v1.6.9
     - 所有使用console.log的地方都改为this.$log()方式，避免IE下无法使用导致页面渲染为空白
 - v1.6.8 
