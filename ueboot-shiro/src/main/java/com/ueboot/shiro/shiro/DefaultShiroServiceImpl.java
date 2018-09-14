@@ -72,7 +72,7 @@ public class DefaultShiroServiceImpl implements ShiroService {
      * @return 用户角色列表
      */
     @Override
-    public Set<String> getUserRoleCodes(String userName) {
+    public Set<String> getUserRoleNames(String userName) {
         List<UserRole> roles = this.userRoleRepository.findByUserUserName(userName);
         Set<String> names = new HashSet<>();
         for (UserRole role : roles) {

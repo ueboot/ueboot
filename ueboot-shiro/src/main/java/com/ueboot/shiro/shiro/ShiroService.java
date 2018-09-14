@@ -46,12 +46,12 @@ public interface ShiroService {
 
 
     /**
-     * 获取用户的角色名称集合
+     * 获取用户的角色名称集合(要求角色名称唯一）
      *
      * @param userName 用户名
      * @return 用户角色列表
      */
-    Set<String> getUserRoleCodes(String userName);
+    Set<String> getUserRoleNames(String userName);
 
     /**
      * 获取用户的权限列表

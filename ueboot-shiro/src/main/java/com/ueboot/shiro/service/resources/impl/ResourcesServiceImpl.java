@@ -12,9 +12,9 @@ import com.ueboot.shiro.entity.Resources;
 import com.ueboot.shiro.entity.UserRole;
 import com.ueboot.shiro.repository.permission.PermissionRepository;
 import com.ueboot.shiro.repository.resources.ResourcesRepository;
-import com.ueboot.shiro.repository.role.RoleRepository;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.resources.ResourcesService;
+import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.UserRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -41,6 +41,9 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
 
     @Resource
     private PermissionRepository permissionRepository;
+
+    @Resource
+    private ShiroService shiroService;
 
     @Resource
     private UserRoleRepository userRoleRepository;
@@ -77,11 +80,8 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
         }
 
         //找出用户的角色，根据角色查找用户的菜单
-        List<UserRole> userRoleList = userRoleRepository.findByUserUserName(username);
-        Set<String> roleNames = new HashSet<>();
-        userRoleList.forEach((r) -> {
-            roleNames.add(r.getRole().getName());
-        });
+        //直接调用shiroService的实现方式，防止使用框架方需要自定义角色获取方式
+        Set<String> roleNames  =  shiroService.getUserRoleNames(username);
         List<Permission> permissions = permissionRepository.findByRoleNameIn(roleNames);
         Map<Long, Resources> resourcesMap = new HashMap<>();
         permissions.forEach((p) -> {

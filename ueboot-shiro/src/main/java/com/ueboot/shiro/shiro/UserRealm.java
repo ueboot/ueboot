@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -38,7 +36,7 @@ public class UserRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = (String) this.getAvailablePrincipal(principals);
-        Set<String> roleNames = this.shiroService.getUserRoleCodes(username);
+        Set<String> roleNames = this.shiroService.getUserRoleNames(username);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
         Set<String> permissions = this.shiroService.getRolePermission(roleNames);
         //如果是指定的超级用户，则默认有一个最高权限，可以访问所有的功能
