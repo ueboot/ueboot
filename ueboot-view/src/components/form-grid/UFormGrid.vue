@@ -7,144 +7,147 @@
             </Alert>
         </Row>
         <Row v-if="formGrid.toolbar.superFilter.rows.length>0">
-            <i-form :model="formGrid.table.query" :label-position="formGrid.toolbar.superFilter.labelPosition"
+            <Form :model="queryParams" :label-position="formGrid.toolbar.superFilter.labelPosition"
                   :label-width="formGrid.toolbar.superFilter.labelWidth" :ref="formGrid.toolbar.superFilter.name"
                   :rules="searchRuleValidate">
-                <Row v-for="(row,index1) in formGrid.toolbar.superFilter.rows" :key="'row'+index1">
-                    <i-col v-for="(item,index2) in row" :key="'superfilter'+index2"
-                           :span="item.span">
-                        <Form-item :label="item.label" :prop="item.name">
+                <i-col :span="24">
+                    <Row v-for="(row,index1) in formGrid.toolbar.superFilter.rows" :key="'row'+index1">
+                        <i-col v-for="(item,index2) in row" :key="'superfilter'+index2"
+                               :span="item.span">
+                            <Form-item :label="item.label" :prop="item.name">
 
-                            <i-input v-if="item.type === 'text'" v-model="formGrid.table.query[item.name]" :icon="item.icon"
-                                     :placeholder="item.placeholder"
-                                     @on-focus="item.onFocus?item.onFocus.apply():()=>{}"
-                                     :maxlength="item.maxlength" :readonly="item.readonly"
-                                     :disabled="item.disabled">
-                                <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
-                                <span slot="append" v-if="item.append">{{item.append}}</span>
-                            </i-input>
-                            <i-input v-model="formGrid.table.query[item.name]" :type="item.type"
-                                     :placeholder="item.placeholder"
-                                     v-if="item.type==='password'" :disabled="item.disabled">
-                            </i-input>
-                            <i-switch v-model="formGrid.table.query[item.name]" @on-change="item.change"
-                                      v-if="item.type === 'switch'" :disabled="item.disabled"></i-switch>
-                            <InputNumber v-if="item.type === 'number'" :type="item.type"
-                                         v-model="formGrid.table.query[item.name]"
-                                         :icon="item.icon" :placeholder="item.placeholder"
-                                         :disabled="item.disabled" :max="item.max" :min="item.min" :step="item.step"
-                                         style="width: 100%">
-                            </InputNumber>
+                                <i-input v-if="item.type === 'text'" v-model="queryParams[item.name]" :icon="item.icon"
+                                         :placeholder="item.placeholder"
+                                         @on-focus="item.onFocus?item.onFocus.apply():()=>{}"
+                                         :maxlength="item.maxlength" :readonly="item.readonly"
+                                         :disabled="item.disabled">
+                                    <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
+                                    <span slot="append" v-if="item.append">{{item.append}}</span>
+                                </i-input>
+                                <i-input v-model="queryParams[item.name]" :type="item.type"
+                                         :placeholder="item.placeholder"
+                                         v-if="item.type==='password'" :disabled="item.disabled">
+                                </i-input>
+                                <!--隐藏表单-->
+                                <input type="hidden" v-if="item.type==='hidden'" v-model="queryParams[item.name]"/>
+                                <i-switch v-model="queryParams[item.name]" @on-change="item.change"
+                                          v-if="item.type === 'switch'" :disabled="item.disabled"></i-switch>
+                                <InputNumber v-if="item.type === 'number'" :type="item.type"
+                                             v-model="queryParams[item.name]"
+                                             :icon="item.icon" :placeholder="item.placeholder"
+                                             :disabled="item.disabled" :max="item.max" :min="item.min" :step="item.step"
+                                             style="width: 100%">
+                                </InputNumber>
 
-                            <i-input v-if="item.type === 'email'" :type="item.type" v-model="formGrid.table.query[item.name]"
-                                     :icon="item.icon" :disabled="item.disabled"
-                                     :maxlength="item.maxlength" :readonly="item.readonly"
-                                     :placeholder="item.placeholder"/>
+                                <i-input v-if="item.type === 'email'" :type="item.type" v-model="queryParams[item.name]"
+                                         :icon="item.icon" :disabled="item.disabled"
+                                         :maxlength="item.maxlength" :readonly="item.readonly"
+                                         :placeholder="item.placeholder"/>
 
-                            <Cascader v-if="item.type === 'cascader'" :data="item.items"
-                                      v-model="formGrid.table.query[item.name]"
-                                      :render-format="item.format?item.format:cascaderFormat"
-                                      :change-on-select="!!item.changeOnSelect"
-                                      @on-change="(value)=>{item.onChange?item.onChange.call(this,value):()=>{}}"></Cascader>
-                            <i-select v-if="item.type === 'select'" :clearable="item.clearable"
-                                      :filterable="item.filterable"
-                                      :multiple="item.multiple" v-model="formGrid.table.query[item.name]"
-                                      :placeholder="item.placeholder"
-                                      :value="item.init"
-                                      @on-change="(value)=>{item.onChange?item.onChange.call(this,value):()=>{}}"
-                                      @on-query-change="(value)=>{item.onQueryChange?item.onQueryChange.call(this,value):()=>{}}"
-                                      @on-clear="(value)=>{item.onClear?item.onClear.call(this,value):()=>{}}"
-                                      @on-open-change="(value)=>{item.onOpenChange?item.onOpenChange.call(this,value):()=>{}}"
-                            >
-                                <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
-                                    {{ option.name }}
-                                </Option>
-                            </i-select>
+                                <Cascader v-if="item.type === 'cascader'" :data="item.items"
+                                          v-model="queryParams[item.name]"
+                                          :render-format="item.format?item.format:cascaderFormat"
+                                          :change-on-select="!!item.changeOnSelect"
+                                          @on-change="(value)=>{item.onChange?item.onChange.call(this,value):()=>{}}"></Cascader>
+                                <i-select v-if="item.type === 'select'" :clearable="item.clearable"
+                                          :filterable="item.filterable"
+                                          :multiple="item.multiple" v-model="queryParams[item.name]"
+                                          :placeholder="item.placeholder"
+                                          @on-change="item.onChange"
+                                          @on-query-change="item.onQueryChange"
+                                          @on-clear="item.onClear"
+                                          @on-open-change="item.onOpenChange"
+                                >
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
+                                        {{ option.name }}
+                                    </Option>
+                                </i-select>
 
-                            <template v-else-if="item.type==='radio'">
-                                <Radio-group v-model="formGrid.table.query[item.name]" :disabled="item.disabled">
-                                    <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">
-                                        {{o.name}}
-                                    </Radio>
-                                </Radio-group>
-                            </template>
-                            <template v-else-if="item.type==='treeSelect'">
-                                <u-tree-select :tree="item.tree" :refName="item.name"
-                                               :fixed="item.fixed" :size="item.size" :maxHeight="item.maxHeight"
-                                               :sort="item.sort"
-                                               :klass="item.klass" :collapse="item.collapse" :async="item.async"
-                                               v-model="formGrid.table.query[item.name]"></u-tree-select>
-                            </template>
-                            <DatePicker v-if="item.type === 'date'" type="date"
-                                        :placeholder="item.placeholder?item.placeholder:''"
-                                        :format="item.format?item.format:'yyyy-MM-dd'" :option="item.option"
-                                        :placement="item.placement" :options="item.options" :confirm="item.confirm"
-                                        :open="item.open" :size="item.size" :clearable="item.clearable"
-                                        :readonly="item.readonly"
-                                        :editable="item.editable" :transfer="item.transfer"
-                                        v-model="formGrid.table.query[item.name]"></DatePicker>
-                            <DatePicker v-if="item.type === 'daterange'"
-                                        :type="item.type"
-                                        :placeholder="item.placeholder?item.placeholder:''"
-                                        :format="item.format?item.format:'yyyy-MM-dd'"
-                                        :placement="item.placement" :options="item.options" :confirm="item.confirm"
-                                        :open="item.open" :size="item.size" :clearable="item.clearable"
-                                        :readonly="item.readonly"
-                                        :editable="item.editable" :transfer="item.transfer"
-                                        v-model="formGrid.table.query[item.name]"></DatePicker>
-                            <DatePicker v-if="item.type === 'datetime' || item.type==='datetimerange'"
-                                        :type="item.type"
-                                        :placeholder="item.placeholder?item.placeholder:''"
-                                        :format="item.format?item.format:'yyyy-MM-dd HH:mm:ss'"
-                                        :placement="item.placement" :options="item.options" :confirm="item.confirm"
-                                        :open="item.open" :size="item.size" :clearable="item.clearable"
-                                        :readonly="item.readonly"
-                                        :editable="item.editable" :transfer="item.transfer"
-                                        v-model="formGrid.table.query[item.name]"></DatePicker>
-                            <DatePicker v-if="item.type==='month' || item.type==='year'"
-                                        :type="item.type"
-                                        :placeholder="item.placeholder?item.placeholder:''"
-                                        :format="item.format?item.format:null"
-                                        :placement="item.placement" :options="item.options" :confirm="item.confirm"
-                                        :open="item.open" :size="item.size" :clearable="item.clearable"
-                                        :readonly="item.readonly"
-                                        :editable="item.editable" :transfer="item.transfer"
-                                        v-model="formGrid.table.query[item.name]"></DatePicker>
-                            <Checkbox-group v-model="formGrid.form.data[item.name]" :disabled="item.disabled"
-                                            v-if="item.type==='checkbox'">
-                                <Checkbox :label="o.label" v-for="(o,index) in item.items" :key="index">{{o.name}}
-                                </Checkbox>
-                            </Checkbox-group>
-                            <template v-if="item.type === 'queryButton' && formGrid.toolbar.superFilter.submit">
-                                <Button v-if="item.type === 'queryButton' && formGrid.toolbar.superFilter.submit"
-                                        :type="formGrid.toolbar.superFilter.submit.theme"
-                                        :icon="formGrid.toolbar.superFilter.submit.icon"
-                                        @click="superFilterSearch(1)"
-                                        :disabled="formGrid.toolbar.superFilter.submit.disabled"
-                                        :loading="formGrid.toolbar.superFilter.submit.loading"
-                                        :size="formGrid.toolbar.superFilter.submit.size"
-                                        :ghost="formGrid.toolbar.superFilter.submit.ghost"
-                                        :shape="formGrid.toolbar.superFilter.submit.shape"
-                                        :long="formGrid.toolbar.superFilter.submit.long">
-                                    {{formGrid.toolbar.superFilter.submit.label}}
-                                </Button>
-                                <Button v-if="formGrid.toolbar.superFilter.reset"
-                                        :type="formGrid.toolbar.superFilter.reset.theme"
-                                        :icon="formGrid.toolbar.superFilter.reset.icon"
-                                        @click="resetSuperFilterSearch"
-                                        :disabled="formGrid.toolbar.superFilter.reset.disabled"
-                                        :loading="formGrid.toolbar.superFilter.reset.loading"
-                                        :size="formGrid.toolbar.superFilter.reset.size"
-                                        :ghost="formGrid.toolbar.superFilter.reset.ghost"
-                                        :shape="formGrid.toolbar.superFilter.reset.shape"
-                                        :long="formGrid.toolbar.superFilter.reset.long">
-                                    {{formGrid.toolbar.superFilter.reset.label}}
-                                </Button>
-                            </template>
-                        </Form-item>
-                    </i-col>
-                </Row>
-            </i-form>
+                                <template v-else-if="item.type==='radio'">
+                                    <Radio-group v-model="queryParams[item.name]" :disabled="item.disabled">
+                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">
+                                            {{o.name}}
+                                        </Radio>
+                                    </Radio-group>
+                                </template>
+                                <template v-else-if="item.type==='treeSelect'">
+                                    <u-tree-select :tree="item.tree" :refName="item.name"
+                                                   :fixed="item.fixed" :size="item.size" :maxHeight="item.maxHeight"
+                                                   :sort="item.sort"
+                                                   :klass="item.klass" :collapse="item.collapse" :async="item.async"
+                                                   v-model="queryParams[item.name]"></u-tree-select>
+                                </template>
+                                <DatePicker v-if="item.type === 'date'" type="date"
+                                            :placeholder="item.placeholder?item.placeholder:''"
+                                            :format="item.format?item.format:'yyyy-MM-dd'" :option="item.option"
+                                            :placement="item.placement" :options="item.options" :confirm="item.confirm"
+                                            :open="item.open" :size="item.size" :clearable="item.clearable"
+                                            :readonly="item.readonly"
+                                            :editable="item.editable" :transfer="item.transfer"
+                                            v-model="queryParams[item.name]"></DatePicker>
+                                <DatePicker v-if="item.type === 'daterange'"
+                                            :type="item.type"
+                                            :placeholder="item.placeholder?item.placeholder:''"
+                                            :format="item.format?item.format:'yyyy-MM-dd'"
+                                            :placement="item.placement" :options="item.options" :confirm="item.confirm"
+                                            :open="item.open" :size="item.size" :clearable="item.clearable"
+                                            :readonly="item.readonly"
+                                            :editable="item.editable" :transfer="item.transfer"
+                                            v-model="queryParams[item.name]"></DatePicker>
+                                <DatePicker v-if="item.type === 'datetime' || item.type==='datetimerange'"
+                                            :type="item.type"
+                                            :placeholder="item.placeholder?item.placeholder:''"
+                                            :format="item.format?item.format:'yyyy-MM-dd HH:mm:ss'"
+                                            :placement="item.placement" :options="item.options" :confirm="item.confirm"
+                                            :open="item.open" :size="item.size" :clearable="item.clearable"
+                                            :readonly="item.readonly"
+                                            :editable="item.editable" :transfer="item.transfer"
+                                            v-model="queryParams[item.name]"></DatePicker>
+                                <DatePicker v-if="item.type==='month' || item.type==='year'"
+                                            :type="item.type"
+                                            :placeholder="item.placeholder?item.placeholder:''"
+                                            :format="item.format?item.format:null"
+                                            :placement="item.placement" :options="item.options" :confirm="item.confirm"
+                                            :open="item.open" :size="item.size" :clearable="item.clearable"
+                                            :readonly="item.readonly"
+                                            :editable="item.editable" :transfer="item.transfer"
+                                            v-model="queryParams[item.name]"></DatePicker>
+                                <Checkbox-group v-model="formGrid.form.data[item.name]" :disabled="item.disabled"
+                                                v-if="item.type==='checkbox'">
+                                    <Checkbox :label="o.label" v-for="(o,index) in item.items" :key="index">{{o.name}}
+                                    </Checkbox>
+                                </Checkbox-group>
+                                <template v-if="item.type === 'queryButton' && formGrid.toolbar.superFilter.submit">
+                                    <Button v-if="item.type === 'queryButton' && formGrid.toolbar.superFilter.submit"
+                                            :type="formGrid.toolbar.superFilter.submit.theme"
+                                            :icon="formGrid.toolbar.superFilter.submit.icon"
+                                            @click="superFilterSearch(1)"
+                                            :disabled="formGrid.toolbar.superFilter.submit.disabled"
+                                            :loading="formGrid.toolbar.superFilter.submit.loading"
+                                            :size="formGrid.toolbar.superFilter.submit.size"
+                                            :ghost="formGrid.toolbar.superFilter.submit.ghost"
+                                            :shape="formGrid.toolbar.superFilter.submit.shape"
+                                            :long="formGrid.toolbar.superFilter.submit.long">
+                                        {{formGrid.toolbar.superFilter.submit.label}}
+                                    </Button>
+                                    <Button v-if="formGrid.toolbar.superFilter.reset"
+                                            :type="formGrid.toolbar.superFilter.reset.theme"
+                                            :icon="formGrid.toolbar.superFilter.reset.icon"
+                                            @click="resetSuperFilterSearch"
+                                            :disabled="formGrid.toolbar.superFilter.reset.disabled"
+                                            :loading="formGrid.toolbar.superFilter.reset.loading"
+                                            :size="formGrid.toolbar.superFilter.reset.size"
+                                            :ghost="formGrid.toolbar.superFilter.reset.ghost"
+                                            :shape="formGrid.toolbar.superFilter.reset.shape"
+                                            :long="formGrid.toolbar.superFilter.reset.long">
+                                        {{formGrid.toolbar.superFilter.reset.label}}
+                                    </Button>
+                                </template>
+                            </Form-item>
+                        </i-col>
+                    </Row>
+                </i-col>
+            </Form>
         </Row>
         <!--toobar-->
         <Row :gutter="5" type="flex" :justify="formGrid.toolbar.justify" v-if="formGrid.toolbar.show">
@@ -316,10 +319,10 @@
                                           :filterable="item.filterable"
                                           :multiple="item.multiple" v-model="formGrid.form.data[item.name]"
                                           :placeholder="item.placeholder"
-                                          @on-change="(value)=>{item.onChange?item.onChange.call(this,value):()=>{}}"
-                                          @on-query-change="(value)=>{item.onQueryChange?item.onQueryChange.call(this,value):()=>{}}"
-                                          @on-clear="(value)=>{item.onClear?item.onClear.call(this,value):()=>{}}"
-                                          @on-open-change="(value)=>{item.onOpenChange?item.onOpenChange.call(this,value):()=>{}}"
+                                          @on-change="item.onChange"
+                                          @on-query-change="item.onQueryChange"
+                                          @on-clear="item.onClear"
+                                          @on-open-change="item.onOpenChange"
                                 >
 
                                     <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
@@ -607,7 +610,7 @@
                             superFilter: {columns: []}
                         },
                         form: {data: {}, modal: {}, columns: []},
-                        table: {operation: {buttons: null, column: {}}, data: [],query:{}}
+                        table: {operation: {buttons: null, column: {}}, data: []}
                     }
                 }
             }
@@ -640,6 +643,9 @@
                 selections: [],
                 // 渲染表单的元素列表，根据场景要求渲染的列表会有差异
                 formRows: [],
+                // grid查询参数
+                queryParams: {},
+                temp:'haha',
                 //
                 formGrid: {},
                 table: {
@@ -655,7 +661,7 @@
             'data.toolbar.superFilter': {
                 handler: function (newValue, oldValue) {
                     Log.d('监听到data.toolbar.superFilter.columns变化,%o', newValue)
-                    this.formGrid.toolbar.superFilter = deepExtend({}, this.formGrid.toolbar.superFilter, newValue)
+                    this.formGrid.toolbar.superFilter = newValue
                     // 对搜索表单数据进行处理
                     this.renderSearchForm()
                 },
@@ -712,9 +718,12 @@
 
             // 对搜索表单数据进行数据加工
             renderSearchForm() {
+                //先设置为空，让原表单数据清空
+                this.formGrid.toolbar.superFilter.rows = []
                 // 设置高级搜索当中，如果存在下拉框的元素，需要进行数据初始化
                 if (this.formGrid.toolbar.superFilter && this.formGrid.toolbar.superFilter.columns) {
                     this.setSelectItems(this.formGrid.toolbar.superFilter.columns)
+                    this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns)
                     this.searchRuleValidate = this.getRuleValidate(this.formGrid.toolbar.superFilter.columns)
                     // 对所有列进行动态计算行数，用于页面渲染
                     let rows = []
@@ -734,10 +743,10 @@
                             c.span = span
                             columns.push(c)
                             i++
-                            this.formGrid.table.query[c.name] = null
+                        } else {
+                            // 隐藏输入框，直接绑定变量
+                            this.$set(this.queryParams,c.name,c.init)
                         }
-                        //初始化变量，防止表单元素未绑定变量，导致双向绑定在重置表单后出现不可重置
-                        this.$set(this.formGrid.table.query, c.name, c.init)
                     })
                     if (columns.length > 0 && columns.length < colNumber) {
                         if (!allHidden) {
@@ -812,6 +821,15 @@
                 Log.d('rules:%o', rules)
                 return rules
             },
+            // 初始化搜索框的初始值
+            setSuperFilterInitValue(columns) {
+                columns.forEach((c) => {
+                    if (c.init) {
+                        this.$set(this.queryParams,c.name,c.init)
+                    }
+
+                })
+            },
             noticeError(title, desc) {
                 this.$Notice.error({
                     title: title,
@@ -840,10 +858,11 @@
             // 重置查询条件
             resetSuperFilterSearch() {
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields()
+                this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns)
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
                     this.formGrid.toolbar.superFilter.reset.click()
                 }
-
+                this.$forceUpdate()
             },
             // 高级搜索框按钮
             superFilterSearch(page) {
@@ -867,7 +886,7 @@
             },
             fetchData() {
                 this.table.noDataText = this.formGrid.table.tableLoadingText
-                let data = this.formGrid.table.query
+                let data = this.queryParams
                 Log.d('pageData QueryData:%o', data)
                 let page = this.formGrid.pageable.page
                 let size = this.formGrid.pageable.size
@@ -894,6 +913,7 @@
                         this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText
                     }
                     this.$forceUpdate()
+                    return false
                 })
             },
 
@@ -1030,9 +1050,26 @@
                         continue
                     }
                     Log.d('setSelectItems,%o', c)
+                    /*绑定事件，页面绑定事件时，
+                        如果使用(value)=>{item.onQueryChange?item.onQueryChange.call(this,value):()=>{}}
+                        方式，会导致选择到初始值时不触发相关事件，并且影响表单重置功能
+                    */
+                    if(!util.isFunction(c.onChange)){
+                        c.onChange = function () {}
+                    }
+                    if(!util.isFunction(c.onQueryChange)){
+                        c.onQueryChange = function () {}
+                    }
+                    if(!util.isFunction(c.onClear)){
+                        c.onClear = function () {}
+                    }
+                    if(!util.isFunction(c.onOpenChange)){
+                        c.onOpenChange = function () {}
+                    }
                     let data = c.data || ''
                     if (util.isArray(data)) {
-                        c.items = data
+                        //必须用set方式设值
+                        this.$set(c, 'items', data)
                     } else if (util.isString(data)) {
                         if (data.indexOf('im:') === 0) {
                             let value = data.split(':')[1]
@@ -1066,7 +1103,7 @@
                     Log.d('setCascaderData,%o', c)
                     let data = c.data || ''
                     if (util.isArray(data)) {
-                        c.items = this.initCascader(data)
+                        this.$set(c, 'items', this.initCascader(data))
                     } else if (util.isString(data)) {
                         if (data.indexOf('url:') === 0) {
                             let url = data.split(':')[1]
@@ -1495,7 +1532,7 @@
             },
             fetchExcelData(size) {
                 let data = {}
-                data = deepExtend({}, this.formGrid.table.query)
+                data = deepExtend({}, this.queryParams)
                 let page = this.formGrid.pageable.page
                 let pageSize = this.formGrid.pageable.size
                 if (size) {
@@ -1539,7 +1576,6 @@
             }
         },
         mounted() {
-
             if (this.formGrid.options.autoLoad) {
                 this.pageData()
             }
@@ -1586,6 +1622,7 @@
         beforeDestroy() {
             // 销毁数据，防止脏读
             this.formGrid = null
+            this.queryParams = null
             this.modal = null
             this.ruleValidate = null
             this.selections = null

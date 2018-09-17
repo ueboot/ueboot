@@ -55,6 +55,7 @@ export default {
 
         // 搜索的时候，会产生label属性，显示的内容格式与name不一样
         o.text = item.label ? item.label : item.name
+          o.name = item.name
         o.value = {id: item.id, name: item.name, parentId: item.parentId}
         o.selected = item.selected || false
         o.disabled = item.disabled || false

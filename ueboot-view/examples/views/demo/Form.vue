@@ -1,11 +1,22 @@
 <template>
-  <u-form :data="form"></u-form>
+    <div>
+
+        <u-form :data="form"></u-form>
+        <u-select v-model="selectValue" dictKey="names"></u-select>
+    </div>
 </template>
 <script>
+    import USelect from './USelect'
   export default{
+      components: {USelect},
+      comments(){
+            USelect
+        },
     data(){
       return {
-        form: {
+          selectValue:'',
+          form: {
+
           actionUrl: "",
           columns: [
             {"label": "渠道", "type": "text", "name": "channel", required: true},
@@ -28,6 +39,11 @@
           }
         }
       }
-    }
+    },
+      watch:{
+          selectValue:function(newValue,oldValue) {
+              console.log("监听到变化"+newValue)
+          }
+      }
   }
 </script>

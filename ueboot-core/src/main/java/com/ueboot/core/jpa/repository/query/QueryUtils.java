@@ -30,7 +30,13 @@ public class QueryUtils {
     }
 
     public static String genCountQueryString(String queryString) {
-        if(queryString.toLowerCase().contains("union ")){
+        //count 时需要去掉order by ，防止子查询方式count会报错
+        queryString = queryString.toLowerCase();
+        if(queryString.contains("order by ")){
+            queryString = queryString.substring(0,queryString.indexOf("order by "));
+        }
+        //group by 的时候需要使用子查询
+        if(queryString.contains("union ") || queryString.contains("group by ")){
             return "select count(1) from ("+queryString+") wjbxnhc";
         }
         return "select count(*) " + removeSelect(queryString);

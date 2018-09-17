@@ -14,6 +14,7 @@ Vue.use(ueboot);
 ueboot.Config.setConfig({
     sysTitle:'UEBOOT测试',
     axios:{baseURL: "", unauthorizedUrl: '/#/login'},
+    page_login:{successRouter:{name:"用户管理"}},
     page_main:{menuWidth:250}
 })
 

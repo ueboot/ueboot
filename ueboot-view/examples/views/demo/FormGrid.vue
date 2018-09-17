@@ -53,7 +53,7 @@
                                     placeholder: "请填写姓名2",
                                     required: true
                                 },
-                               /* {
+                                {
                                     type: "daterange",
                                     label: "日期范围",
                                     name: "daterange",
@@ -115,13 +115,15 @@
                                     clearable: true,
                                     filterable: false,
                                     multiple: false,
+                                    required:true,
+                                    init:'haha',
                                     onChange: (value) => {
                                         console.log(value)
                                         //this.resetSuperFilter(value)
                                     },
                                     data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },
-                                {
+                                /*{
                                     type: "select",
                                     name: "province2",
                                     label: "下拉框2",
@@ -129,13 +131,13 @@
                                     filterable: false,
                                     multiple: false,
                                     data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
-                                },
+                                },*/
                                 {
                                     type: "treeSelect",
                                     name: "province3",
                                     label: "树状下拉框",
                                     tree: tree,
-                                },*/
+                                },
                             ],
                         },
                         button: [
