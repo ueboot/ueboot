@@ -17,107 +17,107 @@ export default {
    * @returns {Array} 树状结构的数据，id,label,value,parentId,attr,children
    */
 
-  getTreeData (tree, handlerItem) {
+    getTreeData (tree, handlerItem) {
     // 构造树结构
-    let roots = []
+        let roots = [];
     // 1.查找每个根节点。或者查找每个父级节点不存在的节点当根节点
-    tree.forEach((item) => {
-      let isRoot = true
+        tree.forEach((item) => {
+            let isRoot = true;
       // 查找一下当前节点所在的父亲节点是否存在，如果不存则当根节点
-      for (let i = 0; i < tree.length; i++) {
-        if (item.parentId === tree[i].id) {
-          isRoot = false
-          break
-        }
-      }
-      if (isRoot) {
-        let root = assembleItem(item, null)
-        let result = getChildren(tree, item.id, item.path)
-        if (result['child'] && result['child'].length > 0) {
-          root.children = result['child']
-        }
-        root.opened = result['hasSelected']
-        roots.push(root)
-      }
-    })
+            for (let i = 0; i < tree.length; i++) {
+                if (item.parentId === tree[i].id) {
+                    isRoot = false;
+                    break;
+                }
+            }
+            if (isRoot) {
+                let root = assembleItem(item, null);
+                let result = getChildren(tree, item.id, item.path);
+                if (result['child'] && result['child'].length > 0) {
+                    root.children = result['child'];
+                }
+                root.opened = result['hasSelected'];
+                roots.push(root);
+            }
+        });
 
-    let sort = this.sort
-    function assembleItem (item, parentPath) {
-      let o = {}
-      if (handlerItem) {
-        o = handlerItem(item)
-      } else {
-        if (parentPath) {
-          o.path = parentPath + '\\' + item.name
-        } else {
-          o.path = item.name
-        }
+        let sort = this.sort;
+        function assembleItem (item, parentPath) {
+            let o = {};
+            if (handlerItem) {
+                o = handlerItem(item);
+            } else {
+                if (parentPath) {
+                    o.path = parentPath + '\\' + item.name;
+                } else {
+                    o.path = item.name;
+                }
 
         // 搜索的时候，会产生label属性，显示的内容格式与name不一样
-        o.text = item.label ? item.label : item.name
-          o.name = item.name
-        o.value = {id: item.id, name: item.name, parentId: item.parentId}
-        o.selected = item.selected || false
-        o.disabled = item.disabled || false
-        o.loading = item.loading || false
-        o.icon = item.icon || ''
-        o.tip = item.tip || ''
-        o.opened = item.opened || false
-      }
-      o.id = item.id
-      o.parentId = item.parentId
-      return o
-    }
+                o.text = item.label ? item.label : item.name;
+                o.name = item.name;
+                o.value = {id: item.id, name: item.name, parentId: item.parentId};
+                o.selected = item.selected || false;
+                o.disabled = item.disabled || false;
+                o.loading = item.loading || false;
+                o.icon = item.icon || '';
+                o.tip = item.tip || '';
+                o.opened = item.opened || false;
+            }
+            o.id = item.id;
+            o.parentId = item.parentId;
+            return o;
+        }
     // 2.递归循环所有节点,将节点加入到父节点当中
-    function getChildren (tree, parentId, parentPath) {
-      let result = {}
-      let child = []
+        function getChildren (tree, parentId, parentPath) {
+            let result = {};
+            let child = [];
       // 判断子节点是否有被勾选的情况，如有则父节点设置为打开状态
-      let hasSelected = false
-      tree.forEach((item) => {
-        if (item.parentId === parentId) {
-          let o = assembleItem(item, parentPath)
-          if (o.selected) {
-            hasSelected = true
-          }
-          child.push(o)
-        }
-      })
-      child.forEach((item) => {
-        let result = getChildren(tree, item.id, item.path)
-        if (result['child'] && result['child'].length > 0) {
-          item.children = result['child']
-        }
-        item.opened = result['hasSelected']
-      })
+            let hasSelected = false;
+            tree.forEach((item) => {
+                if (item.parentId === parentId) {
+                    let o = assembleItem(item, parentPath);
+                    if (o.selected) {
+                        hasSelected = true;
+                    }
+                    child.push(o);
+                }
+            });
+            child.forEach((item) => {
+                let result = getChildren(tree, item.id, item.path);
+                if (result['child'] && result['child'].length > 0) {
+                    item.children = result['child'];
+                }
+                item.opened = result['hasSelected'];
+            });
 
       // 是否需要排序
-      if (sort) {
-        this.sort(child, sort)
-      }
-      result['hasSelected'] = hasSelected
-      result['child'] = child
-      return result
-    }
+            if (sort) {
+                this.sort(child, sort);
+            }
+            result['hasSelected'] = hasSelected;
+            result['child'] = child;
+            return result;
+        }
 
-    if (sort) {
-      this.sort(roots, sort)
-    }
-    return roots
-  },
+        if (sort) {
+            this.sort(roots, sort);
+        }
+        return roots;
+    },
 
   /**
    * 对数组对象进行排序操作
    * @param array 需要排序的对象数组
    * @param sort 排序对象{field:'id',sort:'desc'}
    */
-  sort (array, sort) {
-    array.sort((a, b) => {
-      if (sort['sort'] === 'desc') {
-        return b[sort['field']] - a[sort['field']]
-      } else {
-        return b[sort['field']] - a[sort['field']]
-      }
-    })
-  }
-}
+    sort (array, sort) {
+        array.sort((a, b) => {
+            if (sort['sort'] === 'desc') {
+                return b[sort['field']] - a[sort['field']];
+            } else {
+                return b[sort['field']] - a[sort['field']];
+            }
+        });
+    }
+};

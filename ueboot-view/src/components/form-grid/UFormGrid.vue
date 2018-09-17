@@ -565,12 +565,12 @@
 </style>
 
 <script>
-    import Log from '../../utils/Log'
-    import deepExtend from 'deep-extend'
-    import defaultData from './default'
-    import util from 'core-util-is'
-    import ueUpload from '../upload/Upload.vue'
-    import UTreeSelect from '../tree-select/UTreeSelect'
+    import Log from '../../utils/Log';
+    import deepExtend from 'deep-extend';
+    import defaultData from './default';
+    import util from 'core-util-is';
+    import ueUpload from '../upload/Upload.vue';
+    import UTreeSelect from '../tree-select/UTreeSelect';
 
     export default {
         name: 'UFormGrid',
@@ -582,7 +582,7 @@
             tableRef: {
                 type: String,
                 default: function () {
-                    return 'dataTable'
+                    return 'dataTable';
                 }
             },
             // 允许调用方修改该属性，从而可以动态控制配置参数
@@ -611,7 +611,7 @@
                         },
                         form: {data: {}, modal: {}, columns: []},
                         table: {operation: {buttons: null, column: {}}, data: []}
-                    }
+                    };
                 }
             }
         },
@@ -621,7 +621,7 @@
                 self: this,
                 loadingStatus: false,
                 modal: {
-                    title: "",
+                    title: '',
                     // 显示编辑模态窗口
                     editModal: false,
                     // 显示查看模态窗口
@@ -651,33 +651,33 @@
                 table: {
                     noDataText: '',
                 }
-            }
+            };
         },
         created() {
-            this.init()
+            this.init();
         },
         watch: {
             // 监听高级搜索条件变化
             'data.toolbar.superFilter': {
                 handler: function (newValue, oldValue) {
-                    Log.d('监听到data.toolbar.superFilter.columns变化,%o', newValue)
-                    this.formGrid.toolbar.superFilter = newValue
+                    Log.d('监听到data.toolbar.superFilter.columns变化,%o', newValue);
+                    this.formGrid.toolbar.superFilter = newValue;
                     // 对搜索表单数据进行处理
-                    this.renderSearchForm()
+                    this.renderSearchForm();
                 },
                 deep: true
             },
             'data.form': {
                 handler: function (newValue, oldValue) {
-                    Log.d('监听到data.form.columns变化,%o', newValue)
-                    this.formGrid.form = deepExtend({}, this.formGrid.form, newValue)
-                    this.renderForm()
+                    Log.d('监听到data.form.columns变化,%o', newValue);
+                    this.formGrid.form = deepExtend({}, this.formGrid.form, newValue);
+                    this.renderForm();
                     if (this.formGrid.form.isView) {
-                        this.setFormColumns('view')
+                        this.setFormColumns('view');
                     } else if (this.formGrid.form.isEdit) {
-                        this.setFormColumns('edit')
+                        this.setFormColumns('edit');
                     } else {
-                        this.setFormColumns('add')
+                        this.setFormColumns('add');
                     }
                 },
                 deep: true
@@ -685,359 +685,359 @@
         },
         methods: {
             init() {
-                this.formGrid = deepExtend({}, this.formGrid, this.data)
+                this.formGrid = deepExtend({}, this.formGrid, this.data);
                 // 和默认值进行合并，一定要加一个{},防止修改掉defaultData对象，导致页面切换时数据异常
-                this.formGrid = deepExtend({}, defaultData, this.formGrid)
-                this.table.noDataText = this.formGrid.table.noDataText
+                this.formGrid = deepExtend({}, defaultData, this.formGrid);
+                this.table.noDataText = this.formGrid.table.noDataText;
 
-                this.renderForm()
+                this.renderForm();
                 // 对搜索表单数据进行处理
-                this.renderSearchForm()
+                this.renderSearchForm();
                 // 表格数据初始化
                 // 追加操作列
                 if (this.formGrid.table.operation.show) {
                     // 为操作添加按钮
-                    this.renderOpt(this.formGrid.table.operation.column)
-                    this.formGrid.table.columns.push(this.formGrid.table.operation.column)
+                    this.renderOpt(this.formGrid.table.operation.column);
+                    this.formGrid.table.columns.push(this.formGrid.table.operation.column);
                 }
                 // 判断否需要显示复选框
                 if (this.formGrid.table.showCheckbox) {
-                    this.formGrid.table.columns.splice(0, 0, this.formGrid.table.selection)
+                    this.formGrid.table.columns.splice(0, 0, this.formGrid.table.selection);
                 }
                 // 渲染表格每列特殊情况
-                this.renderColumn()
-                Log.d('data 初始化对象:%o', this.formGrid)
+                this.renderColumn();
+                Log.d('data 初始化对象:%o', this.formGrid);
             },
             // 对添加、编辑、查看表单数据进行初始化
             renderForm() {
                 // 生成表单规则校验
                 if (this.formGrid.form.columns) {
-                    this.ruleValidate = this.getRuleValidate(this.formGrid.form.columns)
+                    this.ruleValidate = this.getRuleValidate(this.formGrid.form.columns);
                 }
             },
 
             // 对搜索表单数据进行数据加工
             renderSearchForm() {
                 //先设置为空，让原表单数据清空
-                this.formGrid.toolbar.superFilter.rows = []
+                this.formGrid.toolbar.superFilter.rows = [];
                 // 设置高级搜索当中，如果存在下拉框的元素，需要进行数据初始化
                 if (this.formGrid.toolbar.superFilter && this.formGrid.toolbar.superFilter.columns) {
-                    this.setSelectItems(this.formGrid.toolbar.superFilter.columns)
-                    this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns)
-                    this.searchRuleValidate = this.getRuleValidate(this.formGrid.toolbar.superFilter.columns)
+                    this.setSelectItems(this.formGrid.toolbar.superFilter.columns);
+                    this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
+                    this.searchRuleValidate = this.getRuleValidate(this.formGrid.toolbar.superFilter.columns);
                     // 对所有列进行动态计算行数，用于页面渲染
-                    let rows = []
-                    let columns = []
-                    let colNumber = this.formGrid.toolbar.superFilter.colNumber
+                    let rows = [];
+                    let columns = [];
+                    let colNumber = this.formGrid.toolbar.superFilter.colNumber;
                     // 判断所有列当中是否有非隐藏的元素，如果全部为隐藏元素则不显示查询按钮
-                    let allHidden = true
-                    let i = 0
-                    let span = Math.round(24 / colNumber)
+                    let allHidden = true;
+                    let i = 0;
+                    let span = Math.round(24 / colNumber);
                     this.formGrid.toolbar.superFilter.columns.forEach((c) => {
                         if (i > 0 && (i % colNumber === 0)) {
-                            rows.push(columns)
-                            columns = []
+                            rows.push(columns);
+                            columns = [];
                         }
                         if (c.type !== 'hidden') {
-                            allHidden = false
-                            c.span = span
-                            columns.push(c)
-                            i++
+                            allHidden = false;
+                            c.span = span;
+                            columns.push(c);
+                            i++;
                         } else {
                             // 隐藏输入框，直接绑定变量
-                            this.$set(this.queryParams,c.name,c.init)
+                            this.$set(this.queryParams,c.name,c.init);
                         }
-                    })
+                    });
                     if (columns.length > 0 && columns.length < colNumber) {
                         if (!allHidden) {
-                            let queryButtonSpan = (colNumber - columns.length) * span
-                            columns.push({'type': 'queryButton', 'span': queryButtonSpan})
+                            let queryButtonSpan = (colNumber - columns.length) * span;
+                            columns.push({'type': 'queryButton', 'span': queryButtonSpan});
                         }
-                        rows.push(columns)
+                        rows.push(columns);
                         // 如果最后行数量刚好满员，则新启一行
                     } else if (columns.length === colNumber) {
 
-                        rows.push(columns)
-                        columns = []
+                        rows.push(columns);
+                        columns = [];
                         // 查询按钮一直跟在条件最后一个
                         if (!allHidden) {
-                            columns.push({'type': 'queryButton', 'span': 24})
+                            columns.push({'type': 'queryButton', 'span': 24});
                         }
-                        rows.push(columns)
+                        rows.push(columns);
                     }
-                    this.formGrid.toolbar.superFilter.rows = rows
+                    this.formGrid.toolbar.superFilter.rows = rows;
                 }
             },
             // 初始化表单规则
             getRuleValidate(columns) {
                 // TODO 当动态修改规则后，页面上还是会显示红色*号
-                let rules = {}
+                let rules = {};
                 columns.forEach((c) => {
-                    let ruleName = c.name
+                    let ruleName = c.name;
                     // 直接写required的话，采用默认提示规则。写了rule属性则使用rule
                     if (c.required && !c.rules) {
                         let trigger = 'blur';
                         // 固定的几种类型采用change事件监听
                         ['select', 'radio', 'datetime', 'date', 'time', 'month', 'daterange',
                             'datetimerange', 'year', 'checkbox', 'treeSelect'].forEach((type) => {
-                            if (c.type === type) {
-                                trigger = 'change'
-                            }
-                        })
+                                if (c.type === type) {
+                                    trigger = 'change';
+                                }
+                            });
 
-                        let rule = {required: true, message: c.label + '为必填', trigger: trigger}
+                        let rule = {required: true, message: c.label + '为必填', trigger: trigger};
                         // 级联框，时间或日期范围
                         if (['cascader', 'checkbox'].includes(c.type)) {
-                            rule['type'] = 'array'
+                            rule['type'] = 'array';
                         } else if (['datetime', 'date', 'time', 'month', 'year'].includes(c.type)) {
-                            rule['type'] = 'date'
+                            rule['type'] = 'date';
                         } else if (['daterange', 'datetimerange'].includes(c.type)) {
-                            rule['type'] = 'object'
+                            rule['type'] = 'object';
                         } else if (['treeSelect', 'number'].includes(c.type)) {
-                            rule['type'] = 'number'
+                            rule['type'] = 'number';
                         } else {
-                            rule['type'] = 'string'
+                            rule['type'] = 'string';
                         }
-                        let ruleArray = [rule]
+                        let ruleArray = [rule];
                         if (c.equalsTo) {
                             const validatePassCheck = (rule, value, callback) => {
                                 if (value === '') {
-                                    callback(new Error(c.label + '为必填'))
+                                    callback(new Error(c.label + '为必填'));
                                 } else if (value !== this.formGrid.form.data[c.equalsTo]) {
-                                    callback(new Error(`两次输入的内容不一致!`))
+                                    callback(new Error('两次输入的内容不一致!'));
                                 } else {
-                                    callback()
+                                    callback();
                                 }
-                            }
-                            let equalsToRule = {validator: validatePassCheck, trigger: trigger}
-                            ruleArray.push(equalsToRule)
+                            };
+                            let equalsToRule = {validator: validatePassCheck, trigger: trigger};
+                            ruleArray.push(equalsToRule);
                         }
-                        rules[ruleName] = ruleArray
+                        rules[ruleName] = ruleArray;
                     } else if (c.rules) {
                         // 其他自定义格式直接采用原生格式（参见iview组件当中的form表单验证格式）
-                        rules[ruleName] = c.rules
+                        rules[ruleName] = c.rules;
                     }
-                })
-                Log.d('rules:%o', rules)
-                return rules
+                });
+                Log.d('rules:%o', rules);
+                return rules;
             },
             // 初始化搜索框的初始值
             setSuperFilterInitValue(columns) {
                 columns.forEach((c) => {
                     if (c.init) {
-                        this.$set(this.queryParams,c.name,c.init)
+                        this.$set(this.queryParams,c.name,c.init);
                     }
 
-                })
+                });
             },
             noticeError(title, desc) {
                 this.$Notice.error({
                     title: title,
                     desc: desc
-                })
+                });
             },
             validate(key) {
                 if (!key || key === null) {
-                    this.noticeError(key + '不能为空!')
-                    return false
+                    this.noticeError(key + '不能为空!');
+                    return false;
                 }
-                return true
+                return true;
             },
             // 获取接口交互的主键
             getPrimaryKey(row) {
-                let key = this.formGrid.table.operation.primaryKey
+                let key = this.formGrid.table.operation.primaryKey;
                 if (row[key]) {
-                    let o = {}
-                    o[key] = row[key]
-                    return o
+                    let o = {};
+                    o[key] = row[key];
+                    return o;
                 } else {
-                    this.noticeError('请求参数不正确', '无法获取primaryKey值')
-                    return null
+                    this.noticeError('请求参数不正确', '无法获取primaryKey值');
+                    return null;
                 }
             },
             // 重置查询条件
             resetSuperFilterSearch() {
-                this.$refs[this.formGrid.toolbar.superFilter.name].resetFields()
-                this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns)
+                this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
+                this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
-                    this.formGrid.toolbar.superFilter.reset.click()
+                    this.formGrid.toolbar.superFilter.reset.click();
                 }
-                this.$forceUpdate()
+                this.$forceUpdate();
             },
             // 高级搜索框按钮
             superFilterSearch(page) {
-                this.pageData(page)
+                this.pageData(page);
             },
             pageData(page) {
                 if (page && (typeof (page) === 'number')) {
-                    this.formGrid.pageable.page = page
+                    this.formGrid.pageable.page = page;
                 }
                 if (this.formGrid.toolbar.superFilter.rows.length > 0) {
                     this.$refs[this.formGrid.toolbar.superFilter.name].validate((valid) => {
                         if (valid) {
-                            this.fetchData()
+                            this.fetchData();
                         } else {
-                            this.noticeError('查询条件校验失败', '')
+                            this.noticeError('查询条件校验失败', '');
                         }
-                    })
+                    });
                 } else {
-                    this.fetchData()
+                    this.fetchData();
                 }
             },
             fetchData() {
-                this.table.noDataText = this.formGrid.table.tableLoadingText
-                let data = this.queryParams
-                Log.d('pageData QueryData:%o', data)
-                let page = this.formGrid.pageable.page
-                let size = this.formGrid.pageable.size
+                this.table.noDataText = this.formGrid.table.tableLoadingText;
+                let data = this.queryParams;
+                Log.d('pageData QueryData:%o', data);
+                let page = this.formGrid.pageable.page;
+                let size = this.formGrid.pageable.size;
                 // 默认jpa查询从0开始，页面上显示从1开始所以需要减一
                 if (page > 0) {
-                    page = page - 1
+                    page = page - 1;
                 }
-                let params = {page: page, size: size}
-                this.formGrid.table.loading = true
+                let params = {page: page, size: size};
+                this.formGrid.table.loading = true;
                 this.$axios.post(this.formGrid.options.url.page, data, {params: params}).then(response => {
                     if (this.formGrid) {
-                        this.formGrid.table.loading = false
-                        this.table.noDataText = this.formGrid.table.noDataText
-                        this.formGrid.table.data = response.body.content
-                        this.formGrid.pageable.total = response.body.totalElements
-                        this.$forceUpdate()
+                        this.formGrid.table.loading = false;
+                        this.table.noDataText = this.formGrid.table.noDataText;
+                        this.formGrid.table.data = response.body.content;
+                        this.formGrid.pageable.total = response.body.totalElements;
+                        this.$forceUpdate();
                     }
-                    Log.d('接口返回对象,%o', response)
+                    Log.d('接口返回对象,%o', response);
                 }).catch(response => {
-                    this.noticeError('数据查询出现异常', response.message ? response.message : '系统或网络异常')
+                    this.noticeError('数据查询出现异常', response.message ? response.message : '系统或网络异常');
                     if (this.formGrid) {
-                        this.formGrid.table.loading = false
-                        this.formGrid.table.data = []
-                        this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText
+                        this.formGrid.table.loading = false;
+                        this.formGrid.table.data = [];
+                        this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
                     }
-                    this.$forceUpdate()
-                    return false
-                })
+                    this.$forceUpdate();
+                    return false;
+                });
             },
 
             // 改变分页
             changePage(page) {
-                this.formGrid.pageable.page = page
-                this.pageData()
+                this.formGrid.pageable.page = page;
+                this.pageData();
             },
             // 改变页数大小
             changePageSize(size) {
-                this.formGrid.pageable.page = 1
-                this.formGrid.pageable.size = size
-                this.pageData()
+                this.formGrid.pageable.page = 1;
+                this.formGrid.pageable.size = size;
+                this.pageData();
             },
             // 重新从第一页加载数据
             reloadData() {
-                this.formGrid.pageable.page = 1
-                this.formGrid.pageable.total = 0
-                this.pageData()
+                this.formGrid.pageable.page = 1;
+                this.formGrid.pageable.total = 0;
+                this.pageData();
             },
             // 模态窗口点击确认按钮事件
             handleSubmit() {
                 this.$refs[this.formGrid.form.name].validate((valid) => {
                     if (valid) {
                         if (!this.formGrid.form.submitBefore(this.formGrid.form.data)) {
-                            return
+                            return;
                         }
-                        this.formGrid.form.loading = true
+                        this.formGrid.form.loading = true;
                         this.$axios.post(this.formGrid.options.url.save, this.formGrid.form.data).then(response => {
-                            this.formGrid.form.loading = false
+                            this.formGrid.form.loading = false;
                             this.$Notice.success({
                                 title: '表单提交成功',
                                 desc: ''
-                            })
+                            });
                             // 编辑时，查询当前页
                             if (this.formGrid.form.isEdit) {
-                                this.pageData()
+                                this.pageData();
                             } else {
-                                this.reloadData()
+                                this.reloadData();
                             }
-                            this.formGrid.form.data = {}
-                            this.modal.editModal = false
-                            this.formGrid.form.submitAfter(response.body)
-                            this.$forceUpdate()
+                            this.formGrid.form.data = {};
+                            this.modal.editModal = false;
+                            this.formGrid.form.submitAfter(response.body);
+                            this.$forceUpdate();
                         }).catch(response => {
-                            this.formGrid.form.loading = false
-                            this.noticeError('表单提交失败', response.message ? response.message : '系统或网络异常')
-                            this.$forceUpdate()
-                            return false
-                        })
+                            this.formGrid.form.loading = false;
+                            this.noticeError('表单提交失败', response.message ? response.message : '系统或网络异常');
+                            this.$forceUpdate();
+                            return false;
+                        });
                     } else {
-                        this.formGrid.form.loading = false
-                        this.noticeError('表单校验失败', '')
+                        this.formGrid.form.loading = false;
+                        this.noticeError('表单校验失败', '');
                     }
-                })
+                });
             },
             // 重置表单
             handleReset() {
-                this.$refs[this.formGrid.form.name].resetFields()
-                this.$forceUpdate()
+                this.$refs[this.formGrid.form.name].resetFields();
+                this.$forceUpdate();
             },
             // 模态窗口点击取消按钮事件
             cancel() {
-                this.modal.editModal = false
+                this.modal.editModal = false;
                 if (this.formGrid.form.onCancel) {
-                    this.formGrid.form.onCancel()
+                    this.formGrid.form.onCancel();
                 }
             },
             // 设置表单的渲染元素，添加、编辑、查看可能要求不同，所以需要重新渲染。
             setFormColumns(type) {
-                this.handleReset()
+                this.handleReset();
                 // 从用户设定的元素列表当中copy一份数据给当前操作使用，避免数据污染
-                let o = deepExtend({}, {columns: this.formGrid.form.columns})
+                let o = deepExtend({}, {columns: this.formGrid.form.columns});
                 for (let c of o.columns) {
                     // 初始化默认值
                     if (type === 'add' && c.init) {
                         // 为number类型设置默认值，避免组件无法使用。
                         if (c.type === 'number' && !c.init) {
-                            c.init = 1
+                            c.init = 1;
                         }
-                        this.$set(this.formGrid.form.data, c.name, c.init)
+                        this.$set(this.formGrid.form.data, c.name, c.init);
                     }
                     // 获取当前类型下，item元素是否显示以及禁用
                     if (c[type]) {
-                        c = deepExtend(c, c[type])
+                        c = deepExtend(c, c[type]);
                     }
                     // 未定义该属性时，默认为true
                     if (c.show === undefined) {
-                        c.show = true
+                        c.show = true;
                     }
                 }
 
-                this.setSelectItems(o.columns)
+                this.setSelectItems(o.columns);
                 // 设置级联下拉框
-                this.setCascaderData(o.columns)
+                this.setCascaderData(o.columns);
                 // 重新组织格式，便于页面换行显示
                 // 对所有列进行动态计算行数，用于页面渲染
-                let rows = []
-                let columns = []
-                let colNumber = this.formGrid.form.colNumber
-                let count = 0
+                let rows = [];
+                let columns = [];
+                let colNumber = this.formGrid.form.colNumber;
+                let count = 0;
                 o.columns.forEach((c) => {
                     if (count > 0 && (count % colNumber === 0)) {
-                        rows.push(columns)
-                        columns = []
+                        rows.push(columns);
+                        columns = [];
                     }
                     // 只有需要显示的才加入
                     if (c.show) {
-                        count++
-                        columns.push(c)
+                        count++;
+                        columns.push(c);
                     }
-                })
+                });
                 if (columns.length > 0) {
-                    rows.push(columns)
-                    columns = []
+                    rows.push(columns);
+                    columns = [];
                 }
-                this.formRows = rows
+                this.formRows = rows;
                 //如果title是字符串，则直接使用字符串，否则使用对应类型的标题
                 if (util.isString(this.formGrid.form.modal.title)) {
-                    this.modal.title = this.formGrid.form.modal.title
+                    this.modal.title = this.formGrid.form.modal.title;
                 } else {
-                    this.modal.title = this.formGrid.form.modal.title[type]
+                    this.modal.title = this.formGrid.form.modal.title[type];
                 }
-                Log.d('formRows:%o ,form.data:%o', this.formRows, this.formGrid.form.data)
+                Log.d('formRows:%o ,form.data:%o', this.formRows, this.formGrid.form.data);
             },
             /**
              *设置下拉框属性
@@ -1047,49 +1047,49 @@
                 // 针对type为select的数据，进行额外处理
                 for (let c of target) {
                     if (c.type !== 'select') {
-                        continue
+                        continue;
                     }
-                    Log.d('setSelectItems,%o', c)
+                    Log.d('setSelectItems,%o', c);
                     /*绑定事件，页面绑定事件时，
                         如果使用(value)=>{item.onQueryChange?item.onQueryChange.call(this,value):()=>{}}
                         方式，会导致选择到初始值时不触发相关事件，并且影响表单重置功能
                     */
                     if(!util.isFunction(c.onChange)){
-                        c.onChange = function () {}
+                        c.onChange = function () {};
                     }
                     if(!util.isFunction(c.onQueryChange)){
-                        c.onQueryChange = function () {}
+                        c.onQueryChange = function () {};
                     }
                     if(!util.isFunction(c.onClear)){
-                        c.onClear = function () {}
+                        c.onClear = function () {};
                     }
                     if(!util.isFunction(c.onOpenChange)){
-                        c.onOpenChange = function () {}
+                        c.onOpenChange = function () {};
                     }
-                    let data = c.data || ''
+                    let data = c.data || '';
                     if (util.isArray(data)) {
                         //必须用set方式设值
-                        this.$set(c, 'items', data)
+                        this.$set(c, 'items', data);
                     } else if (util.isString(data)) {
                         if (data.indexOf('im:') === 0) {
-                            let value = data.split(':')[1]
+                            let value = data.split(':')[1];
                             // TODO 字典缓存
-                            Log.d('select 组件查询数据字典:%s', value)
+                            Log.d('select 组件查询数据字典:%s', value);
                             this.$axios.post(this.formGrid.options.url.im, {parentValue: value}).then(response => {
                                 // 将值塞入到formCloumns当中。
-                                this.$set(c, 'items', response.body)
-                            })
+                                this.$set(c, 'items', response.body);
+                            });
                         } else if (data.indexOf('url:') === 0) {
-                            let url = data.split(':')[1]
+                            let url = data.split(':')[1];
                             this.$axios.post(url, {}).then(response => {
                                 // 将值塞入到formCloumns当中。
-                                this.$set(c, 'items', response.body)
-                            })
+                                this.$set(c, 'items', response.body);
+                            });
                         } else {
-                            Log.e('当前select定义的data不符合规范,%s', data)
+                            Log.e('当前select定义的data不符合规范,%s', data);
                         }
                     } else {
-                        Log.e('当前select未定义data,%o', c)
+                        Log.e('当前select未定义data,%o', c);
                     }
                 }
             },
@@ -1098,32 +1098,32 @@
                 // 针对type为select的数据，进行额外处理
                 for (let c of target) {
                     if (c.type !== 'cascader') {
-                        continue
+                        continue;
                     }
-                    Log.d('setCascaderData,%o', c)
-                    let data = c.data || ''
+                    Log.d('setCascaderData,%o', c);
+                    let data = c.data || '';
                     if (util.isArray(data)) {
-                        this.$set(c, 'items', this.initCascader(data))
+                        this.$set(c, 'items', this.initCascader(data));
                     } else if (util.isString(data)) {
                         if (data.indexOf('url:') === 0) {
-                            let url = data.split(':')[1]
+                            let url = data.split(':')[1];
                             this.$axios.post(url, {}).then(response => {
                                 // 将值塞入到formCloumns当中。
                                 // 对值进行树状初始化
-                                this.$set(c, 'items', this.initCascader(response.body))
-                            })
+                                this.$set(c, 'items', this.initCascader(response.body));
+                            });
                         } else {
-                            Log.e('当前cascader定义的data不符合规范,%s', data)
+                            Log.e('当前cascader定义的data不符合规范,%s', data);
                         }
                     } else {
-                        Log.e('当前cascader未定义data,%o', c)
+                        Log.e('当前cascader未定义data,%o', c);
                     }
                 }
             },
             // 初始化级联
             initCascader(data) {
                 // 1.查找root
-                let root = []
+                let root = [];
                 data.forEach((item) => {
                     if (!item.parentId || item.parentId === null) {
                         let o = {
@@ -1133,19 +1133,19 @@
                             attr: item,
                             parentId: item.parentId,
                             children: []
-                        }
-                        o.children = this.getCascaderChildren(data, o)
-                        root.push(o)
+                        };
+                        o.children = this.getCascaderChildren(data, o);
+                        root.push(o);
                     }
-                })
+                });
 
                 // 生成树结构数据
-                return root
+                return root;
             },
             // 2.递归循环所有节点,将节点加入到父节点当中
             getCascaderChildren(data, parent) {
-                let sort = this.sort
-                let child = []
+                let sort = this.sort;
+                let child = [];
                 data.forEach((item) => {
                     if (item.parentId === parent.id) {
                         let o = {
@@ -1155,77 +1155,77 @@
                             parentId: item.parentId,
                             attr: item,
                             children: []
-                        }
-                        o.children = this.getCascaderChildren(data, o)
-                        child.push(o)
+                        };
+                        o.children = this.getCascaderChildren(data, o);
+                        child.push(o);
                     }
-                })
+                });
                 // 是否需要排序
                 if (sort) {
                     child.sort((a, b) => {
                         if (sort['sort'] === 'desc') {
-                            return b[sort['field']] - a[sort['field']]
+                            return b[sort['field']] - a[sort['field']];
                         } else {
-                            return b[sort['field']] - a[sort['field']]
+                            return b[sort['field']] - a[sort['field']];
                         }
-                    })
+                    });
                 }
 
-                return child
+                return child;
             },
             // toolbar添加按钮事件
             formAdd() {
                 // 清空表单
-                this.formGrid.form.data = {}
-                this.setFormColumns('add')
-                this.modal.editModal = true
+                this.formGrid.form.data = {};
+                this.setFormColumns('add');
+                this.modal.editModal = true;
             },
             // toolbar删除按钮事件
             batchDelete() {
                 if (this.selections.length === 0) {
-                    this.noticeError('数据删除失败', '没有选中任意数据')
-                    return
+                    this.noticeError('数据删除失败', '没有选中任意数据');
+                    return;
                 }
-                let keys = []
+                let keys = [];
                 this.selections.forEach((item) => {
-                    let p = this.getPrimaryKey(item)
+                    let p = this.getPrimaryKey(item);
                     if (p) {
-                        keys.push(p[this.formGrid.table.operation.primaryKey])
+                        keys.push(p[this.formGrid.table.operation.primaryKey]);
                     }
-                })
+                });
                 if (keys.length === 0) {
-                    return
+                    return;
                 }
                 this.$Modal.confirm({
                     title: '删除数据',
                     content: '<span style="color:red">确定删除选中的记录吗？</span>',
                     onOk: () => {
-                        let key = this.formGrid.table.operation.primaryKey
-                        let data = {}
-                        let params = {}
-                        params['params'] = {}
-                        params['params'][key] = keys.toString()
+                        let key = this.formGrid.table.operation.primaryKey;
+                        let data = {};
+                        let params = {};
+                        params['params'] = {};
+                        params['params'][key] = keys.toString();
 
-                        Log.d('要删除的数据:%o', params)
-                        this.formGrid.toolbar.delete.loading = true
+                        Log.d('要删除的数据:%o', params);
+                        this.formGrid.toolbar.delete.loading = true;
                         this.$axios.post(this.formGrid.options.url.delete, data, params).then(response => {
-                            this.formGrid.toolbar.delete.loading = false
+                            this.formGrid.toolbar.delete.loading = false;
                             this.$Notice.success({
                                 title: '删除成功',
                                 desc: ''
-                            })
-                            this.pageData()
+                            });
+                            this.pageData();
                         }).catch(response => {
-                            this.formGrid.toolbar.delete.loading = false
-                            this.noticeError('删除失败', response.message ? response.message : '系统或网络异常')
-                            this.$forceUpdate()
-                            return false
-                        })
+                            this.formGrid.toolbar.delete.loading = false;
+                            this.noticeError('删除失败', response.message ? response.message : '系统或网络异常');
+                            this.$forceUpdate();
+                            return false;
+                        });
                     },
                     onCancel: () => {
                         // this.$Message.info('点击了取消');
                     }
-                })
+                });
             },
             // 选中某一项触发，返回值为 selection 和 row，分别为已选项和刚选择的项。
             onSelect(selection) {
@@ -1233,8 +1233,8 @@
             },
             // 只要选中项发生变化时就会触发，返回值为 selection，已选项。
             onSelectionChange(selection) {
-                this.selections = selection
-                Log.d('####onSelectionChange,%o', selection)
+                this.selections = selection;
+                Log.d('####onSelectionChange,%o', selection);
             },
             // 点击全选时触发，返回值为 selection，已选项。
             onSelectAll(selection) {
@@ -1243,13 +1243,13 @@
             // 按钮点击事件
             toolbarClick(btnClickCB) {
                 if (btnClickCB) {
-                    btnClickCB(this.selections)
+                    btnClickCB(this.selections);
                 }
             },
             // 级联框格式化
             cascaderFormat(labels, selectedData) {
-                Log.d('###cascaderFormat,%o', labels)
-                return labels.length > 0 ? labels.join('/') : ''
+                Log.d('###cascaderFormat,%o', labels);
+                return labels.length > 0 ? labels.join('/') : '';
             },
             ccOnChange(value, selectedData) {
             },
@@ -1263,111 +1263,111 @@
                     if (c.renderType && !util.isFunction(c.render)) {
                         c.render = (h, params) => {
                             // 使用当前作用域
-                            let _this = this
-                            let originKey = c.key
+                            let _this = this;
+                            let originKey = c.key;
                             // 获取原始值
                             if (c.key.endsWith('_format')) {
-                                originKey = c.key.substr(0, c.key.length - 7)
+                                originKey = c.key.substr(0, c.key.length - 7);
                             }
-                            let value = this.tableFieldFormat(c, h, params)
-                            let originValue = params['row'][originKey] || ''
-                            let tmp = [...originValue]
+                            let value = this.tableFieldFormat(c, h, params);
+                            let originValue = params['row'][originKey] || '';
+                            let tmp = [...originValue];
                             if (c.renderType === 'tooltip') {
                                 // 如果存在内容格式化回调，则允许自定义格式内容
                                 if (util.isFunction(c.contentFormat)) {
-                                    let a = c.contentFormat(originValue, params['row'])
-                                    tmp = [...a]
+                                    let a = c.contentFormat(originValue, params['row']);
+                                    tmp = [...a];
                                 }
-                                let i = 0
-                                let str = []
-                                let tmpStr = []
+                                let i = 0;
+                                let str = [];
+                                let tmpStr = [];
                                 for (let t of tmp) {
-                                    tmpStr.push(t)
+                                    tmpStr.push(t);
                                     if (i > 15) {
-                                        i = 0
-                                        str.push(h('p', tmpStr.join('')))
-                                        tmpStr = []
+                                        i = 0;
+                                        str.push(h('p', tmpStr.join('')));
+                                        tmpStr = [];
                                     }
-                                    i++
+                                    i++;
                                 }
-                                str.push(h('p', tmpStr.join('')))
+                                str.push(h('p', tmpStr.join('')));
                                 return h('Tooltip', [h('div', {
                                     style: {
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
                                         whiteSpace: 'nowrap'
                                     }
-                                }, value), h('p', {slot: 'content'}, str)])
+                                }, value), h('p', {slot: 'content'}, str)]);
                             } else if (c.renderType === 'a') {
                                 return h('a', {
                                     attrs: {href: 'javascript:void(0)'},
                                     style: {textDecoration: 'underline'},
                                     on: {
                                         click: function () {
-                                            let row = _this.formGrid.table.data[params.index]
-                                            Log.d('列标题点击,row:%o', row)
-                                            c.click(row, params.index, _this)
+                                            let row = _this.formGrid.table.data[params.index];
+                                            Log.d('列标题点击,row:%o', row);
+                                            c.click(row, params.index, _this);
                                         }
                                     }
-                                }, value)
+                                }, value);
                             }
-                        }
+                        };
                         // 没有自定义render的时候，就添加一个默认的render用来格式化数据
                     } else if (util.isFunction(c.fieldFormat) || util.isFunction(c.format)) {
                         c.render = (h, params) => {
-                            let formatValue = this.tableFieldFormat(c, h, params)
-                            return h('span', {}, formatValue)
-                        }
+                            let formatValue = this.tableFieldFormat(c, h, params);
+                            return h('span', {}, formatValue);
+                        };
                     }
-                })
+                });
             },
             // table表格数据格式化
             tableFieldFormat(c, h, params) {
                 // 兼容原有代码
                 if (util.isFunction(c.format)) {
-                    c.fieldFormat = c.format
+                    c.fieldFormat = c.format;
                 }
-                let formatValue = ''
+                let formatValue = '';
                 if (util.isFunction(c.fieldFormat)) {
-                    let key = c.key
-                    let originKey = key + ''
+                    let key = c.key;
+                    let originKey = key + '';
                     // 默认对key做转换，防止format后将原值进行了修改，导致编辑页面获取不到
                     if (key.endsWith('_format')) {
-                        originKey = key.substr(0, key.length - 7)
+                        originKey = key.substr(0, key.length - 7);
                     } else {
-                        key += '_format'
+                        key += '_format';
                     }
                     // 改变定义的key值，用于页面渲染
-                    c.key = key
-                    let value = params['row'][originKey]
-                    let o = c.fieldFormat(value, params['row'])
+                    c.key = key;
+                    let value = params['row'][originKey];
+                    let o = c.fieldFormat(value, params['row']);
                     // 返回值如果是对象，且有cellClassName属性，则需要value属性
                     if (util.isObject(o) && util.isString(o['cellClassName'])) {
-                        formatValue = o['value']
-                        params['row'][key] = formatValue
-                        params['row']['cellClassName'] = {}
-                        params['row']['cellClassName'][key] = o['cellClassName']
+                        formatValue = o['value'];
+                        params['row'][key] = formatValue;
+                        params['row']['cellClassName'] = {};
+                        params['row']['cellClassName'][key] = o['cellClassName'];
                     } else {
-                        formatValue = o
-                        params['row'][key] = o
+                        formatValue = o;
+                        params['row'][key] = o;
                     }
                 }
-                return formatValue
+                return formatValue;
             },
             // 渲染操作列按钮
             renderOpt(column) {
                 // 为操作列增加render函数
                 column.render = (h, params) => {
                     // 使用当前作用域
-                    let _this = this
+                    let _this = this;
 
                     function create(h, params, className, btnText, clickEvent, ghost) {
                         let props = {
                             type: className,
                             size: 'small'
-                        }
+                        };
                         if (ghost) {
-                            props['ghost'] = ghost
+                            props['ghost'] = ghost;
                         }
                         return h('Button', {
                             props: props,
@@ -1376,77 +1376,77 @@
                             },
                             on: {
                                 click: function () {
-                                    let row = _this.formGrid.table.data[params.index]
-                                    Log.d('操作功能点击事件,row:%o', row)
-                                    clickEvent(row, params.index, _this)
+                                    let row = _this.formGrid.table.data[params.index];
+                                    Log.d('操作功能点击事件,row:%o', row);
+                                    clickEvent(row, params.index, _this);
                                 }
                             }
-                        }, btnText)
+                        }, btnText);
                     }
 
-                    let array = []
+                    let array = [];
                     this.formGrid.table.operation.buttons.forEach((b, index) => {
                         if (b.show) {
-                            array.push(create(h, params, b.theme, b.label, b.click, b.ghost))
+                            array.push(create(h, params, b.theme, b.label, b.click, b.ghost));
                         }
-                    })
-                    return array
-                }
+                    });
+                    return array;
+                };
             },
             // 获取表单数据
             getFormData(row, type) {
-                let data = this.getPrimaryKey(row) || ''
+                let data = this.getPrimaryKey(row) || '';
                 if (data === '') {
-                    return
+                    return;
                 }
-                let params = {}
+                let params = {};
                 // 远程查询接口获取数据，弹出模态框
                 if (this.formGrid.table.operation.remote) {
-                    let key = this.formGrid.table.operation.primaryKey
-                    Log.d('远程接口获取FormData')
-                    params['params'][key] = row[key]
-                    data = null
+                    let key = this.formGrid.table.operation.primaryKey;
+                    Log.d('远程接口获取FormData');
+                    params['params'][key] = row[key];
+                    data = null;
 
                     this.$axios.post(this.formGrid.options.url.get, data, params).then(response => {
-                        let data = response.body
-                        this.formatFormField(data)
-                        this.formGrid.form.data = data
+                        let data = response.body;
+                        this.formatFormField(data);
+                        this.formGrid.form.data = data;
                         if (type === 'view') {
-                            this.modal.viewModal = true
+                            this.modal.viewModal = true;
                         } else {
-                            this.modal.editModal = true
+                            this.modal.editModal = true;
                         }
-                        this.$forceUpdate()
+                        this.$forceUpdate();
                     }).catch(response => {
-                        this.noticeError('获取数据失败', response.body)
-                        this.$forceUpdate()
-                        return false
-                    })
+                        this.noticeError('获取数据失败', response.body);
+                        this.$forceUpdate();
+                        return false;
+                    });
                 } else {
-                    Log.d('get data :%o', row)
-                    let data = deepExtend({}, row)
-                    this.formatFormField(data)
-                    this.formGrid.form.data = data
+                    Log.d('get data :%o', row);
+                    let data = deepExtend({}, row);
+                    this.formatFormField(data);
+                    this.formGrid.form.data = data;
                     if (type === 'view') {
-                        this.modal.viewModal = true
+                        this.modal.viewModal = true;
                     } else {
-                        this.modal.editModal = true
+                        this.modal.editModal = true;
                     }
                 }
             },
             // 操作查看按钮
             optViewClick(row, index) {
-                this.formGrid.form.data = {}
-                this.setFormColumns('view')
-                this.formGrid.form.isView = true
-                this.getFormData(row, 'view')
+                this.formGrid.form.data = {};
+                this.setFormColumns('view');
+                this.formGrid.form.isView = true;
+                this.getFormData(row, 'view');
             },
             // 操作编辑按钮
             optEditClick(row, index) {
-                this.formGrid.form.data = {}
-                this.setFormColumns('edit')
-                this.formGrid.form.isEdit = true
-                this.getFormData(row, 'edit')
+                this.formGrid.form.data = {};
+                this.setFormColumns('edit');
+                this.formGrid.form.isEdit = true;
+                this.getFormData(row, 'edit');
             },
             // 格式化表单元素
             formatFormField(target) {
@@ -1454,18 +1454,18 @@
                 for (let c of this.formRows) {
                     for (let r of c) {
                         if (util.isFunction(r.fieldFormat)) {
-                            target[r.name] = r.fieldFormat(target[r.name], target)
+                            target[r.name] = r.fieldFormat(target[r.name], target);
                         }
 
                         // 防止下拉框无法使用boolean类型的值做初始化
-                        let value = target[r.name]
+                        let value = target[r.name];
                         if (r.type === 'select' && typeof (value) === 'boolean') {
-                            target[r.name] = value ? 'true' : 'false'
+                            target[r.name] = value ? 'true' : 'false';
                         }
                         // 触发一下change事件,当编辑、查看时需要数据时，已经有相关值了。需要触发一下
                         if (util.isFunction(r.onChange)) {
                             if (value !== '') {
-                                r.onChange(value)
+                                r.onChange(value);
                             }
                         }
                     }
@@ -1478,42 +1478,42 @@
                     content: '<span style="color:red">确定删除该记录吗？</span>',
                     onOk: () => {
                         // 拼装成一个数组传递到后端
-                        let key = this.formGrid.table.operation.primaryKey
-                        let keys = []
-                        let p = this.getPrimaryKey(row)
+                        let key = this.formGrid.table.operation.primaryKey;
+                        let keys = [];
+                        let p = this.getPrimaryKey(row);
                         if (p) {
-                            keys.push(p[key])
+                            keys.push(p[key]);
                         }
                         if (keys.length === 0) {
-                            return
+                            return;
                         }
 
-                        let data = {}
-                        let params = {}
-                        params['params'] = {}
-                        params['params'][key] = keys.toString()
+                        let data = {};
+                        let params = {};
+                        params['params'] = {};
+                        params['params'][key] = keys.toString();
 
-                        Log.d('delete params :%o', params)
+                        Log.d('delete params :%o', params);
                         this.$axios.post(this.formGrid.options.url.delete, data, params).then(response => {
-                            this.pageData()
+                            this.pageData();
                         }).catch(response => {
-                            this.noticeError('数据删除失败', response.message ? response.message : '系统或网络异常')
-                            this.$forceUpdate()
-                            return false
-                        })
+                            this.noticeError('数据删除失败', response.message ? response.message : '系统或网络异常');
+                            this.$forceUpdate();
+                            return false;
+                        });
                     },
                     onCancel: () => {
                         // this.$Message.info('点击了取消');
                     }
-                })
+                });
             },
             // 按条件导出所有数据
             exportData() {
-                this.exportPageData(100000)
+                this.exportPageData(100000);
             },
             // 到处当前页数据
             exportCurrentPageData() {
-                this.exportPageData()
+                this.exportPageData();
             },
             // 导出查询数据功能方法
             exportPageData(size) {
@@ -1521,78 +1521,78 @@
                 if (this.formGrid.toolbar.superFilter.columns.length > 0) {
                     this.$refs[this.formGrid.toolbar.superFilter.name].validate((valid) => {
                         if (valid) {
-                            this.fetchExcelData(size)
+                            this.fetchExcelData(size);
                         } else {
-                            this.noticeError('查询条件校验失败', '')
+                            this.noticeError('查询条件校验失败', '');
                         }
-                    })
+                    });
                 } else {
-                    this.fetchExcelData(size)
+                    this.fetchExcelData(size);
                 }
             },
             fetchExcelData(size) {
-                let data = {}
-                data = deepExtend({}, this.queryParams)
-                let page = this.formGrid.pageable.page
-                let pageSize = this.formGrid.pageable.size
+                let data = {};
+                data = deepExtend({}, this.queryParams);
+                let page = this.formGrid.pageable.page;
+                let pageSize = this.formGrid.pageable.size;
                 if (size) {
-                    pageSize = size
+                    pageSize = size;
                 }
                 // 默认jpa查询从0开始，页面上显示从1开始所以需要减一
                 if (page > 0) {
-                    page = page - 1
+                    page = page - 1;
                 }
-                let params = {page: page, size: pageSize}
+                let params = {page: page, size: pageSize};
 
-                let body = []
-                Log.d('exportPageData QueryData:%o', data)
+                let body = [];
+                Log.d('exportPageData QueryData:%o', data);
                 this.$axios.post(this.formGrid.options.url.page, data, {params: params}).then(response => {
-                    body = response.body.content
-                    let columns = []
+                    body = response.body.content;
+                    let columns = [];
                     this.formGrid.table.columns.forEach(function (item) {
-                            let key = item.key
-                            let title = item.title
-                            columns.push({key: key, title: title})
-                        }
-                    )
-                    this.defaultExport(columns, body)
-                    this.$forceUpdate()
+                        let key = item.key;
+                        let title = item.title;
+                        columns.push({key: key, title: title});
+                    }
+                    );
+                    this.defaultExport(columns, body);
+                    this.$forceUpdate();
                 }).catch(response => {
-                    this.$set(this.formGrid.table, 'data', [])
-                    this.noticeError('数据查询出现异常', '系统服务或网络异常')
-                })
+                    this.$set(this.formGrid.table, 'data', []);
+                    this.noticeError('数据查询出现异常', '系统服务或网络异常');
+                });
             },
             defaultExport(columns, data) {
                 if (!this.formGrid.toolbar.groups.export) {
-                    return
+                    return;
                 }
-                let fileName = this.formGrid.toolbar.groups.export['fileName'] || '原数据导出'
+                let fileName = this.formGrid.toolbar.groups.export['fileName'] || '原数据导出';
                 this.$refs[this.tableRef].exportCsv({
                     filename: fileName, columns: this.formGrid.toolbar.groups.export.columns || columns, data: data
-                })
+                });
             },
             showImportView() {
-                this.modal.importModal = !this.modal.importModal
+                this.modal.importModal = !this.modal.importModal;
             }
         },
         mounted() {
             if (this.formGrid.options.autoLoad) {
-                this.pageData()
+                this.pageData();
             }
             this.$nextTick(function () {
                 // 添加监听器
                 // table重新加载
                 this.$on('reloadData', () => {
                     this.$nextTick(() => {
-                        this.reloadData()
-                    })
-                })
+                        this.reloadData();
+                    });
+                });
                 // table重新加载当前页数据
                 this.$on('refreshData', () => {
                     this.$nextTick(() => {
-                        this.pageData()
-                    })
-                })
+                        this.pageData();
+                    });
+                });
 
                 /* //修改form表单值
                   this.$on("setFormFieldData", (fieldName, data) => {
@@ -1609,24 +1609,24 @@
                 // 上传成功
                 this.$on('uploadSuccess', (jsonData, scope) => {
                     // 上传成功的业务逻辑代码
-                    Log.d('uploadSuccess:' + jsonData + '+ scope:' + scope)
-                })
+                    Log.d('uploadSuccess:' + jsonData + '+ scope:' + scope);
+                });
                 // 上传失败
                 this.$on('uploadFail', (jsonData, scope) => {
                     // 上传失败后的业务逻辑代码
-                    Log.d('uploadFail:' + jsonData + '+ scope:' + scope)
-                })
-            })
+                    Log.d('uploadFail:' + jsonData + '+ scope:' + scope);
+                });
+            });
         },
         //
         beforeDestroy() {
             // 销毁数据，防止脏读
-            this.formGrid = null
-            this.queryParams = null
-            this.modal = null
-            this.ruleValidate = null
-            this.selections = null
+            this.formGrid = null;
+            this.queryParams = null;
+            this.modal = null;
+            this.ruleValidate = null;
+            this.selections = null;
         }
-    }
+    };
 
 </script>

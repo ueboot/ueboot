@@ -91,30 +91,30 @@
                 model: this.data,
                 maxHeight: 0,
                 events: {}
-            }
+            };
         },
         watch: {
             isDragEnter(newValue) {
                 if (newValue) {
-                    this.$el.style.backgroundColor = this.dragOverBackgroundColor
+                    this.$el.style.backgroundColor = this.dragOverBackgroundColor;
                 } else {
-                    this.$el.style.backgroundColor = "inherit"
+                    this.$el.style.backgroundColor = 'inherit';
                 }
             },
             data(newValue) {
-                this.model = newValue
+                this.model = newValue;
             },
             'model.opened': {
                 handler: function (val, oldVal) {
-                    this.onItemToggle(this, this.model)
-                    this.handleGroupMaxHeight()
+                    this.onItemToggle(this, this.model);
+                    this.handleGroupMaxHeight();
                 },
                 deep: true
             }
         },
         computed: {
             isFolder() {
-                return this.model[this.childrenFieldName] && this.model[this.childrenFieldName].length>0
+                return this.model[this.childrenFieldName] && this.model[this.childrenFieldName].length>0;
             },
             classes() {
                 return [
@@ -125,7 +125,7 @@
                     {'tree-loading': !!this.model.loading},
                     {'tree-drag-enter': this.isDragEnter},
                     {[this.klass]: !!this.klass}
-                ]
+                ];
             },
             anchorClasses() {
                 return [
@@ -133,14 +133,14 @@
                     {'tree-disabled': this.model.disabled},
                     {'tree-selected': this.model.selected},
                     {'tree-hovered': this.isHover}
-                ]
+                ];
             },
             wholeRowClasses() {
                 return [
                     {'tree-wholerow': true},
                     {'tree-wholerow-clicked': this.model.selected},
                     {'tree-wholerow-hovered': this.isHover}
-                ]
+                ];
             },
             themeIconClasses() {
                 return [
@@ -148,95 +148,95 @@
                     {'tree-themeicon': true},
                     {[this.model.icon]: !!this.model.icon},
                     {'tree-themeicon-custom': !!this.model.icon}
-                ]
+                ];
             },
             isWholeRow() {
                 if (this.wholeRow) {
                     if (this.$parent.model === undefined) {
-                        return true
+                        return true;
                     } else if (this.$parent.model.opened === true) {
-                        return true
+                        return true;
                     } else {
-                        return false
+                        return false;
                     }
                 }
             },
             groupStyle() {
                 return {
                     'position': this.model.opened ? '' : 'relative',
-                    'max-height': !!this.allowTransition ? this.maxHeight + 'px' : '',
-                    'transition-duration': !!this.allowTransition ? Math.ceil(this.model[this.childrenFieldName].length / 100) * 300 + 'ms' : '',
-                    'transition-property': !!this.allowTransition ? 'max-height' : '',
-                    'display': !!this.allowTransition ? 'block' : (this.model.opened ? 'block' : 'none')
-                }
+                    'max-height': this.allowTransition ? this.maxHeight + 'px' : '',
+                    'transition-duration': this.allowTransition ? Math.ceil(this.model[this.childrenFieldName].length / 100) * 300 + 'ms' : '',
+                    'transition-property': this.allowTransition ? 'max-height' : '',
+                    'display': this.allowTransition ? 'block' : (this.model.opened ? 'block' : 'none')
+                };
             }
         },
         methods: {
             handleItemToggle(e) {
                 if (this.isFolder) {
                     this.$nextTick(() => {
-                        this.model.opened = !this.model.opened
-                    })
-                    this.onItemToggle(this, this.model)
+                        this.model.opened = !this.model.opened;
+                    });
+                    this.onItemToggle(this, this.model);
                 }
             },
             handleGroupMaxHeight() {
-                if (!!this.allowTransition) {
-                    let length = 0
-                    let childHeight = 0
+                if (this.allowTransition) {
+                    let length = 0;
+                    let childHeight = 0;
                     if (this.model.opened) {
-                        length = this.$children.length
+                        length = this.$children.length;
                         for (let children of this.$children) {
-                            childHeight += children.maxHeight
+                            childHeight += children.maxHeight;
                         }
                     }
-                    this.maxHeight = length * this.height + childHeight
+                    this.maxHeight = length * this.height + childHeight;
                     if (this.$parent.$options._componentTag === 'u-tree-item') {
-                        this.$parent.handleGroupMaxHeight()
+                        this.$parent.handleGroupMaxHeight();
                     }
                 }
             },
             handleItemClick(e) {
-                if (this.model.disabled) return
-                this.model.selected = !this.model.selected
-                this.onItemClick(this, this.model, e)
+                if (this.model.disabled) return;
+                this.model.selected = !this.model.selected;
+                this.onItemClick(this, this.model, e);
             },
             handleItemMouseOver() {
-                this.isHover = true
+                this.isHover = true;
             },
             handleItemMouseOut() {
-                this.isHover = false
+                this.isHover = false;
             },
             handleItemDrop(e, oriNode, oriItem) {
-                this.$el.style.backgroundColor = "inherit"
-                this.onItemDrop(e, oriNode, oriItem)
+                this.$el.style.backgroundColor = 'inherit';
+                this.onItemDrop(e, oriNode, oriItem);
             }
         },
         created() {
-            const self = this
+            const self = this;
             const events = {
                 'click': this.handleItemClick,
                 'mouseover': this.handleItemMouseOver,
                 'mouseout': this.handleItemMouseOut
-            }
+            };
             for (let itemEvent in this.itemEvents) {
-                let itemEventCallback = this.itemEvents[itemEvent]
+                let itemEventCallback = this.itemEvents[itemEvent];
                 if (events.hasOwnProperty(itemEvent)) {
-                    let eventCallback = events[itemEvent]
+                    let eventCallback = events[itemEvent];
                     events[itemEvent] = function (event) {
-                        eventCallback(self, self.model, event)
-                        itemEventCallback(self, self.model, event)
-                    }
+                        eventCallback(self, self.model, event);
+                        itemEventCallback(self, self.model, event);
+                    };
                 } else {
                     events[itemEvent] = function (event) {
-                        itemEventCallback(self, self.model, event)
-                    }
+                        itemEventCallback(self, self.model, event);
+                    };
                 }
             }
-            this.events = events
+            this.events = events;
         },
         mounted() {
-            this.handleGroupMaxHeight()
+            this.handleGroupMaxHeight();
         }
-    }
+    };
 </script>

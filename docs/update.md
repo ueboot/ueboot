@@ -33,6 +33,9 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
+- v1.6.14
+    - 登录后右上角默认显示方式改为下拉列表模式（原模式依然可用，但需要设置rightTheme为任意值）
+    - 增加更多config可配置项
 - v1.6.11
     - 解决登录页面背景图片问题
     - 解决主界面右侧按钮宽度自适应问题  

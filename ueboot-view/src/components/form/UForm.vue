@@ -59,106 +59,106 @@
   </Form>
 </template>
 <script>
-import Log from '../../utils/Log'
-import deepExtend from 'deep-extend'
+import Log from '../../utils/Log';
+import deepExtend from 'deep-extend';
 
 export default{
-  name: 'UForm',
-  props: {
-    data: {
-      type: Object
-    }
-  },
-  created () {
-    let defaultForm = {
-      name: 'formName', // 表单名称，如果同一个页面存在多个表单时，需要指定不同的名称
-      // label对齐方式
-      labelPosition: 'right',
-      // label的宽度
-      labelWidth: 80,
-      // 每行显示的个数
-      colNumber: 2,
-      // 显示操作按钮
-      showOpt: true,
-      columns: [],
-      // 表单提交之前（校验之后），返回如果为false,则不继续执行后续操作
-      submitBefore: function (data) {
-        return true
-      },
-      // 表单提交之后
-      submitAfter: function (response) {
-        return true
-      },
-      // 点击取消时的操作，默认为关闭窗口
-      onCancel: function () {
-
-      },
-      data: {}// 表单提交的参数
-    }
-    this.form = deepExtend(defaultForm, this.data)
-    Log.d('form :%o', this.form)
-    // 生成表单规则校验
-    let ruleValidate = {}
-    if (this.form.columns) {
-      this.form.columns.forEach((c) => {
-        let ruleName = c.name
-        // 直接写required的话，采用默认提示规则。写了rule属性则使用rule
-        if (c.required && !c.rule) {
-          let trigger = 'blur';
-          // 固定的几种类型采用change事件监听
-          ['select', 'radio', 'date', 'time', 'checkbox'].forEach((type) => {
-            if (c.type === type) {
-              trigger = 'change'
-            }
-          })
-          let rule = {required: true, message: c.label + '不能为空', trigger: trigger}
-          ruleValidate[ruleName] = [rule]
-        } else {
-          // 其他自定义格式直接采用原生格式（参见iview组件当中的form表单验证格式）
-          ruleValidate[ruleName] = c.rule
+    name: 'UForm',
+    props: {
+        data: {
+            type: Object
         }
-      })
-    }
-    this.ruleValidate = ruleValidate
+    },
+    created () {
+        let defaultForm = {
+            name: 'formName', // 表单名称，如果同一个页面存在多个表单时，需要指定不同的名称
+      // label对齐方式
+            labelPosition: 'right',
+      // label的宽度
+            labelWidth: 80,
+      // 每行显示的个数
+            colNumber: 2,
+      // 显示操作按钮
+            showOpt: true,
+            columns: [],
+      // 表单提交之前（校验之后），返回如果为false,则不继续执行后续操作
+            submitBefore: function (data) {
+                return true;
+            },
+      // 表单提交之后
+            submitAfter: function (response) {
+                return true;
+            },
+      // 点击取消时的操作，默认为关闭窗口
+            onCancel: function () {
+
+            },
+            data: {}// 表单提交的参数
+        };
+        this.form = deepExtend(defaultForm, this.data);
+        Log.d('form :%o', this.form);
+    // 生成表单规则校验
+        let ruleValidate = {};
+        if (this.form.columns) {
+            this.form.columns.forEach((c) => {
+                let ruleName = c.name;
+        // 直接写required的话，采用默认提示规则。写了rule属性则使用rule
+                if (c.required && !c.rule) {
+                    let trigger = 'blur';
+          // 固定的几种类型采用change事件监听
+                    ['select', 'radio', 'date', 'time', 'checkbox'].forEach((type) => {
+                        if (c.type === type) {
+                            trigger = 'change';
+                        }
+                    });
+                    let rule = {required: true, message: c.label + '不能为空', trigger: trigger};
+                    ruleValidate[ruleName] = [rule];
+                } else {
+          // 其他自定义格式直接采用原生格式（参见iview组件当中的form表单验证格式）
+                    ruleValidate[ruleName] = c.rule;
+                }
+            });
+        }
+        this.ruleValidate = ruleValidate;
     // 针对type为select的数据，进行额外处理
     /* if (this.form.columns) {
           for(let c of this.form.columns){
 
           }
       } */
-  },
-  data () {
-    return {
-      form: {
-        data: {}// 表单提交的参数
-      },
-      // 表单规则校验
-      ruleValidate: {}
-    }
-  },
-  methods: {
-    // 模态窗口点击确认按钮事件
-    handleSubmit () {
-      this.$refs[this.form.name].validate((valid) => {
-        if (valid) {
-          if (!this.form.submitBefore(this.form.data)) {
-            return
-          }
-          this.$axios.post(this.form.actionUrl, {data: this.form.data}).then(response => {
-            this.$Message.success('提交成功!')
-            this.handleReset()
-            this.form.submitAfter(response)
-          })
-        } else {
-          this.$Message.error('表单验证失败!')
-        }
-      })
     },
+    data () {
+        return {
+            form: {
+                data: {}// 表单提交的参数
+            },
+      // 表单规则校验
+            ruleValidate: {}
+        };
+    },
+    methods: {
+    // 模态窗口点击确认按钮事件
+        handleSubmit () {
+            this.$refs[this.form.name].validate((valid) => {
+                if (valid) {
+                    if (!this.form.submitBefore(this.form.data)) {
+                        return;
+                    }
+                    this.$axios.post(this.form.actionUrl, {data: this.form.data}).then(response => {
+                        this.$Message.success('提交成功!');
+                        this.handleReset();
+                        this.form.submitAfter(response);
+                    });
+                } else {
+                    this.$Message.error('表单验证失败!');
+                }
+            });
+        },
     // 重置表单
-    handleReset () {
-      this.$refs[this.form.name].resetFields()
+        handleReset () {
+            this.$refs[this.form.name].resetFields();
+        }
     }
-  }
 
-}
+};
 </script>

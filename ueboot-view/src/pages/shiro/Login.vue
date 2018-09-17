@@ -80,7 +80,7 @@
     </div>
 </template>
 <script>
-    import config from '../../config/Config'
+    import config from '../../config/Config';
 
     export default {
         data() {
@@ -96,12 +96,12 @@
                     captcha: ''
                 },
                 now: new Date().getMilliseconds()
-            }
+            };
         },
         methods: {
             // 刷新验证码
             changeCaptchaUrl: function () {
-                this.now = new Date().getMilliseconds()
+                this.now = new Date().getMilliseconds();
             },
             // 确认登录操作
             handleSubmit(name) {
@@ -109,49 +109,51 @@
                     this.$Notice.error({
                         title: '消息提示',
                         desc: '账号不能为空'
-                    })
-                    return
+                    });
+                    return;
                 }
                 if (this.formCustom.password === '') {
                     this.$Notice.error({
                         title: '消息提示',
                         desc: '密码不能为空'
-                    })
-                    return
+                    });
+                    return;
                 }
                 if (this.formCustom.captcha === '') {
                     this.$Notice.error({
                         title: '消息提示',
                         desc: '验证码不能为空'
-                    })
-                    return
+                    });
+                    return;
                 }
-                this.loading = true
+                this.loading = true;
                 this.$axios.post('/ueboot/shiro/public/login', this.formCustom).then(response => {
-                    this.$Message.success('登录成功')
-                    this.$router.push(this.config.page_login.successRouter)
-                    this.loading = false
+                    this.$Message.success('登录成功');
+                    window.sessionStorage.setItem('ueboot_user',this.formCustom.username);
+                    this.$router.push(this.config.page_login.successRouter);
+
+                    this.loading = false;
                 }, (response) => {
                     if (response.code === '400') {
-                        this.$Notice.error({desc: response.message})
+                        this.$Notice.error({desc: response.message});
                     }
-                    this.changeCaptchaUrl()
-                    this.formCustom.captcha = ''
-                    this.loading = false
-                })
+                    this.changeCaptchaUrl();
+                    this.formCustom.captcha = '';
+                    this.loading = false;
+                });
             }
         },
         computed: {
             captchaUrl: function () {
-                return this.config.axios.baseURL + '/ueboot/shiro/public/captcha?time=' + this.now
+                return this.config.axios.baseURL + '/ueboot/shiro/public/captcha?time=' + this.now;
             }
         },
         created() {
-            this.config = config.getConfig()
+            this.config = config.getConfig();
         },
         mounted() {
         }
-    }
+    };
 </script>
 <style>
     *[v-cloak] {

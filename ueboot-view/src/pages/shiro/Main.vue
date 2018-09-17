@@ -10,8 +10,8 @@
                                 <span class="header-span">{{config.sysTitle}}</span>
                             </a>
                         </div>
-                        <div class="layout-nav" :style="config.page_main.navStyle">
-                            <Row>
+                        <div class="layout-nav" :style="config.page_main.rightStyle">
+                            <Row justify="end" type="flex" v-if="config.page_main.rightTheme!=='dropdown'">
                                 <i-col span="12">
                                     <MenuItem name="1">
                                         <a href="javascript:void(0)" @click="logout" class="header-menu ">
@@ -27,6 +27,22 @@
                                             <span style="cursor:pointer;">修改密码</span>
                                         </a>
                                     </MenuItem>
+                                </i-col>
+                            </Row>
+                            <Row justify="end" type="flex" v-else>
+                                <i-col span="24">
+                                    <span style="color: white; margin-right:6px">{{loginName}}</span>
+                                    <Dropdown @on-click="dropdownClick">
+                                        <Avatar :icon="config.page_main.dropdown.avatar.icon" :src="config.page_main.dropdown.avatar.src"
+                                                :style="config.page_main.dropdown.avatar.style" size="large" />
+                                        <DropdownMenu slot="list" >
+                                            <DropdownItem v-for="(item,index) in config.page_main.dropdown.items"
+                                                          :key="`di${index}`" :disabled="item.disabled" :name="item.name" :divided="item.divided">
+                                                <Icon :type="item.icon" style="color:#657180;" v-if="item.icon"></Icon>
+                                                {{item.name}}
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
                                 </i-col>
                             </Row>
                         </div>
@@ -101,17 +117,17 @@
                     <Form ref="passwordForm" :model="pwdForm" :rules="pwdRule" :label-width="100">
                         <Form-item prop="originPwd" label="原密码">
                             <i-input type="password" v-model="pwdForm.originPwd" placeholder="请输入原密码">
-                                <Icon type="ios-locked-outline" slot="prepend"></Icon>
+                                <Icon type="md-lock" slot="prepend"></Icon>
                             </i-input>
                         </Form-item>
                         <Form-item label="新密码" prop="newPwd">
                             <i-input type="password" v-model="pwdForm.newPwd" placeholder="请输入新密码">
-                                <Icon type="ios-locked-outline" slot="prepend"></Icon>
+                                <Icon type="md-lock" slot="prepend"></Icon>
                             </i-input>
                         </Form-item>
                         <Form-item label="确认密码" prop="surePwd">
                             <i-input type="password" v-model="pwdForm.surePwd" placeholder="确认密码">
-                                <Icon type="ios-locked-outline" slot="prepend"></Icon>
+                                <Icon type="md-lock" slot="prepend"></Icon>
                             </i-input>
                         </Form-item>
                     </Form>
@@ -127,26 +143,27 @@
 </template>
 
 <script>
-    import config from '../../config/Config'
+    import config from '../../config/Config';
+    import util from 'core-util-is';
 
     export default {
         data() {
             const validatePass = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('请输入密码'))
+                    callback(new Error('请输入密码'));
                 } else {
-                    callback()
+                    callback();
                 }
-            }
+            };
             const validatePassCheck = (rule, value, callback) => {
                 if (value === '') {
-                    callback(new Error('请再次输入密码'))
+                    callback(new Error('请再次输入密码'));
                 } else if (value !== this.pwdForm.newPwd) {
-                    callback(new Error('两次输入密码不一致!'))
+                    callback(new Error('两次输入密码不一致!'));
                 } else {
-                    callback()
+                    callback();
                 }
-            }
+            };
             return {
                 config: {},
                 loginName: '', // 登录账号名称
@@ -177,88 +194,88 @@
                         {required: true, validator: validatePassCheck, trigger: 'change'}
                     ]
                 }
-            }
+            };
         },
         watch: {
             $route(to, from) {
-                this.initBreadItems(to,this.menus)
+                this.initBreadItems(to,this.menus);
             }
         },
         methods: {
             // 监听路由变化动态改变面包屑导航，暂时只支持两级菜单
             initBreadItems(to,array) {
-                this.breadItems = []
+                this.breadItems = [];
                 array.forEach((n) => {
                     // 根据URL匹配，找到对应的菜单和父节点菜单ID
                     if (n.url === to.path) {
-                        let parents = this.findParentMenu(n,array)
-                        parents.push(n)
-                        this.breadItems = parents
+                        let parents = this.findParentMenu(n,array);
+                        parents.push(n);
+                        this.breadItems = parents;
                     }
-                })
+                });
             },
             //查找父级菜单
             findParentMenu(child,array) {
-                let parent = []
+                let parent = [];
                 for (let m of array) {
                     if (child.parentId === m.id) {
                         if (m.parentId) {
-                            let parent2 = this.findParentMenu(m,array)
+                            let parent2 = this.findParentMenu(m,array);
                             if (parent2.length > 0) {
-                                parent = parent2
+                                parent = parent2;
                             }
                         }
-                        parent.push(m)
+                        parent.push(m);
                     }
                 }
-                return parent
+                return parent;
             },
             init: function () {
                 // 从后台读取当前用户的权限菜单
                 this.$axios.get('/ueboot/shiro/private/menus').then((response) => {
-                    let menus = []
+                    let menus = [];
                     if (response && response.body) {
                         response.body.forEach((o) => {
                             //默认设置为0
                             if (!o.rank) {
-                                o.rank = 0
+                                o.rank = 0;
                             }
-                        })
-                        menus = response.body
+                        });
+                        menus = response.body;
                         //倒序排
-                        this.$utils.sort(menus, {field: 'rank', sort: 'desc'})
+                        this.$utils.sort(menus, {field: 'rank', sort: 'desc'});
                     }
-                    let matched = this.$route.matched
+                    let matched = this.$route.matched;
                     matched.forEach((m) => {
                         if (m.parent) {
                             menus.forEach((n) => {
                                 // 根据URL匹配，找到对应的菜单和父节点菜单ID
                                 if (n.url === m.path) {
-                                    this.initBreadItems(m,menus)
-                                    this.activeMenuName = 'm' + n.id
+                                    this.initBreadItems(m,menus);
+                                    this.activeMenuName = 'm' + n.id;
                                     if (n.parentId !== '') {
                                         //从面包屑导航数组当中获取需要打开的父级菜单
                                         this.breadItems.forEach((b) => {
                                             if (b.id !== n.id) {
-                                                this.openMenuNames.push('m' + b.id)
+                                                this.openMenuNames.push('m' + b.id);
                                             }
-                                        })
+                                        });
                                     }
                                 }
-                            })
+                            });
                         }
-                    })
-                    this.menus = menus
+                    });
+                    this.menus = menus;
 
-                })
+                });
             },
             menuClick(id) {
                 this.menus.forEach((n) => {
                     // 根据URL匹配，找到对应的菜单和父节点菜单ID
                     if ('m' + n.id === id) {
-                        this.$router.push(n.url)
+                        this.$router.push(n.url);
                     }
-                })
+                });
             },
             logout() {
                 // 退出系统
@@ -267,26 +284,26 @@
                     content: '确定要退出当前系统吗',
                     onOk: () => {
                         this.$axios.post('/ueboot/shiro/private/logout', {}).then((data) => {
-                            this.$Message.success('退出成功!')
-                            this.$router.push(this.config.page_main.logoutSuccessRouter)
+                            this.$Message.success('退出成功!');
+                            this.$router.push(this.config.page_main.logoutSuccessRouter);
                         }, (response) => {
-                            this.$log.d(response)
+                            this.$log.d(response);
                             this.$Notice.error({
                                 title: '系统异常',
                                 desc: response.message ? response.message : '系统或网络异常'
-                            })
-                        })
+                            });
+                        });
                     }
-                })
+                });
             },
             resetPwd(name) {
                 // 修改密码
-                this.resetPasswordForm('passwordForm')
-                this.passwordModel = true
+                this.resetPasswordForm('passwordForm');
+                this.passwordModel = true;
             },
 
             resetPasswordForm(name) {
-                this.$refs[name].resetFields()
+                this.$refs[name].resetFields();
             },
             handlePasswordSubmit(name) {
                 this.$refs[name].validate((valid) => {
@@ -294,50 +311,64 @@
                         let jsonData = {
                             oldPassword: this.pwdForm.originPwd,
                             newPassword: this.pwdForm.newPwd
-                        }
+                        };
                         this.$axios.post('/ueboot/shiro/private/updatePassword', jsonData).then((data) => {
                             // 关闭浮层
-                            this.passwordModel = false
+                            this.passwordModel = false;
                             this.$Modal.success({
                                 title: '系统提示',
                                 content: '修改成功,下次登录请用新密码登录, 谢谢!'
-                            })
+                            });
                         }, (response) => {
-                            this.$log.d(response)
+                            this.$log.d(response);
                             this.$Notice.error({
                                 title: '系统异常',
                                 desc: response.message ? response.message : '系统或网络异常'
-                            })
-                        })
+                            });
+                        });
                     }
-                })
+                });
+            },
+            dropdownClick(name){
+                for(let item of this.config.page_main.dropdown.items){
+                    if(item.name === name && util.isFunction(item.onClick)){
+                        item.onClick(name);
+                        break;
+                    }
+                }
             }
         },
         computed: {
             iconSize() {
-                return this.toggle ? '14px' : '24px'
+                return this.toggle ? '14px' : '24px';
             },
             rightWidth() {
-                return this.clientWidth - this.config.page_main.menuWidth
+                return this.clientWidth - this.config.page_main.menuWidth;
             }
         },
         created() {
-            this.config = config.getConfig()
+            this.config = config.getConfig();
+            this.config.page_main.dropdown.items.forEach((t)=>{
+                if(t.name === '修改密码' && !util.isFunction(t.onClick)){
+                    t.onClick  = this.resetPwd;
+                }else if(t.name === '退出系统' && !util.isFunction(t.onClick)){
+                    t.onClick  = this.logout;
+                }
+            });
         },
         mounted() {
-            this.init()
+            this.init();
             // 然后监听window的resize事件．在浏览器窗口变化时再设置下背景图高度．
             const that = this;
             window.onresize = function temp() {
                 window.setTimeout(() => {
                     that.clientWidth = document.documentElement.clientWidth;
-                }, 400)
+                }, 400);
             };
-            let sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user')) || {}
-            this.loginName = sessionUser.userName// 登录账号名称
-            this.lastLoginTime = sessionUser.lastLoginTime// 上次登录时间
+
+            this.loginName = sessionStorage.getItem('ueboot_user') ||'';// 登录账号名称
         }
-    }
+    };
 </script>
 
 <style>
