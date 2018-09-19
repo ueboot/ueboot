@@ -129,7 +129,9 @@
                 this.loading = true;
                 this.$axios.post('/ueboot/shiro/public/login', this.formCustom).then(response => {
                     this.$Message.success('登录成功');
-                    window.sessionStorage.setItem('ueboot_user',this.formCustom.username);
+                    if(response.body){
+                        window.sessionStorage.setItem('ueboot_login_info',JSON.stringify(response.body));
+                    }
                     this.$router.push(this.config.page_login.successRouter);
 
                     this.loading = false;

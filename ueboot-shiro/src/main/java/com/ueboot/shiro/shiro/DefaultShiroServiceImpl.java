@@ -75,6 +75,7 @@ public class DefaultShiroServiceImpl implements ShiroService {
     public Map<String, Object> getLoginSuccessInfo(String username) {
         Map<String,Object> map = new HashMap<>();
         map.put("username",username);
+        map.put("from","ueboot-framework");
         return map;
     }
 

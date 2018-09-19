@@ -33,11 +33,13 @@
                                 <i-col span="24">
                                     <span style="color: white; margin-right:6px">{{loginName}}</span>
                                     <Dropdown @on-click="dropdownClick">
-                                        <Avatar :icon="config.page_main.dropdown.avatar.icon" :src="config.page_main.dropdown.avatar.src"
-                                                :style="config.page_main.dropdown.avatar.style" size="large" />
-                                        <DropdownMenu slot="list" >
+                                        <Avatar :icon="config.page_main.dropdown.avatar.icon"
+                                                :src="config.page_main.dropdown.avatar.src"
+                                                :style="config.page_main.dropdown.avatar.style" size="large"/>
+                                        <DropdownMenu slot="list">
                                             <DropdownItem v-for="(item,index) in config.page_main.dropdown.items"
-                                                          :key="`di${index}`" :disabled="item.disabled" :name="item.name" :divided="item.divided">
+                                                          :key="`di${index}`" :disabled="item.disabled"
+                                                          :name="item.name" :divided="item.divided">
                                                 <Icon :type="item.icon" style="color:#657180;" v-if="item.icon"></Icon>
                                                 {{item.name}}
                                             </DropdownItem>
@@ -94,7 +96,7 @@
                         </template>
                     </Menu>
                     <!--增加一个空白的div，防止菜单列表未加载完成时，页面没有占位，导致右侧内容左移-->
-                    <div :style="{width: config.page_main.menuWidth+'px'}"  v-else></div>
+                    <div :style="{width: config.page_main.menuWidth+'px'}" v-else></div>
                 </Sider>
                 <Layout :style="{padding: '0 24px 0 24px',width:'100%',maxWidth:rightWidth +'px'}">
                     <Breadcrumb :style="{margin: '12px 0'}">
@@ -198,29 +200,29 @@
         },
         watch: {
             $route(to, from) {
-                this.initBreadItems(to,this.menus);
+                this.initBreadItems(to, this.menus);
             }
         },
         methods: {
             // 监听路由变化动态改变面包屑导航，暂时只支持两级菜单
-            initBreadItems(to,array) {
+            initBreadItems(to, array) {
                 this.breadItems = [];
                 array.forEach((n) => {
                     // 根据URL匹配，找到对应的菜单和父节点菜单ID
                     if (n.url === to.path) {
-                        let parents = this.findParentMenu(n,array);
+                        let parents = this.findParentMenu(n, array);
                         parents.push(n);
                         this.breadItems = parents;
                     }
                 });
             },
             //查找父级菜单
-            findParentMenu(child,array) {
+            findParentMenu(child, array) {
                 let parent = [];
                 for (let m of array) {
                     if (child.parentId === m.id) {
                         if (m.parentId) {
-                            let parent2 = this.findParentMenu(m,array);
+                            let parent2 = this.findParentMenu(m, array);
                             if (parent2.length > 0) {
                                 parent = parent2;
                             }
@@ -251,7 +253,7 @@
                             menus.forEach((n) => {
                                 // 根据URL匹配，找到对应的菜单和父节点菜单ID
                                 if (n.url === m.path) {
-                                    this.initBreadItems(m,menus);
+                                    this.initBreadItems(m, menus);
                                     this.activeMenuName = 'm' + n.id;
                                     if (n.parentId !== '') {
                                         //从面包屑导航数组当中获取需要打开的父级菜单
@@ -329,9 +331,9 @@
                     }
                 });
             },
-            dropdownClick(name){
-                for(let item of this.config.page_main.dropdown.items){
-                    if(item.name === name && util.isFunction(item.onClick)){
+            dropdownClick(name) {
+                for (let item of this.config.page_main.dropdown.items) {
+                    if (item.name === name && util.isFunction(item.onClick)) {
                         item.onClick(name);
                         break;
                     }
@@ -348,11 +350,11 @@
         },
         created() {
             this.config = config.getConfig();
-            this.config.page_main.dropdown.items.forEach((t)=>{
-                if(t.name === '修改密码' && !util.isFunction(t.onClick)){
-                    t.onClick  = this.resetPwd;
-                }else if(t.name === '退出系统' && !util.isFunction(t.onClick)){
-                    t.onClick  = this.logout;
+            this.config.page_main.dropdown.items.forEach((t) => {
+                if (t.name === '修改密码' && !util.isFunction(t.onClick)) {
+                    t.onClick = this.resetPwd;
+                } else if (t.name === '退出系统' && !util.isFunction(t.onClick)) {
+                    t.onClick = this.logout;
                 }
             });
         },
@@ -365,8 +367,12 @@
                     that.clientWidth = document.documentElement.clientWidth;
                 }, 400);
             };
+            let loginInfo = sessionStorage.getItem('ueboot_login_info') || ""
+            if (loginInfo !== '') {
+                let o = JSON.parse(loginInfo)
+                this.loginName = o[this.config.page_main.userNameKey] || ''// 登录账号名称
+            }
 
-            this.loginName = sessionStorage.getItem('ueboot_user') ||'';// 登录账号名称
         }
     };
 </script>
