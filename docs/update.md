@@ -33,6 +33,21 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
+- v1.6.16
+    - 导出按钮支持直接显示为toolbar上的按钮，可以不是Dropdown方式呈现
+    ```javascript
+      {
+          label: "导出全部",key:'exportAllData'
+      },
+      {
+          label: "导出当前页",key:'exportCurrentPage'
+       },
+      {
+          label: "文件导入",key:'import'
+      },
+      
+    ```
+       在toolbar.button当中增加key值即可自动是有相关的导出功能
 - v1.6.15
     - 登录后可以自定义返回的内容，主界面当中增加一个page_main.userNameKey的属性用于控制页面上显示的字段名称，默认值为username
 - v1.6.14

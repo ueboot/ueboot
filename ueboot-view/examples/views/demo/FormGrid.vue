@@ -152,7 +152,10 @@
                                 theme: "success", label: "自定义按钮2", icon: "plus", click: function (selections) {
                                     console.log("自定义按钮2,%o", selections)
                                 }
-                            }
+                            },
+                            {
+                                label: "导出全部",key:'exportAllData'
+                            },
                         ],
                         buttons: {
                             theme: "primary", label: "更多操作", icon: "plus", items: [

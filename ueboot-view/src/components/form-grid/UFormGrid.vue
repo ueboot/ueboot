@@ -171,7 +171,31 @@
                             @click="toolbarClick(button.click)" :ghost="button.ghost"
                             :disabled="button.disabled" :to="button.to" :replace="button.replace"
                             :target="button.target"
-                            :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long">
+                            :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long" v-if="!button.key">
+                        {{button.label}}
+                    </Button>
+                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'" :custom-icon="button.customIcon"
+                            @click="exportCurrentPageData" :ghost="button.ghost"
+                            :disabled="button.disabled" :to="button.to" :replace="button.replace"
+                            :target="button.target"
+                            :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long"
+                            v-if="button.key === 'exportCurrentPage'">
+                        {{button.label}}
+                    </Button>
+                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'" :custom-icon="button.customIcon"
+                            @click="exportData" :ghost="button.ghost"
+                            :disabled="button.disabled" :to="button.to" :replace="button.replace"
+                            :target="button.target"
+                            :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long"
+                            v-if="button.key === 'exportAllData'">
+                        {{button.label}}
+                    </Button>
+                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'" :custom-icon="button.customIcon"
+                            @click="showImportView" :ghost="button.ghost"
+                            :disabled="button.disabled" :to="button.to" :replace="button.replace"
+                            :target="button.target"
+                            :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long"
+                            v-if="button.key === 'import'">
                         {{button.label}}
                     </Button>
                 </i-col>
@@ -179,37 +203,47 @@
 
             <!--导入导出-->
             <i-col v-if="formGrid.toolbar.groups.show">
-                <Dropdown v-if="formGrid.toolbar.groups">
-                    <Button type="primary">
-                        <Icon type="logo-buffer"></Icon>
-                        {{formGrid.toolbar.groups.label}}
-                        <Icon type="md-arrow-dropdown"/>
-                    </Button>
-                    <Dropdown-menu slot="list">
-                        <Dropdown-item
-                            v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.currentShow">
-                            <a href="javascript:void(0)" @click="exportCurrentPageData">
-                                <Icon type="md-download"></Icon>
-                                {{formGrid.toolbar.groups.export.currentLabel}}
-                            </a>
-                        </Dropdown-item>
+                <Button :type="button.theme" :icon="button.icon" :custom-icon="button.customIcon"
+                        @click="toolbarClick(button.click)" :ghost="button.ghost"
+                        :disabled="button.disabled" :to="button.to" :replace="button.replace"
+                        :target="button.target"
+                        :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long"
+                        v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.currentShow"
+                        >
+                    {{button.label}}
+                </Button>
+                    <Dropdown v-if="formGrid.toolbar.groups">
+                        <Button type="primary">
+                            <Icon type="logo-buffer"></Icon>
+                            {{formGrid.toolbar.groups.label}}
+                            <Icon type="md-arrow-dropdown"/>
+                        </Button>
+                        <Dropdown-menu slot="list">
+                            <Dropdown-item
+                                v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.currentShow">
+                                <a href="javascript:void(0)" @click="exportCurrentPageData">
+                                    <Icon type="md-download"></Icon>
+                                    {{formGrid.toolbar.groups.export.currentLabel}}
+                                </a>
+                            </Dropdown-item>
 
-                        <Dropdown-item v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.show">
-                            <a href="javascript:void(0)" @click="exportData">
-                                <Icon type="md-download"></Icon>
-                                {{formGrid.toolbar.groups.export.label}}
-                            </a>
-                        </Dropdown-item>
+                            <Dropdown-item v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.show">
+                                <a href="javascript:void(0)" @click="exportData">
+                                    <Icon type="md-download"></Icon>
+                                    {{formGrid.toolbar.groups.export.label}}
+                                </a>
+                            </Dropdown-item>
 
-                        <Dropdown-item v-if="formGrid.toolbar.groups.import && formGrid.toolbar.groups.import.show">
-                            <a href="javascript:void(0)" @click="showImportView">
-                                <Icon type="md-cloud-upload"/>
-                                {{formGrid.toolbar.groups.import.label}}
-                            </a>
-                        </Dropdown-item>
+                            <Dropdown-item v-if="formGrid.toolbar.groups.import && formGrid.toolbar.groups.import.show">
+                                <a href="javascript:void(0)" @click="showImportView">
+                                    <Icon type="md-cloud-upload"/>
+                                    {{formGrid.toolbar.groups.import.label}}
+                                </a>
+                            </Dropdown-item>
 
-                    </Dropdown-menu>
-                </Dropdown>
+                        </Dropdown-menu>
+                    </Dropdown>
+
             </i-col>
             <!--更多操作-->
             <i-col v-if="formGrid.toolbar.buttons">
