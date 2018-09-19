@@ -44,13 +44,13 @@ public class ApiController {
 
     private final ResourcesService resourcesService;
 
-    private final  UserService userService;
+    private final UserService userService;
 
     private final ShiroService shiroService;
 
     @Autowired
     public ApiController(ShiroProcessor shiroProcessor, ResourcesService resourcesService,
-                         UserService userService,ShiroService shiroService) {
+                         UserService userService, ShiroService shiroService) {
         this.shiroProcessor = shiroProcessor;
         this.resourcesService = resourcesService;
         this.userService = userService;
@@ -58,7 +58,7 @@ public class ApiController {
     }
 
     @PostMapping(value = "/public/login")
-    public Response<Void> login(@RequestBody LoginVo params, HttpServletRequest request) {
+    public Response<Map<String, Object>> login(@RequestBody LoginVo params, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String sessionCaptcha = (String) session.getAttribute(CAPTCHA_KEY);
         log.debug("从session当中获取的验证码:{},用户提交的验证码:{}", sessionCaptcha, params.getCaptcha());
@@ -69,7 +69,9 @@ public class ApiController {
             throw new IllegalArgumentException("验证码不正确!");
         }
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
-        return new Response<>();
+        //返回登录成功后的信息
+        Map<String, Object> info = this.shiroService.getLoginSuccessInfo(params.getUsername());
+        return new Response<>(info);
     }
 
     @PostMapping(value = "/private/logout")
@@ -83,13 +85,13 @@ public class ApiController {
     @RequiresAuthentication
     @RequestMapping(value = "/private/updatePassword")
     public Response<Void> updatePassword(@RequestBody UpdatePasswordReq req) {
-       String userName = (String)SecurityUtils.getSubject().getPrincipal();
+        String userName = (String) SecurityUtils.getSubject().getPrincipal();
         //加密旧密码
-        String oldPassword = PasswordUtil.sha512(userName,req.getOldPassword().toLowerCase());
+        String oldPassword = PasswordUtil.sha512(userName, req.getOldPassword().toLowerCase());
         //加密新密码
-        String newPassword = PasswordUtil.sha512(userName,req.getNewPassword().toLowerCase());
+        String newPassword = PasswordUtil.sha512(userName, req.getNewPassword().toLowerCase());
         User user = userService.findByUserName(userName);
-        if(!user.getPassword().equals(oldPassword)){
+        if (!user.getPassword().equals(oldPassword)) {
             throw new BusinessException("原密码输入错误,请重新输入");
         }
         user.setPassword(newPassword);
@@ -118,7 +120,7 @@ public class ApiController {
         List<Resources> groups = this.resourcesService.findByResourceType(Resources.RESOURCE_TYPE_GROUP);
         List<MenuVo> body = new ArrayList<>();
         List<Resources> parents = new ArrayList<>();
-        Map<Long,Resources> resourcesMap = new HashMap<>();
+        Map<Long, Resources> resourcesMap = new HashMap<>();
         for (Resources resource : resources) {
             if (Resources.RESOURCE_TYPE_BUTTON.equals(resource.getResourceType())) {
                 continue;
@@ -126,16 +128,16 @@ public class ApiController {
             if (resource.getParent() != null) {
                 parents.add(resource.getParent());
             }
-            resourcesMap.put(resource.getId(),resource);
+            resourcesMap.put(resource.getId(), resource);
             body.add(assembleMenuVo(resource));
         }
         //查找所有父节点是否在结果集当中，不在则需要获取
-        parents.forEach((p)->{
+        parents.forEach((p) -> {
             Resources parent = resourcesMap.get(p.getId());
-            if(parent==null){
-                while (groups.iterator().hasNext()){
+            if (parent == null) {
+                while (groups.iterator().hasNext()) {
                     Resources g = groups.iterator().next();
-                    if(p.getId().equals(g.getId())){
+                    if (p.getId().equals(g.getId())) {
                         body.add(assembleMenuVo(g));
                         groups.remove(g);
                     }
@@ -145,14 +147,14 @@ public class ApiController {
         return new Response<>(body);
     }
 
-    private MenuVo assembleMenuVo(Resources resource){
+    private MenuVo assembleMenuVo(Resources resource) {
         MenuVo menu = new MenuVo();
         BeanUtils.copyProperties(resource, menu);
         if (resource.getParent() != null) {
             menu.setParentId(resource.getParent().getId());
         }
         menu.setThemeJson(StringUtils.isEmpty(resource.getThemeJson()) ? new HashMap() : JSON.parseObject(resource.getThemeJson(), Map.class));
-        return  menu;
+        return menu;
     }
 
     /**

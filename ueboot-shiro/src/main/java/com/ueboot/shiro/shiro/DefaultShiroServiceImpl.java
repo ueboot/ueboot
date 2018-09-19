@@ -66,6 +66,19 @@ public class DefaultShiroServiceImpl implements ShiroService {
     }
 
     /**
+     * 根据用户名查询登录成功后的返回结果
+     *
+     * @param username 用户名
+     * @return 自定义返回任意数据内容
+     */
+    @Override
+    public Map<String, Object> getLoginSuccessInfo(String username) {
+        Map<String,Object> map = new HashMap<>();
+        map.put("username",username);
+        return map;
+    }
+
+    /**
      * 获取用户的角色名称集合
      *
      * @param userName 用户名

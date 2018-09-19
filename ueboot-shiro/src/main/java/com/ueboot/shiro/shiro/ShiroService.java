@@ -44,6 +44,13 @@ public interface ShiroService {
      */
     User getUser(String username);
 
+    /**
+     * 根据用户名查询登录成功后的返回结果给前端登录成功请求
+     * @param username 用户名
+     * @return 自定义返回任意数据内容
+     */
+    Map<String,Object> getLoginSuccessInfo(String username);
+
 
     /**
      * 获取用户的角色名称集合(要求角色名称唯一）

@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "/dist/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 93);
+/******/ 	return __webpack_require__(__webpack_require__.s = 94);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -132,7 +132,7 @@ $exports.store = store;
 "use strict";
 
 
-var bind = __webpack_require__(83);
+var bind = __webpack_require__(84);
 var isBuffer = __webpack_require__(170);
 
 /*global toString:true*/
@@ -1190,7 +1190,7 @@ module.exports = {};
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(125), __esModule: true };
+module.exports = { "default": __webpack_require__(126), __esModule: true };
 
 /***/ }),
 /* 25 */
@@ -1395,7 +1395,7 @@ module.exports = function (it) {
 
 "use strict";
 
-var $at = __webpack_require__(108)(true);
+var $at = __webpack_require__(109)(true);
 
 // 21.1.3.27 String.prototype[@@iterator]()
 __webpack_require__(59)(String, 'String', function (iterated) {
@@ -1435,7 +1435,7 @@ module.exports = function (it, tag, stat) {
 
 exports.__esModule = true;
 
-var _from = __webpack_require__(134);
+var _from = __webpack_require__(135);
 
 var _from2 = _interopRequireDefault(_from);
 
@@ -1569,7 +1569,7 @@ exports.f = Object.getOwnPropertySymbols;
 /* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(112);
+__webpack_require__(113);
 var global = __webpack_require__(1);
 var hide = __webpack_require__(12);
 var Iterators = __webpack_require__(23);
@@ -1634,7 +1634,7 @@ module.exports = __webpack_require__(0).getIteratorMethod = function (it) {
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _newArrowCheck2 = __webpack_require__(2);
@@ -1644,114 +1644,114 @@ var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  getTreeData: function getTreeData(tree, handlerItem) {
-    var _this = this;
+    getTreeData: function getTreeData(tree, handlerItem) {
+        var _this = this;
 
-    var roots = [];
+        var roots = [];
 
-    tree.forEach(function (item) {
-      (0, _newArrowCheck3.default)(this, _this);
+        tree.forEach(function (item) {
+            (0, _newArrowCheck3.default)(this, _this);
 
-      var isRoot = true;
+            var isRoot = true;
 
-      for (var i = 0; i < tree.length; i++) {
-        if (item.parentId === tree[i].id) {
-          isRoot = false;
-          break;
+            for (var i = 0; i < tree.length; i++) {
+                if (item.parentId === tree[i].id) {
+                    isRoot = false;
+                    break;
+                }
+            }
+            if (isRoot) {
+                var root = assembleItem(item, null);
+                var result = getChildren(tree, item.id, item.path);
+                if (result['child'] && result['child'].length > 0) {
+                    root.children = result['child'];
+                }
+                root.opened = result['hasSelected'];
+                roots.push(root);
+            }
+        }.bind(this));
+
+        var sort = this.sort;
+        function assembleItem(item, parentPath) {
+            var o = {};
+            if (handlerItem) {
+                o = handlerItem(item);
+            } else {
+                if (parentPath) {
+                    o.path = parentPath + '\\' + item.name;
+                } else {
+                    o.path = item.name;
+                }
+
+                o.text = item.label ? item.label : item.name;
+                o.name = item.name;
+                o.value = { id: item.id, name: item.name, parentId: item.parentId };
+                o.selected = item.selected || false;
+                o.disabled = item.disabled || false;
+                o.loading = item.loading || false;
+                o.icon = item.icon || '';
+                o.tip = item.tip || '';
+                o.opened = item.opened || false;
+            }
+            o.id = item.id;
+            o.parentId = item.parentId;
+            return o;
         }
-      }
-      if (isRoot) {
-        var root = assembleItem(item, null);
-        var result = getChildren(tree, item.id, item.path);
-        if (result['child'] && result['child'].length > 0) {
-          root.children = result['child'];
-        }
-        root.opened = result['hasSelected'];
-        roots.push(root);
-      }
-    }.bind(this));
 
-    var sort = this.sort;
-    function assembleItem(item, parentPath) {
-      var o = {};
-      if (handlerItem) {
-        o = handlerItem(item);
-      } else {
-        if (parentPath) {
-          o.path = parentPath + '\\' + item.name;
-        } else {
-          o.path = item.name;
+        function getChildren(tree, parentId, parentPath) {
+            var _this2 = this;
+
+            var result = {};
+            var child = [];
+
+            var hasSelected = false;
+            tree.forEach(function (item) {
+                (0, _newArrowCheck3.default)(this, _this2);
+
+                if (item.parentId === parentId) {
+                    var o = assembleItem(item, parentPath);
+                    if (o.selected) {
+                        hasSelected = true;
+                    }
+                    child.push(o);
+                }
+            }.bind(this));
+            child.forEach(function (item) {
+                (0, _newArrowCheck3.default)(this, _this2);
+
+                var result = getChildren(tree, item.id, item.path);
+                if (result['child'] && result['child'].length > 0) {
+                    item.children = result['child'];
+                }
+                item.opened = result['hasSelected'];
+            }.bind(this));
+
+            if (sort) {
+                this.sort(child, sort);
+            }
+            result['hasSelected'] = hasSelected;
+            result['child'] = child;
+            return result;
         }
 
-        o.text = item.label ? item.label : item.name;
-        o.name = item.name;
-        o.value = { id: item.id, name: item.name, parentId: item.parentId };
-        o.selected = item.selected || false;
-        o.disabled = item.disabled || false;
-        o.loading = item.loading || false;
-        o.icon = item.icon || '';
-        o.tip = item.tip || '';
-        o.opened = item.opened || false;
-      }
-      o.id = item.id;
-      o.parentId = item.parentId;
-      return o;
+        if (sort) {
+            this.sort(roots, sort);
+        }
+        return roots;
+    },
+    sort: function sort(array, _sort) {
+        var _this3 = this;
+
+        array.sort(function (a, b) {
+            (0, _newArrowCheck3.default)(this, _this3);
+
+            if (_sort['sort'] === 'desc') {
+                return b[_sort['field']] - a[_sort['field']];
+            } else {
+                return b[_sort['field']] - a[_sort['field']];
+            }
+        }.bind(this));
     }
-
-    function getChildren(tree, parentId, parentPath) {
-      var _this2 = this;
-
-      var result = {};
-      var child = [];
-
-      var hasSelected = false;
-      tree.forEach(function (item) {
-        (0, _newArrowCheck3.default)(this, _this2);
-
-        if (item.parentId === parentId) {
-          var o = assembleItem(item, parentPath);
-          if (o.selected) {
-            hasSelected = true;
-          }
-          child.push(o);
-        }
-      }.bind(this));
-      child.forEach(function (item) {
-        (0, _newArrowCheck3.default)(this, _this2);
-
-        var result = getChildren(tree, item.id, item.path);
-        if (result['child'] && result['child'].length > 0) {
-          item.children = result['child'];
-        }
-        item.opened = result['hasSelected'];
-      }.bind(this));
-
-      if (sort) {
-        this.sort(child, sort);
-      }
-      result['hasSelected'] = hasSelected;
-      result['child'] = child;
-      return result;
-    }
-
-    if (sort) {
-      this.sort(roots, sort);
-    }
-    return roots;
-  },
-  sort: function sort(array, _sort) {
-    var _this3 = this;
-
-    array.sort(function (a, b) {
-      (0, _newArrowCheck3.default)(this, _this3);
-
-      if (_sort['sort'] === 'desc') {
-        return b[_sort['field']] - a[_sort['field']];
-      } else {
-        return b[_sort['field']] - a[_sort['field']];
-      }
-    }.bind(this));
-  }
 };
 
 /***/ }),
@@ -1809,10 +1809,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(84);
+    adapter = __webpack_require__(85);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(84);
+    adapter = __webpack_require__(85);
   }
   return adapter;
 }
@@ -1922,7 +1922,7 @@ var ueboot_config = {
 
         successRouter: { path: '/' },
 
-        logoStyle: "width:100px;height:100px;",
+        logoStyle: 'width:100px;height:100px;',
         bgImage: '@/asserts/graphic3.svg',
         formTitle: '系统登录'
     },
@@ -1931,8 +1931,20 @@ var ueboot_config = {
         logoStyle: {
             minWidth: '250px'
         },
-        navStyle: {
-            minWidth: '220px'
+
+        rightTheme: 'dropdown',
+        rightStyle: {
+            minWidth: '100px'
+        },
+        dropdown: {
+            items: [{ name: '修改密码', disabled: false, divided: false, icon: 'md-create' }, { name: '退出系统', disabled: false, divided: false, icon: 'md-exit' }],
+
+            avatar: {
+                icon: 'ios-person',
+                src: '',
+                style: null
+            }
+
         },
 
         logoutSuccessRouter: { name: 'Login' }
@@ -1941,6 +1953,7 @@ var ueboot_config = {
         baseURL: '',
         unauthorizedUrl: '/#/login'
     },
+
     log: {
         level: 3
     }
@@ -1963,7 +1976,7 @@ exports.default = {
 /* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(94), __esModule: true };
+module.exports = { "default": __webpack_require__(95), __esModule: true };
 
 /***/ }),
 /* 52 */
@@ -1980,7 +1993,7 @@ module.exports = !__webpack_require__(10) && !__webpack_require__(15)(function (
 
 var has = __webpack_require__(14);
 var toIObject = __webpack_require__(16);
-var arrayIndexOf = __webpack_require__(97)(false);
+var arrayIndexOf = __webpack_require__(98)(false);
 var IE_PROTO = __webpack_require__(38)('IE_PROTO');
 
 module.exports = function (object, names) {
@@ -2013,7 +2026,7 @@ module.exports = Object('z').propertyIsEnumerable(0) ? Object : function (it) {
 /* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(99), __esModule: true };
+module.exports = { "default": __webpack_require__(100), __esModule: true };
 
 /***/ }),
 /* 56 */
@@ -2024,12 +2037,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTree_vue__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTree_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTree_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTree_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28b00b76_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue__ = __webpack_require__(131);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28b00b76_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28b00b76_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f5600398_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue__ = __webpack_require__(132);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f5600398_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f5600398_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
-  __webpack_require__(102)
-  __webpack_require__(104)
+  __webpack_require__(103)
+  __webpack_require__(105)
 }
 /* script */
 
@@ -2047,8 +2060,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTree_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28b00b76_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28b00b76_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f5600398_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_f5600398_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTree_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -2066,7 +2079,7 @@ var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _typeof2 = __webpack_require__(58);
@@ -2089,7 +2102,7 @@ var _newArrowCheck2 = __webpack_require__(2);
 
 var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 
-var _UTreeItem = __webpack_require__(129);
+var _UTreeItem = __webpack_require__(130);
 
 var _UTreeItem2 = _interopRequireDefault(_UTreeItem);
 
@@ -2104,384 +2117,384 @@ var ITEM_HEIGHT_SMALL = 18;
 var ITEM_HEIGHT_DEFAULT = 24;
 var ITEM_HEIGHT_LARGE = 32;
 exports.default = {
-  name: 'UTree',
-  props: {
-    value: {
-      type: [String, Number, Array],
-      default: null
-    },
-    tree: { type: Array },
-    size: { type: String, validator: function validator(value) {
-        (0, _newArrowCheck3.default)(undefined, undefined);
-        return ['large', 'small'].indexOf(value) > -1;
-      }.bind(undefined) },
-    showCheckbox: { type: Boolean, default: false },
-    wholeRow: { type: Boolean, default: false },
-    noDots: { type: Boolean, default: false },
-    collapse: { type: Boolean, default: false },
-    multiple: { type: Boolean, default: false },
-    allowBatch: { type: Boolean, default: true },
-    allowTransition: { type: Boolean, default: true },
-    textFieldName: { type: String, default: 'text' },
-    valueFieldName: { type: String, default: 'value' },
-    childrenFieldName: { type: String, default: 'children' },
-    itemEvents: {
-      type: Object,
-      default: function _default() {
-        return {};
-      }
-    },
-    async: { type: Function },
-    loadingText: { type: String, default: 'Loading...' },
-    draggable: { type: Boolean, default: false },
-    dragOverBackgroundColor: { type: String, default: '#C9FDC9' },
-    klass: String,
-    maxHeight: {
-      type: Number,
-      default: 400
-    }
-  },
-  data: function data() {
-    return {
-      treeData: [],
-      draggedItem: undefined,
-      draggedElm: undefined,
-      treeStyles: 'max-height:' + String(this.maxHeight) + 'px;overflow: auto;'
-    };
-  },
-
-  watch: {
-    tree: function tree(newValue, oldValue) {
-      var start = new Date().getMilliseconds();
-
-      this.treeData = _Utils2.default.getTreeData(newValue);
-      var end = new Date().getMilliseconds();
-      this.$log.d('tree 构造耗时:%o,treeData', end - start, this.treeData);
-      this.initializeData(this.treeData);
-    }
-  },
-  computed: {
-    classes: function classes() {
-      return [{ 'tree': true }, { 'tree-default': !this.size }, (0, _defineProperty3.default)({}, 'tree-default-' + String(this.size), !!this.size), { 'tree-checkbox-selection': !!this.showCheckbox }, (0, _defineProperty3.default)({}, this.klass, !!this.klass)];
-    },
-    containerClasses: function containerClasses() {
-      return [{ 'tree-container-ul': true }, { 'tree-children': true }, { 'tree-wholerow-ul': !!this.wholeRow }, { 'tree-no-dots': !!this.noDots }];
-    },
-    sizeHeight: function sizeHeight() {
-      switch (this.size) {
-        case 'large':
-          return ITEM_HEIGHT_LARGE;
-        case 'small':
-          return ITEM_HEIGHT_SMALL;
-        default:
-          return ITEM_HEIGHT_DEFAULT;
-      }
-    }
-  },
-  methods: {
-    initializeData: function initializeData(items) {
-      if (items && items.length > 0) {
-        for (var i in items) {
-          items[i] = this.initializeDataItem(items[i]);
-          this.initializeData(items[i][this.childrenFieldName]);
-        }
-      }
-    },
-    initializeDataItem: function initializeDataItem(item) {
-      function Model(item, textFieldName, valueFieldName, childrenFieldName, collapse) {
-        this.id = item.id || ITEM_ID++;
-        this.parentId = item.parentId || null;
-        this[textFieldName] = item[textFieldName] || '';
-        this[valueFieldName] = item[valueFieldName] || item[textFieldName];
-        this.icon = item.icon || '';
-        this.tip = item.tip || '';
-        this.opened = item.opened || collapse;
-        this.selected = item.selected || false;
-        this.disabled = item.disabled || false;
-        this.loading = item.loading || false;
-        this[childrenFieldName] = item[childrenFieldName] || [];
-        if (this[childrenFieldName].length === 0) {
-          this.isLeaf = true;
-        }
-      }
-
-      var node = (0, _assign2.default)(new Model(item, this.textFieldName, this.valueFieldName, this.childrenFieldName, this.collapse), item);
-      var self = this;
-      node.addBefore = function (data, selectedNode) {
-        var _this = this;
-
-        var newItem = self.initializeDataItem(data);
-        var index = selectedNode.parentItem.findIndex(function (t) {
-          (0, _newArrowCheck3.default)(this, _this);
-          return t.id === node.id;
-        }.bind(this));
-        selectedNode.parentItem.splice(index, 0, newItem);
-      };
-      node.addAfter = function (data, selectedNode) {
-        var _this2 = this;
-
-        var newItem = self.initializeDataItem(data);
-        var index = selectedNode.parentItem.findIndex(function (t) {
-          (0, _newArrowCheck3.default)(this, _this2);
-          return t.id === node.id;
-        }.bind(this)) + 1;
-        selectedNode.parentItem.splice(index, 0, newItem);
-      };
-      node.addChild = function (data) {
-        var newItem = self.initializeDataItem(data);
-        node.opened = true;
-        node[self.childrenFieldName].push(newItem);
-      };
-      node.openChildren = function () {
-        var _this3 = this;
-
-        node.opened = true;
-        self.handleRecursionNodeChildren(node, function (node) {
-          (0, _newArrowCheck3.default)(this, _this3);
-
-          node.opened = true;
-        }.bind(this));
-      };
-      node.closeChildren = function () {
-        var _this4 = this;
-
-        node.opened = false;
-        self.handleRecursionNodeChildren(node, function (node) {
-          (0, _newArrowCheck3.default)(this, _this4);
-
-          node.opened = false;
-        }.bind(this));
-      };
-      return node;
-    },
-    initializeLoading: function initializeLoading() {
-      var item = {};
-      item[this.textFieldName] = this.loadingText;
-      item.disabled = true;
-      item.loading = true;
-      return this.initializeDataItem(item);
-    },
-    handleRecursionNodeChilds: function handleRecursionNodeChilds(node, func) {
-      if (func(node) !== false) {
-        if (node.$children && node.$children.length > 0) {
-          var _iteratorNormalCompletion = true;
-          var _didIteratorError = false;
-          var _iteratorError = undefined;
-
-          try {
-            for (var _iterator = (0, _getIterator3.default)(node.$children), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var childNode = _step.value;
-
-              if (!childNode.disabled) {
-                this.handleRecursionNodeChilds(childNode, func);
-              }
+    name: 'UTree',
+    props: {
+        value: {
+            type: [String, Number, Array],
+            default: null
+        },
+        tree: { type: Array },
+        size: { type: String, validator: function validator(value) {
+                (0, _newArrowCheck3.default)(undefined, undefined);
+                return ['large', 'small'].indexOf(value) > -1;
+            }.bind(undefined) },
+        showCheckbox: { type: Boolean, default: false },
+        wholeRow: { type: Boolean, default: false },
+        noDots: { type: Boolean, default: false },
+        collapse: { type: Boolean, default: false },
+        multiple: { type: Boolean, default: false },
+        allowBatch: { type: Boolean, default: true },
+        allowTransition: { type: Boolean, default: true },
+        textFieldName: { type: String, default: 'text' },
+        valueFieldName: { type: String, default: 'value' },
+        childrenFieldName: { type: String, default: 'children' },
+        itemEvents: {
+            type: Object,
+            default: function _default() {
+                return {};
             }
-          } catch (err) {
-            _didIteratorError = true;
-            _iteratorError = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-              }
-            } finally {
-              if (_didIteratorError) {
-                throw _iteratorError;
-              }
-            }
-          }
+        },
+        async: { type: Function },
+        loadingText: { type: String, default: 'Loading...' },
+        draggable: { type: Boolean, default: false },
+        dragOverBackgroundColor: { type: String, default: '#C9FDC9' },
+        klass: String,
+        maxHeight: {
+            type: Number,
+            default: 400
         }
-      }
     },
-    handleRecursionNodeChildren: function handleRecursionNodeChildren(node, func) {
-      if (func(node) !== false) {
-        if (node[this.childrenFieldName] && node[this.childrenFieldName].length > 0) {
-          var _iteratorNormalCompletion2 = true;
-          var _didIteratorError2 = false;
-          var _iteratorError2 = undefined;
+    data: function data() {
+        return {
+            treeData: [],
+            draggedItem: undefined,
+            draggedElm: undefined,
+            treeStyles: 'max-height:' + String(this.maxHeight) + 'px;overflow: auto;'
+        };
+    },
 
-          try {
-            for (var _iterator2 = (0, _getIterator3.default)(node[this.childrenFieldName]), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-              var childNode = _step2.value;
+    watch: {
+        tree: function tree(newValue, oldValue) {
+            var start = new Date().getMilliseconds();
 
-              this.handleRecursionNodeChildren(childNode, func);
-            }
-          } catch (err) {
-            _didIteratorError2 = true;
-            _iteratorError2 = err;
-          } finally {
-            try {
-              if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                _iterator2.return();
-              }
-            } finally {
-              if (_didIteratorError2) {
-                throw _iteratorError2;
-              }
-            }
-          }
+            this.treeData = _Utils2.default.getTreeData(newValue);
+            var end = new Date().getMilliseconds();
+            this.$log.d('tree 构造耗时:%o,treeData', end - start, this.treeData);
+            this.initializeData(this.treeData);
         }
-      }
     },
-    onItemClick: function onItemClick(oriNode, oriItem, e) {
-      if (this.multiple) {
-        if (this.allowBatch) {
-          this.handleBatchSelectItems(oriNode, oriItem);
+    computed: {
+        classes: function classes() {
+            return [{ 'tree': true }, { 'tree-default': !this.size }, (0, _defineProperty3.default)({}, 'tree-default-' + String(this.size), !!this.size), { 'tree-checkbox-selection': !!this.showCheckbox }, (0, _defineProperty3.default)({}, this.klass, !!this.klass)];
+        },
+        containerClasses: function containerClasses() {
+            return [{ 'tree-container-ul': true }, { 'tree-children': true }, { 'tree-wholerow-ul': !!this.wholeRow }, { 'tree-no-dots': !!this.noDots }];
+        },
+        sizeHeight: function sizeHeight() {
+            switch (this.size) {
+                case 'large':
+                    return ITEM_HEIGHT_LARGE;
+                case 'small':
+                    return ITEM_HEIGHT_SMALL;
+                default:
+                    return ITEM_HEIGHT_DEFAULT;
+            }
         }
-      } else {
-        this.handleSingleSelectItems(oriNode, oriItem);
-      }
-
-      this.$emit('input', oriItem.id);
-      this.$emit('item-click', oriNode, oriItem, e);
     },
-    handleSingleSelectItems: function handleSingleSelectItems(oriNode, oriItem) {
-      var _this5 = this;
-
-      this.handleRecursionNodeChilds(this, function (node) {
-        (0, _newArrowCheck3.default)(this, _this5);
-
-        if (node.model) node.model.selected = false;
-      }.bind(this));
-      oriNode.model.selected = true;
-    },
-    handleBatchSelectItems: function handleBatchSelectItems(oriNode, oriItem) {
-      var _this6 = this;
-
-      this.handleRecursionNodeChilds(oriNode, function (node) {
-        (0, _newArrowCheck3.default)(this, _this6);
-
-        if (node.model.disabled) return;
-        node.model.selected = oriNode.model.selected;
-      }.bind(this));
-    },
-    onItemToggle: function onItemToggle(oriNode, oriItem, e) {
-      if (oriNode.model.opened) {
-        this.handleAsyncLoad(oriNode.model[this.childrenFieldName], oriNode, oriItem);
-      }
-      this.$emit('item-toggle', oriNode, oriItem, e);
-    },
-    handleAsyncLoad: function handleAsyncLoad(oriParent, oriNode, oriItem) {
-      var _this7 = this;
-
-      var self = this;
-      if (this.async) {
-        if (oriParent[0].loading) {
-          this.async(oriNode, function (data) {
-            (0, _newArrowCheck3.default)(this, _this7);
-
-            if (data.length > 0) {
-              for (var i in data) {
-                if (!data[i].isLeaf) {
-                  if ((0, _typeof3.default)(data[i][self.childrenFieldName]) !== 'object') {
-                    data[i][self.childrenFieldName] = [self.initializeLoading()];
-                  }
+    methods: {
+        initializeData: function initializeData(items) {
+            if (items && items.length > 0) {
+                for (var i in items) {
+                    items[i] = this.initializeDataItem(items[i]);
+                    this.initializeData(items[i][this.childrenFieldName]);
                 }
-                var dataItem = self.initializeDataItem(data[i]);
-                self.$set(oriParent, i, dataItem);
-              }
-            } else {
-              oriNode.model[self.childrenFieldName] = [];
             }
-          }.bind(this));
+        },
+        initializeDataItem: function initializeDataItem(item) {
+            function Model(item, textFieldName, valueFieldName, childrenFieldName, collapse) {
+                this.id = item.id || ITEM_ID++;
+                this.parentId = item.parentId || null;
+                this[textFieldName] = item[textFieldName] || '';
+                this[valueFieldName] = item[valueFieldName] || item[textFieldName];
+                this.icon = item.icon || '';
+                this.tip = item.tip || '';
+                this.opened = item.opened || collapse;
+                this.selected = item.selected || false;
+                this.disabled = item.disabled || false;
+                this.loading = item.loading || false;
+                this[childrenFieldName] = item[childrenFieldName] || [];
+                if (this[childrenFieldName].length === 0) {
+                    this.isLeaf = true;
+                }
+            }
+
+            var node = (0, _assign2.default)(new Model(item, this.textFieldName, this.valueFieldName, this.childrenFieldName, this.collapse), item);
+            var self = this;
+            node.addBefore = function (data, selectedNode) {
+                var _this = this;
+
+                var newItem = self.initializeDataItem(data);
+                var index = selectedNode.parentItem.findIndex(function (t) {
+                    (0, _newArrowCheck3.default)(this, _this);
+                    return t.id === node.id;
+                }.bind(this));
+                selectedNode.parentItem.splice(index, 0, newItem);
+            };
+            node.addAfter = function (data, selectedNode) {
+                var _this2 = this;
+
+                var newItem = self.initializeDataItem(data);
+                var index = selectedNode.parentItem.findIndex(function (t) {
+                    (0, _newArrowCheck3.default)(this, _this2);
+                    return t.id === node.id;
+                }.bind(this)) + 1;
+                selectedNode.parentItem.splice(index, 0, newItem);
+            };
+            node.addChild = function (data) {
+                var newItem = self.initializeDataItem(data);
+                node.opened = true;
+                node[self.childrenFieldName].push(newItem);
+            };
+            node.openChildren = function () {
+                var _this3 = this;
+
+                node.opened = true;
+                self.handleRecursionNodeChildren(node, function (node) {
+                    (0, _newArrowCheck3.default)(this, _this3);
+
+                    node.opened = true;
+                }.bind(this));
+            };
+            node.closeChildren = function () {
+                var _this4 = this;
+
+                node.opened = false;
+                self.handleRecursionNodeChildren(node, function (node) {
+                    (0, _newArrowCheck3.default)(this, _this4);
+
+                    node.opened = false;
+                }.bind(this));
+            };
+            return node;
+        },
+        initializeLoading: function initializeLoading() {
+            var item = {};
+            item[this.textFieldName] = this.loadingText;
+            item.disabled = true;
+            item.loading = true;
+            return this.initializeDataItem(item);
+        },
+        handleRecursionNodeChilds: function handleRecursionNodeChilds(node, func) {
+            if (func(node) !== false) {
+                if (node.$children && node.$children.length > 0) {
+                    var _iteratorNormalCompletion = true;
+                    var _didIteratorError = false;
+                    var _iteratorError = undefined;
+
+                    try {
+                        for (var _iterator = (0, _getIterator3.default)(node.$children), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                            var childNode = _step.value;
+
+                            if (!childNode.disabled) {
+                                this.handleRecursionNodeChilds(childNode, func);
+                            }
+                        }
+                    } catch (err) {
+                        _didIteratorError = true;
+                        _iteratorError = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion && _iterator.return) {
+                                _iterator.return();
+                            }
+                        } finally {
+                            if (_didIteratorError) {
+                                throw _iteratorError;
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        handleRecursionNodeChildren: function handleRecursionNodeChildren(node, func) {
+            if (func(node) !== false) {
+                if (node[this.childrenFieldName] && node[this.childrenFieldName].length > 0) {
+                    var _iteratorNormalCompletion2 = true;
+                    var _didIteratorError2 = false;
+                    var _iteratorError2 = undefined;
+
+                    try {
+                        for (var _iterator2 = (0, _getIterator3.default)(node[this.childrenFieldName]), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                            var childNode = _step2.value;
+
+                            this.handleRecursionNodeChildren(childNode, func);
+                        }
+                    } catch (err) {
+                        _didIteratorError2 = true;
+                        _iteratorError2 = err;
+                    } finally {
+                        try {
+                            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                                _iterator2.return();
+                            }
+                        } finally {
+                            if (_didIteratorError2) {
+                                throw _iteratorError2;
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        onItemClick: function onItemClick(oriNode, oriItem, e) {
+            if (this.multiple) {
+                if (this.allowBatch) {
+                    this.handleBatchSelectItems(oriNode, oriItem);
+                }
+            } else {
+                this.handleSingleSelectItems(oriNode, oriItem);
+            }
+
+            this.$emit('input', oriItem.id);
+            this.$emit('item-click', oriNode, oriItem, e);
+        },
+        handleSingleSelectItems: function handleSingleSelectItems(oriNode, oriItem) {
+            var _this5 = this;
+
+            this.handleRecursionNodeChilds(this, function (node) {
+                (0, _newArrowCheck3.default)(this, _this5);
+
+                if (node.model) node.model.selected = false;
+            }.bind(this));
+            oriNode.model.selected = true;
+        },
+        handleBatchSelectItems: function handleBatchSelectItems(oriNode, oriItem) {
+            var _this6 = this;
+
+            this.handleRecursionNodeChilds(oriNode, function (node) {
+                (0, _newArrowCheck3.default)(this, _this6);
+
+                if (node.model.disabled) return;
+                node.model.selected = oriNode.model.selected;
+            }.bind(this));
+        },
+        onItemToggle: function onItemToggle(oriNode, oriItem, e) {
+            if (oriNode.model.opened) {
+                this.handleAsyncLoad(oriNode.model[this.childrenFieldName], oriNode, oriItem);
+            }
+            this.$emit('item-toggle', oriNode, oriItem, e);
+        },
+        handleAsyncLoad: function handleAsyncLoad(oriParent, oriNode, oriItem) {
+            var _this7 = this;
+
+            var self = this;
+            if (this.async) {
+                if (oriParent[0].loading) {
+                    this.async(oriNode, function (data) {
+                        (0, _newArrowCheck3.default)(this, _this7);
+
+                        if (data.length > 0) {
+                            for (var i in data) {
+                                if (!data[i].isLeaf) {
+                                    if ((0, _typeof3.default)(data[i][self.childrenFieldName]) !== 'object') {
+                                        data[i][self.childrenFieldName] = [self.initializeLoading()];
+                                    }
+                                }
+                                var dataItem = self.initializeDataItem(data[i]);
+                                self.$set(oriParent, i, dataItem);
+                            }
+                        } else {
+                            oriNode.model[self.childrenFieldName] = [];
+                        }
+                    }.bind(this));
+                }
+            }
+        },
+        onItemDragStart: function onItemDragStart(e, oriNode, oriItem) {
+            var _this8 = this;
+
+            if (!this.draggable || oriItem.dragDisabled) {
+                return false;
+            }
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text', null);
+            this.draggedElm = e.target;
+            this.draggedItem = {
+                item: oriItem,
+                parentItem: oriNode.parentItem,
+                index: oriNode.parentItem.findIndex(function (t) {
+                    (0, _newArrowCheck3.default)(this, _this8);
+                    return t.id === oriItem.id;
+                }.bind(this))
+            };
+
+            this.$emit('item-drag-start', oriNode, oriItem, e);
+        },
+        onItemDragEnd: function onItemDragEnd(e, oriNode, oriItem) {
+            this.draggedItem = undefined;
+            this.draggedElm = undefined;
+            this.$emit('item-drag-end', oriNode, oriItem, e);
+        },
+        onItemDrop: function onItemDrop(e, oriNode, oriItem) {
+            var _this9 = this;
+
+            if (!this.draggable || !!oriItem.dropDisabled) {
+                return false;
+            }
+            this.$emit('item-drop-before', oriNode, oriItem, !this.draggedItem ? undefined : this.draggedItem.item, e);
+            if (!this.draggedElm || this.draggedElm === e.target || this.draggedElm.contains(e.target)) {
+                return;
+            }
+            if (this.draggedItem) {
+                if (this.draggedItem.parentItem === oriItem[this.childrenFieldName] || this.draggedItem.item === oriItem || oriItem[this.childrenFieldName] && oriItem[this.childrenFieldName].findIndex(function (t) {
+                    (0, _newArrowCheck3.default)(this, _this9);
+                    return t.id === this.draggedItem.item.id;
+                }.bind(this)) !== -1) {
+                    return;
+                }
+                if (oriItem[this.childrenFieldName]) {
+                    oriItem[this.childrenFieldName].push(this.draggedItem.item);
+                } else {
+                    oriItem[this.childrenFieldName] = [this.draggedItem.item];
+                }
+                oriItem.opened = true;
+                var draggedItem = this.draggedItem;
+                this.$nextTick(function () {
+                    (0, _newArrowCheck3.default)(this, _this9);
+
+                    draggedItem.parentItem.splice(draggedItem.index, 1);
+                }.bind(this));
+                this.$emit('item-drop', oriNode, oriItem, draggedItem.item, e);
+            }
+        },
+        getCheckedNodes: function getCheckedNodes() {
+            var _this11 = this;
+
+            function getChecked(item, result) {
+                var _this10 = this;
+
+                if (item.selected) {
+                    result.push(item.id);
+                }
+                item.children.forEach(function (c) {
+                    (0, _newArrowCheck3.default)(this, _this10);
+
+                    getChecked(c, result);
+                }.bind(this));
+            }
+            var result = [];
+            this.treeData.forEach(function (t) {
+                (0, _newArrowCheck3.default)(this, _this11);
+
+                getChecked(t, result);
+            }.bind(this));
+            return result;
         }
-      }
     },
-    onItemDragStart: function onItemDragStart(e, oriNode, oriItem) {
-      var _this8 = this;
-
-      if (!this.draggable || oriItem.dragDisabled) {
-        return false;
-      }
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.setData('text', null);
-      this.draggedElm = e.target;
-      this.draggedItem = {
-        item: oriItem,
-        parentItem: oriNode.parentItem,
-        index: oriNode.parentItem.findIndex(function (t) {
-          (0, _newArrowCheck3.default)(this, _this8);
-          return t.id === oriItem.id;
-        }.bind(this))
-      };
-
-      this.$emit('item-drag-start', oriNode, oriItem, e);
-    },
-    onItemDragEnd: function onItemDragEnd(e, oriNode, oriItem) {
-      this.draggedItem = undefined;
-      this.draggedElm = undefined;
-      this.$emit('item-drag-end', oriNode, oriItem, e);
-    },
-    onItemDrop: function onItemDrop(e, oriNode, oriItem) {
-      var _this9 = this;
-
-      if (!this.draggable || !!oriItem.dropDisabled) {
-        return false;
-      }
-      this.$emit('item-drop-before', oriNode, oriItem, !this.draggedItem ? undefined : this.draggedItem.item, e);
-      if (!this.draggedElm || this.draggedElm === e.target || this.draggedElm.contains(e.target)) {
-        return;
-      }
-      if (this.draggedItem) {
-        if (this.draggedItem.parentItem === oriItem[this.childrenFieldName] || this.draggedItem.item === oriItem || oriItem[this.childrenFieldName] && oriItem[this.childrenFieldName].findIndex(function (t) {
-          (0, _newArrowCheck3.default)(this, _this9);
-          return t.id === this.draggedItem.item.id;
-        }.bind(this)) !== -1) {
-          return;
+    created: function created() {},
+    mounted: function mounted() {
+        if (this.async) {
+            this.$set(this.treeData, 0, this.initializeLoading());
+            this.handleAsyncLoad(this.treeData, this);
         }
-        if (oriItem[this.childrenFieldName]) {
-          oriItem[this.childrenFieldName].push(this.draggedItem.item);
-        } else {
-          oriItem[this.childrenFieldName] = [this.draggedItem.item];
-        }
-        oriItem.opened = true;
-        var draggedItem = this.draggedItem;
-        this.$nextTick(function () {
-          (0, _newArrowCheck3.default)(this, _this9);
 
-          draggedItem.parentItem.splice(draggedItem.index, 1);
-        }.bind(this));
-        this.$emit('item-drop', oriNode, oriItem, draggedItem.item, e);
-      }
+        this.treeData = _Utils2.default.getTreeData(this.tree);
+        this.initializeData(this.treeData);
     },
-    getCheckedNodes: function getCheckedNodes() {
-      var _this11 = this;
 
-      function getChecked(item, result) {
-        var _this10 = this;
-
-        if (item.selected) {
-          result.push(item.id);
-        }
-        item.children.forEach(function (c) {
-          (0, _newArrowCheck3.default)(this, _this10);
-
-          getChecked(c, result);
-        }.bind(this));
-      }
-      var result = [];
-      this.treeData.forEach(function (t) {
-        (0, _newArrowCheck3.default)(this, _this11);
-
-        getChecked(t, result);
-      }.bind(this));
-      return result;
+    components: {
+        UTreeItem: _UTreeItem2.default
     }
-  },
-  created: function created() {},
-  mounted: function mounted() {
-    if (this.async) {
-      this.$set(this.treeData, 0, this.initializeLoading());
-      this.handleAsyncLoad(this.treeData, this);
-    }
-
-    this.treeData = _Utils2.default.getTreeData(this.tree);
-    this.initializeData(this.treeData);
-  },
-
-  components: {
-    UTreeItem: _UTreeItem2.default
-  }
 };
 
 /***/ }),
@@ -2493,11 +2506,11 @@ exports.default = {
 
 exports.__esModule = true;
 
-var _iterator = __webpack_require__(106);
+var _iterator = __webpack_require__(107);
 
 var _iterator2 = _interopRequireDefault(_iterator);
 
-var _symbol = __webpack_require__(115);
+var _symbol = __webpack_require__(116);
 
 var _symbol2 = _interopRequireDefault(_symbol);
 
@@ -2522,9 +2535,9 @@ var $export = __webpack_require__(6);
 var redefine = __webpack_require__(60);
 var hide = __webpack_require__(12);
 var Iterators = __webpack_require__(23);
-var $iterCreate = __webpack_require__(109);
+var $iterCreate = __webpack_require__(110);
 var setToStringTag = __webpack_require__(31);
-var getPrototypeOf = __webpack_require__(111);
+var getPrototypeOf = __webpack_require__(112);
 var ITERATOR = __webpack_require__(3)('iterator');
 var BUGGY = !([].keys && 'next' in [].keys()); // Safari has buggy iterators w/o `next`
 var FF_ITERATOR = '@@iterator';
@@ -2600,7 +2613,7 @@ module.exports = __webpack_require__(12);
 
 // 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
 var anObject = __webpack_require__(8);
-var dPs = __webpack_require__(110);
+var dPs = __webpack_require__(111);
 var enumBugKeys = __webpack_require__(40);
 var IE_PROTO = __webpack_require__(38)('IE_PROTO');
 var Empty = function () { /* empty */ };
@@ -2731,7 +2744,7 @@ exports.default = function (obj, key, value) {
 /* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(127), __esModule: true };
+module.exports = { "default": __webpack_require__(128), __esModule: true };
 
 /***/ }),
 /* 68 */
@@ -2820,7 +2833,7 @@ exports.default = {
             if (newValue) {
                 this.$el.style.backgroundColor = this.dragOverBackgroundColor;
             } else {
-                this.$el.style.backgroundColor = "inherit";
+                this.$el.style.backgroundColor = 'inherit';
             }
         },
         data: function data(newValue) {
@@ -2865,10 +2878,10 @@ exports.default = {
         groupStyle: function groupStyle() {
             return {
                 'position': this.model.opened ? '' : 'relative',
-                'max-height': !!this.allowTransition ? this.maxHeight + 'px' : '',
-                'transition-duration': !!this.allowTransition ? Math.ceil(this.model[this.childrenFieldName].length / 100) * 300 + 'ms' : '',
-                'transition-property': !!this.allowTransition ? 'max-height' : '',
-                'display': !!this.allowTransition ? 'block' : this.model.opened ? 'block' : 'none'
+                'max-height': this.allowTransition ? this.maxHeight + 'px' : '',
+                'transition-duration': this.allowTransition ? Math.ceil(this.model[this.childrenFieldName].length / 100) * 300 + 'ms' : '',
+                'transition-property': this.allowTransition ? 'max-height' : '',
+                'display': this.allowTransition ? 'block' : this.model.opened ? 'block' : 'none'
             };
         }
     },
@@ -2886,7 +2899,7 @@ exports.default = {
             }
         },
         handleGroupMaxHeight: function handleGroupMaxHeight() {
-            if (!!this.allowTransition) {
+            if (this.allowTransition) {
                 var length = 0;
                 var childHeight = 0;
                 if (this.model.opened) {
@@ -2934,7 +2947,7 @@ exports.default = {
             this.isHover = false;
         },
         handleItemDrop: function handleItemDrop(e, oriNode, oriItem) {
-            this.$el.style.backgroundColor = "inherit";
+            this.$el.style.backgroundColor = 'inherit';
             this.onItemDrop(e, oriNode, oriItem);
         }
     },
@@ -2982,11 +2995,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue__ = __webpack_require__(70);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeSelect_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3509063d_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3509063d_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__ = __webpack_require__(144);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3509063d_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3509063d_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeSelect_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
-  __webpack_require__(132)
+  __webpack_require__(133)
 }
 /* script */
 
@@ -3050,7 +3063,7 @@ var _Utils = __webpack_require__(46);
 
 var _Utils2 = _interopRequireDefault(_Utils);
 
-var _treeid = __webpack_require__(142);
+var _treeid = __webpack_require__(143);
 
 var _treeid2 = _interopRequireDefault(_treeid);
 
@@ -3368,9 +3381,9 @@ module.exports = function (exec, skipClosing) {
 
 
 
-var base64 = __webpack_require__(139)
-var ieee754 = __webpack_require__(140)
-var isArray = __webpack_require__(141)
+var base64 = __webpack_require__(140)
+var ieee754 = __webpack_require__(141)
+var isArray = __webpack_require__(142)
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -5148,7 +5161,7 @@ function isnan (val) {
   return val !== val // eslint-disable-line no-self-compare
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(138)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(139)))
 
 /***/ }),
 /* 75 */
@@ -5181,11 +5194,11 @@ var _deepExtend = __webpack_require__(25);
 
 var _deepExtend2 = _interopRequireDefault(_deepExtend);
 
-var _default2 = __webpack_require__(147);
+var _default2 = __webpack_require__(148);
 
 var _default3 = _interopRequireDefault(_default2);
 
-var _coreUtilIs = __webpack_require__(148);
+var _coreUtilIs = __webpack_require__(76);
 
 var _coreUtilIs2 = _interopRequireDefault(_coreUtilIs);
 
@@ -5247,7 +5260,7 @@ exports.default = {
             self: this,
             loadingStatus: false,
             modal: {
-                title: "",
+                title: '',
 
                 editModal: false,
 
@@ -5429,7 +5442,7 @@ exports.default = {
                             if (value === '') {
                                 callback(new Error(c.label + '为必填'));
                             } else if (value !== this.formGrid.form.data[c.equalsTo]) {
-                                callback(new Error('\u4E24\u6B21\u8F93\u5165\u7684\u5185\u5BB9\u4E0D\u4E00\u81F4!'));
+                                callback(new Error('两次输入的内容不一致!'));
                             } else {
                                 callback();
                             }
@@ -6411,11 +6424,125 @@ exports.default = {
 /* 76 */
 /***/ (function(module, exports, __webpack_require__) {
 
+/* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+// NOTE: These type checking functions intentionally don't use `instanceof`
+// because it is fragile and can be easily faked with `Object.create()`.
+
+function isArray(arg) {
+  if (Array.isArray) {
+    return Array.isArray(arg);
+  }
+  return objectToString(arg) === '[object Array]';
+}
+exports.isArray = isArray;
+
+function isBoolean(arg) {
+  return typeof arg === 'boolean';
+}
+exports.isBoolean = isBoolean;
+
+function isNull(arg) {
+  return arg === null;
+}
+exports.isNull = isNull;
+
+function isNullOrUndefined(arg) {
+  return arg == null;
+}
+exports.isNullOrUndefined = isNullOrUndefined;
+
+function isNumber(arg) {
+  return typeof arg === 'number';
+}
+exports.isNumber = isNumber;
+
+function isString(arg) {
+  return typeof arg === 'string';
+}
+exports.isString = isString;
+
+function isSymbol(arg) {
+  return typeof arg === 'symbol';
+}
+exports.isSymbol = isSymbol;
+
+function isUndefined(arg) {
+  return arg === void 0;
+}
+exports.isUndefined = isUndefined;
+
+function isRegExp(re) {
+  return objectToString(re) === '[object RegExp]';
+}
+exports.isRegExp = isRegExp;
+
+function isObject(arg) {
+  return typeof arg === 'object' && arg !== null;
+}
+exports.isObject = isObject;
+
+function isDate(d) {
+  return objectToString(d) === '[object Date]';
+}
+exports.isDate = isDate;
+
+function isError(e) {
+  return (objectToString(e) === '[object Error]' || e instanceof Error);
+}
+exports.isError = isError;
+
+function isFunction(arg) {
+  return typeof arg === 'function';
+}
+exports.isFunction = isFunction;
+
+function isPrimitive(arg) {
+  return arg === null ||
+         typeof arg === 'boolean' ||
+         typeof arg === 'number' ||
+         typeof arg === 'string' ||
+         typeof arg === 'symbol' ||  // ES6 symbol
+         typeof arg === 'undefined';
+}
+exports.isPrimitive = isPrimitive;
+
+exports.isBuffer = Buffer.isBuffer;
+
+function objectToString(o) {
+  return Object.prototype.toString.call(o);
+}
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(74).Buffer))
+
+/***/ }),
+/* 77 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _promise = __webpack_require__(47);
@@ -6441,286 +6568,286 @@ var _Log2 = _interopRequireDefault(_Log);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  name: 'ueUpload',
-  props: {
-    scope: {
-      type: String,
-      'default': 'upload'
-    },
+    name: 'ueUpload',
+    props: {
+        scope: {
+            type: String,
+            'default': 'upload'
+        },
 
-    isShow: {
-      'default': true
-    },
+        isShow: {
+            'default': true
+        },
 
-    action: {
-      type: String,
-      'default': ''
-    },
+        action: {
+            type: String,
+            'default': ''
+        },
 
-    params: {
-      type: Object,
-      'default': {}
-    },
+        params: {
+            type: Object,
+            'default': {}
+        },
 
-    maxSize: {
-      type: Number,
-      'default': 2048
-    },
+        maxSize: {
+            type: Number,
+            'default': 2048
+        },
 
-    fileType: {
-      'default': null
-    },
+        fileType: {
+            'default': null
+        },
 
-    multiFile: {
-      'default': false
-    }
-  },
-  data: function data() {
-    var isSupported = true;
-
-    var lang = {
-      hint: '点击，或将文件拖动至此处',
-      loading: '正在上传……',
-      noSupported: '浏览器不支持该功能，请使用IE10以上或其他现代浏览器！',
-      success: '上传成功',
-      fail: '上传失败',
-      error: {
-        multiFile: '仅限单文件上传',
-        outOfSize: '单文件大小超限 '
-      }
-    };
-    if (typeof FormData !== 'function') {
-      isSupported = false;
-    }
-    return {
-      loading: 0,
-      lang: lang,
-      isSupported: isSupported,
-      hasError: false,
-      files: '',
-      progress: 0,
-      errorMsg: ''
-    };
-  },
-
-  computed: {
-    progressStyle: function progressStyle() {
-      var progress = this.progress;
-
-      return {
-        width: progress + '%'
-      };
-    }
-  },
-  watch: {
-    'isShow': function isShow(newValue) {
-      if (newValue) {
-        this.reset();
-      }
-    }
-  },
-  methods: {
-    handleDragLeave: function handleDragLeave(e) {
-      e.preventDefault();
-    },
-    handleDrop: function handleDrop(e) {
-      e.preventDefault();
-      if (this.loading !== 1) {
-        var files = e.dataTransfer.files;
-        this.reset();
-        if (this.checkFiles(files)) {
-          this.upload(files);
+        multiFile: {
+            'default': false
         }
-      }
     },
-    handleDragEnter: function handleDragEnter(e) {
-      e.preventDefault();
-    },
-    handleDragOver: function handleDragOver(e) {
-      e.preventDefault();
-    },
-    handleClick: function handleClick(e) {
-      if (this.loading !== 1) {
-        if (e.target !== this.$refs.fileinput) {
-          e.preventDefault();
-          this.$refs.fileinput.click();
-        }
-      }
-    },
-    handleChange: function handleChange(e) {
-      if (this.loading !== 1) {
-        var files = e.target.files;
-        this.reset();
-        if (this.checkFiles(files)) {
-          this.upload(files);
-        }
-      }
-    },
-    checkFiles: function checkFiles(files) {
-      var that = this;
+    data: function data() {
+        var isSupported = true;
 
-      var lang = that.lang,
-          maxSize = that.maxSize,
-          fileType = that.fileType,
-          multiFile = that.multiFile;
-
-
-      var fileNum = files.length;
-
-      if (fileNum < 1) {
-        this.$Notice.info({
-          title: '温馨提醒',
-          desc: lang.error.multiFile
-        });
-        return false;
-      }
-      if (!fileType) {
-        return true;
-      }
-      var fileType_ = ('|' + fileType.join('|') + '|').replace('xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-
-      if (!multiFile) {
-        if (fileNum > 1) {
-          this.$Notice.error({
-            title: '文件数量超限',
-            desc: lang.error.multiFile
-          });
-          return false;
-        }
-
-        var file = files[0];
-        var _fileType = file.type;
-        if (!_fileType) {
-          _fileType = file.name.substr(file.name.indexOf('.') + 1);
-        }
-        _Log2.default.d(_fileType);
-        var type = '|' + _fileType + '|';
-        if (fileType_ && fileType_.indexOf(type) < 0) {
-          this.$Notice.error({
-            title: '文件类型错误',
-            desc: '仅限支持' + fileType.join(',') + '格式文件'
-          });
-          return false;
-        }
-
-        var maxSizeM = file.size / 1024;
-        if (maxSizeM > maxSize) {
-          this.$Notice.error({
-            title: '文件超限',
-            desc: lang.error.outOfSize + '[实际：' + Math.round(maxSizeM, 2) + 'KB, 限制：' + maxSize + 'KB]'
-          });
-          return false;
-        }
-      } else {
-        for (var i = 0; i < fileNum; i++) {
-          var _file = files[0];
-          var _fileType2 = _file.type;
-          if (!_fileType2) {
-            _fileType2 = _file.name.substr(_file.name.indexOf('.') + 1);
-          }
-          var _type = '|' + _fileType2 + '|';
-          if (fileType_ && fileType_.indexOf(_type) < 0) {
-            this.$Notice.error({
-              title: '文件类型错误',
-              desc: '仅限支持' + fileType.join(',') + '格式文件'
-            });
-            return false;
-          }
-
-          var _maxSizeM = _file.size / 1024;
-          if (_maxSizeM > maxSize) {
-            this.$Notice.error({
-              title: '文件超限',
-              desc: lang.error.outOfSize + '[实际：' + Math.round(_maxSizeM, 2) + 'KB, 限制：' + maxSize + 'KB]'
-            });
-            return false;
-          }
-        }
-      }
-      return true;
-    },
-    reset: function reset() {
-      var that = this;
-      that.loading = 0;
-      that.hasError = false;
-      that.errorMsg = '';
-      that.progress = 0;
-    },
-    upload: function upload(files) {
-      var _this = this;
-
-      var that = this;
-
-      var action = this.action,
-          params = this.params,
-          multiFile = this.multiFile,
-          scope = this.scope;
-
-
-      var fmData = new FormData();
-
-      if (!multiFile) {
-        fmData.append(scope, files[0]);
-      } else {
-        fmData.append(scope, files);
-      }
-
-      if ((typeof params === 'undefined' ? 'undefined' : (0, _typeof3.default)(params)) === 'object' && params) {
-        (0, _keys2.default)(params).forEach(function (k) {
-          (0, _newArrowCheck3.default)(this, _this);
-
-          fmData.append(k, params[k]);
-        }.bind(this));
-      }
-
-      var uploadProgress = function uploadProgress(event) {
-        if (event.lengthComputable) {
-          that.progress = 100 * Math.round(event.loaded) / event.total;
-        }
-      };
-
-      that.loading = 1;
-      new _promise2.default(function (resolve, reject) {
-        var client = new XMLHttpRequest();
-        client.open('POST', action, true);
-        client.onreadystatechange = function () {
-          if (this.readyState !== 4) {
-            return;
-          }
-          if (this.status === 200) {
-            resolve(this.responseText);
-          } else {
-            reject(this.responseText);
-          }
+        var lang = {
+            hint: '点击，或将文件拖动至此处',
+            loading: '正在上传……',
+            noSupported: '浏览器不支持该功能，请使用IE10以上或其他现代浏览器！',
+            success: '上传成功',
+            fail: '上传失败',
+            error: {
+                multiFile: '仅限单文件上传',
+                outOfSize: '单文件大小超限 '
+            }
         };
-        client.upload.addEventListener('progress', uploadProgress, false);
-        client.send(fmData);
-      }).then(function (resData) {
-        that.files = '';
-        that.loading = 0;
-        that.$Notice.success({
-          title: '上传结果',
-          desc: '文件已上传成功'
-        });
-      }, function (resData) {
-        _Log2.default.d(resData);
-        that.loading = 0;
-        that.files = '';
-        var message = '文件上传失败';
-        if (resData && resData['message']) {
-          message = resData['message'];
+        if (typeof FormData !== 'function') {
+            isSupported = false;
         }
-        that.$Notice.error({
-          title: '上传结果',
-          desc: message
-        });
-      });
+        return {
+            loading: 0,
+            lang: lang,
+            isSupported: isSupported,
+            hasError: false,
+            files: '',
+            progress: 0,
+            errorMsg: ''
+        };
+    },
+
+    computed: {
+        progressStyle: function progressStyle() {
+            var progress = this.progress;
+
+            return {
+                width: progress + '%'
+            };
+        }
+    },
+    watch: {
+        'isShow': function isShow(newValue) {
+            if (newValue) {
+                this.reset();
+            }
+        }
+    },
+    methods: {
+        handleDragLeave: function handleDragLeave(e) {
+            e.preventDefault();
+        },
+        handleDrop: function handleDrop(e) {
+            e.preventDefault();
+            if (this.loading !== 1) {
+                var files = e.dataTransfer.files;
+                this.reset();
+                if (this.checkFiles(files)) {
+                    this.upload(files);
+                }
+            }
+        },
+        handleDragEnter: function handleDragEnter(e) {
+            e.preventDefault();
+        },
+        handleDragOver: function handleDragOver(e) {
+            e.preventDefault();
+        },
+        handleClick: function handleClick(e) {
+            if (this.loading !== 1) {
+                if (e.target !== this.$refs.fileinput) {
+                    e.preventDefault();
+                    this.$refs.fileinput.click();
+                }
+            }
+        },
+        handleChange: function handleChange(e) {
+            if (this.loading !== 1) {
+                var files = e.target.files;
+                this.reset();
+                if (this.checkFiles(files)) {
+                    this.upload(files);
+                }
+            }
+        },
+        checkFiles: function checkFiles(files) {
+            var that = this;
+
+            var lang = that.lang,
+                maxSize = that.maxSize,
+                fileType = that.fileType,
+                multiFile = that.multiFile;
+
+
+            var fileNum = files.length;
+
+            if (fileNum < 1) {
+                this.$Notice.info({
+                    title: '温馨提醒',
+                    desc: lang.error.multiFile
+                });
+                return false;
+            }
+            if (!fileType) {
+                return true;
+            }
+            var fileType_ = ('|' + fileType.join('|') + '|').replace('xlsx', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+            if (!multiFile) {
+                if (fileNum > 1) {
+                    this.$Notice.error({
+                        title: '文件数量超限',
+                        desc: lang.error.multiFile
+                    });
+                    return false;
+                }
+
+                var file = files[0];
+                var _fileType = file.type;
+                if (!_fileType) {
+                    _fileType = file.name.substr(file.name.indexOf('.') + 1);
+                }
+                _Log2.default.d(_fileType);
+                var type = '|' + _fileType + '|';
+                if (fileType_ && fileType_.indexOf(type) < 0) {
+                    this.$Notice.error({
+                        title: '文件类型错误',
+                        desc: '仅限支持' + fileType.join(',') + '格式文件'
+                    });
+                    return false;
+                }
+
+                var maxSizeM = file.size / 1024;
+                if (maxSizeM > maxSize) {
+                    this.$Notice.error({
+                        title: '文件超限',
+                        desc: lang.error.outOfSize + '[实际：' + Math.round(maxSizeM, 2) + 'KB, 限制：' + maxSize + 'KB]'
+                    });
+                    return false;
+                }
+            } else {
+                for (var i = 0; i < fileNum; i++) {
+                    var _file = files[0];
+                    var _fileType2 = _file.type;
+                    if (!_fileType2) {
+                        _fileType2 = _file.name.substr(_file.name.indexOf('.') + 1);
+                    }
+                    var _type = '|' + _fileType2 + '|';
+                    if (fileType_ && fileType_.indexOf(_type) < 0) {
+                        this.$Notice.error({
+                            title: '文件类型错误',
+                            desc: '仅限支持' + fileType.join(',') + '格式文件'
+                        });
+                        return false;
+                    }
+
+                    var _maxSizeM = _file.size / 1024;
+                    if (_maxSizeM > maxSize) {
+                        this.$Notice.error({
+                            title: '文件超限',
+                            desc: lang.error.outOfSize + '[实际：' + Math.round(_maxSizeM, 2) + 'KB, 限制：' + maxSize + 'KB]'
+                        });
+                        return false;
+                    }
+                }
+            }
+            return true;
+        },
+        reset: function reset() {
+            var that = this;
+            that.loading = 0;
+            that.hasError = false;
+            that.errorMsg = '';
+            that.progress = 0;
+        },
+        upload: function upload(files) {
+            var _this = this;
+
+            var that = this;
+
+            var action = this.action,
+                params = this.params,
+                multiFile = this.multiFile,
+                scope = this.scope;
+
+
+            var fmData = new FormData();
+
+            if (!multiFile) {
+                fmData.append(scope, files[0]);
+            } else {
+                fmData.append(scope, files);
+            }
+
+            if ((typeof params === 'undefined' ? 'undefined' : (0, _typeof3.default)(params)) === 'object' && params) {
+                (0, _keys2.default)(params).forEach(function (k) {
+                    (0, _newArrowCheck3.default)(this, _this);
+
+                    fmData.append(k, params[k]);
+                }.bind(this));
+            }
+
+            var uploadProgress = function uploadProgress(event) {
+                if (event.lengthComputable) {
+                    that.progress = 100 * Math.round(event.loaded) / event.total;
+                }
+            };
+
+            that.loading = 1;
+            new _promise2.default(function (resolve, reject) {
+                var client = new XMLHttpRequest();
+                client.open('POST', action, true);
+                client.onreadystatechange = function () {
+                    if (this.readyState !== 4) {
+                        return;
+                    }
+                    if (this.status === 200) {
+                        resolve(this.responseText);
+                    } else {
+                        reject(this.responseText);
+                    }
+                };
+                client.upload.addEventListener('progress', uploadProgress, false);
+                client.send(fmData);
+            }).then(function (resData) {
+                that.files = '';
+                that.loading = 0;
+                that.$Notice.success({
+                    title: '上传结果',
+                    desc: '文件已上传成功'
+                });
+            }, function (resData) {
+                _Log2.default.d(resData);
+                that.loading = 0;
+                that.files = '';
+                var message = '文件上传失败';
+                if (resData && resData['message']) {
+                    message = resData['message'];
+                }
+                that.$Notice.error({
+                    title: '上传结果',
+                    desc: message
+                });
+            });
+        }
     }
-  }
 };
 
 /***/ }),
-/* 77 */
+/* 78 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.3.20 SpeciesConstructor(O, defaultConstructor)
@@ -6735,7 +6862,7 @@ module.exports = function (O, D) {
 
 
 /***/ }),
-/* 78 */
+/* 79 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var ctx = __webpack_require__(17);
@@ -6825,7 +6952,7 @@ module.exports = {
 
 
 /***/ }),
-/* 79 */
+/* 80 */
 /***/ (function(module, exports) {
 
 module.exports = function (exec) {
@@ -6838,7 +6965,7 @@ module.exports = function (exec) {
 
 
 /***/ }),
-/* 80 */
+/* 81 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(8);
@@ -6856,14 +6983,14 @@ module.exports = function (C, x) {
 
 
 /***/ }),
-/* 81 */
+/* 82 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _newArrowCheck2 = __webpack_require__(2);
@@ -6881,112 +7008,112 @@ var _deepExtend2 = _interopRequireDefault(_deepExtend);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  name: 'UForm',
-  props: {
-    data: {
-      type: Object
-    }
-  },
-  created: function created() {
-    var _this = this;
-
-    var defaultForm = {
-      name: 'formName',
-      labelPosition: 'right',
-
-      labelWidth: 80,
-
-      colNumber: 2,
-
-      showOpt: true,
-      columns: [],
-
-      submitBefore: function submitBefore(data) {
-        return true;
-      },
-
-      submitAfter: function submitAfter(response) {
-        return true;
-      },
-
-      onCancel: function onCancel() {},
-      data: {} };
-    this.form = (0, _deepExtend2.default)(defaultForm, this.data);
-    _Log2.default.d('form :%o', this.form);
-
-    var ruleValidate = {};
-    if (this.form.columns) {
-      this.form.columns.forEach(function (c) {
-        (0, _newArrowCheck3.default)(this, _this);
-
-        var ruleName = c.name;
-
-        if (c.required && !c.rule) {
-          var trigger = 'blur';
-
-          ['select', 'radio', 'date', 'time', 'checkbox'].forEach(function (type) {
-            (0, _newArrowCheck3.default)(this, _this);
-
-            if (c.type === type) {
-              trigger = 'change';
-            }
-          }.bind(this));
-          var rule = { required: true, message: c.label + '不能为空', trigger: trigger };
-          ruleValidate[ruleName] = [rule];
-        } else {
-          ruleValidate[ruleName] = c.rule;
+    name: 'UForm',
+    props: {
+        data: {
+            type: Object
         }
-      }.bind(this));
-    }
-    this.ruleValidate = ruleValidate;
-  },
-  data: function data() {
-    return {
-      form: {
-        data: {} },
-
-      ruleValidate: {}
-    };
-  },
-
-  methods: {
-    handleSubmit: function handleSubmit() {
-      var _this2 = this;
-
-      this.$refs[this.form.name].validate(function (valid) {
-        (0, _newArrowCheck3.default)(this, _this2);
-
-        if (valid) {
-          if (!this.form.submitBefore(this.form.data)) {
-            return;
-          }
-          this.$axios.post(this.form.actionUrl, { data: this.form.data }).then(function (response) {
-            (0, _newArrowCheck3.default)(this, _this2);
-
-            this.$Message.success('提交成功!');
-            this.handleReset();
-            this.form.submitAfter(response);
-          }.bind(this));
-        } else {
-          this.$Message.error('表单验证失败!');
-        }
-      }.bind(this));
     },
-    handleReset: function handleReset() {
-      this.$refs[this.form.name].resetFields();
+    created: function created() {
+        var _this = this;
+
+        var defaultForm = {
+            name: 'formName',
+            labelPosition: 'right',
+
+            labelWidth: 80,
+
+            colNumber: 2,
+
+            showOpt: true,
+            columns: [],
+
+            submitBefore: function submitBefore(data) {
+                return true;
+            },
+
+            submitAfter: function submitAfter(response) {
+                return true;
+            },
+
+            onCancel: function onCancel() {},
+            data: {} };
+        this.form = (0, _deepExtend2.default)(defaultForm, this.data);
+        _Log2.default.d('form :%o', this.form);
+
+        var ruleValidate = {};
+        if (this.form.columns) {
+            this.form.columns.forEach(function (c) {
+                (0, _newArrowCheck3.default)(this, _this);
+
+                var ruleName = c.name;
+
+                if (c.required && !c.rule) {
+                    var trigger = 'blur';
+
+                    ['select', 'radio', 'date', 'time', 'checkbox'].forEach(function (type) {
+                        (0, _newArrowCheck3.default)(this, _this);
+
+                        if (c.type === type) {
+                            trigger = 'change';
+                        }
+                    }.bind(this));
+                    var rule = { required: true, message: c.label + '不能为空', trigger: trigger };
+                    ruleValidate[ruleName] = [rule];
+                } else {
+                    ruleValidate[ruleName] = c.rule;
+                }
+            }.bind(this));
+        }
+        this.ruleValidate = ruleValidate;
+    },
+    data: function data() {
+        return {
+            form: {
+                data: {} },
+
+            ruleValidate: {}
+        };
+    },
+
+    methods: {
+        handleSubmit: function handleSubmit() {
+            var _this2 = this;
+
+            this.$refs[this.form.name].validate(function (valid) {
+                (0, _newArrowCheck3.default)(this, _this2);
+
+                if (valid) {
+                    if (!this.form.submitBefore(this.form.data)) {
+                        return;
+                    }
+                    this.$axios.post(this.form.actionUrl, { data: this.form.data }).then(function (response) {
+                        (0, _newArrowCheck3.default)(this, _this2);
+
+                        this.$Message.success('提交成功!');
+                        this.handleReset();
+                        this.form.submitAfter(response);
+                    }.bind(this));
+                } else {
+                    this.$Message.error('表单验证失败!');
+                }
+            }.bind(this));
+        },
+        handleReset: function handleReset() {
+            this.$refs[this.form.name].resetFields();
+        }
     }
-  }
 
 };
 
 /***/ }),
-/* 82 */
+/* 83 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(169);
 
 /***/ }),
-/* 83 */
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7004,7 +7131,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7015,7 +7142,7 @@ var settle = __webpack_require__(174);
 var buildURL = __webpack_require__(176);
 var parseHeaders = __webpack_require__(177);
 var isURLSameOrigin = __webpack_require__(178);
-var createError = __webpack_require__(85);
+var createError = __webpack_require__(86);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(179);
 
 module.exports = function xhrAdapter(config) {
@@ -7191,7 +7318,7 @@ module.exports = function xhrAdapter(config) {
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7216,7 +7343,7 @@ module.exports = function createError(message, config, code, request, response) 
 
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7228,7 +7355,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7254,7 +7381,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7275,6 +7402,10 @@ var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 var _Config = __webpack_require__(50);
 
 var _Config2 = _interopRequireDefault(_Config);
+
+var _coreUtilIs = __webpack_require__(76);
+
+var _coreUtilIs2 = _interopRequireDefault(_coreUtilIs);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -7507,6 +7638,35 @@ exports.default = {
                     }.bind(this));
                 }
             }.bind(this));
+        },
+        dropdownClick: function dropdownClick(name) {
+            var _iteratorNormalCompletion2 = true;
+            var _didIteratorError2 = false;
+            var _iteratorError2 = undefined;
+
+            try {
+                for (var _iterator2 = (0, _getIterator3.default)(this.config.page_main.dropdown.items), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                    var item = _step2.value;
+
+                    if (item.name === name && _coreUtilIs2.default.isFunction(item.onClick)) {
+                        item.onClick(name);
+                        break;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError2 = true;
+                _iteratorError2 = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                        _iterator2.return();
+                    }
+                } finally {
+                    if (_didIteratorError2) {
+                        throw _iteratorError2;
+                    }
+                }
+            }
         }
     },
     computed: {
@@ -7518,29 +7678,39 @@ exports.default = {
         }
     },
     created: function created() {
+        var _this7 = this;
+
         this.config = _Config2.default.getConfig();
+        this.config.page_main.dropdown.items.forEach(function (t) {
+            (0, _newArrowCheck3.default)(this, _this7);
+
+            if (t.name === '修改密码' && !_coreUtilIs2.default.isFunction(t.onClick)) {
+                t.onClick = this.resetPwd;
+            } else if (t.name === '退出系统' && !_coreUtilIs2.default.isFunction(t.onClick)) {
+                t.onClick = this.logout;
+            }
+        }.bind(this));
     },
     mounted: function mounted() {
         this.init();
 
         var that = this;
         window.onresize = function temp() {
-            var _this7 = this;
+            var _this8 = this;
 
             window.setTimeout(function () {
-                (0, _newArrowCheck3.default)(this, _this7);
+                (0, _newArrowCheck3.default)(this, _this8);
 
                 that.clientWidth = document.documentElement.clientWidth;
             }.bind(this), 400);
         };
-        var sessionUser = JSON.parse(sessionStorage.getItem('ueboot_user')) || {};
-        this.loginName = sessionUser.userName;
-        this.lastLoginTime = sessionUser.lastLoginTime;
+
+        this.loginName = sessionStorage.getItem('ueboot_user') || '';
     }
 };
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -7610,7 +7780,9 @@ exports.default = {
                 (0, _newArrowCheck3.default)(this, _this);
 
                 this.$Message.success('登录成功');
+                window.sessionStorage.setItem('ueboot_user', this.formCustom.username);
                 this.$router.push(this.config.page_login.successRouter);
+
                 this.loading = false;
             }.bind(this), function (response) {
                 (0, _newArrowCheck3.default)(this, _this);
@@ -7636,14 +7808,14 @@ exports.default = {
 };
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _newArrowCheck2 = __webpack_require__(2);
@@ -7653,233 +7825,233 @@ var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  name: 'User',
-  data: function data() {
-    var _this2 = this;
+    name: 'User',
+    data: function data() {
+        var _this2 = this;
 
-    var validatePassCheck = function (rule, value, callback) {
-      (0, _newArrowCheck3.default)(this, _this2);
+        var validatePassCheck = function (rule, value, callback) {
+            (0, _newArrowCheck3.default)(this, _this2);
 
-      if (value === '') {
-        callback(new Error('确认密码为必填'));
-      } else if (value !== this.formCustom.password) {
-        callback(new Error('\u4E24\u6B21\u8F93\u5165\u7684\u5185\u5BB9\u4E0D\u4E00\u81F4!'));
-      } else {
-        callback();
-      }
-    }.bind(this);
-    return {
-      loading: false,
-      setRoleModal: false,
-      roleData: [],
-      resetPwdModal: false,
-      formCustom: {
-        id: null,
-        userId: null,
-        userName: '',
-        password: '',
-        passwdCheck: '',
-        roleIds: ''
-      },
-      ruleCustom: {
-        password: [{ required: true, message: '密码为必填', trigger: 'blur', type: 'string' }],
-        passwdCheck: [{ type: 'string', trigger: 'blur', required: true }, { validator: validatePassCheck, trigger: 'blur' }]
-      },
-      formGrid: {
-        options: {
-          url: {
-            page: '/ueboot/user/page',
-            save: '/ueboot/user/save',
-            delete: '/ueboot/user/delete'
-          }
-        },
-        form: {
-          labelWidth: 120,
-          modal: {
-            title: '用户管理'
-          },
-          columns: [{ label: '用户名', type: 'text', name: 'userName', required: true, edit: { disabled: true } }, {
-            label: '密码',
-            type: 'password',
-            name: 'password',
-            required: true,
-            view: { show: false },
-            edit: { show: false }
-          }, {
-            label: '重复密码',
-            type: 'password',
-            name: 'password2',
-            required: true,
-            view: { show: false },
-            edit: { show: false },
-            equalsTo: 'password'
-          }, {
-            label: '是否被锁',
-            type: 'select',
-            name: 'locked',
-            data: [{ 'name': '是', 'value': 'true' }, { 'name': '否', 'value': 'false' }],
-            init: 'false'
-          }, { label: '密码过期时间', type: 'datetime', name: 'credentialExpiredDate' }]
-        },
-        table: {
-          operation: {
-            primaryKey: 'id',
-            buttons: [{
-              show: true,
-              'label': '分配角色',
-              'theme': 'primary',
-              click: function click(row, index, _this) {
-                (0, _newArrowCheck3.default)(this, _this2);
-
-                if (this.roleData.length === 0) {
-                  this.fetchRoleData();
-                }
-                this.setRoleModal = true;
-                this.formCustom.userId = row['id'];
-                var roleIds = row['roleIds'] || '';
-                if (roleIds.includes(',')) {
-                  var a = [];
-                  roleIds.split(',').forEach(function (r) {
-                    (0, _newArrowCheck3.default)(this, _this2);
-
-                    if (r !== '') {
-                      a.push(parseInt(r));
-                    }
-                  }.bind(this));
-                  this.formCustom.roleIds = a;
-                }
-                this.formCustom.userName = row['userName'];
-              }.bind(this)
-            }, {
-              key: 'edit',
-              show: true,
-              'label': '编辑',
-              'theme': 'primary',
-              click: function click(row, index, _this) {
-                (0, _newArrowCheck3.default)(this, _this2);
-
-                _this.optEditClick(row, index);
-              }.bind(this)
-            }, {
-              key: 'delete',
-              show: true,
-              'label': '删除',
-              'theme': 'primary',
-              ghost: true,
-              click: function click(row, index, _this) {
-                (0, _newArrowCheck3.default)(this, _this2);
-
-                _this.optDeleteClick(row, index);
-              }.bind(this)
-            }, {
-              show: true,
-              'label': '重置密码',
-              'theme': 'primary',
-              click: function click(row, index, _this) {
-                (0, _newArrowCheck3.default)(this, _this2);
-
-                this.resetPwdModal = true;
-                this.formCustom.id = row['id'];
-                this.formCustom.userName = row['userName'];
-              }.bind(this)
-            }],
-            column: {
-              minWidth: 220
+            if (value === '') {
+                callback(new Error('确认密码为必填'));
+            } else if (value !== this.formCustom.password) {
+                callback(new Error('两次输入的内容不一致!'));
+            } else {
+                callback();
             }
-          },
-          columns: [{ title: 'id', key: 'id', minWidth: 40, align: 'center' }, { title: '用户名', key: 'userName', minWidth: 80 }, { title: '所属角色', key: 'roleNames', minWidth: 120 }, {
-            title: '是否被锁',
-            key: 'locked',
-            minWidth: 80,
-            align: 'center',
-            fieldFormat: function fieldFormat(value, row) {
-              (0, _newArrowCheck3.default)(this, _this2);
+        }.bind(this);
+        return {
+            loading: false,
+            setRoleModal: false,
+            roleData: [],
+            resetPwdModal: false,
+            formCustom: {
+                id: null,
+                userId: null,
+                userName: '',
+                password: '',
+                passwdCheck: '',
+                roleIds: ''
+            },
+            ruleCustom: {
+                password: [{ required: true, message: '密码为必填', trigger: 'blur', type: 'string' }],
+                passwdCheck: [{ type: 'string', trigger: 'blur', required: true }, { validator: validatePassCheck, trigger: 'blur' }]
+            },
+            formGrid: {
+                options: {
+                    url: {
+                        page: '/ueboot/user/page',
+                        save: '/ueboot/user/save',
+                        delete: '/ueboot/user/delete'
+                    }
+                },
+                form: {
+                    labelWidth: 120,
+                    modal: {
+                        title: '用户管理'
+                    },
+                    columns: [{ label: '用户名', type: 'text', name: 'userName', required: true, edit: { disabled: true } }, {
+                        label: '密码',
+                        type: 'password',
+                        name: 'password',
+                        required: true,
+                        view: { show: false },
+                        edit: { show: false }
+                    }, {
+                        label: '重复密码',
+                        type: 'password',
+                        name: 'password2',
+                        required: true,
+                        view: { show: false },
+                        edit: { show: false },
+                        equalsTo: 'password'
+                    }, {
+                        label: '是否被锁',
+                        type: 'select',
+                        name: 'locked',
+                        data: [{ 'name': '是', 'value': 'true' }, { 'name': '否', 'value': 'false' }],
+                        init: 'false'
+                    }, { label: '密码过期时间', type: 'datetime', name: 'credentialExpiredDate' }]
+                },
+                table: {
+                    operation: {
+                        primaryKey: 'id',
+                        buttons: [{
+                            show: true,
+                            'label': '分配角色',
+                            'theme': 'primary',
+                            click: function click(row, index, _this) {
+                                (0, _newArrowCheck3.default)(this, _this2);
 
-              if (value) {
-                return { value: '是', cellClassName: 'table-cell-red' };
-              } else {
-                return '否';
-              }
-            }.bind(this)
-          }, { title: '密码过期时间', key: 'credentialExpiredDate', minWidth: 120, align: 'center' }]
-        }
-      }
-    };
-  },
+                                if (this.roleData.length === 0) {
+                                    this.fetchRoleData();
+                                }
+                                this.setRoleModal = true;
+                                this.formCustom.userId = row['id'];
+                                var roleIds = row['roleIds'] || '';
+                                if (roleIds.includes(',')) {
+                                    var a = [];
+                                    roleIds.split(',').forEach(function (r) {
+                                        (0, _newArrowCheck3.default)(this, _this2);
 
-  methods: {
-    fetchRoleData: function fetchRoleData() {
-      var _this3 = this;
+                                        if (r !== '') {
+                                            a.push(parseInt(r));
+                                        }
+                                    }.bind(this));
+                                    this.formCustom.roleIds = a;
+                                }
+                                this.formCustom.userName = row['userName'];
+                            }.bind(this)
+                        }, {
+                            key: 'edit',
+                            show: true,
+                            'label': '编辑',
+                            'theme': 'primary',
+                            click: function click(row, index, _this) {
+                                (0, _newArrowCheck3.default)(this, _this2);
 
-      this.$axios.post('/ueboot/role/list', {}).then(function (response) {
-        (0, _newArrowCheck3.default)(this, _this3);
+                                _this.optEditClick(row, index);
+                            }.bind(this)
+                        }, {
+                            key: 'delete',
+                            show: true,
+                            'label': '删除',
+                            'theme': 'primary',
+                            ghost: true,
+                            click: function click(row, index, _this) {
+                                (0, _newArrowCheck3.default)(this, _this2);
 
-        var tree = [];
-        response.body.forEach(function (t) {
-          (0, _newArrowCheck3.default)(this, _this3);
+                                _this.optDeleteClick(row, index);
+                            }.bind(this)
+                        }, {
+                            show: true,
+                            'label': '重置密码',
+                            'theme': 'primary',
+                            click: function click(row, index, _this) {
+                                (0, _newArrowCheck3.default)(this, _this2);
 
-          var t1 = { 'name': t.name, 'value': t.id };
-          tree.push(t1);
-        }.bind(this));
-        this.roleData = tree;
-      }.bind(this));
+                                this.resetPwdModal = true;
+                                this.formCustom.id = row['id'];
+                                this.formCustom.userName = row['userName'];
+                            }.bind(this)
+                        }],
+                        column: {
+                            minWidth: 220
+                        }
+                    },
+                    columns: [{ title: 'id', key: 'id', minWidth: 40, align: 'center' }, { title: '用户名', key: 'userName', minWidth: 80 }, { title: '所属角色', key: 'roleNames', minWidth: 120 }, {
+                        title: '是否被锁',
+                        key: 'locked',
+                        minWidth: 80,
+                        align: 'center',
+                        fieldFormat: function fieldFormat(value, row) {
+                            (0, _newArrowCheck3.default)(this, _this2);
+
+                            if (value) {
+                                return { value: '是', cellClassName: 'table-cell-red' };
+                            } else {
+                                return '否';
+                            }
+                        }.bind(this)
+                    }, { title: '密码过期时间', key: 'credentialExpiredDate', minWidth: 120, align: 'center' }]
+                }
+            }
+        };
     },
-    handleSubmit: function handleSubmit(name) {
-      var _this4 = this;
 
-      this.$refs[name].validate(function (valid) {
-        (0, _newArrowCheck3.default)(this, _this4);
+    methods: {
+        fetchRoleData: function fetchRoleData() {
+            var _this3 = this;
 
-        if (valid) {
-          this.loading = true;
-          if (name === 'formCustom2') {
-            this.$axios.post('/ueboot/userRole/save', this.formCustom).then(function (response) {
-              (0, _newArrowCheck3.default)(this, _this4);
+            this.$axios.post('/ueboot/role/list', {}).then(function (response) {
+                (0, _newArrowCheck3.default)(this, _this3);
 
-              this.loading = false;
-              this.setRoleModal = false;
-              this.formCustom.roleIds = null;
-              this.$Message.success('角色分配成功！');
+                var tree = [];
+                response.body.forEach(function (t) {
+                    (0, _newArrowCheck3.default)(this, _this3);
 
-              this.$refs.formGrid.$emit('refreshData');
-            }.bind(this)).catch(function () {
-              (0, _newArrowCheck3.default)(this, _this4);
-
-              this.loading = false;
+                    var t1 = { 'name': t.name, 'value': t.id };
+                    tree.push(t1);
+                }.bind(this));
+                this.roleData = tree;
             }.bind(this));
-          } else {
-            this.$axios.post('/ueboot/user/save', this.formCustom).then(function (response) {
-              (0, _newArrowCheck3.default)(this, _this4);
+        },
+        handleSubmit: function handleSubmit(name) {
+            var _this4 = this;
 
-              this.loading = false;
-              this.resetPwdModal = false;
-              this.$Message.success('密码重置成功！');
-            }.bind(this)).catch(function () {
-              (0, _newArrowCheck3.default)(this, _this4);
+            this.$refs[name].validate(function (valid) {
+                (0, _newArrowCheck3.default)(this, _this4);
 
-              this.loading = false;
+                if (valid) {
+                    this.loading = true;
+                    if (name === 'formCustom2') {
+                        this.$axios.post('/ueboot/userRole/save', this.formCustom).then(function (response) {
+                            (0, _newArrowCheck3.default)(this, _this4);
+
+                            this.loading = false;
+                            this.setRoleModal = false;
+                            this.formCustom.roleIds = null;
+                            this.$Message.success('角色分配成功！');
+
+                            this.$refs.formGrid.$emit('refreshData');
+                        }.bind(this)).catch(function () {
+                            (0, _newArrowCheck3.default)(this, _this4);
+
+                            this.loading = false;
+                        }.bind(this));
+                    } else {
+                        this.$axios.post('/ueboot/user/save', this.formCustom).then(function (response) {
+                            (0, _newArrowCheck3.default)(this, _this4);
+
+                            this.loading = false;
+                            this.resetPwdModal = false;
+                            this.$Message.success('密码重置成功！');
+                        }.bind(this)).catch(function () {
+                            (0, _newArrowCheck3.default)(this, _this4);
+
+                            this.loading = false;
+                        }.bind(this));
+                    }
+                } else {
+                    this.$Message.error('表单校验失败');
+                }
             }.bind(this));
-          }
-        } else {
-          this.$Message.error('表单校验失败');
+        },
+        handleReset: function handleReset(name) {
+            this.$refs[name].resetFields();
         }
-      }.bind(this));
-    },
-    handleReset: function handleReset(name) {
-      this.$refs[name].resetFields();
     }
-  }
 };
 
 /***/ }),
-/* 91 */
+/* 92 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _toConsumableArray2 = __webpack_require__(32);
@@ -7897,250 +8069,250 @@ var _deepExtend2 = _interopRequireDefault(_deepExtend);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  name: 'Resources',
-  data: function data() {
-    var _this = this;
+    name: 'Resources',
+    data: function data() {
+        var _this = this;
 
-    return {
-      loadingTree: false,
-      tree: [],
-      formGrid: {
-        options: {
-          url: {
-            page: '/ueboot/resources/page',
-            save: '/ueboot/resources/save',
-            delete: '/ueboot/resources/delete'
-          }
-        },
-        toolbar: {
-          superFilter: {
-            columns: [{ type: 'hidden', name: 'parentId' }]
-          }
-        },
-        form: {
-          labelWidth: 100,
-          modal: {
-            title: {
-              add: '添加资源',
-              edit: '编辑资源',
-              view: '资源详情'
+        return {
+            loadingTree: false,
+            tree: [],
+            formGrid: {
+                options: {
+                    url: {
+                        page: '/ueboot/resources/page',
+                        save: '/ueboot/resources/save',
+                        delete: '/ueboot/resources/delete'
+                    }
+                },
+                toolbar: {
+                    superFilter: {
+                        columns: [{ type: 'hidden', name: 'parentId' }]
+                    }
+                },
+                form: {
+                    labelWidth: 100,
+                    modal: {
+                        title: {
+                            add: '添加资源',
+                            edit: '编辑资源',
+                            view: '资源详情'
+                        }
+                    },
+                    columns: [{
+                        label: '资源类型',
+                        type: 'select',
+                        name: 'resourceType',
+                        required: true,
+                        data: [{ 'name': '菜单组', 'value': '菜单组' }, { 'name': '菜单', 'value': '菜单' }, { 'name': '功能', 'value': '功能' }],
+                        onChange: function onChange(value) {
+                            (0, _newArrowCheck3.default)(this, _this);
+
+                            console.log(value);
+                            this.changeResourceType(value);
+                        }.bind(this)
+                    }, { label: '资源名称', type: 'text', name: 'name', required: true }, { label: '父级资源', type: 'treeSelect', name: 'parentId', required: true, tree: [], fieldFormat: function fieldFormat(value, row) {
+                            (0, _newArrowCheck3.default)(this, _this);
+
+                            if (!value) {
+                                return 0;
+                            }
+                            return value;
+                        }.bind(this) }, {
+                        label: '菜单icon名称',
+                        type: 'text',
+                        placeholder: '系统指定的icon名称',
+                        name: 'iconName',
+                        fieldFormat: function fieldFormat(value, row) {
+                            (0, _newArrowCheck3.default)(this, _this);
+
+                            var themeJson = row['themeJson'] || null;
+                            if (themeJson !== null) {
+                                return JSON.parse(themeJson)['iconName'];
+                            } else {
+                                return '';
+                            }
+                        }.bind(this)
+                    }, {
+                        label: '菜单字体颜色',
+                        type: 'text',
+                        placeholder: '任意颜色值如:#FFFFFF',
+                        name: 'fontColor',
+                        fieldFormat: function fieldFormat(value, row) {
+                            (0, _newArrowCheck3.default)(this, _this);
+
+                            var themeJson = row['themeJson'] || null;
+                            if (themeJson !== null) {
+                                return JSON.parse(themeJson)['fontColor'];
+                            } else {
+                                return '';
+                            }
+                        }.bind(this)
+                    }, { label: '资源路径', type: 'text', name: 'url', required: true }, { label: '权限标识符', type: 'text', name: 'permission', required: true }, { label: '排序', type: 'number', placeholder: '数值越大，排序越靠前', name: 'rank' }, {
+                        label: '是否启用',
+                        type: 'select',
+                        name: 'available',
+                        data: [{ 'name': '启用', 'value': 'true' }, { 'name': '不启用', 'value': 'false' }],
+                        init: 'true'
+                    }],
+
+                    submitBefore: function submitBefore(data) {
+                        data['theme'] = { 'iconName': data['iconName'], 'fontColor': data['fontColor'] };
+                        return true;
+                    },
+                    submitAfter: function submitAfter() {
+                        (0, _newArrowCheck3.default)(this, _this);
+
+                        this.fetchTreeData();
+                    }.bind(this)
+                },
+                table: {
+                    size: 'small',
+                    operation: {
+                        primaryKey: 'id'
+                    },
+                    columns: [{ title: 'id', key: 'id', minWidth: 60 }, { title: '资源名称', key: 'name', minWidth: 100 }, { title: '资源类型', key: 'resourceType', minWidth: 100 }, { title: '资源路径', key: 'url', minWidth: 150 }, {
+                        title: '菜单icon名称',
+                        key: 'iconName',
+                        minWidth: 100,
+                        fieldFormat: function fieldFormat(value, row) {
+                            (0, _newArrowCheck3.default)(this, _this);
+
+                            var themeJson = row['themeJson'] || null;
+                            if (themeJson !== null) {
+                                return JSON.parse(themeJson)['iconName'];
+                            } else {
+                                return '';
+                            }
+                        }.bind(this)
+                    }, {
+                        title: '菜单字体颜色',
+                        key: 'fontColor',
+                        minWidth: 100,
+                        fieldFormat: function fieldFormat(value, row) {
+                            (0, _newArrowCheck3.default)(this, _this);
+
+                            var themeJson = row['themeJson'] || null;
+                            if (themeJson !== null) {
+                                return JSON.parse(themeJson)['fontColor'];
+                            } else {
+                                return '';
+                            }
+                        }.bind(this)
+                    }, { title: '权限标识符', key: 'permission', minWidth: 140 }, { title: '父级资源', key: 'parentName', minWidth: 100 }, { title: '排序', key: 'rank', minWidth: 80, init: 1 }, {
+                        title: '是否启用',
+                        key: 'available',
+                        align: 'center',
+                        minWidth: 120,
+                        fieldFormat: function fieldFormat(value, row) {
+                            (0, _newArrowCheck3.default)(this, _this);
+
+                            if (value) {
+                                return '是';
+                            } else {
+                                return { value: '否', cellClassName: 'table-cell-red' };
+                            }
+                        }.bind(this)
+                    }]
+                }
             }
-          },
-          columns: [{
-            label: '资源类型',
-            type: 'select',
-            name: 'resourceType',
-            required: true,
-            data: [{ 'name': '菜单组', 'value': '菜单组' }, { 'name': '菜单', 'value': '菜单' }, { 'name': '功能', 'value': '功能' }],
-            onChange: function onChange(value) {
-              (0, _newArrowCheck3.default)(this, _this);
+        };
+    },
+    created: function created() {
+        this.fetchTreeData();
+    },
 
-              console.log(value);
-              this.changeResourceType(value);
-            }.bind(this)
-          }, { label: '资源名称', type: 'text', name: 'name', required: true }, { label: '父级资源', type: 'treeSelect', name: 'parentId', required: true, tree: [], fieldFormat: function fieldFormat(value, row) {
-              (0, _newArrowCheck3.default)(this, _this);
+    methods: {
+        fetchTreeData: function fetchTreeData() {
+            var _this2 = this;
 
-              if (!value) {
-                return 0;
-              }
-              return value;
-            }.bind(this) }, {
-            label: '菜单icon名称',
-            type: 'text',
-            placeholder: '系统指定的icon名称',
-            name: 'iconName',
-            fieldFormat: function fieldFormat(value, row) {
-              (0, _newArrowCheck3.default)(this, _this);
+            this.loadingTree = true;
+            this.$axios.post('/ueboot/resources/list', {}).then(function (response) {
+                (0, _newArrowCheck3.default)(this, _this2);
 
-              var themeJson = row['themeJson'] || null;
-              if (themeJson !== null) {
-                return JSON.parse(themeJson)['iconName'];
-              } else {
-                return '';
-              }
-            }.bind(this)
-          }, {
-            label: '菜单字体颜色',
-            type: 'text',
-            placeholder: '任意颜色值如:#FFFFFF',
-            name: 'fontColor',
-            fieldFormat: function fieldFormat(value, row) {
-              (0, _newArrowCheck3.default)(this, _this);
+                this.loadingTree = false;
 
-              var themeJson = row['themeJson'] || null;
-              if (themeJson !== null) {
-                return JSON.parse(themeJson)['fontColor'];
-              } else {
-                return '';
-              }
-            }.bind(this)
-          }, { label: '资源路径', type: 'text', name: 'url', required: true }, { label: '权限标识符', type: 'text', name: 'permission', required: true }, { label: '排序', type: 'number', placeholder: '数值越大，排序越靠前', name: 'rank' }, {
-            label: '是否启用',
-            type: 'select',
-            name: 'available',
-            data: [{ 'name': '启用', 'value': 'true' }, { 'name': '不启用', 'value': 'false' }],
-            init: 'true'
-          }],
+                var tree = [{ id: 0, 'name': '根节点', parentId: null }];
+                response.body.forEach(function (t) {
+                    (0, _newArrowCheck3.default)(this, _this2);
 
-          submitBefore: function submitBefore(data) {
-            data['theme'] = { 'iconName': data['iconName'], 'fontColor': data['fontColor'] };
-            return true;
-          },
-          submitAfter: function submitAfter() {
-            (0, _newArrowCheck3.default)(this, _this);
+                    if (t.resourceType === '功能') {
+                        t.icon = 'fa fa-file';
+                    }
+                }.bind(this));
+                this.tree = [].concat((0, _toConsumableArray3.default)(response.body));
 
-            this.fetchTreeData();
-          }.bind(this)
+                var formTree = [].concat(tree, (0, _toConsumableArray3.default)(response.body));
+
+                var newTree = [];
+                formTree.forEach(function (t) {
+                    (0, _newArrowCheck3.default)(this, _this2);
+
+                    var n = (0, _deepExtend2.default)({}, t);
+                    newTree.push(n);
+                }.bind(this));
+
+                this.$set(this.formGrid.form.columns[2], 'tree', newTree);
+            }.bind(this));
         },
-        table: {
-          size: 'small',
-          operation: {
-            primaryKey: 'id'
-          },
-          columns: [{ title: 'id', key: 'id', minWidth: 60 }, { title: '资源名称', key: 'name', minWidth: 100 }, { title: '资源类型', key: 'resourceType', minWidth: 100 }, { title: '资源路径', key: 'url', minWidth: 150 }, {
-            title: '菜单icon名称',
-            key: 'iconName',
-            minWidth: 100,
-            fieldFormat: function fieldFormat(value, row) {
-              (0, _newArrowCheck3.default)(this, _this);
+        changeResourceType: function changeResourceType(value) {
+            var _this3 = this;
 
-              var themeJson = row['themeJson'] || null;
-              if (themeJson !== null) {
-                return JSON.parse(themeJson)['iconName'];
-              } else {
-                return '';
-              }
-            }.bind(this)
-          }, {
-            title: '菜单字体颜色',
-            key: 'fontColor',
-            minWidth: 100,
-            fieldFormat: function fieldFormat(value, row) {
-              (0, _newArrowCheck3.default)(this, _this);
+            if (value === '菜单组') {
+                this.formGrid.form.columns.forEach(function (c) {
+                    (0, _newArrowCheck3.default)(this, _this3);
 
-              var themeJson = row['themeJson'] || null;
-              if (themeJson !== null) {
-                return JSON.parse(themeJson)['fontColor'];
-              } else {
-                return '';
-              }
-            }.bind(this)
-          }, { title: '权限标识符', key: 'permission', minWidth: 140 }, { title: '父级资源', key: 'parentName', minWidth: 100 }, { title: '排序', key: 'rank', minWidth: 80, init: 1 }, {
-            title: '是否启用',
-            key: 'available',
-            align: 'center',
-            minWidth: 120,
-            fieldFormat: function fieldFormat(value, row) {
-              (0, _newArrowCheck3.default)(this, _this);
+                    if (['url', 'permission'].includes(c.name)) {
+                        c.add = { show: false };
+                        c.edit = { show: false };
+                        c.view = { show: false };
+                        c.required = false;
+                    }
+                }.bind(this));
+            } else if (value === '功能') {
+                this.formGrid.form.columns.forEach(function (c) {
+                    (0, _newArrowCheck3.default)(this, _this3);
 
-              if (value) {
-                return '是';
-              } else {
-                return { value: '否', cellClassName: 'table-cell-red' };
-              }
-            }.bind(this)
-          }]
+                    if (['url', 'iconName', 'fontColor', 'rank'].includes(c.name)) {
+                        c.add = { show: false };
+                        c.edit = { show: false };
+                        c.view = { show: false };
+                        c.required = false;
+                    }
+                }.bind(this));
+            } else {
+                this.formGrid.form.columns.forEach(function (c) {
+                    (0, _newArrowCheck3.default)(this, _this3);
+
+                    if (['url', 'permission', 'iconName', 'fontColor', 'rank'].includes(c.name)) {
+                        c.add = { show: true };
+                        c.edit = { show: true };
+                        c.view = { show: true };
+                        c.required = true;
+                    }
+                    if (['fontColor', 'iconName'].includes(c.name)) {
+                        c.required = false;
+                    }
+                }.bind(this));
+            }
+        },
+        itemClick: function itemClick(oriNode, oriItem, e) {
+            this.$set(this.formGrid.toolbar.superFilter.columns[0], 'init', oriItem.id);
+            this.$set(this.formGrid.form.columns[2], 'init', oriItem.id);
+
+            this.$refs.formGrid.$emit('reloadData');
         }
-      }
-    };
-  },
-  created: function created() {
-    this.fetchTreeData();
-  },
-
-  methods: {
-    fetchTreeData: function fetchTreeData() {
-      var _this2 = this;
-
-      this.loadingTree = true;
-      this.$axios.post('/ueboot/resources/list', {}).then(function (response) {
-        (0, _newArrowCheck3.default)(this, _this2);
-
-        this.loadingTree = false;
-
-        var tree = [{ id: 0, 'name': '根节点', parentId: null }];
-        response.body.forEach(function (t) {
-          (0, _newArrowCheck3.default)(this, _this2);
-
-          if (t.resourceType === '功能') {
-            t.icon = 'fa fa-file';
-          }
-        }.bind(this));
-        this.tree = [].concat((0, _toConsumableArray3.default)(response.body));
-
-        var formTree = [].concat(tree, (0, _toConsumableArray3.default)(response.body));
-
-        var newTree = [];
-        formTree.forEach(function (t) {
-          (0, _newArrowCheck3.default)(this, _this2);
-
-          var n = (0, _deepExtend2.default)({}, t);
-          newTree.push(n);
-        }.bind(this));
-
-        this.$set(this.formGrid.form.columns[2], 'tree', newTree);
-      }.bind(this));
-    },
-    changeResourceType: function changeResourceType(value) {
-      var _this3 = this;
-
-      if (value === '菜单组') {
-        this.formGrid.form.columns.forEach(function (c) {
-          (0, _newArrowCheck3.default)(this, _this3);
-
-          if (['url', 'permission'].includes(c.name)) {
-            c.add = { show: false };
-            c.edit = { show: false };
-            c.view = { show: false };
-            c.required = false;
-          }
-        }.bind(this));
-      } else if (value === '功能') {
-        this.formGrid.form.columns.forEach(function (c) {
-          (0, _newArrowCheck3.default)(this, _this3);
-
-          if (['url', 'iconName', 'fontColor', 'rank'].includes(c.name)) {
-            c.add = { show: false };
-            c.edit = { show: false };
-            c.view = { show: false };
-            c.required = false;
-          }
-        }.bind(this));
-      } else {
-        this.formGrid.form.columns.forEach(function (c) {
-          (0, _newArrowCheck3.default)(this, _this3);
-
-          if (['url', 'permission', 'iconName', 'fontColor', 'rank'].includes(c.name)) {
-            c.add = { show: true };
-            c.edit = { show: true };
-            c.view = { show: true };
-            c.required = true;
-          }
-          if (['fontColor', 'iconName'].includes(c.name)) {
-            c.required = false;
-          }
-        }.bind(this));
-      }
-    },
-    itemClick: function itemClick(oriNode, oriItem, e) {
-      this.$set(this.formGrid.toolbar.superFilter.columns[0], 'init', oriItem.id);
-      this.$set(this.formGrid.form.columns[2], 'init', oriItem.id);
-
-      this.$refs.formGrid.$emit('reloadData');
     }
-  }
 };
 
 /***/ }),
-/* 92 */
+/* 93 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _toConsumableArray2 = __webpack_require__(32);
@@ -8158,192 +8330,192 @@ var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  name: 'Role',
-  data: function data() {
-    var _this2 = this;
+    name: 'Role',
+    data: function data() {
+        var _this2 = this;
 
-    return {
-      permissionModal: false,
-      selectRoleName: '',
-      selectRoleId: null,
+        return {
+            permissionModal: false,
+            selectRoleName: '',
+            selectRoleId: null,
 
-      selectTreeItem: null,
-      loadingTree: false,
-      loading: false,
+            selectTreeItem: null,
+            loadingTree: false,
+            loading: false,
 
-      tree: [],
-      treeOptions: {
-        showCheckbox: true,
-        multiple: true,
-        allowBatch: true
-      },
-      formGrid: {
-        options: {
-          url: {
-            page: '/ueboot/role/page',
-            save: '/ueboot/role/save',
-            delete: '/ueboot/role/delete'
-          }
-        },
-        toolbar: {
-          superFilter: {
-            columns: [{ type: 'hidden', name: 'roleId', init: null }]
-          }
-        },
-        form: {
-          modal: {
-            title: '角色管理'
-          },
-          columns: [{ label: '角色名称', type: 'text', name: 'name', required: true }, { label: '角色描述', type: 'text', name: 'description' }, {
-            label: '是否启用',
-            type: 'select',
-            name: 'available',
-            required: true,
-            data: [{ 'name': '启用', 'value': 'true' }, { 'name': '不启用', 'value': 'false' }],
-            init: 'true'
-          }]
-        },
-        table: {
-          operation: {
-            primaryKey: 'id',
-            buttons: [{
-              show: true,
-              'label': '授权',
-              'theme': 'primary',
-              click: function click(row, index, _this) {
-                (0, _newArrowCheck3.default)(this, _this2);
+            tree: [],
+            treeOptions: {
+                showCheckbox: true,
+                multiple: true,
+                allowBatch: true
+            },
+            formGrid: {
+                options: {
+                    url: {
+                        page: '/ueboot/role/page',
+                        save: '/ueboot/role/save',
+                        delete: '/ueboot/role/delete'
+                    }
+                },
+                toolbar: {
+                    superFilter: {
+                        columns: [{ type: 'hidden', name: 'roleId', init: null }]
+                    }
+                },
+                form: {
+                    modal: {
+                        title: '角色管理'
+                    },
+                    columns: [{ label: '角色名称', type: 'text', name: 'name', required: true }, { label: '角色描述', type: 'text', name: 'description' }, {
+                        label: '是否启用',
+                        type: 'select',
+                        name: 'available',
+                        required: true,
+                        data: [{ 'name': '启用', 'value': 'true' }, { 'name': '不启用', 'value': 'false' }],
+                        init: 'true'
+                    }]
+                },
+                table: {
+                    operation: {
+                        primaryKey: 'id',
+                        buttons: [{
+                            show: true,
+                            'label': '授权',
+                            'theme': 'primary',
+                            click: function click(row, index, _this) {
+                                (0, _newArrowCheck3.default)(this, _this2);
 
-                this.permissionModal = true;
-                this.selectRoleName = row['name'];
-                this.selectRoleId = row['id'];
-                this.fetchTreeData();
-              }.bind(this)
-            }, {
-              key: 'edit',
-              show: true,
-              'label': '编辑',
-              'theme': 'primary',
-              click: function click(row, index, _this) {
-                (0, _newArrowCheck3.default)(this, _this2);
+                                this.permissionModal = true;
+                                this.selectRoleName = row['name'];
+                                this.selectRoleId = row['id'];
+                                this.fetchTreeData();
+                            }.bind(this)
+                        }, {
+                            key: 'edit',
+                            show: true,
+                            'label': '编辑',
+                            'theme': 'primary',
+                            click: function click(row, index, _this) {
+                                (0, _newArrowCheck3.default)(this, _this2);
 
-                _this.optEditClick(row, index);
-              }.bind(this)
-            }, {
-              key: 'delete',
-              show: true,
-              'label': '删除',
-              'theme': 'primary',
-              ghost: true,
-              click: function click(row, index, _this) {
-                (0, _newArrowCheck3.default)(this, _this2);
+                                _this.optEditClick(row, index);
+                            }.bind(this)
+                        }, {
+                            key: 'delete',
+                            show: true,
+                            'label': '删除',
+                            'theme': 'primary',
+                            ghost: true,
+                            click: function click(row, index, _this) {
+                                (0, _newArrowCheck3.default)(this, _this2);
 
-                _this.optDeleteClick(row, index);
-              }.bind(this)
-            }]
-          },
-          columns: [{ title: 'id', key: 'id', minWidth: 60 }, { title: '角色名称', key: 'name', minWidth: 160 }, { title: '角色描述', key: 'description', minWidth: 100 }, {
-            title: '是否启用',
-            key: 'available',
-            minWidth: 120,
-            fieldFormat: function fieldFormat(value, row) {
-              (0, _newArrowCheck3.default)(this, _this2);
+                                _this.optDeleteClick(row, index);
+                            }.bind(this)
+                        }]
+                    },
+                    columns: [{ title: 'id', key: 'id', minWidth: 60 }, { title: '角色名称', key: 'name', minWidth: 160 }, { title: '角色描述', key: 'description', minWidth: 100 }, {
+                        title: '是否启用',
+                        key: 'available',
+                        minWidth: 120,
+                        fieldFormat: function fieldFormat(value, row) {
+                            (0, _newArrowCheck3.default)(this, _this2);
 
-              if (value) {
-                return '是';
-              } else {
-                return { value: '否', cellClassName: 'table-cell-red' };
-              }
-            }.bind(this)
-          }]
-        }
-      }
-    };
-  },
-
-  methods: {
-    fetchTreeData: function fetchTreeData() {
-      var _this3 = this;
-
-      var newTree = [];
-      this.loadingTree = true;
-      var p1 = new _promise2.default(function (resolve, reject) {
-        (0, _newArrowCheck3.default)(this, _this3);
-
-        if (this.tree.length !== 0) {
-          newTree = [].concat((0, _toConsumableArray3.default)(this.tree));
-          newTree.forEach(function (t) {
-            (0, _newArrowCheck3.default)(this, _this3);
-
-            t.selected = false;
-          }.bind(this));
-          resolve();
-          return;
-        }
-        this.$axios.post('/ueboot/resources/list', {}).then(function (response) {
-          (0, _newArrowCheck3.default)(this, _this3);
-
-          if (!response.body) {
-            reject(response);
-            return;
-          }
-          response.body.forEach(function (t) {
-            (0, _newArrowCheck3.default)(this, _this3);
-
-            if (t.resourceType === '功能') {
-              t.icon = 'fa fa-file';
+                            if (value) {
+                                return '是';
+                            } else {
+                                return { value: '否', cellClassName: 'table-cell-red' };
+                            }
+                        }.bind(this)
+                    }]
+                }
             }
-          }.bind(this));
-          newTree = response.body;
-          resolve();
-        }.bind(this));
-      }.bind(this));
-      p1.then(function () {
-        (0, _newArrowCheck3.default)(this, _this3);
-
-        this.$axios.post('/ueboot/permission/findByRoleId', { roleId: this.selectRoleId }).then(function (response) {
-          (0, _newArrowCheck3.default)(this, _this3);
-
-          this.loadingTree = false;
-          if (response.body && response.body.length > 0) {
-            var resourceIds = [];
-            response.body.forEach(function (t) {
-              (0, _newArrowCheck3.default)(this, _this3);
-
-              return resourceIds.push(t.resourceId);
-            }.bind(this));
-
-            newTree.forEach(function (t) {
-              (0, _newArrowCheck3.default)(this, _this3);
-
-              if (resourceIds.includes(t.id)) {
-                t.selected = true;
-              }
-            }.bind(this));
-          }
-          this.tree = newTree;
-        }.bind(this));
-      }.bind(this));
+        };
     },
-    handleSubmit: function handleSubmit() {
-      var _this4 = this;
 
-      this.loading = true;
-      var resourceIds = this.$refs['utree'].getCheckedNodes();
-      this.$axios.post('/ueboot/permission/save', {
-        roleId: this.selectRoleId,
-        resourceIds: resourceIds
-      }).then(function (response) {
-        (0, _newArrowCheck3.default)(this, _this4);
+    methods: {
+        fetchTreeData: function fetchTreeData() {
+            var _this3 = this;
 
-        this.$Message.success('角色授权成功！');
-        this.loading = false;
-      }.bind(this));
+            var newTree = [];
+            this.loadingTree = true;
+            var p1 = new _promise2.default(function (resolve, reject) {
+                (0, _newArrowCheck3.default)(this, _this3);
+
+                if (this.tree.length !== 0) {
+                    newTree = [].concat((0, _toConsumableArray3.default)(this.tree));
+                    newTree.forEach(function (t) {
+                        (0, _newArrowCheck3.default)(this, _this3);
+
+                        t.selected = false;
+                    }.bind(this));
+                    resolve();
+                    return;
+                }
+                this.$axios.post('/ueboot/resources/list', {}).then(function (response) {
+                    (0, _newArrowCheck3.default)(this, _this3);
+
+                    if (!response.body) {
+                        reject(response);
+                        return;
+                    }
+                    response.body.forEach(function (t) {
+                        (0, _newArrowCheck3.default)(this, _this3);
+
+                        if (t.resourceType === '功能') {
+                            t.icon = 'fa fa-file';
+                        }
+                    }.bind(this));
+                    newTree = response.body;
+                    resolve();
+                }.bind(this));
+            }.bind(this));
+            p1.then(function () {
+                (0, _newArrowCheck3.default)(this, _this3);
+
+                this.$axios.post('/ueboot/permission/findByRoleId', { roleId: this.selectRoleId }).then(function (response) {
+                    (0, _newArrowCheck3.default)(this, _this3);
+
+                    this.loadingTree = false;
+                    if (response.body && response.body.length > 0) {
+                        var resourceIds = [];
+                        response.body.forEach(function (t) {
+                            (0, _newArrowCheck3.default)(this, _this3);
+
+                            return resourceIds.push(t.resourceId);
+                        }.bind(this));
+
+                        newTree.forEach(function (t) {
+                            (0, _newArrowCheck3.default)(this, _this3);
+
+                            if (resourceIds.includes(t.id)) {
+                                t.selected = true;
+                            }
+                        }.bind(this));
+                    }
+                    this.tree = newTree;
+                }.bind(this));
+            }.bind(this));
+        },
+        handleSubmit: function handleSubmit() {
+            var _this4 = this;
+
+            this.loading = true;
+            var resourceIds = this.$refs['utree'].getCheckedNodes();
+            this.$axios.post('/ueboot/permission/save', {
+                roleId: this.selectRoleId,
+                resourceIds: resourceIds
+            }).then(function (response) {
+                (0, _newArrowCheck3.default)(this, _this4);
+
+                this.$Message.success('角色授权成功！');
+                this.loading = false;
+            }.bind(this));
+        }
     }
-  }
 };
 
 /***/ }),
-/* 93 */
+/* 94 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8373,7 +8545,7 @@ var _UTreeSelect = __webpack_require__(69);
 
 var _UTreeSelect2 = _interopRequireDefault(_UTreeSelect);
 
-var _UFormGrid = __webpack_require__(144);
+var _UFormGrid = __webpack_require__(145);
 
 var _UFormGrid2 = _interopRequireDefault(_UFormGrid);
 
@@ -8385,7 +8557,7 @@ var _WebSocket = __webpack_require__(168);
 
 var _WebSocket2 = _interopRequireDefault(_WebSocket);
 
-var _axios = __webpack_require__(82);
+var _axios = __webpack_require__(83);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -8458,25 +8630,25 @@ if (typeof window !== 'undefined' && window.Vue) {
 module.exports = (0, _assign2.default)(ueboot, { install: install });
 
 /***/ }),
-/* 94 */
+/* 95 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(95);
+__webpack_require__(96);
 module.exports = __webpack_require__(0).Object.assign;
 
 
 /***/ }),
-/* 95 */
+/* 96 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.3.1 Object.assign(target, source)
 var $export = __webpack_require__(6);
 
-$export($export.S + $export.F, 'Object', { assign: __webpack_require__(96) });
+$export($export.S + $export.F, 'Object', { assign: __webpack_require__(97) });
 
 
 /***/ }),
-/* 96 */
+/* 97 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8517,14 +8689,14 @@ module.exports = !$assign || __webpack_require__(15)(function () {
 
 
 /***/ }),
-/* 97 */
+/* 98 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // false -> Array#indexOf
 // true  -> Array#includes
 var toIObject = __webpack_require__(16);
 var toLength = __webpack_require__(36);
-var toAbsoluteIndex = __webpack_require__(98);
+var toAbsoluteIndex = __webpack_require__(99);
 module.exports = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIObject($this);
@@ -8546,7 +8718,7 @@ module.exports = function (IS_INCLUDES) {
 
 
 /***/ }),
-/* 98 */
+/* 99 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(37);
@@ -8559,22 +8731,22 @@ module.exports = function (index, length) {
 
 
 /***/ }),
-/* 99 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(100);
+__webpack_require__(101);
 module.exports = __webpack_require__(0).Object.keys;
 
 
 /***/ }),
-/* 100 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.14 Object.keys(O)
 var toObject = __webpack_require__(29);
 var $keys = __webpack_require__(19);
 
-__webpack_require__(101)('keys', function () {
+__webpack_require__(102)('keys', function () {
   return function keys(it) {
     return $keys(toObject(it));
   };
@@ -8582,7 +8754,7 @@ __webpack_require__(101)('keys', function () {
 
 
 /***/ }),
-/* 101 */
+/* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
@@ -8598,13 +8770,13 @@ module.exports = function (KEY, exec) {
 
 
 /***/ }),
-/* 102 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(103);
+var content = __webpack_require__(104);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -8612,7 +8784,7 @@ var add = __webpack_require__(11).default
 var update = add("5a482f62", content, true, {});
 
 /***/ }),
-/* 103 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(9)(true);
@@ -8626,13 +8798,13 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 104 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(105);
+var content = __webpack_require__(106);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -8640,7 +8812,7 @@ var add = __webpack_require__(11).default
 var update = add("433cdad5", content, true, {});
 
 /***/ }),
-/* 105 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(9)(true);
@@ -8654,13 +8826,13 @@ exports.push([module.i, "/* tree default theme */\n.tree-node,\n.tree-children,\
 
 
 /***/ }),
-/* 106 */
+/* 107 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = { "default": __webpack_require__(107), __esModule: true };
+module.exports = { "default": __webpack_require__(108), __esModule: true };
 
 /***/ }),
-/* 107 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(30);
@@ -8669,7 +8841,7 @@ module.exports = __webpack_require__(43).f('iterator');
 
 
 /***/ }),
-/* 108 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var toInteger = __webpack_require__(37);
@@ -8692,7 +8864,7 @@ module.exports = function (TO_STRING) {
 
 
 /***/ }),
-/* 109 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8712,7 +8884,7 @@ module.exports = function (Constructor, NAME, next) {
 
 
 /***/ }),
-/* 110 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var dP = __webpack_require__(7);
@@ -8731,7 +8903,7 @@ module.exports = __webpack_require__(10) ? Object.defineProperties : function de
 
 
 /***/ }),
-/* 111 */
+/* 112 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
@@ -8750,13 +8922,13 @@ module.exports = Object.getPrototypeOf || function (O) {
 
 
 /***/ }),
-/* 112 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var addToUnscopables = __webpack_require__(113);
-var step = __webpack_require__(114);
+var addToUnscopables = __webpack_require__(114);
+var step = __webpack_require__(115);
 var Iterators = __webpack_require__(23);
 var toIObject = __webpack_require__(16);
 
@@ -8791,14 +8963,14 @@ addToUnscopables('entries');
 
 
 /***/ }),
-/* 113 */
+/* 114 */
 /***/ (function(module, exports) {
 
 module.exports = function () { /* empty */ };
 
 
 /***/ }),
-/* 114 */
+/* 115 */
 /***/ (function(module, exports) {
 
 module.exports = function (done, value) {
@@ -8807,24 +8979,24 @@ module.exports = function (done, value) {
 
 
 /***/ }),
-/* 115 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(116), __esModule: true };
-
-/***/ }),
 /* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(117);
+module.exports = { "default": __webpack_require__(117), __esModule: true };
+
+/***/ }),
+/* 117 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(118);
 __webpack_require__(64);
-__webpack_require__(123);
 __webpack_require__(124);
+__webpack_require__(125);
 module.exports = __webpack_require__(0).Symbol;
 
 
 /***/ }),
-/* 117 */
+/* 118 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -8835,7 +9007,7 @@ var has = __webpack_require__(14);
 var DESCRIPTORS = __webpack_require__(10);
 var $export = __webpack_require__(6);
 var redefine = __webpack_require__(60);
-var META = __webpack_require__(118).KEY;
+var META = __webpack_require__(119).KEY;
 var $fails = __webpack_require__(15);
 var shared = __webpack_require__(39);
 var setToStringTag = __webpack_require__(31);
@@ -8843,16 +9015,16 @@ var uid = __webpack_require__(27);
 var wks = __webpack_require__(3);
 var wksExt = __webpack_require__(43);
 var wksDefine = __webpack_require__(44);
-var enumKeys = __webpack_require__(119);
-var isArray = __webpack_require__(120);
+var enumKeys = __webpack_require__(120);
+var isArray = __webpack_require__(121);
 var anObject = __webpack_require__(8);
 var isObject = __webpack_require__(13);
 var toIObject = __webpack_require__(16);
 var toPrimitive = __webpack_require__(34);
 var createDesc = __webpack_require__(18);
 var _create = __webpack_require__(61);
-var gOPNExt = __webpack_require__(121);
-var $GOPD = __webpack_require__(122);
+var gOPNExt = __webpack_require__(122);
+var $GOPD = __webpack_require__(123);
 var $DP = __webpack_require__(7);
 var $keys = __webpack_require__(19);
 var gOPD = $GOPD.f;
@@ -9065,7 +9237,7 @@ setToStringTag(global.JSON, 'JSON', true);
 
 
 /***/ }),
-/* 118 */
+/* 119 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var META = __webpack_require__(27)('meta');
@@ -9124,7 +9296,7 @@ var meta = module.exports = {
 
 
 /***/ }),
-/* 119 */
+/* 120 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // all enumerable object keys, includes symbols
@@ -9145,7 +9317,7 @@ module.exports = function (it) {
 
 
 /***/ }),
-/* 120 */
+/* 121 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // 7.2.2 IsArray(argument)
@@ -9156,7 +9328,7 @@ module.exports = Array.isArray || function isArray(arg) {
 
 
 /***/ }),
-/* 121 */
+/* 122 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
@@ -9181,7 +9353,7 @@ module.exports.f = function getOwnPropertyNames(it) {
 
 
 /***/ }),
-/* 122 */
+/* 123 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var pIE = __webpack_require__(28);
@@ -9203,30 +9375,30 @@ exports.f = __webpack_require__(10) ? gOPD : function getOwnPropertyDescriptor(O
 
 
 /***/ }),
-/* 123 */
+/* 124 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(44)('asyncIterator');
 
 
 /***/ }),
-/* 124 */
+/* 125 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(44)('observable');
 
 
 /***/ }),
-/* 125 */
+/* 126 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(42);
 __webpack_require__(30);
-module.exports = __webpack_require__(126);
+module.exports = __webpack_require__(127);
 
 
 /***/ }),
-/* 126 */
+/* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var anObject = __webpack_require__(8);
@@ -9239,10 +9411,10 @@ module.exports = __webpack_require__(0).getIterator = function (it) {
 
 
 /***/ }),
-/* 127 */
+/* 128 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(128);
+__webpack_require__(129);
 var $Object = __webpack_require__(0).Object;
 module.exports = function defineProperty(it, key, desc) {
   return $Object.defineProperty(it, key, desc);
@@ -9250,7 +9422,7 @@ module.exports = function defineProperty(it, key, desc) {
 
 
 /***/ }),
-/* 128 */
+/* 129 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var $export = __webpack_require__(6);
@@ -9259,7 +9431,7 @@ $export($export.S + $export.F * !__webpack_require__(10), 'Object', { defineProp
 
 
 /***/ }),
-/* 129 */
+/* 130 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9267,8 +9439,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeItem_vue__ = __webpack_require__(68);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeItem_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeItem_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeItem_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8be931d6_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue__ = __webpack_require__(130);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8be931d6_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8be931d6_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_b85aa5b8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue__ = __webpack_require__(131);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_b85aa5b8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_b85aa5b8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 /* script */
 
@@ -9286,8 +9458,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UTreeItem_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8be931d6_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8be931d6_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_b85aa5b8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_b85aa5b8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UTreeItem_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -9298,7 +9470,7 @@ var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_
 
 
 /***/ }),
-/* 130 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9331,7 +9503,7 @@ exports.render = render;
 exports.staticRenderFns = staticRenderFns;
 
 /***/ }),
-/* 131 */
+/* 132 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9352,13 +9524,13 @@ exports.render = render;
 exports.staticRenderFns = staticRenderFns;
 
 /***/ }),
-/* 132 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(133);
+var content = __webpack_require__(134);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -9366,7 +9538,7 @@ var add = __webpack_require__(11).default
 var update = add("e598401c", content, true, {});
 
 /***/ }),
-/* 133 */
+/* 134 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(9)(true);
@@ -9380,22 +9552,22 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 134 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = { "default": __webpack_require__(135), __esModule: true };
-
-/***/ }),
 /* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = { "default": __webpack_require__(136), __esModule: true };
+
+/***/ }),
+/* 136 */
+/***/ (function(module, exports, __webpack_require__) {
+
 __webpack_require__(30);
-__webpack_require__(136);
+__webpack_require__(137);
 module.exports = __webpack_require__(0).Array.from;
 
 
 /***/ }),
-/* 136 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9406,7 +9578,7 @@ var toObject = __webpack_require__(29);
 var call = __webpack_require__(71);
 var isArrayIter = __webpack_require__(72);
 var toLength = __webpack_require__(36);
-var createProperty = __webpack_require__(137);
+var createProperty = __webpack_require__(138);
 var getIterFn = __webpack_require__(45);
 
 $export($export.S + $export.F * !__webpack_require__(73)(function (iter) { Array.from(iter); }), 'Array', {
@@ -9439,7 +9611,7 @@ $export($export.S + $export.F * !__webpack_require__(73)(function (iter) { Array
 
 
 /***/ }),
-/* 137 */
+/* 138 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9454,7 +9626,7 @@ module.exports = function (object, index, value) {
 
 
 /***/ }),
-/* 138 */
+/* 139 */
 /***/ (function(module, exports) {
 
 var g;
@@ -9481,7 +9653,7 @@ module.exports = g;
 
 
 /***/ }),
-/* 139 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9639,7 +9811,7 @@ function fromByteArray (uint8) {
 
 
 /***/ }),
-/* 140 */
+/* 141 */
 /***/ (function(module, exports) {
 
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -9729,7 +9901,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 
 
 /***/ }),
-/* 141 */
+/* 142 */
 /***/ (function(module, exports) {
 
 var toString = {}.toString;
@@ -9740,27 +9912,27 @@ module.exports = Array.isArray || function (arr) {
 
 
 /***/ }),
-/* 142 */
+/* 143 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 var TREE_ID = 'UTREE_SELECT_ID';
 exports.default = {
-  getId: function getId() {
-    var id = window.sessionStorage.getItem(TREE_ID) || 0;
-    id += 1;
-    window.sessionStorage.setItem(TREE_ID, id);
-    return id;
-  }
+    getId: function getId() {
+        var id = window.sessionStorage.getItem(TREE_ID) || 0;
+        id += 1;
+        window.sessionStorage.setItem(TREE_ID, id);
+        return id;
+    }
 };
 
 /***/ }),
-/* 143 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -9783,7 +9955,7 @@ exports.render = render;
 exports.staticRenderFns = staticRenderFns;
 
 /***/ }),
-/* 144 */
+/* 145 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9791,11 +9963,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4933a18b_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__ = __webpack_require__(165);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4933a18b_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4933a18b_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__ = __webpack_require__(165);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
-  __webpack_require__(145)
+  __webpack_require__(146)
 }
 /* script */
 
@@ -9813,8 +9985,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4933a18b_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_4933a18b_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -9825,13 +9997,13 @@ var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_
 
 
 /***/ }),
-/* 145 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(146);
+var content = __webpack_require__(147);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -9839,7 +10011,7 @@ var add = __webpack_require__(11).default
 var update = add("ccfc3ad4", content, true, {});
 
 /***/ }),
-/* 146 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(9)(true);
@@ -9853,14 +10025,14 @@ exports.push([module.i, "\n.ivu-input .ivu-input-disabled {\n    color: #7b7777 
 
 
 /***/ }),
-/* 147 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _newArrowCheck2 = __webpack_require__(2);
@@ -9870,269 +10042,155 @@ var _newArrowCheck3 = _interopRequireDefault(_newArrowCheck2);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  options: {
-    autoLoad: true,
-    url: {
-      save: '',
-      delete: '',
-      page: '',
-      get: '',
-      im: '/admin/api/dic/find/parent' }
-  },
-  tips: { 'title': '', 'content': '' },
-  toolbar: {
-    show: true,
-
-    justify: 'start',
-    refresh: {
-      show: true, label: ''
+    options: {
+        autoLoad: true,
+        url: {
+            save: '',
+            delete: '',
+            page: '',
+            get: '',
+            im: '/admin/api/dic/find/parent' }
     },
-    create: {
-      show: true, label: '添加'
-    },
-    delete: {
-      show: true, label: '删除', loading: false
-    },
-    groups: {
-      show: false,
-      label: '导入/导出',
-      import: {
-        show: false, size: 50 * 1024, modelTitle: '上传文件', templatePath: '', params: {}
-      }
-    },
-
-    buttons: null,
-
-    filter: {
-      show: false,
-      name: 'keyWord',
-      placeholder: '根据关键字搜索'
-    },
-
-    superFilter: {
-      show: false,
-      label: '高级搜索',
-      labelWidth: 80,
-      name: 'searchForm',
-      colNumber: 4,
-      columns: [],
-
-      rows: {},
-      submit: { theme: 'primary', label: '开始查询', icon: 'md-search', long: false },
-      reset: { theme: 'primary', label: '重置', icon: 'md-close', long: false, ghost: true }
-    }
-  },
-  pageable: {
-    page: 1,
-    size: 15
-  },
-
-  form: {
-    name: 'formName',
-    labelPosition: 'right',
-    loading: false,
-    labelWidth: 80,
-
-    colNumber: 2,
-    modal: {
-      title: '',
-      showClose: true,
-      width: '' },
-
-    columns: [],
-
-    submitBefore: function submitBefore(data) {
-      return true;
-    },
-
-    submitAfter: function submitAfter(response) {
-      return true;
-    },
-
-    onCancel: function onCancel() {},
-    data: {} },
-  table: {
-    height: '',
-    showCheckbox: true,
-
-    selection: {
-      type: 'selection',
-      width: 60,
-      align: 'center'
-    },
-    stripe: true,
-    noDataText: '已努力查询，但还是没找到！',
-    tableLoadingText: '正在努力为您加载数据,请稍候...',
-    tableLoadedErrorText: '数据查询出现异常，需要管理员查看后台日志，寻找原因。',
-
-    operation: {
-      keys: ['id'],
-
-      show: true,
-
-      remote: false,
-
-      buttons: [{
-        key: 'view',
+    tips: { 'title': '', 'content': '' },
+    toolbar: {
         show: true,
-        'label': '查看',
-        'theme': 'primary',
-        click: function click(row, index, _this) {
-          (0, _newArrowCheck3.default)(undefined, undefined);
 
-          _this.optViewClick(row, index);
-        }.bind(undefined)
-      }, {
-        key: 'edit',
-        show: true,
-        'label': '编辑',
-        'theme': 'primary',
-        click: function click(row, index, _this) {
-          (0, _newArrowCheck3.default)(undefined, undefined);
+        justify: 'start',
+        refresh: {
+            show: true, label: ''
+        },
+        create: {
+            show: true, label: '添加'
+        },
+        delete: {
+            show: true, label: '删除', loading: false
+        },
+        groups: {
+            show: false,
+            label: '导入/导出',
+            import: {
+                show: false, size: 50 * 1024, modelTitle: '上传文件', templatePath: '', params: {}
+            }
+        },
 
-          _this.optEditClick(row, index);
-        }.bind(undefined)
-      }, {
-        key: 'delete',
-        show: true,
-        'label': '删除',
-        'theme': 'primary',
-        ghost: true,
-        click: function click(row, index, _this) {
-          (0, _newArrowCheck3.default)(undefined, undefined);
+        buttons: null,
 
-          _this.optDeleteClick(row, index);
-        }.bind(undefined)
-      }],
+        filter: {
+            show: false,
+            name: 'keyWord',
+            placeholder: '根据关键字搜索'
+        },
 
-      column: {
-        title: '操作',
-        key: 'action',
-        className: 'optColumn',
-        align: 'center',
-        minWidth: 160
-      }
+        superFilter: {
+            show: false,
+            label: '高级搜索',
+            labelWidth: 80,
+            name: 'searchForm',
+            colNumber: 4,
+            columns: [],
+
+            rows: {},
+            submit: { theme: 'primary', label: '开始查询', icon: 'md-search', long: false },
+            reset: { theme: 'primary', label: '重置', icon: 'md-close', long: false, ghost: true }
+        }
+    },
+    pageable: {
+        page: 1,
+        size: 15
     },
 
-    data: []
-  },
-  queryParams: {}
+    form: {
+        name: 'formName',
+        labelPosition: 'right',
+        loading: false,
+        labelWidth: 80,
+
+        colNumber: 2,
+        modal: {
+            title: '',
+            showClose: true,
+            width: '' },
+
+        columns: [],
+
+        submitBefore: function submitBefore(data) {
+            return true;
+        },
+
+        submitAfter: function submitAfter(response) {
+            return true;
+        },
+
+        onCancel: function onCancel() {},
+        data: {} },
+    table: {
+        height: '',
+        showCheckbox: true,
+
+        selection: {
+            type: 'selection',
+            width: 60,
+            align: 'center'
+        },
+        stripe: true,
+        noDataText: '已努力查询，但还是没找到！',
+        tableLoadingText: '正在努力为您加载数据,请稍候...',
+        tableLoadedErrorText: '数据查询出现异常，需要管理员查看后台日志，寻找原因。',
+
+        operation: {
+            keys: ['id'],
+
+            show: true,
+
+            remote: false,
+
+            buttons: [{
+                key: 'view',
+                show: true,
+                'label': '查看',
+                'theme': 'primary',
+                click: function click(row, index, _this) {
+                    (0, _newArrowCheck3.default)(undefined, undefined);
+
+                    _this.optViewClick(row, index);
+                }.bind(undefined)
+            }, {
+                key: 'edit',
+                show: true,
+                'label': '编辑',
+                'theme': 'primary',
+                click: function click(row, index, _this) {
+                    (0, _newArrowCheck3.default)(undefined, undefined);
+
+                    _this.optEditClick(row, index);
+                }.bind(undefined)
+            }, {
+                key: 'delete',
+                show: true,
+                'label': '删除',
+                'theme': 'primary',
+                ghost: true,
+                click: function click(row, index, _this) {
+                    (0, _newArrowCheck3.default)(undefined, undefined);
+
+                    _this.optDeleteClick(row, index);
+                }.bind(undefined)
+            }],
+
+            column: {
+                title: '操作',
+                key: 'action',
+                className: 'optColumn',
+                align: 'center',
+                minWidth: 160
+            }
+        },
+
+        data: []
+    },
+    queryParams: {}
 
 };
-
-/***/ }),
-/* 148 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(Buffer) {// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-
-function isArray(arg) {
-  if (Array.isArray) {
-    return Array.isArray(arg);
-  }
-  return objectToString(arg) === '[object Array]';
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = Buffer.isBuffer;
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(74).Buffer))
 
 /***/ }),
 /* 149 */
@@ -10140,11 +10198,11 @@ function objectToString(o) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Upload_vue__ = __webpack_require__(76);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Upload_vue__ = __webpack_require__(77);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Upload_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Upload_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Upload_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_baca7612_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue__ = __webpack_require__(164);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_baca7612_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_baca7612_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8bcfde40_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue__ = __webpack_require__(164);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8bcfde40_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8bcfde40_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(150)
@@ -10159,14 +10217,14 @@ var __vue_template_functional__ = false
 /* styles */
 var __vue_styles__ = injectStyle
 /* scopeId */
-var __vue_scopeId__ = "data-v-baca7612"
+var __vue_scopeId__ = "data-v-8bcfde40"
 /* moduleIdentifier (server only) */
 var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Upload_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_baca7612_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_baca7612_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8bcfde40_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_8bcfde40_hasScoped_true_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Upload_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -10188,7 +10246,7 @@ if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
 var add = __webpack_require__(11).default
-var update = add("88576b82", content, true, {});
+var update = add("6382ffec", content, true, {});
 
 /***/ }),
 /* 151 */
@@ -10246,13 +10304,13 @@ var isObject = __webpack_require__(13);
 var aFunction = __webpack_require__(26);
 var anInstance = __webpack_require__(155);
 var forOf = __webpack_require__(156);
-var speciesConstructor = __webpack_require__(77);
-var task = __webpack_require__(78).set;
+var speciesConstructor = __webpack_require__(78);
+var task = __webpack_require__(79).set;
 var microtask = __webpack_require__(158)();
 var newPromiseCapabilityModule = __webpack_require__(48);
-var perform = __webpack_require__(79);
+var perform = __webpack_require__(80);
 var userAgent = __webpack_require__(159);
-var promiseResolve = __webpack_require__(80);
+var promiseResolve = __webpack_require__(81);
 var PROMISE = 'Promise';
 var TypeError = global.TypeError;
 var process = global.process;
@@ -10593,7 +10651,7 @@ module.exports = function (fn, args, that) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var global = __webpack_require__(1);
-var macrotask = __webpack_require__(78).set;
+var macrotask = __webpack_require__(79).set;
 var Observer = global.MutationObserver || global.WebKitMutationObserver;
 var process = global.process;
 var Promise = global.Promise;
@@ -10717,8 +10775,8 @@ module.exports = function (KEY) {
 var $export = __webpack_require__(6);
 var core = __webpack_require__(0);
 var global = __webpack_require__(1);
-var speciesConstructor = __webpack_require__(77);
-var promiseResolve = __webpack_require__(80);
+var speciesConstructor = __webpack_require__(78);
+var promiseResolve = __webpack_require__(81);
 
 $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
   var C = speciesConstructor(this, core.Promise || global.Promise);
@@ -10743,7 +10801,7 @@ $export($export.P + $export.R, 'Promise', { 'finally': function (onFinally) {
 // https://github.com/tc39/proposal-promise-try
 var $export = __webpack_require__(6);
 var newPromiseCapability = __webpack_require__(48);
-var perform = __webpack_require__(79);
+var perform = __webpack_require__(80);
 
 $export($export.S, 'Promise', { 'try': function (callbackfn) {
   var promiseCapability = newPromiseCapability.f(this);
@@ -10953,11 +11011,11 @@ exports.staticRenderFns = staticRenderFns;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UForm_vue__ = __webpack_require__(81);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UForm_vue__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UForm_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UForm_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UForm_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6195b9a2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue__ = __webpack_require__(167);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6195b9a2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6195b9a2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_336963a5_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue__ = __webpack_require__(167);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_336963a5_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_336963a5_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 /* script */
 
@@ -10975,8 +11033,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UForm_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6195b9a2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6195b9a2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_336963a5_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_336963a5_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UForm_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -11037,91 +11095,91 @@ exports.staticRenderFns = staticRenderFns;
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 exports.default = function (options) {
-  this.createMethod = function (method, options, stateCallback) {
-    var that = this;
-    this[method] = function () {
-      if (stateCallback && stateCallback.apply) {
-        stateCallback(method);
-      }
-      if (options[method] && options[method].apply) {
-        options[method].apply(that, arguments);
-      }
+    this.createMethod = function (method, options, stateCallback) {
+        var that = this;
+        this[method] = function () {
+            if (stateCallback && stateCallback.apply) {
+                stateCallback(method);
+            }
+            if (options[method] && options[method].apply) {
+                options[method].apply(that, arguments);
+            }
+        };
     };
-  };
 
-  var ws = void 0;
+    var ws = void 0;
 
-  var events = ['onopen', 'onmessage', 'onclose', 'onerror'];
+    var events = ['onopen', 'onmessage', 'onclose', 'onerror'];
 
-  var prop = {
-    opened: false,
-    closed: false,
-    error: false
-  };
+    var prop = {
+        opened: false,
+        closed: false,
+        error: false
+    };
 
-  var method = void 0;
+    var method = void 0;
 
-  if (typeof options === 'undefined' || !options) {
-    throw new Error('ArgumentException: please add default constructor options');
-  }
+    if (typeof options === 'undefined' || !options) {
+        throw new Error('ArgumentException: please add default constructor options');
+    }
 
-  this.queue = [];
+    this.queue = [];
 
-  this.onEventTrigger = function (eventName) {
-    var i = void 0;
-    if (eventName === 'onopen') {
-      prop.opened = true;
-      prop.closed = false;
+    this.onEventTrigger = function (eventName) {
+        var i = void 0;
+        if (eventName === 'onopen') {
+            prop.opened = true;
+            prop.closed = false;
 
-      if (this.queue.length > 0) {
-        for (i = this.queue.length; --i >= 0;) {
-          this.send.apply(this, this.queue[0]);
-          this.queue.splice(0, 1);
+            if (this.queue.length > 0) {
+                for (i = this.queue.length; --i >= 0;) {
+                    this.send.apply(this, this.queue[0]);
+                    this.queue.splice(0, 1);
+                }
+            }
         }
-      }
-    }
-    if (eventName === 'onerror') {
-      prop.error = true;
-    }
-    if (eventName === 'onclosed') {
-      prop.opened = false;
-      prop.closed = true;
-    }
-  };
+        if (eventName === 'onerror') {
+            prop.error = true;
+        }
+        if (eventName === 'onclosed') {
+            prop.opened = false;
+            prop.closed = true;
+        }
+    };
 
-  this.init = function () {
-    var cb = this.onEventTrigger.bind(this);
-    ws = new WebSocket(options.url);
+    this.init = function () {
+        var cb = this.onEventTrigger.bind(this);
+        ws = new WebSocket(options.url);
 
-    for (var i = 0; i < events.length; i++) {
-      method = events[i];
-      this.createMethod.apply(ws, [method, options, cb]);
-    }
-  };
+        for (var i = 0; i < events.length; i++) {
+            method = events[i];
+            this.createMethod.apply(ws, [method, options, cb]);
+        }
+    };
 
-  this.send = function () {
-    if (prop.closed) {
-      console.log('连接已经关闭，尝试重新打开!');
-      alert('当前链接已经关闭，请重新刷新尝试连接！');
-    }
-    if (!prop.opened) {
-      this.queue.push(arguments);
-    } else {
-      ws.send.apply(ws, arguments);
-    }
-  };
-  this.close = function () {
-    if (prop.opened) {
-      ws.close();
-    }
-  };
+    this.send = function () {
+        if (prop.closed) {
+            console.log('连接已经关闭，尝试重新打开!');
+            alert('当前链接已经关闭，请重新刷新尝试连接！');
+        }
+        if (!prop.opened) {
+            this.queue.push(arguments);
+        } else {
+            ws.send.apply(ws, arguments);
+        }
+    };
+    this.close = function () {
+        if (prop.opened) {
+            ws.close();
+        }
+    };
 
-  this.init();
-  return this;
+    this.init();
+    return this;
 };
 
 /***/ }),
@@ -11132,7 +11190,7 @@ exports.default = function (options) {
 
 
 var utils = __webpack_require__(4);
-var bind = __webpack_require__(83);
+var bind = __webpack_require__(84);
 var Axios = __webpack_require__(171);
 var defaults = __webpack_require__(49);
 
@@ -11167,9 +11225,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(87);
+axios.Cancel = __webpack_require__(88);
 axios.CancelToken = __webpack_require__(186);
-axios.isCancel = __webpack_require__(86);
+axios.isCancel = __webpack_require__(87);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -11512,7 +11570,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 "use strict";
 
 
-var createError = __webpack_require__(85);
+var createError = __webpack_require__(86);
 
 /**
  * Resolve or reject a Promise based on response status.
@@ -11945,7 +12003,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(4);
 var transformData = __webpack_require__(183);
-var isCancel = __webpack_require__(86);
+var isCancel = __webpack_require__(87);
 var defaults = __webpack_require__(49);
 var isAbsoluteURL = __webpack_require__(184);
 var combineURLs = __webpack_require__(185);
@@ -12105,7 +12163,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 "use strict";
 
 
-var Cancel = __webpack_require__(87);
+var Cancel = __webpack_require__(88);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -12219,7 +12277,7 @@ var _createClass2 = __webpack_require__(190);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _axios = __webpack_require__(82);
+var _axios = __webpack_require__(83);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -12286,7 +12344,6 @@ var AxiosConfig = function () {
 }();
 
 exports.default = AxiosConfig;
-;
 
 /***/ }),
 /* 189 */
@@ -53288,11 +53345,11 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_192__;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__ = __webpack_require__(88);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__ = __webpack_require__(89);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__ = __webpack_require__(196);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_248bd805_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__ = __webpack_require__(196);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_248bd805_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_248bd805_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(194)
@@ -53313,8 +53370,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Main_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9a5f5a38_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_248bd805_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_248bd805_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Main_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -53363,7 +53420,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var render = function render() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "layout" }, [_c('Layout', { staticStyle: { "height": "100%" } }, [_c('Header', { style: { color: '#fff' } }, [_c('Menu', { attrs: { "mode": "horizontal", "theme": "dark", "active-name": "1" } }, [_c('div', { staticClass: "layout-parent" }, [_c('div', { staticClass: "layout-logo", style: _vm.config.page_main.logoStyle }, [_c('a', { staticClass: "header-logo" }, [_c('img', { staticClass: "header-img", attrs: { "src": _vm.config.logoImage, "alt": _vm.config.sysTitle } }), _vm._v(" "), _c('span', { staticClass: "header-span" }, [_vm._v(_vm._s(_vm.config.sysTitle))])])]), _vm._v(" "), _c('div', { staticClass: "layout-nav", style: _vm.config.page_main.navStyle }, [_c('Row', [_c('i-col', { attrs: { "span": "12" } }, [_c('MenuItem', { attrs: { "name": "1" } }, [_c('a', { staticClass: "header-menu ", attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.logout } }, [_c('Icon', { staticStyle: { "color": "red" }, attrs: { "type": "md-exit" } }), _vm._v(" "), _c('span', { staticStyle: { "cursor": "pointer" } }, [_vm._v("退出系统")])], 1)])], 1), _vm._v(" "), _c('i-col', { attrs: { "span": "12" } }, [_c('MenuItem', { attrs: { "name": "2" } }, [_c('a', { staticClass: "header-menu", attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.resetPwd } }, [_c('Icon', { staticStyle: { "color": "#657180" }, attrs: { "type": "md-create" } }), _vm._v(" "), _c('span', { staticStyle: { "cursor": "pointer" } }, [_vm._v("修改密码")])], 1)])], 1)], 1)], 1)])])], 1), _vm._v(" "), _c('Layout', [_c('Sider', { style: { background: '#fff', height: '100%' }, attrs: { "hide-trigger": "", "width": _vm.config.page_main.menuWidth + 'px' } }, [_vm.menus.length > 0 ? _c('Menu', { style: { 'min-height': _vm.clientHeight - 112 + 'px' }, attrs: { "theme": _vm.theme, "width": _vm.config.page_main.menuWidth + 'px', "active-name": _vm.activeMenuName, "open-names": _vm.openMenuNames, "accordion": "" }, on: { "on-select": _vm.menuClick } }, [_vm._l(_vm.menus, function (menu, index) {
+  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', { staticClass: "layout" }, [_c('Layout', { staticStyle: { "height": "100%" } }, [_c('Header', { style: { color: '#fff' } }, [_c('Menu', { attrs: { "mode": "horizontal", "theme": "dark", "active-name": "1" } }, [_c('div', { staticClass: "layout-parent" }, [_c('div', { staticClass: "layout-logo", style: _vm.config.page_main.logoStyle }, [_c('a', { staticClass: "header-logo" }, [_c('img', { staticClass: "header-img", attrs: { "src": _vm.config.logoImage, "alt": _vm.config.sysTitle } }), _vm._v(" "), _c('span', { staticClass: "header-span" }, [_vm._v(_vm._s(_vm.config.sysTitle))])])]), _vm._v(" "), _c('div', { staticClass: "layout-nav", style: _vm.config.page_main.rightStyle }, [_vm.config.page_main.rightTheme !== 'dropdown' ? _c('Row', { attrs: { "justify": "end", "type": "flex" } }, [_c('i-col', { attrs: { "span": "12" } }, [_c('MenuItem', { attrs: { "name": "1" } }, [_c('a', { staticClass: "header-menu ", attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.logout } }, [_c('Icon', { staticStyle: { "color": "red" }, attrs: { "type": "md-exit" } }), _vm._v(" "), _c('span', { staticStyle: { "cursor": "pointer" } }, [_vm._v("退出系统")])], 1)])], 1), _vm._v(" "), _c('i-col', { attrs: { "span": "12" } }, [_c('MenuItem', { attrs: { "name": "2" } }, [_c('a', { staticClass: "header-menu", attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.resetPwd } }, [_c('Icon', { staticStyle: { "color": "#657180" }, attrs: { "type": "md-create" } }), _vm._v(" "), _c('span', { staticStyle: { "cursor": "pointer" } }, [_vm._v("修改密码")])], 1)])], 1)], 1) : _c('Row', { attrs: { "justify": "end", "type": "flex" } }, [_c('i-col', { attrs: { "span": "24" } }, [_c('span', { staticStyle: { "color": "white", "margin-right": "6px" } }, [_vm._v(_vm._s(_vm.loginName))]), _vm._v(" "), _c('Dropdown', { on: { "on-click": _vm.dropdownClick } }, [_c('Avatar', { style: _vm.config.page_main.dropdown.avatar.style, attrs: { "icon": _vm.config.page_main.dropdown.avatar.icon, "src": _vm.config.page_main.dropdown.avatar.src, "size": "large" } }), _vm._v(" "), _c('DropdownMenu', { attrs: { "slot": "list" }, slot: "list" }, _vm._l(_vm.config.page_main.dropdown.items, function (item, index) {
+    return _c('DropdownItem', { key: "di" + index, attrs: { "disabled": item.disabled, "name": item.name, "divided": item.divided } }, [item.icon ? _c('Icon', { staticStyle: { "color": "#657180" }, attrs: { "type": item.icon } }) : _vm._e(), _vm._v("\n                                            " + _vm._s(item.name) + "\n                                        ")], 1);
+  }))], 1)], 1)], 1)], 1)])])], 1), _vm._v(" "), _c('Layout', [_c('Sider', { style: { background: '#fff', height: '100%' }, attrs: { "hide-trigger": "", "width": _vm.config.page_main.menuWidth + 'px' } }, [_vm.menus.length > 0 ? _c('Menu', { style: { 'min-height': _vm.clientHeight - 112 + 'px' }, attrs: { "theme": _vm.theme, "width": _vm.config.page_main.menuWidth + 'px', "active-name": _vm.activeMenuName, "open-names": _vm.openMenuNames, "accordion": "" }, on: { "on-select": _vm.menuClick } }, [_vm._l(_vm.menus, function (menu, index) {
     return [menu.parentId == null ? _c('Submenu', { key: 'sub' + index, attrs: { "name": 'm' + menu.id } }, [_c('template', { slot: "title" }, [menu.themeJson ? _c('Icon', { staticStyle: { "margin-right": "3px" }, attrs: { "type": menu.themeJson.icon, "size": "15", "color": menu.themeJson.color } }) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "layout-text" }, [_vm._v(_vm._s(menu.name))])], 1), _vm._v(" "), _vm._l(_vm.menus, function (child, index2) {
       return [child.parentId === menu.id && child.resourceType === '菜单' ? _c('Menu-item', { key: 'child' + child.id + 'm' + menu.id, attrs: { "name": 'm' + child.id } }, [child.themeJson ? _c('Icon', { attrs: { "type": child.themeJson.icon, "size": _vm.iconSize } }) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "layout-text" }, [_vm._v(_vm._s(child.name))])], 1) : _vm._e(), _vm._v(" "), child.parentId === menu.id && child.resourceType === '菜单组' ? _c('Submenu', { key: 'subChild' + index2, attrs: { "name": 'm' + child.id } }, [_c('template', { slot: "title" }, [child.themeJson ? _c('Icon', { attrs: { "type": child.themeJson.icon, "size": _vm.iconSize } }) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "layout-text" }, [_vm._v(_vm._s(child.name))])], 1), _vm._v(" "), _vm._l(_vm.menus, function (child2) {
         return [child2.parentId === child.id && child2.resourceType === '菜单' ? _c('Menu-item', { key: 'child' + child2.id + 'm' + menu.id, attrs: { "name": 'm' + child2.id } }, [child2.themeJson ? _c('Icon', { attrs: { "type": child2.themeJson.icon, "size": _vm.iconSize } }) : _vm._e(), _vm._v(" "), _c('span', { staticClass: "layout-text" }, [_vm._v(_vm._s(child2.name))])], 1) : _vm._e()];
@@ -53375,11 +53434,11 @@ var render = function render() {
         _vm.passwordModel = $$v;
       }, expression: "passwordModel" } }, [_c('Form', { ref: "passwordForm", attrs: { "model": _vm.pwdForm, "rules": _vm.pwdRule, "label-width": 100 } }, [_c('Form-item', { attrs: { "prop": "originPwd", "label": "原密码" } }, [_c('i-input', { attrs: { "type": "password", "placeholder": "请输入原密码" }, model: { value: _vm.pwdForm.originPwd, callback: function callback($$v) {
         _vm.$set(_vm.pwdForm, "originPwd", $$v);
-      }, expression: "pwdForm.originPwd" } }, [_c('Icon', { attrs: { "slot": "prepend", "type": "ios-locked-outline" }, slot: "prepend" })], 1)], 1), _vm._v(" "), _c('Form-item', { attrs: { "label": "新密码", "prop": "newPwd" } }, [_c('i-input', { attrs: { "type": "password", "placeholder": "请输入新密码" }, model: { value: _vm.pwdForm.newPwd, callback: function callback($$v) {
+      }, expression: "pwdForm.originPwd" } }, [_c('Icon', { attrs: { "slot": "prepend", "type": "md-lock" }, slot: "prepend" })], 1)], 1), _vm._v(" "), _c('Form-item', { attrs: { "label": "新密码", "prop": "newPwd" } }, [_c('i-input', { attrs: { "type": "password", "placeholder": "请输入新密码" }, model: { value: _vm.pwdForm.newPwd, callback: function callback($$v) {
         _vm.$set(_vm.pwdForm, "newPwd", $$v);
-      }, expression: "pwdForm.newPwd" } }, [_c('Icon', { attrs: { "slot": "prepend", "type": "ios-locked-outline" }, slot: "prepend" })], 1)], 1), _vm._v(" "), _c('Form-item', { attrs: { "label": "确认密码", "prop": "surePwd" } }, [_c('i-input', { attrs: { "type": "password", "placeholder": "确认密码" }, model: { value: _vm.pwdForm.surePwd, callback: function callback($$v) {
+      }, expression: "pwdForm.newPwd" } }, [_c('Icon', { attrs: { "slot": "prepend", "type": "md-lock" }, slot: "prepend" })], 1)], 1), _vm._v(" "), _c('Form-item', { attrs: { "label": "确认密码", "prop": "surePwd" } }, [_c('i-input', { attrs: { "type": "password", "placeholder": "确认密码" }, model: { value: _vm.pwdForm.surePwd, callback: function callback($$v) {
         _vm.$set(_vm.pwdForm, "surePwd", $$v);
-      }, expression: "pwdForm.surePwd" } }, [_c('Icon', { attrs: { "slot": "prepend", "type": "ios-locked-outline" }, slot: "prepend" })], 1)], 1)], 1), _vm._v(" "), _c('div', { attrs: { "slot": "footer" }, slot: "footer" }, [_c('Button', { attrs: { "type": "primary" }, on: { "click": function click($event) {
+      }, expression: "pwdForm.surePwd" } }, [_c('Icon', { attrs: { "slot": "prepend", "type": "md-lock" }, slot: "prepend" })], 1)], 1)], 1), _vm._v(" "), _c('div', { attrs: { "slot": "footer" }, slot: "footer" }, [_c('Button', { attrs: { "type": "primary" }, on: { "click": function click($event) {
         _vm.handlePasswordSubmit('passwordForm');
       } } }, [_vm._v("提交")]), _vm._v(" "), _c('Button', { attrs: { "type": "primary", "ghost": "" }, on: { "click": function click($event) {
         _vm.resetPasswordForm('passwordForm');
@@ -53397,11 +53456,11 @@ exports.staticRenderFns = staticRenderFns;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__ = __webpack_require__(89);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__ = __webpack_require__(90);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6094b6e9_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__ = __webpack_require__(200);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6094b6e9_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6094b6e9_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f7699d2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__ = __webpack_require__(200);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f7699d2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f7699d2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(198)
@@ -53422,8 +53481,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Login_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6094b6e9_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6094b6e9_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f7699d2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3f7699d2_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Login_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -53506,11 +53565,11 @@ exports.staticRenderFns = staticRenderFns;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_User_vue__ = __webpack_require__(90);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_User_vue__ = __webpack_require__(91);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_User_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_User_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_User_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_User_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9884aac8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue__ = __webpack_require__(202);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9884aac8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9884aac8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3e0b246c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue__ = __webpack_require__(202);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3e0b246c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3e0b246c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 /* script */
 
@@ -53528,8 +53587,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_User_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9884aac8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_9884aac8_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3e0b246c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3e0b246c_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_User_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -53583,11 +53642,11 @@ exports.staticRenderFns = staticRenderFns;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Resources_vue__ = __webpack_require__(91);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Resources_vue__ = __webpack_require__(92);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Resources_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Resources_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Resources_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Resources_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_1bee88fc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue__ = __webpack_require__(206);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_1bee88fc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_1bee88fc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3fa80e13_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue__ = __webpack_require__(206);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3fa80e13_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3fa80e13_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(204)
@@ -53608,8 +53667,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Resources_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_1bee88fc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_1bee88fc_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3fa80e13_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_3fa80e13_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Resources_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -53670,11 +53729,11 @@ exports.staticRenderFns = staticRenderFns;
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Role_vue__ = __webpack_require__(92);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Role_vue__ = __webpack_require__(93);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Role_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Role_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Role_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Role_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28df5460_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue__ = __webpack_require__(208);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28df5460_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28df5460_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6acbfede_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue__ = __webpack_require__(208);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6acbfede_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6acbfede_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 /* script */
 
@@ -53692,8 +53751,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Role_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28df5460_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_28df5460_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6acbfede_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_6acbfede_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Role_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
