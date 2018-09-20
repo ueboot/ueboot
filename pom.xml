@@ -16,14 +16,14 @@
     <packaging>pom</packaging>
     <name>ueboot-framework</name>
     <description>
-        ueboot是一个基于spring boot1.5.9 + vue2.0+iview3.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
+        ueboot是一个基于spring boot1.5.16 + vue2.0+iview3.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
     </description>
     <url>https://gitee.com/ueboot/ueboot-quick-dev</url>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
+        <version>1.5.16.RELEASE</version>
         <relativePath/>
     </parent>
 

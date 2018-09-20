@@ -116,22 +116,25 @@
                                     filterable: false,
                                     multiple: false,
                                     required:true,
-                                    init:'haha',
+                                    init:'hehe',
                                     onChange: (value) => {
                                         console.log(value)
                                         this.resetSuperFilter(value)
                                     },
                                     data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },
-                                /*{
+                                {
                                     type: "select",
                                     name: "province2",
                                     label: "下拉框2",
                                     clearable: true,
                                     filterable: false,
                                     multiple: false,
-                                    data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
-                                },*/
+                                    onChange: (value) => {
+                                        console.log("province2",value)
+                                    },
+                                    data: [{name: "北京", value: "haha"}, {name: "上海", value: "hehe"}]
+                                },
                                 {
                                     type: "treeSelect",
                                     name: "province3",
@@ -318,12 +321,12 @@
             resetSuperFilter(value) {
                 console.log("--------change###,%o", value)
                 this.formGrid.toolbar.superFilter.columns.forEach((c) => {
-                    if (c.name === 'province') {
-                        c.data = [{name: "哈哈1", value: "haha"}, {name: "呵呵1", value: "hehe"}]
+                    if (value==='haha'&&c.name === 'province2') {
+                      c.data = [{name: "上海", value: "haha1"}, {name: "北京", value: "hehe1"}]
+                    }else if (value==='hehe'&&c.name === 'province2') {
+                        c.data = [{name: "天津", value: "haha1"}, {name: "广州", value: "hehe1"}]
                     }
                 })
-                //重置查询条件
-                // this.$refs.child.$emit('setSuperFilter',this.formGrid.toolbar.superFilter);
             },
             resetFormField(value) {
                 if (value === 'haha') {

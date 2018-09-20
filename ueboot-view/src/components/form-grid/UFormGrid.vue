@@ -696,22 +696,17 @@
             // 监听高级搜索条件变化
             'data.toolbar.superFilter': {
                 handler: function (newValue, oldValue) {
-                    if(newValue !== oldValue){
-                        Log.d('监听到data.toolbar.superFilter.columns变化,%o', newValue);
-                        this.formGrid.toolbar.superFilter = newValue;
-                        // 对搜索表单数据进行处理
-                        this.renderSearchForm();
-                    }
-
+                    Log.d('监听到data.toolbar.superFilter.columns变化,%o,%o', newValue,oldValue);
+                    //复制一份新值，防止影响原值导致重复被监听到
+                    let value = deepExtend({},this.formGrid.toolbar.superFilter,newValue)
+                    // 对搜索表单数据进行处理
+                    this.renderSearchForm(value);
                 },
                 deep: true
             },
             'data.form': {
                 handler: function (newValue, oldValue) {
-                    if(newValue === oldValue){
-                        return
-                    }
-                    Log.d('监听到data.form.columns变化,%o', newValue);
+                    Log.d('监听到data.form.columns变化,%o,%o', newValue,oldValue);
                     this.formGrid.form = deepExtend({}, this.formGrid.form, newValue);
                     this.renderForm();
                     if (this.formGrid.form.isView) {
@@ -734,7 +729,7 @@
 
                 this.renderForm();
                 // 对搜索表单数据进行处理
-                this.renderSearchForm();
+                this.renderSearchForm(this.formGrid.toolbar.superFilter);
                 // 表格数据初始化
                 // 追加操作列
                 if (this.formGrid.table.operation.show) {
@@ -759,23 +754,22 @@
             },
 
             // 对搜索表单数据进行数据加工
-            renderSearchForm() {
-                //先设置为空，让原表单数据清空
-                this.superFilterRows = [];
+            renderSearchForm(superFilter) {
+                //查询表单初始值设置为空，防止脏数据
                 // 设置高级搜索当中，如果存在下拉框的元素，需要进行数据初始化
-                if (this.formGrid.toolbar.superFilter && this.formGrid.toolbar.superFilter.columns) {
-                    this.setSelectItems(this.formGrid.toolbar.superFilter.columns);
-                    this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
-                    this.searchRuleValidate = this.getRuleValidate(this.formGrid.toolbar.superFilter.columns);
+                if (superFilter && superFilter.columns) {
+                    this.setSelectItems(superFilter.columns);
+                    this.setSuperFilterInitValue(superFilter.columns);
+                    this.searchRuleValidate = this.getRuleValidate(superFilter.columns);
                     // 对所有列进行动态计算行数，用于页面渲染
                     let rows = [];
                     let columns = [];
-                    let colNumber = this.formGrid.toolbar.superFilter.colNumber;
+                    let colNumber = superFilter.colNumber;
                     // 判断所有列当中是否有非隐藏的元素，如果全部为隐藏元素则不显示查询按钮
                     let allHidden = true;
                     let i = 0;
                     let span = Math.round(24 / colNumber);
-                    this.formGrid.toolbar.superFilter.columns.forEach((c) => {
+                    superFilter.columns.forEach((c) => {
                         if (i > 0 && (i % colNumber === 0)) {
                             rows.push(columns);
                             columns = [];
@@ -869,7 +863,6 @@
                     if (c.init) {
                         this.$set(this.queryParams,c.name,c.init);
                     }
-
                 });
             },
             noticeError(title, desc) {
@@ -1128,10 +1121,11 @@
                                 this.$set(c, 'items', response.body);
                             });
                         } else {
-                            Log.e('当前select定义的data不符合规范,%s', data);
+                            //当前select定义的data不符合规范
+                            this.$set(c, 'items', []);
                         }
                     } else {
-                        Log.e('当前select未定义data,%o', c);
+                        this.$set(c, 'items', []);
                     }
                 }
             },
