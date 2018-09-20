@@ -5283,6 +5283,8 @@ exports.default = {
 
             formRows: [],
 
+            superFilterRows: [],
+
             queryParams: {},
             temp: 'haha',
 
@@ -5299,15 +5301,20 @@ exports.default = {
     watch: {
         'data.toolbar.superFilter': {
             handler: function handler(newValue, oldValue) {
-                _Log2.default.d('监听到data.toolbar.superFilter.columns变化,%o', newValue);
-                this.formGrid.toolbar.superFilter = newValue;
+                if (newValue !== oldValue) {
+                    _Log2.default.d('监听到data.toolbar.superFilter.columns变化,%o', newValue);
+                    this.formGrid.toolbar.superFilter = newValue;
 
-                this.renderSearchForm();
+                    this.renderSearchForm();
+                }
             },
             deep: true
         },
         'data.form': {
             handler: function handler(newValue, oldValue) {
+                if (newValue === oldValue) {
+                    return;
+                }
                 _Log2.default.d('监听到data.form.columns变化,%o', newValue);
                 this.formGrid.form = (0, _deepExtend2.default)({}, this.formGrid.form, newValue);
                 this.renderForm();
@@ -5353,7 +5360,7 @@ exports.default = {
         renderSearchForm: function renderSearchForm() {
             var _this2 = this;
 
-            this.formGrid.toolbar.superFilter.rows = [];
+            this.superFilterRows = [];
 
             if (this.formGrid.toolbar.superFilter && this.formGrid.toolbar.superFilter.columns) {
                 this.setSelectItems(this.formGrid.toolbar.superFilter.columns);
@@ -5399,7 +5406,7 @@ exports.default = {
                     }
                     rows.push(columns);
                 }
-                this.formGrid.toolbar.superFilter.rows = rows;
+                this.superFilterRows = rows;
             }
         },
         getRuleValidate: function getRuleValidate(columns) {
@@ -9973,8 +9980,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__ = __webpack_require__(75);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__);
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__ = __webpack_require__(165);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_33643fca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__ = __webpack_require__(165);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_33643fca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_33643fca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__ = __webpack_require__(5);
 function injectStyle (context) {
   __webpack_require__(146)
@@ -9995,8 +10002,8 @@ var __vue_module_identifier__ = null
 
 var Component = Object(__WEBPACK_IMPORTED_MODULE_2__node_modules_vue_loader_lib_runtime_component_normalizer__["a" /* default */])(
   __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_UFormGrid_vue___default.a,
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["render"],
-  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_54e9d25a_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["staticRenderFns"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_33643fca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["render"],
+  __WEBPACK_IMPORTED_MODULE_1__babel_loader_sourceMap_node_modules_vue_loader_lib_template_compiler_index_id_data_v_33643fca_hasScoped_false_optionsId_0_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_UFormGrid_vue__["staticRenderFns"],
   __vue_template_functional__,
   __vue_styles__,
   __vue_scopeId__,
@@ -10849,7 +10856,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var render = function render() {
-  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_vm.formGrid.tips.title ? _c('Row', [_c('Alert', [_vm._v("\n            " + _vm._s(_vm.formGrid.tips.title) + "\n            "), _vm.formGrid.tips.content ? _c('span', { attrs: { "slot": "desc" }, slot: "desc" }, [_vm._v(" " + _vm._s(_vm.formGrid.tips.content))]) : _vm._e()])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.superFilter.rows.length > 0 ? _c('Row', [_c('Form', { ref: _vm.formGrid.toolbar.superFilter.name, attrs: { "model": _vm.queryParams, "label-position": _vm.formGrid.toolbar.superFilter.labelPosition, "label-width": _vm.formGrid.toolbar.superFilter.labelWidth, "rules": _vm.searchRuleValidate } }, [_c('i-col', { attrs: { "span": 24 } }, _vm._l(_vm.formGrid.toolbar.superFilter.rows, function (row, index1) {
+  var _vm = this;var _h = _vm.$createElement;var _c = _vm._self._c || _h;return _c('div', [_vm.formGrid.tips.title ? _c('Row', [_c('Alert', [_vm._v("\n            " + _vm._s(_vm.formGrid.tips.title) + "\n            "), _vm.formGrid.tips.content ? _c('span', { attrs: { "slot": "desc" }, slot: "desc" }, [_vm._v(" " + _vm._s(_vm.formGrid.tips.content))]) : _vm._e()])], 1) : _vm._e(), _vm._v(" "), _vm.superFilterRows.length > 0 ? _c('Row', [_c('Form', { ref: _vm.formGrid.toolbar.superFilter.name, attrs: { "model": _vm.queryParams, "label-position": _vm.formGrid.toolbar.superFilter.labelPosition, "label-width": _vm.formGrid.toolbar.superFilter.labelWidth, "rules": _vm.searchRuleValidate } }, [_c('i-col', { attrs: { "span": 24 } }, _vm._l(_vm.superFilterRows, function (row, index1) {
     return _c('Row', { key: 'row' + index1 }, _vm._l(row, function (item, index2) {
       var this$1 = this;
       return _c('i-col', { key: 'superfilter' + index2, attrs: { "span": item.span } }, [_c('Form-item', { attrs: { "label": item.label, "prop": item.name } }, [item.type === 'text' ? _c('i-input', { attrs: { "icon": item.icon, "placeholder": item.placeholder, "maxlength": item.maxlength, "readonly": item.readonly, "disabled": item.disabled }, on: { "on-focus": function onFocus($event) {
@@ -10901,10 +10908,12 @@ var render = function render() {
   }))], 1)], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.show ? _c('Row', { attrs: { "gutter": 5, "type": "flex", "justify": _vm.formGrid.toolbar.justify } }, [_vm.formGrid.toolbar.refresh && _vm.formGrid.toolbar.refresh.show ? _c('i-col', [_c('Button', { attrs: { "type": "primary", "icon": "md-refresh" }, on: { "click": function click($event) {
         _vm.pageData();
       } } }, [_vm._v(_vm._s(_vm.formGrid.toolbar.refresh.label))])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.create && _vm.formGrid.toolbar.create.show ? _c('i-col', [_c('Button', { attrs: { "type": "primary", "icon": "md-add" }, on: { "click": _vm.formAdd } }, [_vm._v(_vm._s(_vm.formGrid.toolbar.create.label))])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.delete && _vm.formGrid.toolbar.delete.show ? _c('i-col', [_c('Button', { attrs: { "type": "primary", "icon": "md-trash", "loading": _vm.formGrid.toolbar.delete.loading, "ghost": "" }, on: { "click": _vm.batchDelete } }, [!_vm.formGrid.toolbar.delete.loading ? _c('span', [_vm._v("  " + _vm._s(_vm.formGrid.toolbar.delete.label))]) : _c('span', [_vm._v(_vm._s(_vm.formGrid.toolbar.delete.label) + "中...")])])], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.button ? _vm._l(_vm.formGrid.toolbar.button, function (button, index) {
-    return _c('i-col', { key: index }, [_c('Button', { attrs: { "type": button.theme, "icon": button.icon, "custom-icon": button.customIcon, "ghost": button.ghost, "disabled": button.disabled, "to": button.to, "replace": button.replace, "target": button.target, "loading": button.loading, "size": button.size, "shape": button.shape, "long": button.long }, on: { "click": function click($event) {
+    return _c('i-col', { key: index }, [!button.key ? _c('Button', { attrs: { "type": button.theme, "icon": button.icon, "custom-icon": button.customIcon, "ghost": button.ghost, "disabled": button.disabled, "to": button.to, "replace": button.replace, "target": button.target, "loading": button.loading, "size": button.size, "shape": button.shape, "long": button.long }, on: { "click": function click($event) {
           _vm.toolbarClick(button.click);
-        } } }, [_vm._v("\n                    " + _vm._s(button.label) + "\n                ")])], 1);
-  }) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.groups.show ? _c('i-col', [_vm.formGrid.toolbar.groups ? _c('Dropdown', [_c('Button', { attrs: { "type": "primary" } }, [_c('Icon', { attrs: { "type": "logo-buffer" } }), _vm._v("\n                    " + _vm._s(_vm.formGrid.toolbar.groups.label) + "\n                    "), _c('Icon', { attrs: { "type": "md-arrow-dropdown" } })], 1), _vm._v(" "), _c('Dropdown-menu', { attrs: { "slot": "list" }, slot: "list" }, [_vm.formGrid.toolbar.groups.export && _vm.formGrid.toolbar.groups.export.currentShow ? _c('Dropdown-item', [_c('a', { attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.exportCurrentPageData } }, [_c('Icon', { attrs: { "type": "md-download" } }), _vm._v("\n                            " + _vm._s(_vm.formGrid.toolbar.groups.export.currentLabel) + "\n                        ")], 1)]) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.groups.export && _vm.formGrid.toolbar.groups.export.show ? _c('Dropdown-item', [_c('a', { attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.exportData } }, [_c('Icon', { attrs: { "type": "md-download" } }), _vm._v("\n                            " + _vm._s(_vm.formGrid.toolbar.groups.export.label) + "\n                        ")], 1)]) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.groups.import && _vm.formGrid.toolbar.groups.import.show ? _c('Dropdown-item', [_c('a', { attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.showImportView } }, [_c('Icon', { attrs: { "type": "md-cloud-upload" } }), _vm._v("\n                            " + _vm._s(_vm.formGrid.toolbar.groups.import.label) + "\n                        ")], 1)]) : _vm._e()], 1)], 1) : _vm._e()], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.buttons ? _c('i-col', [_vm.formGrid.toolbar.buttons ? _c('Dropdown', [_c('Button', { attrs: { "type": _vm.formGrid.toolbar.buttons.theme, "icon": _vm.formGrid.toolbar.buttons.icon } }, [_vm._v("\n                    " + _vm._s(_vm.formGrid.toolbar.buttons.label) + "\n                    "), _c('Icon', { attrs: { "type": "md-arrow-dropdown" } })], 1), _vm._v(" "), _c('Dropdown-menu', { attrs: { "slot": "list" }, slot: "list" }, [_vm._l(_vm.formGrid.toolbar.buttons.items, function (menu, index) {
+        } } }, [_vm._v("\n                    " + _vm._s(button.label) + "\n                ")]) : _vm._e(), _vm._v(" "), button.key === 'exportCurrentPage' ? _c('Button', { attrs: { "type": button.theme ? button.theme : 'primary', "icon": button.icon ? button.icon : 'md-download', "custom-icon": button.customIcon, "ghost": button.ghost, "disabled": button.disabled, "to": button.to, "replace": button.replace, "target": button.target, "loading": button.loading, "size": button.size, "shape": button.shape, "long": button.long }, on: { "click": _vm.exportCurrentPageData } }, [_vm._v("\n                    " + _vm._s(button.label) + "\n                ")]) : _vm._e(), _vm._v(" "), button.key === 'exportAllData' ? _c('Button', { attrs: { "type": button.theme ? button.theme : 'primary', "icon": button.icon ? button.icon : 'md-download', "custom-icon": button.customIcon, "ghost": button.ghost, "disabled": button.disabled, "to": button.to, "replace": button.replace, "target": button.target, "loading": button.loading, "size": button.size, "shape": button.shape, "long": button.long }, on: { "click": _vm.exportData } }, [_vm._v("\n                    " + _vm._s(button.label) + "\n                ")]) : _vm._e(), _vm._v(" "), button.key === 'import' ? _c('Button', { attrs: { "type": button.theme ? button.theme : 'primary', "icon": button.icon ? button.icon : 'md-download', "custom-icon": button.customIcon, "ghost": button.ghost, "disabled": button.disabled, "to": button.to, "replace": button.replace, "target": button.target, "loading": button.loading, "size": button.size, "shape": button.shape, "long": button.long }, on: { "click": _vm.showImportView } }, [_vm._v("\n                    " + _vm._s(button.label) + "\n                ")]) : _vm._e()], 1);
+  }) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.groups.show ? _c('i-col', [_vm.formGrid.toolbar.groups.export && _vm.formGrid.toolbar.groups.export.currentShow ? _c('Button', { attrs: { "type": _vm.button.theme, "icon": _vm.button.icon, "custom-icon": _vm.button.customIcon, "ghost": _vm.button.ghost, "disabled": _vm.button.disabled, "to": _vm.button.to, "replace": _vm.button.replace, "target": _vm.button.target, "loading": _vm.button.loading, "size": _vm.button.size, "shape": _vm.button.shape, "long": _vm.button.long }, on: { "click": function click($event) {
+        _vm.toolbarClick(_vm.button.click);
+      } } }, [_vm._v("\n                " + _vm._s(_vm.button.label) + "\n            ")]) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.groups ? _c('Dropdown', [_c('Button', { attrs: { "type": "primary" } }, [_c('Icon', { attrs: { "type": "logo-buffer" } }), _vm._v("\n                        " + _vm._s(_vm.formGrid.toolbar.groups.label) + "\n                        "), _c('Icon', { attrs: { "type": "md-arrow-dropdown" } })], 1), _vm._v(" "), _c('Dropdown-menu', { attrs: { "slot": "list" }, slot: "list" }, [_vm.formGrid.toolbar.groups.export && _vm.formGrid.toolbar.groups.export.currentShow ? _c('Dropdown-item', [_c('a', { attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.exportCurrentPageData } }, [_c('Icon', { attrs: { "type": "md-download" } }), _vm._v("\n                                " + _vm._s(_vm.formGrid.toolbar.groups.export.currentLabel) + "\n                            ")], 1)]) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.groups.export && _vm.formGrid.toolbar.groups.export.show ? _c('Dropdown-item', [_c('a', { attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.exportData } }, [_c('Icon', { attrs: { "type": "md-download" } }), _vm._v("\n                                " + _vm._s(_vm.formGrid.toolbar.groups.export.label) + "\n                            ")], 1)]) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.groups.import && _vm.formGrid.toolbar.groups.import.show ? _c('Dropdown-item', [_c('a', { attrs: { "href": "javascript:void(0)" }, on: { "click": _vm.showImportView } }, [_c('Icon', { attrs: { "type": "md-cloud-upload" } }), _vm._v("\n                                " + _vm._s(_vm.formGrid.toolbar.groups.import.label) + "\n                            ")], 1)]) : _vm._e()], 1)], 1) : _vm._e()], 1) : _vm._e(), _vm._v(" "), _vm.formGrid.toolbar.buttons ? _c('i-col', [_vm.formGrid.toolbar.buttons ? _c('Dropdown', [_c('Button', { attrs: { "type": _vm.formGrid.toolbar.buttons.theme, "icon": _vm.formGrid.toolbar.buttons.icon } }, [_vm._v("\n                    " + _vm._s(_vm.formGrid.toolbar.buttons.label) + "\n                    "), _c('Icon', { attrs: { "type": "md-arrow-dropdown" } })], 1), _vm._v(" "), _c('Dropdown-menu', { attrs: { "slot": "list" }, slot: "list" }, [_vm._l(_vm.formGrid.toolbar.buttons.items, function (menu, index) {
     return [_c('Dropdown-item', { key: index, attrs: { "disabled": menu.disabled, "divided": menu.divided } }, [_c('a', { attrs: { "href": "javascript:void(0)" }, on: { "click": function click($event) {
           _vm.toolbarClick(menu.click);
         } } }, [_c('Icon', { attrs: { "type": menu.icon } }), _vm._v("\n                                " + _vm._s(menu.label) + "\n                            ")], 1)])];

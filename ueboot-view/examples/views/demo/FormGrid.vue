@@ -119,7 +119,7 @@
                                     init:'haha',
                                     onChange: (value) => {
                                         console.log(value)
-                                        //this.resetSuperFilter(value)
+                                        this.resetSuperFilter(value)
                                     },
                                     data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },

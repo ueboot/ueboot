@@ -6,12 +6,12 @@
                 <span slot="desc" v-if="formGrid.tips.content"> {{formGrid.tips.content}}</span>
             </Alert>
         </Row>
-        <Row v-if="formGrid.toolbar.superFilter.rows.length>0">
+        <Row v-if="superFilterRows.length>0">
             <Form :model="queryParams" :label-position="formGrid.toolbar.superFilter.labelPosition"
                   :label-width="formGrid.toolbar.superFilter.labelWidth" :ref="formGrid.toolbar.superFilter.name"
                   :rules="searchRuleValidate">
                 <i-col :span="24">
-                    <Row v-for="(row,index1) in formGrid.toolbar.superFilter.rows" :key="'row'+index1">
+                    <Row v-for="(row,index1) in superFilterRows" :key="'row'+index1">
                         <i-col v-for="(item,index2) in row" :key="'superfilter'+index2"
                                :span="item.span">
                             <Form-item :label="item.label" :prop="item.name">
@@ -677,6 +677,8 @@
                 selections: [],
                 // 渲染表单的元素列表，根据场景要求渲染的列表会有差异
                 formRows: [],
+                //渲染高级搜索表单的行数
+                superFilterRows:[],
                 // grid查询参数
                 queryParams: {},
                 temp:'haha',
@@ -694,15 +696,21 @@
             // 监听高级搜索条件变化
             'data.toolbar.superFilter': {
                 handler: function (newValue, oldValue) {
-                    Log.d('监听到data.toolbar.superFilter.columns变化,%o', newValue);
-                    this.formGrid.toolbar.superFilter = newValue;
-                    // 对搜索表单数据进行处理
-                    this.renderSearchForm();
+                    if(newValue !== oldValue){
+                        Log.d('监听到data.toolbar.superFilter.columns变化,%o', newValue);
+                        this.formGrid.toolbar.superFilter = newValue;
+                        // 对搜索表单数据进行处理
+                        this.renderSearchForm();
+                    }
+
                 },
                 deep: true
             },
             'data.form': {
                 handler: function (newValue, oldValue) {
+                    if(newValue === oldValue){
+                        return
+                    }
                     Log.d('监听到data.form.columns变化,%o', newValue);
                     this.formGrid.form = deepExtend({}, this.formGrid.form, newValue);
                     this.renderForm();
@@ -753,7 +761,7 @@
             // 对搜索表单数据进行数据加工
             renderSearchForm() {
                 //先设置为空，让原表单数据清空
-                this.formGrid.toolbar.superFilter.rows = [];
+                this.superFilterRows = [];
                 // 设置高级搜索当中，如果存在下拉框的元素，需要进行数据初始化
                 if (this.formGrid.toolbar.superFilter && this.formGrid.toolbar.superFilter.columns) {
                     this.setSelectItems(this.formGrid.toolbar.superFilter.columns);
@@ -799,7 +807,7 @@
                         }
                         rows.push(columns);
                     }
-                    this.formGrid.toolbar.superFilter.rows = rows;
+                    this.superFilterRows = rows;
                 }
             },
             // 初始化表单规则
