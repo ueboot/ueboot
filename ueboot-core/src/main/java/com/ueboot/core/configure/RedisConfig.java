@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -22,9 +23,14 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import java.lang.reflect.Method;
 
+/**
+ * @author yangkui
+ * Redis相关配置，默认配置值，只有当配置了spring.cache.type=redis 时才有效
+ */
 @Slf4j
 @Configuration
 @EnableCaching
+@ConditionalOnProperty(name = "spring.cache.type",havingValue = "redis")
 public class RedisConfig {
     /**
      * 一定要定义该bean，防止启动时出现以下异常
