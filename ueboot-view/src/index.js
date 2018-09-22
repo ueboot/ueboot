@@ -7,11 +7,11 @@ import WebSocket from './utils/WebSocket';
 import axios from 'axios';
 import Utils from './utils/Utils';
 import Config from './config/Config';
-import Page_Main from './pages/shiro/Main';
-import Page_Login from './pages/shiro/Login';
-import Page_Shiro_User from './pages/shiro/User';
-import Page_Shiro_Resources from './pages/shiro/Resources';
-import Page_Shiro_Role from './pages/shiro/Role';
+import PageMain from './pages/shiro/Main';
+import PageLogin from './pages/shiro/Login';
+import PageShiroUser from './pages/shiro/User';
+import PageShiroResources from './pages/shiro/Resources';
+import PageShiroRole from './pages/shiro/Role';
 
 
 const ueboot = {
@@ -23,11 +23,18 @@ const ueboot = {
     UForm,
     Utils,
     Config,
-    Page_Login,
-    Page_Main,
-    Page_Shiro_User,
-    Page_Shiro_Resources,
-    Page_Shiro_Role
+    //兼容旧写法（带下划线的名字，无法通过eslint校验)
+    Page_Login: PageLogin,
+    PageLogin,
+    //
+    Page_Main: PageMain,
+    PageMain,
+    Page_Shiro_User: PageShiroUser,
+    PageShiroUser,
+    Page_Shiro_Resources: PageShiroResources,
+    PageShiroResources,
+    Page_Shiro_Role: PageShiroRole,
+    PageShiroRole
 };
 
 const install = function (Vue, opts = {}) {

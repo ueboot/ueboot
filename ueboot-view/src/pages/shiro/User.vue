@@ -134,8 +134,8 @@ export default {
                                         let a = [];
                                         roleIds.split(',').forEach((r) => {
                                             if (r !== '') {
-                                              a.push(parseInt(r));
-                                          }
+                                                a.push(parseInt(r));
+                                            }
                                         });
                                         this.formCustom.roleIds = a;
                                     }
@@ -164,10 +164,10 @@ export default {
                                 'theme': 'primary',
                                 click: (row, index, _this) => {
                   // 这里写自己的业务逻辑，比如弹出窗口进行表单录入
-                                  this.resetPwdModal = true;
-                                  this.formCustom.id = row['id'];
-                                  this.formCustom.userName = row['userName'];
-                              }
+                                    this.resetPwdModal = true;
+                                    this.formCustom.id = row['id'];
+                                    this.formCustom.userName = row['userName'];
+                                }
                             }
                         ],
                         column: {

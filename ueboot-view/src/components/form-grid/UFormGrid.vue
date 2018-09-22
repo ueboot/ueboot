@@ -698,7 +698,7 @@
                 handler: function (newValue, oldValue) {
                     Log.d('监听到data.toolbar.superFilter.columns变化,%o,%o', newValue,oldValue);
                     //复制一份新值，防止影响原值导致重复被监听到
-                    let value = deepExtend({},this.formGrid.toolbar.superFilter,newValue)
+                    let value = deepExtend({},this.formGrid.toolbar.superFilter,newValue);
                     // 对搜索表单数据进行处理
                     this.renderSearchForm(value);
                 },

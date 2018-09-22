@@ -367,10 +367,10 @@
                     that.clientWidth = document.documentElement.clientWidth;
                 }, 400);
             };
-            let loginInfo = sessionStorage.getItem('ueboot_login_info') || ""
+            let loginInfo = sessionStorage.getItem('ueboot_login_info') || '';
             if (loginInfo !== '') {
-                let o = JSON.parse(loginInfo)
-                this.loginName = o[this.config.page_main.userNameKey] || ''// 登录账号名称
+                let o = JSON.parse(loginInfo);
+                this.loginName = o[this.config.page_main.userNameKey] || '';// 登录账号名称
             }
 
         }
