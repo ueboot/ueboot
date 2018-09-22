@@ -1,6 +1,8 @@
 package com.ueboot.shiro.shiro;
 
 
+import com.ueboot.core.condition.RedisDisabledCondition;
+import com.ueboot.core.condition.RedisEnableCondition;
 import com.ueboot.shiro.shiro.auditor.JpaAuditingAwareImpl;
 import com.ueboot.shiro.shiro.cache.ShiroRedisCahceManger;
 import com.ueboot.shiro.shiro.credential.RetryLimitHashedCredentialsMatcher;
@@ -19,6 +21,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -94,26 +97,22 @@ public class ShiroBaseConfigure {
      * @return DefaultWebSecurityManager
      */
     @Bean
-    @ConditionalOnProperty(
-            value = {"spring.redis"},
-            matchIfMissing = true)
+    @Conditional(RedisEnableCondition.class)
     public DefaultWebSecurityManager defaultWebSecurityManager(Realm realm, RedisTemplate<Object,Object> redisTemplate) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
         //使用自定义的Redis缓存实现，依赖redisTemplate，keyNamespace可以默认为空
-        ShiroRedisCahceManger cacheManager = new ShiroRedisCahceManger("",redisTemplate);
+        ShiroRedisCahceManger cacheManager = new ShiroRedisCahceManger("ueboot-shiro",redisTemplate);
         securityManager.setCacheManager(cacheManager);
         return securityManager;
     }
     /**
-     * 当用户的环境配置了没有配置redisTemplate时则使用ehcache做缓存
+     * 当用户的环境没有配置redisTemplate时则使用ehcache做缓存
      * @param realm realm
      * @return DefaultWebSecurityManager
      */
     @Bean
-    @ConditionalOnProperty(
-            value = {"spring.redis"},
-            matchIfMissing = false)
+    @Conditional(RedisDisabledCondition.class)
     public DefaultWebSecurityManager webSecurityManager(Realm realm) {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
