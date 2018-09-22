@@ -18,7 +18,7 @@ let ueboot_config = {
     page_main: {
         //右上角显示的用户名取值的key,从登录成功后的ueboot_login_info当中获取
         userNameKey:'username',
-        menuWidth:'200px',
+        menuWidth:250,
         logoStyle: {
             minWidth: '250px'
         },
