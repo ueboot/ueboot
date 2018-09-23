@@ -13,10 +13,12 @@ import java.util.regex.Pattern;
  */
 public class QueryUtils {
 
-    public static final String COUNT_QUERY_STRING = "select count(%s) from %s x";
+    private static final String COUNT_QUERY_STRING = "select count(%s) from %s x";
+    private static final String ORDER_BY = "order by ";
+    private static final String GROUP_BY = "group by ";
 
 
-    public static String getQueryString(String template, String entityName) {
+    private static String getQueryString(String template, String entityName) {
 
         Assert.hasText(entityName, "Entity name must not be null or empty!");
 
@@ -31,13 +33,17 @@ public class QueryUtils {
 
     public static String genCountQueryString(String queryString) {
         //count 时需要去掉order by ，防止子查询方式count会报错
-        queryString = queryString.toLowerCase();
-        if(queryString.contains("order by ")){
-            queryString = queryString.substring(0,queryString.indexOf("order by "));
+        //小写
+        if(queryString.contains(ORDER_BY)){
+            queryString = queryString.substring(0,queryString.indexOf(ORDER_BY));
+        }
+        //大写
+        if(queryString.contains(ORDER_BY.toUpperCase())){
+            queryString = queryString.substring(0,queryString.indexOf(ORDER_BY.toUpperCase()));
         }
         //group by 的时候需要使用子查询
-        if(queryString.contains("union ") || queryString.contains("group by ")){
-            return "select count(1) from ("+queryString+") wjbxnhc";
+        if(queryString.contains("union ") || queryString.contains(GROUP_BY) || queryString.contains(GROUP_BY.toUpperCase())){
+            return "select count(1) from ("+queryString+") a";
         }
         return "select count(*) " + removeSelect(queryString);
     }
