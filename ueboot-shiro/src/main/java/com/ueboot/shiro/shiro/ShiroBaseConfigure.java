@@ -54,7 +54,6 @@ public class ShiroBaseConfigure {
         bean.setLoginUrl("#/login");
         Map<String, String> map = new HashMap<>();
         //默认所有请求做认证，对部分约定目录的请求不做拦截
-        map.put("/","authc");
         map.put("/ueboot/shiro/public/","anon");
         map.put("/static/","anon");
         map.put("/public/","anon");
