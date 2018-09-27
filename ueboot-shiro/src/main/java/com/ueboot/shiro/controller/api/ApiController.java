@@ -9,7 +9,9 @@ import com.ueboot.shiro.entity.Resources;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.service.resources.ResourcesService;
 import com.ueboot.shiro.service.user.UserService;
+import com.ueboot.shiro.shiro.ShiroEventListener;
 import com.ueboot.shiro.shiro.ShiroService;
+import com.ueboot.shiro.shiro.handler.ShiroExceptionHandler;
 import com.ueboot.shiro.shiro.processor.ShiroProcessor;
 import com.ueboot.shiro.util.PasswordUtil;
 import jodd.datetime.JDateTime;
@@ -48,13 +50,16 @@ public class ApiController {
 
     private final ShiroService shiroService;
 
+    private final ShiroEventListener shiroEventListener;
+
     @Autowired
     public ApiController(ShiroProcessor shiroProcessor, ResourcesService resourcesService,
-                         UserService userService, ShiroService shiroService) {
+                         UserService userService, ShiroService shiroService,ShiroEventListener shiroEventListener) {
         this.shiroProcessor = shiroProcessor;
         this.resourcesService = resourcesService;
         this.userService = userService;
         this.shiroService = shiroService;
+        this.shiroEventListener = shiroEventListener;
     }
 
     @PostMapping(value = "/public/login")
@@ -68,7 +73,11 @@ public class ApiController {
             session.setAttribute(CAPTCHA_KEY, "");
             throw new IllegalArgumentException("验证码不正确!");
         }
+        shiroEventListener.beforeLogin(params.getUsername(),params.getCaptcha());
+        ShiroExceptionHandler.set(params.getUsername());
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
+        shiroEventListener.afterLogin(params.getUsername(),true,"");
+        ShiroExceptionHandler.remove();
         //返回登录成功后的信息
         Map<String, Object> info = this.shiroService.getLoginSuccessInfo(params.getUsername());
         return new Response<>(info);

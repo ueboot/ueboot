@@ -1,7 +1,7 @@
 package com.ueboot.shiro.shiro.handler;
 
-import com.ueboot.core.exception.WebExceptionHandler;
 import com.ueboot.core.http.response.Response;
+import com.ueboot.shiro.shiro.ShiroEventListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.annotation.Resource;
 
 /**
  * 这里的异常拦截要比ueboot-core里面的异常拦截高一个级别，防止无法拦截自定义异常
@@ -26,10 +28,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class ShiroExceptionHandler {
 
+    private static ThreadLocal<String> currentUserName = new ThreadLocal<>();
+
+    public static void set(String userName){
+        currentUserName.set(userName);
+    }
+
+    public static String get(){
+        return  currentUserName.get();
+    }
+
+    public static void remove(){
+        currentUserName.remove();
+    }
+    @Resource
+    private  ShiroEventListener shiroEventListener;
+
     @ExceptionHandler(UnknownAccountException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public Response<Void> handleException(UnknownAccountException e) {
+        shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
+        ShiroExceptionHandler.remove();
         log.error("进行登录验证..验证未通过,未知账户 {}",e.getMessage());
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "验证未通过,未知账户", null);
     }
@@ -38,6 +58,8 @@ public class ShiroExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(IncorrectCredentialsException e) {
         log.error("用户名或密码错误:{}",e.getMessage());
+        shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
+        ShiroExceptionHandler.remove();
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "用户名或密码错误", null);
     }
     @ExceptionHandler(LockedAccountException.class)
@@ -45,6 +67,8 @@ public class ShiroExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(LockedAccountException e) {
         log.error("进行登录验证..验证未通过,账户已锁定 {}",e.getMessage());
+        shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
+        ShiroExceptionHandler.remove();
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "验证未通过,账户已锁定", null);
     }
     @ExceptionHandler(ExcessiveAttemptsException.class)
@@ -52,6 +76,8 @@ public class ShiroExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(ExcessiveAttemptsException e) {
         log.error("进行登录验证..验证未通过,错误次数过多 {}",e.getMessage());
+        shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
+        ShiroExceptionHandler.remove();
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "登录失败,密码错误次数过多", null);
     }
     //无权限的请求，返回403，前端会进行页面跳转到登录页面
@@ -60,6 +86,8 @@ public class ShiroExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(AuthorizationException e) {
         log.error("权限验证未通过 {}",e.getMessage());
+        shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
+        ShiroExceptionHandler.remove();
         return new Response<>(HttpStatus.FORBIDDEN.value() + "", "当前用户无权限访问", null);
     }
 
@@ -68,6 +96,8 @@ public class ShiroExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(AuthenticationException e) {
         log.error(e.getMessage());
+        shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
+        ShiroExceptionHandler.remove();
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", e.getMessage(), null);
     }
     //无权限的请求，返回403，前端会进行页面跳转到登录页面
@@ -76,6 +106,8 @@ public class ShiroExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(UnauthenticatedException e) {
         log.debug("{} was thrown", e.getClass(), e);
+        ShiroExceptionHandler.remove();
+        shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
         return new Response<>(HttpStatus.FORBIDDEN.value() + "", "当前用户未登录", null);
     }
 
