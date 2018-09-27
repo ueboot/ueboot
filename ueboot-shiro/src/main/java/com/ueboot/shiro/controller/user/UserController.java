@@ -13,12 +13,14 @@ import com.ueboot.shiro.controller.user.vo.UserReq;
 import com.ueboot.shiro.controller.user.vo.UserResp;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.service.user.UserService;
+import com.ueboot.shiro.shiro.ShiroEventListener;
 import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.UserRealm;
 import com.ueboot.shiro.util.PasswordUtil;
 import jodd.datetime.JDateTime;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -46,6 +48,10 @@ public class UserController {
     private UserService userService;
     @Resource
     private ShiroService shiroService;
+
+    // shiro 权限日志记录
+    @Resource
+    private ShiroEventListener shiroEventListener;
 
 
     @RequiresPermissions("ueboot:user:read")
@@ -89,6 +95,10 @@ public class UserController {
             }
         }
         userService.save(entity);
+
+        // 保存用户日志记录
+        String optUserName = (String) SecurityUtils.getSubject().getPrincipal();
+        this.shiroEventListener.saveUserEvent(optUserName, req.getUserName());
         return new Response<>();
     }
 

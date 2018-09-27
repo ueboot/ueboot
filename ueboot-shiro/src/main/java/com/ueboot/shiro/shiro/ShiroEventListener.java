@@ -9,7 +9,7 @@ public interface ShiroEventListener {
 
     void beforeLogin(String userName, String captcha);
 
-    void afterLogin(String userName, boolean loginStatus,String errorMsg);
+    void afterLogin(String userName, boolean loginStatus, String errorMsg);
 
     void loginOutEvent(String userName);
 

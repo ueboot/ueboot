@@ -17,4 +17,7 @@ public interface RoleService extends BaseService<Role> {
 
     Role findByName(String name);
 
+    void deleteRole(Long[] roleIds);
+
+
 }

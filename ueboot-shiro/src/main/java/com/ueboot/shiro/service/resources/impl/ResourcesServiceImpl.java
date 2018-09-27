@@ -14,9 +14,12 @@ import com.ueboot.shiro.repository.permission.PermissionRepository;
 import com.ueboot.shiro.repository.resources.ResourcesRepository;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.resources.ResourcesService;
+import com.ueboot.shiro.shiro.ShiroEventListener;
 import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.UserRealm;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,9 +37,13 @@ import java.util.*;
  */
 @Slf4j
 @Service
+@ConditionalOnMissingBean(name = "resourcesService")
 public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements ResourcesService {
     @Resource
     private ResourcesRepository resourcesRepository;
+
+    @Resource
+    private ShiroEventListener shiroEventListener;
 
 
     @Resource
@@ -75,13 +82,13 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
     @Override
     public Collection<Resources> getUserResources(String username) {
         //root用户返回所有菜单，防止root账户还需要授权才能访问
-        if(UserRealm.SUPER_USER.equals(username)){
-           return  this.resourcesRepository.findAll();
+        if (UserRealm.SUPER_USER.equals(username)) {
+            return this.resourcesRepository.findAll();
         }
 
         //找出用户的角色，根据角色查找用户的菜单
         //直接调用shiroService的实现方式，防止使用框架方需要自定义角色获取方式
-        Set<String> roleNames  =  shiroService.getUserRoleNames(username);
+        Set<String> roleNames = shiroService.getUserRoleNames(username);
         List<Permission> permissions = permissionRepository.findByRoleNameIn(roleNames);
         Map<Long, Resources> resourcesMap = new HashMap<>();
         permissions.forEach((p) -> {
@@ -129,6 +136,11 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
             }
             //删除自己
             this.resourcesRepository.delete(i);
+
+
+            // 删除资源日志记录
+            String optUserName = (String) SecurityUtils.getSubject().getPrincipal();
+            this.shiroEventListener.deleteResourceEvent(optUserName, ids);
         }
     }
 }

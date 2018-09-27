@@ -54,7 +54,7 @@ public class ApiController {
 
     @Autowired
     public ApiController(ShiroProcessor shiroProcessor, ResourcesService resourcesService,
-                         UserService userService, ShiroService shiroService,ShiroEventListener shiroEventListener) {
+                         UserService userService, ShiroService shiroService, ShiroEventListener shiroEventListener) {
         this.shiroProcessor = shiroProcessor;
         this.resourcesService = resourcesService;
         this.userService = userService;
@@ -73,10 +73,12 @@ public class ApiController {
             session.setAttribute(CAPTCHA_KEY, "");
             throw new IllegalArgumentException("验证码不正确!");
         }
-        shiroEventListener.beforeLogin(params.getUsername(),params.getCaptcha());
+        shiroEventListener.beforeLogin(params.getUsername(), params.getCaptcha());
         ShiroExceptionHandler.set(params.getUsername());
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
-        shiroEventListener.afterLogin(params.getUsername(),true,"");
+        if (!StringUtils.isEmpty(params.getUsername())) {
+            shiroEventListener.afterLogin(params.getUsername(), true, "");
+        }
         ShiroExceptionHandler.remove();
         //返回登录成功后的信息
         Map<String, Object> info = this.shiroService.getLoginSuccessInfo(params.getUsername());
@@ -85,6 +87,10 @@ public class ApiController {
 
     @PostMapping(value = "/private/logout")
     public Response<Void> logout(@RequestBody LoginVo params) {
+        // 登出日志记录
+        String currentUserName = (String) SecurityUtils.getSubject().getPrincipal();
+        this.shiroEventListener.loginOutEvent(currentUserName);
+        // TODO 用户名获取为空
         log.info("/logout  username: {} ", params.getUsername(), params.getPassword(), params.getCaptcha());
         this.shiroProcessor.logout();
         return new Response<>();
@@ -109,6 +115,9 @@ public class ApiController {
         Date expiredDate = dateTime.addMonth(this.shiroService.getPasswordExpiredMonth()).convertToDate();
         user.setCredentialExpiredDate(expiredDate);
         this.userService.save(user);
+
+        // 更新密码日志记录
+        this.shiroEventListener.updatePasswordEvent(userName);
         return new Response<Void>();
     }
 

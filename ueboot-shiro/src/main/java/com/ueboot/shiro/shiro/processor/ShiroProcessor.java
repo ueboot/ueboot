@@ -7,7 +7,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Assert;
 
 /**
  * @author yangkui
