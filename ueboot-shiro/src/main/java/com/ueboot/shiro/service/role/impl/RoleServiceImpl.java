@@ -14,6 +14,7 @@ import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.service.role.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@ConditionalOnMissingBean(name = "roleService")
 public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService{
     @Autowired
     private RoleRepository roleRepository;

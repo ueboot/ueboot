@@ -18,6 +18,7 @@ import com.ueboot.shiro.shiro.UserRealm;
 import com.ueboot.shiro.shiro.cache.ShiroRedisCahceManger;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@ConditionalOnMissingBean(name = "permissionService")
 public class PermissionServiceImpl extends BaseServiceImpl<Permission> implements PermissionService {
     @Resource
     private PermissionRepository permissionRepository;

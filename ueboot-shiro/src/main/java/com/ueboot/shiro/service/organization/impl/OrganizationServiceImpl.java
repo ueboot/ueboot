@@ -12,6 +12,7 @@ import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.service.organization.OrganizationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+@ConditionalOnMissingBean(name = "organizationService")
 public class OrganizationServiceImpl extends BaseServiceImpl<Organization> implements OrganizationService{
     @Autowired
     private OrganizationRepository organizationRepository;

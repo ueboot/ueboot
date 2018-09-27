@@ -19,6 +19,7 @@ import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.UserRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,7 @@ import java.util.*;
  */
 @Slf4j
 @Service
+@ConditionalOnMissingBean(name = "resourcesService")
 public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements ResourcesService {
     @Resource
     private ResourcesRepository resourcesRepository;

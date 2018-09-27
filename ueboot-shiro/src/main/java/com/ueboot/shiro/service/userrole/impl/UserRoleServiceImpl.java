@@ -17,6 +17,7 @@ import com.ueboot.shiro.service.userrole.UserRoleService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@ConditionalOnMissingBean(name = "userRoleService")
 public class UserRoleServiceImpl extends BaseServiceImpl<UserRole> implements UserRoleService {
     @Resource
     private UserRoleRepository userRoleRepository;
