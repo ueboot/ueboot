@@ -54,11 +54,6 @@
       //  sort:{"sort":"desc","field":"id"}
       }
     },
-    watch:{
-      selectTreeItem:function(newValue,oldValue) {
-        console.log("parent newValue:%o",newValue)
-      }
-    },
 
   }
 ```
@@ -110,5 +105,14 @@ tree数据格式示例：
 参见[UTree](./UTree.md)
 
 ## 6.获取用户选择的节点数据
-- 通过v-model方式获取，默认会返回`{"name": "一级子节点", id: 3,parentId:3}` 格式
+- 通过v-model方式获取，默认会返回`id` 格式
 - 通过监听item-click事件获取，第二个参数的item就是当前选择的节点
+```javascript
+    <u-tree-select :tree="tree2" refName="s2"  v-model="selectTreeItem" @item-click=youItemClickEvent></u-tree-select>
+    
+    methods:(){
+        youItemClickEvent(node, item, e){
+            
+        }
+    }
+```
