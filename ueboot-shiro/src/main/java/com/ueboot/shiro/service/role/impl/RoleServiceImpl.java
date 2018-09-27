@@ -5,14 +5,21 @@
 */
 package com.ueboot.shiro.service.role.impl;
 
+import com.ueboot.shiro.entity.Permission;
 import com.ueboot.shiro.entity.Role;
 import com.ueboot.core.repository.BaseRepository;
+import com.ueboot.shiro.repository.permission.PermissionRepository;
 import com.ueboot.shiro.repository.role.RoleRepository;
 import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.service.role.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created on 2018-08-21 09:40:34
@@ -25,6 +32,9 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Autowired
     private RoleRepository roleRepository;
 
+    @Resource
+    private PermissionRepository permissionRepository;
+
     @Override
     protected BaseRepository getBaseRepository() {
          return roleRepository;
@@ -33,5 +43,17 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Override
     public Role findByName(String name) {
         return roleRepository.findByName(name);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 60, propagation = Propagation.REQUIRED)
+    public void deleteRole(Long[] roleIds) {
+        //先删除角色关联的资源
+        for (int i = 0; i < roleIds.length; i++) {
+            Long roleId = roleIds[i];
+           List<Permission> permissions=  permissionRepository.findByRoleId(roleId);
+           permissionRepository.delete(permissions);
+           this.delete(roleId);
+        }
     }
 }

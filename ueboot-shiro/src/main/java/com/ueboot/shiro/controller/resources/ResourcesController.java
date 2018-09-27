@@ -10,8 +10,10 @@ import com.ueboot.core.http.response.Response;
 import com.ueboot.shiro.controller.resources.vo.*;
 import com.ueboot.shiro.entity.Resources;
 import com.ueboot.shiro.service.resources.ResourcesService;
+import com.ueboot.shiro.shiro.ShiroEventListener;
 import jodd.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.util.Assert;
 import org.springframework.beans.BeanUtils;
@@ -41,6 +43,10 @@ public class ResourcesController {
 
     @Resource
     private ResourcesService resourcesService;
+
+    // shiro权限记录
+    @Resource
+    private ShiroEventListener shiroEventListener;
 
     @RequiresPermissions("ueboot:resources:read")
     @PostMapping(value = "/list")
@@ -116,6 +122,10 @@ public class ResourcesController {
         }
 
         resourcesService.save(entity);
+
+        // 保存/修改资源日志记录
+        String optUserName = (String) SecurityUtils.getSubject().getPrincipal();
+        this.shiroEventListener.saveResourceEvent(optUserName, req.getName());
         return new Response<>();
     }
 

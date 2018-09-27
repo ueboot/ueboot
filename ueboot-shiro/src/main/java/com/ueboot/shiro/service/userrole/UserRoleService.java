@@ -20,6 +20,7 @@ public interface UserRoleService extends BaseService<UserRole> {
 
     void saveUserRole(Long userId,Long[] roleIds);
 
+
     /**
      * 根据用户ID查询用户所属角色
      * @param userId 用户ID

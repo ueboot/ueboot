@@ -7,12 +7,12 @@ package com.ueboot.shiro.controller.role;
 
 import com.ueboot.core.exception.BusinessException;
 import com.ueboot.core.http.response.Response;
-import com.ueboot.shiro.controller.resources.vo.ResourcesResp;
 import com.ueboot.shiro.controller.role.vo.*;
-import com.ueboot.shiro.entity.Resources;
 import com.ueboot.shiro.entity.Role;
 import com.ueboot.shiro.service.role.RoleService;
+import com.ueboot.shiro.shiro.ShiroEventListener;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
@@ -39,6 +39,10 @@ public class RoleController {
 
     @Resource
     private RoleService roleService;
+
+    // shiro权限记录
+    @Resource
+    private ShiroEventListener shiroEventListener;
 
     @RequiresPermissions("ueboot:role:read")
     @PostMapping(value = "/list")
@@ -83,13 +87,20 @@ public class RoleController {
         }
         BeanUtils.copyProperties(req, entity);
         roleService.save(entity);
+
+        // 保存/修改 角色日志记录
+        String optUserName = (String) SecurityUtils.getSubject().getPrincipal();
+        this.shiroEventListener.saveRoleEvent(optUserName, req.getName());
         return new Response<>();
     }
 
     @RequiresPermissions("ueboot:role:delete")
     @PostMapping(value = "/delete")
     public Response<Void> delete(Long[] id) {
-        roleService.delete(id);
+        roleService.deleteRole(id);
+        // 删除 角色日志记录
+        String optUserName = (String) SecurityUtils.getSubject().getPrincipal();
+        this.shiroEventListener.deleteRoleEvent(optUserName, id);
         return new Response<>();
     }
 
