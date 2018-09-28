@@ -53,10 +53,10 @@
 
             </Header>
             <Layout>
-                <Sider hide-trigger :style="{background: '#fff',height: '100%'}"
+                <Sider hide-trigger :style="{background: '#fff',height:clientHeight - 70 + 'px',position: 'fixed', left: 0, overflow: 'auto'}"
                        :width="config.page_main.menuWidth+'px'">
                     <Menu :theme="theme" :width="config.page_main.menuWidth+'px'"
-                          :style="{ 'min-height' : clientHeight - 112 + 'px'}"
+                          :style="{ 'min-height' : clientHeight - 70 + 'px'}"
                           @on-select="menuClick" :active-name="activeMenuName"
                           :open-names="openMenuNames" accordion v-if="menus.length>0">
                         <template v-for="(menu, index) in menus">
@@ -98,7 +98,7 @@
                     <!--增加一个空白的div，防止菜单列表未加载完成时，页面没有占位，导致右侧内容左移-->
                     <div :style="{width: config.page_main.menuWidth+'px'}" v-else></div>
                 </Sider>
-                <Layout :style="{padding: '0 24px 0 24px',width:'100%',maxWidth:rightWidth +'px'}">
+                <Layout :style="{marginLeft:config.page_main.menuWidth+'px',padding: '0 24px 0 24px',width:'100%',maxWidth:rightWidth +'px'}">
                     <Breadcrumb :style="{margin: '12px 0'}">
                         <BreadcrumbItem v-for="(item, index) in breadItems" :key="'bread'+index">{{item.name}}
                         </BreadcrumbItem>

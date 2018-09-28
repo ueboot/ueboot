@@ -33,6 +33,8 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
+- v1.6.26
+    - UTree UTreeSelect的itemClick事件返回的item对象增加有一个origin属性，用于获取源数据   
 - v1.6.25
     - input 为text增加一个onClick事件（icon有值时生效）
 - v1.6.24

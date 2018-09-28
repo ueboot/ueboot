@@ -158,6 +158,7 @@ export default {
                 this.selected = item.selected || false;
                 this.disabled = item.disabled || false;
                 this.loading = item.loading || false;
+                this.origin = item.origin ||{}
                 this[childrenFieldName] = item[childrenFieldName] || [];
                 if (this[childrenFieldName].length === 0) {
                     this.isLeaf = true;
