@@ -19,6 +19,7 @@
                                 <i-input v-if="item.type === 'text'" v-model="queryParams[item.name]" :icon="item.icon"
                                          :placeholder="item.placeholder"
                                          @on-focus="item.onFocus?item.onFocus.apply():()=>{}"
+                                         @on-click="item.onClick?item.onClick.apply():()=>{}"
                                          :maxlength="item.maxlength" :readonly="item.readonly"
                                          :disabled="item.disabled">
                                     <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
@@ -316,6 +317,7 @@
                                      :placeholder="item.placeholder" :icon="item.icon"
                                      v-if="item.type==='text'" :disabled="item.disabled"
                                      @on-focus="toolbarClick(item.focus)"
+                                     @on-click="item.onClick?item.onClick.apply():()=>{}"
                                      :maxlength="item.maxlength" :readonly="item.readonly"
                             >
                                 <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
