@@ -1,6 +1,7 @@
 package com.ueboot.shiro.shiro.auditor;
 
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.util.ThreadContext;
 import org.springframework.data.domain.AuditorAware;
 
 /**
@@ -16,7 +17,7 @@ public class JpaAuditingAwareImpl implements AuditorAware<String> {
     public String getCurrentAuditor() {
 
         //使用当前登录用户名称作为创建人和最后修改人字段的值
-        if( SecurityUtils.getSubject()!=null){
+        if (ThreadContext.getSubject() != null && SecurityUtils.getSubject() != null) {
             return (String) SecurityUtils.getSubject().getPrincipal();
         }
         return null;
