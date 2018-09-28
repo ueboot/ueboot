@@ -63,7 +63,7 @@ export default new Router({
         {
           path: 'crud',
           name: 'CRUD视图',
-          component: FormGrid,
+          component: FormGrid2,
         },
         {
           path: 'formGrid2',

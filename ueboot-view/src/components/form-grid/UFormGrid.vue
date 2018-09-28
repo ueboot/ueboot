@@ -900,13 +900,12 @@
             // 重置查询条件
             resetSuperFilterSearch() {
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
-                this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
+               // this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
                 //设置表格数据为空
                 this.clearTableData()
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
                     this.formGrid.toolbar.superFilter.reset.click();
                 }
-                this.$forceUpdate();
             },
             // 高级搜索框按钮
             superFilterSearch(page) {
