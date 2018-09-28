@@ -929,7 +929,8 @@
             },
             fetchData() {
                 this.table.noDataText = this.formGrid.table.tableLoadingText;
-                let data = this.queryParams;
+                //防止表单重置操作偶然会出现无法重置的时候，猜测是因为这个queryParams对象经过axios进行变化，导致底层事件监听出现异常
+                let data = deepExtend({},this.queryParams)
                 Log.d('pageData QueryData:%o', data);
                 let page = this.formGrid.pageable.page;
                 let size = this.formGrid.pageable.size;

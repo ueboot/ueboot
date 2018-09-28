@@ -33,6 +33,8 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
+- v1.6.31
+    - 解决查询表单偶尔出现重置功能部分字段未生效的问题
 - v1.6.29 
     - 解决菜单过长没有滚动条的问题，以及treeSelect origin值不对的问题
 - v1.6.26
