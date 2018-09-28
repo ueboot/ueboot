@@ -33,6 +33,10 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
+- v1.6.25
+    - input 为text增加一个onClick事件（icon有值时生效）
+- v1.6.24
+    - 当表格没有数据时，高度默认为0，有数据时才使用外部设定的高度
 - v1.6.16
     - 导出按钮支持直接显示为toolbar上的按钮，可以不是Dropdown方式呈现
     ```javascript

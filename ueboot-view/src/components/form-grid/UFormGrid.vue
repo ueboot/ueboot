@@ -19,6 +19,7 @@
                                 <i-input v-if="item.type === 'text'" v-model="queryParams[item.name]" :icon="item.icon"
                                          :placeholder="item.placeholder"
                                          @on-focus="item.onFocus?item.onFocus.apply():()=>{}"
+                                         @on-click="item.onClick?item.onClick.apply():()=>{}"
                                          :maxlength="item.maxlength" :readonly="item.readonly"
                                          :disabled="item.disabled">
                                     <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
@@ -280,7 +281,7 @@
         </Row>
         <!--table-->
         <Row style="margin-top: 10px;">
-            <Table :width="formGrid.table.width" :height="formGrid.table.height" border
+            <Table :width="formGrid.table.width" :height="table.height" border
                    :columns="formGrid.table.columns"
                    :data="formGrid.table.data" :stripe="formGrid.table.stripe" :loading="formGrid.table.loading"
                    :size="formGrid.table.size"
@@ -316,6 +317,7 @@
                                      :placeholder="item.placeholder" :icon="item.icon"
                                      v-if="item.type==='text'" :disabled="item.disabled"
                                      @on-focus="toolbarClick(item.focus)"
+                                     @on-click="item.onClick?item.onClick.apply():()=>{}"
                                      :maxlength="item.maxlength" :readonly="item.readonly"
                             >
                                 <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
@@ -686,6 +688,7 @@
                 formGrid: {},
                 table: {
                     noDataText: '',
+                    height:null
                 }
             };
         },
@@ -725,8 +728,8 @@
                 this.formGrid = deepExtend({}, this.formGrid, this.data);
                 // 和默认值进行合并，一定要加一个{},防止修改掉defaultData对象，导致页面切换时数据异常
                 this.formGrid = deepExtend({}, defaultData, this.formGrid);
-                this.table.noDataText = this.formGrid.table.noDataText;
-
+                this.table.noDataText = this.formGrid.table.noDataText
+                this.table.height = this.formGrid.table.height
                 this.renderForm();
                 // 对搜索表单数据进行处理
                 this.renderSearchForm(this.formGrid.toolbar.superFilter);
@@ -936,6 +939,11 @@
                         this.formGrid.table.loading = false;
                         this.table.noDataText = this.formGrid.table.noDataText;
                         this.formGrid.table.data = response.body.content;
+                        if(this.formGrid.table.data&&this.formGrid.table.data.length === 0){
+                            this.table.height = 0
+                        }else{
+                            this.table.height = this.formGrid.table.height
+                        }
                         this.formGrid.pageable.total = response.body.totalElements;
                         this.$forceUpdate();
                     }
@@ -946,6 +954,7 @@
                         this.formGrid.table.loading = false;
                         this.formGrid.table.data = [];
                         this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
+                        this.table.height = 0
                     }
                     this.$forceUpdate();
                     return false;

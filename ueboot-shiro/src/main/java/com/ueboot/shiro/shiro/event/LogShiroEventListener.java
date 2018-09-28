@@ -3,6 +3,7 @@ package com.ueboot.shiro.shiro.event;
 import com.ueboot.shiro.shiro.ShiroEventListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @ConditionalOnMissingBean(name = "shiroEventListener")
+@Async
 public class LogShiroEventListener implements ShiroEventListener {
     /**
      * 登录前记录
