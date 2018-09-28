@@ -172,10 +172,12 @@
                             @click="toolbarClick(button.click)" :ghost="button.ghost"
                             :disabled="button.disabled" :to="button.to" :replace="button.replace"
                             :target="button.target"
-                            :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long" v-if="!button.key">
+                            :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long"
+                            v-if="!button.key">
                         {{button.label}}
                     </Button>
-                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'" :custom-icon="button.customIcon"
+                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'"
+                            :custom-icon="button.customIcon"
                             @click="exportCurrentPageData" :ghost="button.ghost"
                             :disabled="button.disabled" :to="button.to" :replace="button.replace"
                             :target="button.target"
@@ -183,7 +185,8 @@
                             v-if="button.key === 'exportCurrentPage'">
                         {{button.label}}
                     </Button>
-                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'" :custom-icon="button.customIcon"
+                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'"
+                            :custom-icon="button.customIcon"
                             @click="exportData" :ghost="button.ghost"
                             :disabled="button.disabled" :to="button.to" :replace="button.replace"
                             :target="button.target"
@@ -191,7 +194,8 @@
                             v-if="button.key === 'exportAllData'">
                         {{button.label}}
                     </Button>
-                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'" :custom-icon="button.customIcon"
+                    <Button :type="button.theme?button.theme:'primary'" :icon="button.icon?button.icon:'md-download'"
+                            :custom-icon="button.customIcon"
                             @click="showImportView" :ghost="button.ghost"
                             :disabled="button.disabled" :to="button.to" :replace="button.replace"
                             :target="button.target"
@@ -210,40 +214,40 @@
                         :target="button.target"
                         :loading="button.loading" :size="button.size" :shape="button.shape" :long="button.long"
                         v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.currentShow"
-                        >
+                >
                     {{button.label}}
                 </Button>
-                    <Dropdown v-if="formGrid.toolbar.groups">
-                        <Button type="primary">
-                            <Icon type="logo-buffer"></Icon>
-                            {{formGrid.toolbar.groups.label}}
-                            <Icon type="md-arrow-dropdown"/>
-                        </Button>
-                        <Dropdown-menu slot="list">
-                            <Dropdown-item
-                                v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.currentShow">
-                                <a href="javascript:void(0)" @click="exportCurrentPageData">
-                                    <Icon type="md-download"></Icon>
-                                    {{formGrid.toolbar.groups.export.currentLabel}}
-                                </a>
-                            </Dropdown-item>
+                <Dropdown v-if="formGrid.toolbar.groups">
+                    <Button type="primary">
+                        <Icon type="logo-buffer"></Icon>
+                        {{formGrid.toolbar.groups.label}}
+                        <Icon type="md-arrow-dropdown"/>
+                    </Button>
+                    <Dropdown-menu slot="list">
+                        <Dropdown-item
+                            v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.currentShow">
+                            <a href="javascript:void(0)" @click="exportCurrentPageData">
+                                <Icon type="md-download"></Icon>
+                                {{formGrid.toolbar.groups.export.currentLabel}}
+                            </a>
+                        </Dropdown-item>
 
-                            <Dropdown-item v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.show">
-                                <a href="javascript:void(0)" @click="exportData">
-                                    <Icon type="md-download"></Icon>
-                                    {{formGrid.toolbar.groups.export.label}}
-                                </a>
-                            </Dropdown-item>
+                        <Dropdown-item v-if="formGrid.toolbar.groups.export && formGrid.toolbar.groups.export.show">
+                            <a href="javascript:void(0)" @click="exportData">
+                                <Icon type="md-download"></Icon>
+                                {{formGrid.toolbar.groups.export.label}}
+                            </a>
+                        </Dropdown-item>
 
-                            <Dropdown-item v-if="formGrid.toolbar.groups.import && formGrid.toolbar.groups.import.show">
-                                <a href="javascript:void(0)" @click="showImportView">
-                                    <Icon type="md-cloud-upload"/>
-                                    {{formGrid.toolbar.groups.import.label}}
-                                </a>
-                            </Dropdown-item>
+                        <Dropdown-item v-if="formGrid.toolbar.groups.import && formGrid.toolbar.groups.import.show">
+                            <a href="javascript:void(0)" @click="showImportView">
+                                <Icon type="md-cloud-upload"/>
+                                {{formGrid.toolbar.groups.import.label}}
+                            </a>
+                        </Dropdown-item>
 
-                        </Dropdown-menu>
-                    </Dropdown>
+                    </Dropdown-menu>
+                </Dropdown>
 
             </i-col>
             <!--更多操作-->
@@ -680,15 +684,15 @@
                 // 渲染表单的元素列表，根据场景要求渲染的列表会有差异
                 formRows: [],
                 //渲染高级搜索表单的行数
-                superFilterRows:[],
+                superFilterRows: [],
                 // grid查询参数
                 queryParams: {},
-                temp:'haha',
+                temp: 'haha',
                 //
                 formGrid: {},
                 table: {
                     noDataText: '',
-                    height:null
+                    height: null
                 }
             };
         },
@@ -699,9 +703,9 @@
             // 监听高级搜索条件变化
             'data.toolbar.superFilter': {
                 handler: function (newValue, oldValue) {
-                    Log.d('监听到data.toolbar.superFilter.columns变化,%o,%o', newValue,oldValue);
+                    Log.d('监听到data.toolbar.superFilter.columns变化,%o,%o', newValue, oldValue);
                     //复制一份新值，防止影响原值导致重复被监听到
-                    let value = deepExtend({},this.formGrid.toolbar.superFilter,newValue);
+                    let value = deepExtend({}, this.formGrid.toolbar.superFilter, newValue);
                     // 对搜索表单数据进行处理
                     this.renderSearchForm(value);
                 },
@@ -709,7 +713,7 @@
             },
             'data.form': {
                 handler: function (newValue, oldValue) {
-                    Log.d('监听到data.form.columns变化,%o,%o', newValue,oldValue);
+                    Log.d('监听到data.form.columns变化,%o,%o', newValue, oldValue);
                     this.formGrid.form = deepExtend({}, this.formGrid.form, newValue);
                     this.renderForm();
                     if (this.formGrid.form.isView) {
@@ -784,7 +788,7 @@
                             i++;
                         } else {
                             // 隐藏输入框，直接绑定变量
-                            this.$set(this.queryParams,c.name,c.init);
+                            this.$set(this.queryParams, c.name, c.init);
                         }
                     });
                     if (columns.length > 0 && columns.length < colNumber) {
@@ -819,10 +823,10 @@
                         // 固定的几种类型采用change事件监听
                         ['select', 'radio', 'datetime', 'date', 'time', 'month', 'daterange',
                             'datetimerange', 'year', 'checkbox', 'treeSelect'].forEach((type) => {
-                                if (c.type === type) {
-                                    trigger = 'change';
-                                }
-                            });
+                            if (c.type === type) {
+                                trigger = 'change';
+                            }
+                        });
 
                         let rule = {required: true, message: c.label + '为必填', trigger: trigger};
                         // 级联框，时间或日期范围
@@ -864,7 +868,7 @@
             setSuperFilterInitValue(columns) {
                 columns.forEach((c) => {
                     if (c.init) {
-                        this.$set(this.queryParams,c.name,c.init);
+                        this.$set(this.queryParams, c.name, c.init);
                     }
                 });
             },
@@ -897,6 +901,8 @@
             resetSuperFilterSearch() {
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
                 this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
+                //设置表格数据为空
+                this.clearTableData()
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
                     this.formGrid.toolbar.superFilter.reset.click();
                 }
@@ -939,9 +945,9 @@
                         this.formGrid.table.loading = false;
                         this.table.noDataText = this.formGrid.table.noDataText;
                         this.formGrid.table.data = response.body.content;
-                        if(this.formGrid.table.data&&this.formGrid.table.data.length === 0){
+                        if (this.formGrid.table.data && this.formGrid.table.data.length === 0) {
                             this.table.height = 0
-                        }else{
+                        } else {
                             this.table.height = this.formGrid.table.height
                         }
                         this.formGrid.pageable.total = response.body.totalElements;
@@ -951,16 +957,21 @@
                 }).catch(response => {
                     this.noticeError('数据查询出现异常', response.message ? response.message : '系统或网络异常');
                     if (this.formGrid) {
-                        this.formGrid.table.loading = false;
-                        this.formGrid.table.data = [];
+                        this.clearTableData()
                         this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
-                        this.table.height = 0
                     }
                     this.$forceUpdate();
                     return false;
                 });
             },
 
+            clearTableData() {
+                this.formGrid.table.loading = false
+                this.formGrid.table.data = []
+                this.table.noDataText = this.formGrid.table.noDataText
+                this.table.height = 0
+                this.formGrid.pageable.total = 0
+            },
             // 改变分页
             changePage(page) {
                 this.formGrid.pageable.page = page;
@@ -1098,17 +1109,21 @@
                         如果使用(value)=>{item.onQueryChange?item.onQueryChange.call(this,value):()=>{}}
                         方式，会导致选择到初始值时不触发相关事件，并且影响表单重置功能
                     */
-                    if(!util.isFunction(c.onChange)){
-                        c.onChange = function () {};
+                    if (!util.isFunction(c.onChange)) {
+                        c.onChange = function () {
+                        };
                     }
-                    if(!util.isFunction(c.onQueryChange)){
-                        c.onQueryChange = function () {};
+                    if (!util.isFunction(c.onQueryChange)) {
+                        c.onQueryChange = function () {
+                        };
                     }
-                    if(!util.isFunction(c.onClear)){
-                        c.onClear = function () {};
+                    if (!util.isFunction(c.onClear)) {
+                        c.onClear = function () {
+                        };
                     }
-                    if(!util.isFunction(c.onOpenChange)){
-                        c.onOpenChange = function () {};
+                    if (!util.isFunction(c.onOpenChange)) {
+                        c.onOpenChange = function () {
+                        };
                     }
                     let data = c.data || '';
                     if (util.isArray(data)) {
@@ -1594,10 +1609,10 @@
                     body = response.body.content;
                     let columns = [];
                     this.formGrid.table.columns.forEach(function (item) {
-                        let key = item.key;
-                        let title = item.title;
-                        columns.push({key: key, title: title});
-                    }
+                            let key = item.key;
+                            let title = item.title;
+                            columns.push({key: key, title: title});
+                        }
                     );
                     this.defaultExport(columns, body);
                     this.$forceUpdate();
