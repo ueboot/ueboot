@@ -1,4 +1,14 @@
 
+## 1.7版本更新记录
+- v1.7.2
+    - table增加多个事件
+        - rowDblclick
+        - expand
+        - rowClick
+- v1.7.1
+    - 新增颜色选择器组件
+    - 新增编辑模态窗口成功后的提示框改为中间显示
+
 ## 1.6 版本更新记录
  > 最新更新时间：{docsify-updated}
     
@@ -33,6 +43,12 @@
        import {Page_Login,Page_Main,Page_Shiro_User,Page_Shiro_Role,Page_Shiro_Resources} from 'ueboot'
 
     ``` 
+- v1.6.31
+    - 解决查询表单偶尔出现重置功能部分字段未生效的问题
+- v1.6.29 
+    - 解决菜单过长没有滚动条的问题，以及treeSelect origin值不对的问题
+- v1.6.26
+    - UTree UTreeSelect的itemClick事件返回的item对象增加有一个origin属性，用于获取源数据   
 - v1.6.25
     - input 为text增加一个onClick事件（icon有值时生效）
 - v1.6.24

@@ -165,22 +165,25 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
     public Page<T> find(StringQuery stringQuery, Pageable pageable) {
         Assert.notNull(stringQuery, "StringQuery must not be null");
         Sort sort = pageable.getSort();
-        int count = 0;
-        Iterator<Sort.Order> it = sort.iterator();
-        //自动拼接order by 属性
-        while (it.hasNext()) {
-            Sort.Order s = it.next();
-            String name = s.getProperty();
-            String dir = s.getDirection().name();
-            if (count == 0) {
-                stringQuery.predicate(true)
-                        .query(" order by " + name + " " + dir);
-            } else {
-                stringQuery.predicate(true)
-                        .query(", " + name + " " + dir);
+        if (sort != null) {
+            int count = 0;
+            Iterator<Sort.Order> it = sort.iterator();
+            //自动拼接order by 属性
+            while (it.hasNext()) {
+                Sort.Order s = it.next();
+                String name = s.getProperty();
+                String dir = s.getDirection().name();
+                if (count == 0) {
+                    stringQuery.predicate(true)
+                            .query(" order by " + name + " " + dir);
+                } else {
+                    stringQuery.predicate(true)
+                            .query(", " + name + " " + dir);
+                }
+                count++;
             }
-            count++;
         }
+
         String query = stringQuery.getQuery();
         NamedParams params = stringQuery.getParams();
         return find(query, params, pageable);

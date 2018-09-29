@@ -153,8 +153,9 @@ public class ApiController {
         parents.forEach((p) -> {
             Resources parent = resourcesMap.get(p.getId());
             if (parent == null) {
-                while (groups.iterator().hasNext()) {
-                    Resources g = groups.iterator().next();
+                Iterator<Resources> it = groups.iterator();
+                while (it.hasNext()) {
+                    Resources g = it.next();
                     if (p.getId().equals(g.getId())) {
                         body.add(assembleMenuVo(g));
                         groups.remove(g);

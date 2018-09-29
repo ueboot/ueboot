@@ -33,20 +33,14 @@ public class QueryUtils {
 
     public static String genCountQueryString(String queryString) {
         //count 时需要去掉order by ，防止子查询方式count会报错
-        //小写
-        if(queryString.contains(ORDER_BY)){
-            queryString = queryString.substring(0,queryString.indexOf(ORDER_BY));
-        }
-        //大写
-        if(queryString.contains(ORDER_BY.toUpperCase())){
-            queryString = queryString.substring(0,queryString.indexOf(ORDER_BY.toUpperCase()));
-        }
+        queryString = removeOrders(queryString);
         //group by 的时候需要使用子查询
         if(queryString.contains("union ") || queryString.contains(GROUP_BY) || queryString.contains(GROUP_BY.toUpperCase())){
             return "select count(1) from ("+queryString+") a";
         }
         return "select count(*) " + removeSelect(queryString);
     }
+
 
     /**
      * <pre>
@@ -96,7 +90,6 @@ public class QueryUtils {
      * @return  查询语句
      */
     public static String removeOrders(String queryString) {
-
         Matcher matcher = pattern.matcher(queryString);
         StringBuffer stringBuffer = new StringBuffer();
         while (matcher.find()) {

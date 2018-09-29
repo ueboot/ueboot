@@ -107,7 +107,7 @@
                                             label: '王府井'
                                         }]
                                     }]
-                                },
+                                },/*,
                                 {
                                     type: "select",
                                     name: "province",
@@ -134,12 +134,17 @@
                                         console.log("province2",value)
                                     },
                                     data: [{name: "北京", value: "haha"}, {name: "上海", value: "hehe"}]
-                                },
+                                },*/
                                 {
                                     type: "treeSelect",
                                     name: "province3",
                                     label: "树状下拉框",
                                     tree: tree,
+                                },
+                                {
+                                    type: "compactColorPicker",
+                                    name: "compactColorPicker",
+                                    label: "颜色",
                                 },
                             ],
                         },
@@ -259,6 +264,9 @@
                         size: 100000,
                     },
                     table: {
+                        rowClick:(row,index)=>{
+                            this.$log.d(row)
+                        },
                         noDataText: '已努力查询，但还是没找到！',
                         tableLoadingText:'正在努力为您加载数据,请稍候1...',
                         tableLoadedErrorText:'数据查询出现异常，需要管理员查看后台日志，寻找原因1。',
