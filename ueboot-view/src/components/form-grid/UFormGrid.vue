@@ -25,6 +25,12 @@
                                     <span slot="prepend" v-if="item.prepend">{{item.prepend}}</span>
                                     <span slot="append" v-if="item.append">{{item.append}}</span>
                                 </i-input>
+
+                                <u-compact-color-picker v-if="item.type === 'compactColorPicker'"
+                                                        v-model="queryParams[item.name]"  :colorAccount="item.colorAccount"
+                                    :defaultColor="item.defaultColor" :lineMaxAccount="item.lineMaxAccount" :isPickerShow="item.isPickerShow"
+                                    ></u-compact-color-picker>
+
                                 <i-input v-model="queryParams[item.name]" :type="item.type"
                                          :placeholder="item.placeholder"
                                          v-if="item.type==='password'" :disabled="item.disabled">
@@ -611,12 +617,13 @@
     import util from 'core-util-is';
     import ueUpload from '../upload/Upload.vue';
     import UTreeSelect from '../tree-select/UTreeSelect';
+    import UCompactColorPicker from '../color-picker/UCompactColorPicker'
 
     export default {
         name: 'UFormGrid',
         components: {
             'ueUpload': ueUpload,
-            UTreeSelect
+            UTreeSelect,UCompactColorPicker
         },
         props: {
             tableRef: {

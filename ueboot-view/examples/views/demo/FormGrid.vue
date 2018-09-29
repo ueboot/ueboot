@@ -107,7 +107,7 @@
                                             label: '王府井'
                                         }]
                                     }]
-                                },
+                                },/*,
                                 {
                                     type: "select",
                                     name: "province",
@@ -134,12 +134,17 @@
                                         console.log("province2",value)
                                     },
                                     data: [{name: "北京", value: "haha"}, {name: "上海", value: "hehe"}]
-                                },
+                                },*/
                                 {
                                     type: "treeSelect",
                                     name: "province3",
                                     label: "树状下拉框",
                                     tree: tree,
+                                },
+                                {
+                                    type: "compactColorPicker",
+                                    name: "compactColorPicker",
+                                    label: "颜色",
                                 },
                             ],
                         },
