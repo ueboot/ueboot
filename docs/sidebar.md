@@ -25,6 +25,7 @@
   - [5.默认设置](components/UFormGrid/5.默认设置.md)
 - [UTree(树组件)](components/UTree.md)
 - [UTreeSelect(树结构下拉框)](components/UTreeSelect.md)
+- [UCompactColorPicker(颜色选择器)](components/UCompactColorPicker.md)
 
 - [UForm](components/UForm.md)
 - 前端工具

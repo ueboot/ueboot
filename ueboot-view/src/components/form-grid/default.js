@@ -63,6 +63,9 @@ export default {
     },
   // 表单提交与修改
     form: {
+        message:{
+            success:'表单提交成功'
+        },
         name: 'formName', // 表单名称，如果同一个页面存在多个表单时，需要指定不同的名称
     // label对齐方式
         labelPosition: 'right',

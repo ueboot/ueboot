@@ -1006,10 +1006,7 @@
                         this.formGrid.form.loading = true;
                         this.$axios.post(this.formGrid.options.url.save, this.formGrid.form.data).then(response => {
                             this.formGrid.form.loading = false;
-                            this.$Notice.success({
-                                title: '表单提交成功',
-                                desc: ''
-                            });
+                            this.$Message.success(this.formGrid.form.message.success);
                             // 编辑时，查询当前页
                             if (this.formGrid.form.isEdit) {
                                 this.pageData();

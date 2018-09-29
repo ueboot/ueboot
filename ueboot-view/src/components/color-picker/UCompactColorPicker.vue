@@ -136,6 +136,9 @@
             }
         },
         watch: {
+            value:function(newValue,oldValue){
+                this.inputColor = newValue
+            },
             inputColor: function (val) {
                 this.$emit("OnColorChange", val)
             },
