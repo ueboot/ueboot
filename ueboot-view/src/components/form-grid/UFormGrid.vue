@@ -29,7 +29,8 @@
                                 <u-compact-color-picker v-if="item.type === 'compactColorPicker'"
                                                         v-model="queryParams[item.name]"  :colorAccount="item.colorAccount"
                                     :defaultColor="item.defaultColor" :lineMaxAccount="item.lineMaxAccount" :isPickerShow="item.isPickerShow"
-                                    ></u-compact-color-picker>
+                                    >
+                                </u-compact-color-picker>
 
                                 <i-input v-model="queryParams[item.name]" :type="item.type"
                                          :placeholder="item.placeholder"
@@ -453,6 +454,18 @@
                                          :disabled="item.disabled"
                                 ></i-input>
                             </template>
+
+                            <!-- 颜色拾取器 -->
+                            <template v-else-if="item.type === 'compactColorPicker'">
+                                <u-compact-color-picker v-model="formGrid.form.data[item.name]"
+                                                        :colorAccount="item.colorAccount"
+                                                        :defaultColor="item.defaultColor"
+                                                        :lineMaxAccount="item.lineMaxAccount"
+                                                        :isPickerShow="item.isPickerShow"
+                                >
+                                </u-compact-color-picker>
+                            </template>
+
                             <template v-else>
 
                             </template>
