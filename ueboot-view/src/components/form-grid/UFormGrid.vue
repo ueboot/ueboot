@@ -294,7 +294,8 @@
             <Table :width="formGrid.table.width" :height="table.height" border
                    :columns="formGrid.table.columns"
                    :data="formGrid.table.data" :stripe="formGrid.table.stripe" :loading="formGrid.table.loading"
-                   :size="formGrid.table.size"
+                   :size="formGrid.table.size" @on-row-click="formGrid.table.rowClick"
+                   @on-row-dblclick="formGrid.table.rowDblclick" @on-expand="formGrid.table.expand"
                    :no-data-text="table.noDataText" @on-selection-change="onSelectionChange" :ref="tableRef"
                    @on-select="onSelect" @on-select-all="onSelectAll"></Table>
         </Row>

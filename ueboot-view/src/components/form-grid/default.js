@@ -98,6 +98,9 @@ export default {
         data: {}// 表单提交的参数
     },
     table: {
+        rowClick:()=>{},
+        rowDblclick:()=>{},
+        expand:()=>{},
         height: '', // 默认为100%
     // 是否显示复选框
         showCheckbox: true,
