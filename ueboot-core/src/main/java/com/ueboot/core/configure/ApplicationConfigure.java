@@ -6,6 +6,7 @@
 
 package com.ueboot.core.configure;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -22,6 +23,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class ApplicationConfigure{
 
     @Bean
+    @ConditionalOnMissingBean(name = "fastJsonHttpMessageConverter")
     public Log4jFastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
         return new Log4jFastJsonHttpMessageConverter();
     }
