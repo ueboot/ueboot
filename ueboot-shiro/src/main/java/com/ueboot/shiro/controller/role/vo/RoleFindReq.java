@@ -9,6 +9,7 @@ package com.ueboot.shiro.controller.role.vo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 用于前端发起查询请求时，接收请求参数
@@ -24,6 +25,7 @@ public class RoleFindReq {
     private String code;
     private String orgCode;
     private String role;
+    @NotBlank
     private String name;
     private String description;
     private Boolean available;

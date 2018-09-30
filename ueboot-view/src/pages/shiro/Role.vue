@@ -59,7 +59,9 @@
                             show: false
                         },
                         superFilter: {
-                            columns: [{type: 'hidden', name: 'roleId', init: null}]
+                            columns: [
+                                {type: 'text', name: 'name', label: '角色名称'}
+                            ]
                         }
                     },
                     form: {

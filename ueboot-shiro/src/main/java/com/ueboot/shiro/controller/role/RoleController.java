@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -61,7 +62,15 @@ public class RoleController {
     @PostMapping(value = "/page")
     public Response<Page<RoleResp>> page(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.ASC)
                                                  Pageable pageable, @RequestBody(required = false) RoleFindReq req) {
-        Page<Role> entities = roleService.findBy(pageable);
+
+        Page<Role> entities = null;
+        if (req == null || StringUtils.isEmpty(req.getName())) {
+            entities = roleService.findBy(pageable);
+        } else {
+            entities = roleService.findByName(pageable, req.getName());
+        }
+
+
         Page<RoleResp> body = entities.map(entity -> {
             RoleResp resp = new RoleResp();
             BeanUtils.copyProperties(entity, resp);
