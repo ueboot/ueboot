@@ -23,8 +23,8 @@ public class ShiroProcessor {
 
 	public static final String LOCK_KEY="ueboot:user:lock:";
 
-//	@Autowired
-	private RedisTemplate<String, UserInfo> redisTemplate;
+	@Autowired
+	private RedisTemplate redisTemplate;
 
 	public void login(String username, String password) {
 
