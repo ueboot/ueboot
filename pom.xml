@@ -5,13 +5,13 @@
 
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-framework</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
+    <version>2.2.0-SNAPSHOT</version>
     <modules>
-        <module>ueboot-generator</module>
-        <module>ueboot-core</module>
         <module>ueboot-parent</module>
+        <module>ueboot-core</module>
         <module>ueboot-excel</module>
         <module>ueboot-shiro</module>
+        <module>ueboot-generator</module>
     </modules>
     <packaging>pom</packaging>
     <name>ueboot-framework</name>
@@ -19,14 +19,6 @@
         ueboot是一个基于spring boot1.5.16 + vue2.0+iview3.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
     </description>
     <url>https://gitee.com/ueboot/ueboot-quick-dev</url>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.16.RELEASE</version>
-        <relativePath/>
-    </parent>
-
     <licenses>
         <license>
             <name>The Apache License, Version 2.0</name>
@@ -42,148 +34,16 @@
             <organizationUrl>http://www.ueboot.com</organizationUrl>
         </developer>
     </developers>
-
-    <properties>
-        <!--每次发布当前模块时，需要修改这里的版本号-->
-        <ueboot.core.version>2.1.0-SNAPSHOT</ueboot.core.version>
-        <ueboot.generator.version>2.1.0-SNAPSHOT</ueboot.generator.version>
-        <ueboot.shiro.version>2.1.0-SNAPSHOT</ueboot.shiro.version>
-        <ueboot.excel.version>2.1.0-SNAPSHOT</ueboot.excel.version>
-        <ueboot.file.version>2.1.0-SNAPSHOT</ueboot.file.version>
-        <java.version>1.8</java.version>
-        <fastjson.version>1.2.21</fastjson.version>
-        <apache.poi.version>3.14</apache.poi.version>
-        <shiro.version>1.4.0</shiro.version>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.ueboot</groupId>
-                <artifactId>ueboot-core</artifactId>
-                <version>${ueboot.core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ueboot</groupId>
-                <artifactId>ueboot-generator</artifactId>
-                <version>${ueboot.generator.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ueboot</groupId>
-                <artifactId>ueboot-excel</artifactId>
-                <version>${ueboot.excel.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ueboot</groupId>
-                <artifactId>ueboot-shiro</artifactId>
-                <version>${ueboot.shiro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.ueboot</groupId>
-                <artifactId>ueboot-file</artifactId>
-                <version>${ueboot.file.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>4.3.6.RELEASE</version>
-                <scope>test</scope>
-            </dependency>
-            <!-- lombok包 -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>1.16.18</version>
-            </dependency>
-            <!-- Json包 -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-            <!--常用工具类-->
-            <dependency>
-                <groupId>org.jodd</groupId>
-                <artifactId>jodd-core</artifactId>
-                <version>3.9.1</version>
-            </dependency>
-            <!--集合创建工具-->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>23.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.commons</groupId>
-                <artifactId>commons-csv</artifactId>
-                <version>1.5</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-io</groupId>
-                <artifactId>commons-io</artifactId>
-                <version>2.5</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.code.gson</groupId>
-                <artifactId>gson</artifactId>
-                <version>2.8.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.squareup.okhttp3</groupId>
-                <artifactId>okhttp</artifactId>
-                <version>3.8.0</version>
-            </dependency>
-            <!--autocode需要用到的jar-->
-            <dependency>
-                <groupId>com.intellij</groupId>
-                <artifactId>forms_rt</artifactId>
-                <version>6.0.5</version>
-            </dependency>
-            <!--autocode需要用到的jar-->
-            <dependency>
-                <groupId>org.apache.velocity</groupId>
-                <artifactId>velocity</artifactId>
-                <version>1.7</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-core</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-web</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-ehcache</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shiro</groupId>
-                <artifactId>shiro-spring</artifactId>
-                <version>${shiro.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-httpclient</groupId>
-                <artifactId>commons-httpclient</artifactId>
-                <version>3.1</version>
-            </dependency>
-            <dependency>
-                <groupId>commons-fileupload</groupId>
-                <artifactId>commons-fileupload</artifactId>
-                <version>1.3.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.poi</groupId>
-                <artifactId>poi-ooxml</artifactId>
-                <version>3.11</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-    <!--配置将jar包上传到maven中央仓库的地址-->
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>http://maven.xiqiao.io/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>http://maven.xiqiao.io/content/repositories/releases</url>
+        </repository>
+    </distributionManagement>
     <repositories>
         <repository>
             <id>Center</id>
