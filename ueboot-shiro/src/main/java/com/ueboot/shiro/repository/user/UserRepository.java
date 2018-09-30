@@ -7,6 +7,8 @@ package com.ueboot.shiro.repository.user;
 
 import com.ueboot.shiro.entity.User;
 import com.ueboot.core.repository.BaseRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -29,4 +31,13 @@ public interface UserRepository extends BaseRepository<User, Long>,UserBaseRepos
      * @return 用户对象
      */
     User findById(Long id);
+
+
+    /**
+     * 用户查询
+     * @param pageable
+     * @param userName
+     * @param fullName
+     */
+    Page<User> pageByUserNameAndFullName(Pageable pageable, String userName, String fullName);
 }

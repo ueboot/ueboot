@@ -5,7 +5,6 @@
 */
 package com.ueboot.shiro.repository.user;
 
-import org.springframework.stereotype.Repository;
 
 /**
 * 1.这里可以写基于StringQuery方式的自定义的接口，但是需要在实现类UserRepositoryImpl当中进行实现，
