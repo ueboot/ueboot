@@ -17,6 +17,8 @@ import com.ueboot.shiro.util.PasswordUtil;
 import jodd.datetime.JDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
@@ -73,11 +75,12 @@ public class ApiController {
             session.setAttribute(CAPTCHA_KEY, "");
             throw new IllegalArgumentException("验证码不正确!");
         }
+        String loginMessage="";
         shiroEventListener.beforeLogin(params.getUsername(), params.getCaptcha());
         ShiroExceptionHandler.set(params.getUsername());
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
         if (!StringUtils.isEmpty(params.getUsername())) {
-            shiroEventListener.afterLogin(params.getUsername(), true, "");
+            shiroEventListener.afterLogin(params.getUsername(), true, loginMessage);
         }
         ShiroExceptionHandler.remove();
         //返回登录成功后的信息
@@ -195,6 +198,14 @@ public class ApiController {
         int w = 200;
         int h = 80;
         CaptchaUtils.outputImage(w, h, response.getOutputStream(), captcha);
+    }
+
+    private void lockAccount(String userName) {
+        if (!StringUtils.isEmpty(userName)) {
+            User user = this.userService.findByUserName(userName);
+            user.setLocked(true);
+            this.userService.save(user);
+        }
     }
 
 }

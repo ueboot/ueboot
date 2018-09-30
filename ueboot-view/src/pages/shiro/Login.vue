@@ -139,9 +139,12 @@
 
                     this.loading = false;
                 }, (response) => {
-                    if (response.code === '400') {
-                        this.$Message.error({content: response.message, duration: 3});
-                    }
+                    // if (response.code === '400') {
+                    //     this.$Message.error({content: response.message, duration: 3});
+                    // }
+                    // if (response.code === '700') {
+                    //     this.$Message.error({content: response.message, duration: 3});
+                    // }
                     this.changeCaptchaUrl();
                     this.formCustom.captcha = '';
                     this.loading = false;

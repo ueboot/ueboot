@@ -49,6 +49,12 @@ export default class AxiosConfig {
                     duration: 10,
                     closable: true
                 });
+            } else if (response.data.code === '700') {
+                iView.Message.error({
+                    content: response.data.message,
+                    duration: 10,
+                    closable: true
+                });
             }
             iView.LoadingBar.error();
             return Promise.reject(response.data);
