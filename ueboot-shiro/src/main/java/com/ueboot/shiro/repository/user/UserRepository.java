@@ -33,11 +33,4 @@ public interface UserRepository extends BaseRepository<User, Long>,UserBaseRepos
     User findById(Long id);
 
 
-    /**
-     * 用户查询
-     * @param pageable
-     * @param userName
-     * @param fullName
-     */
-    Page<User> pageByUserNameAndFullName(Pageable pageable, String userName, String fullName);
 }
