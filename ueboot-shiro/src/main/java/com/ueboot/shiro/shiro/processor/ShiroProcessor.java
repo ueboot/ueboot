@@ -1,11 +1,17 @@
 package com.ueboot.shiro.shiro.processor;
 
 
+import com.ueboot.shiro.entity.UserInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 
 /**
@@ -14,6 +20,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ShiroProcessor {
+
+	public static final String LOCK_KEY="ueboot:user:lock:";
+
+//	@Autowired
+	private RedisTemplate<String, UserInfo> redisTemplate;
 
 	public void login(String username, String password) {
 
@@ -46,6 +57,7 @@ public class ShiroProcessor {
 			throw new AuthenticationException("密码已过期，请联系管理员");
 		}catch(ExcessiveAttemptsException e){
 			log.error(e.getMessage(),e);
+			redisTemplate.opsForValue().set(LOCK_KEY+username,new UserInfo(username,new Date()));
 			//return R.error("输入密码次超5次，账号已经锁定");
 			throw new ExcessiveAttemptsException("输入密码次超5次，账号已经锁定");
 		}catch(AuthenticationException e){

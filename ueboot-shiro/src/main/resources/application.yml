@@ -6,7 +6,7 @@ server:
   context-path: /
 spring:
   cache:
-    type: none
+    type: redis
     cache-names: systemCache
   session:
     store-type: hash_map
@@ -41,17 +41,17 @@ spring:
       initial-size: 5
       max-idle: 5
       min-idle: 5
-#  redis:
-#    host: 47.100.242.77
-#    password: ''
-#    port: 6379
-#    database: 1
-#    timeout: 60000
-#    pool:
-#      max-active: 20
-#      max-wait: 1000
-#      max-idle: 100
-#      min-idle: 5
+  redis:
+    host: 47.100.242.77
+    password:
+    port: 6379
+    database: 1
+    timeout: 60000
+    pool:
+      max-active: 20
+      max-wait: 1000
+      max-idle: 100
+      min-idle: 5
 logging:
   level:
     root: info
