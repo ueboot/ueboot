@@ -47,7 +47,7 @@ export default {
             if (value === '') {
                 callback(new Error('确认密码为必填'));
             } else if (value !== this.formCustom.password) {
-                callback(new Error('两次输入的内容不一致!'));
+                callback(new Error('2次输入的内容不一致!'));
             } else {
                 callback();
             }
@@ -234,7 +234,8 @@ export default {
                         });
                     }
                 } else {
-                    this.$Message.error('表单校验失败');
+                    this.$Message.error({content:'表单校验失败',  duration: 10,
+                        closable: true});
                 }
             });
         },

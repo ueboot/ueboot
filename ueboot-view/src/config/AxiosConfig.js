@@ -35,18 +35,30 @@ export default class AxiosConfig {
             if (response.status === 200 && response.data.code === 'OK') {
                 return response.data;
             } else if (response.data.code === '401') {
-                iView.Message.error('尚未登录，请先登录!');
+                iView.Message.error({
+                    content: '尚未登录，请先登录!',
+                    duration: 10,
+                    closable: true
+                });
                 if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
                     window.location.href = conf.unauthorizedUrl;
                 }
             } else if (response.data.code === '500') {
-                iView.Notice.error({desc: response.data.message});
+                iView.Message.error({
+                    content: response.data.message,
+                    duration: 10,
+                    closable: true
+                });
             }
             iView.LoadingBar.error();
             return Promise.reject(response.data);
         }, function (error) {
             iView.LoadingBar.error();
-            iView.Notice.error({desc: error.response.data.message});
+            iView.Message.error({
+                content: error.response.data.message,
+                duration: 10,
+                closable: true
+            });
             // 403 状态执行页面跳转，其余状态不跳转
             if (error.response.status === 403) {
                 if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
