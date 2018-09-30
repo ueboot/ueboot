@@ -116,7 +116,7 @@
                             ]
                         },
                         columns: [
-                            {title: 'id', key: 'id', minWidth: 60},
+                            {title: 'ID', key: 'id', minWidth: 60},
                             {title: '角色名称', key: 'name', minWidth: 160},
                             {title: '角色描述', key: 'description', minWidth: 100},
                             {

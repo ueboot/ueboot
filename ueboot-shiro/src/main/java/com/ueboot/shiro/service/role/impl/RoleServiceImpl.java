@@ -1,8 +1,8 @@
 /*
-* Copyright (c)  2018
-* All rights reserved.
-* 2018-08-21 09:40:34
-*/
+ * Copyright (c)  2018
+ * All rights reserved.
+ * 2018-08-21 09:40:34
+ */
 package com.ueboot.shiro.service.role.impl;
 
 import com.ueboot.shiro.entity.Permission;
@@ -15,6 +15,8 @@ import com.ueboot.shiro.service.role.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +26,14 @@ import java.util.List;
 
 /**
  * Created on 2018-08-21 09:40:34
+ *
  * @author yangkui
  * @since 2.1.0 by ueboot-generator
  */
 @Slf4j
 @Service
 @ConditionalOnMissingBean(name = "roleService")
-public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService{
+public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService {
     @Autowired
     private RoleRepository roleRepository;
 
@@ -39,7 +42,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
 
     @Override
     protected BaseRepository getBaseRepository() {
-         return roleRepository;
+        return roleRepository;
     }
 
     @Override
@@ -53,9 +56,14 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         //先删除角色关联的资源
         for (int i = 0; i < roleIds.length; i++) {
             Long roleId = roleIds[i];
-           List<Permission> permissions=  permissionRepository.findByRoleId(roleId);
-           permissionRepository.delete(permissions);
-           this.delete(roleId);
+            List<Permission> permissions = permissionRepository.findByRoleId(roleId);
+            permissionRepository.delete(permissions);
+            this.delete(roleId);
         }
+    }
+
+    @Override
+    public Page<Role> findByName(Pageable pageable, String name) {
+        return this.roleRepository.findByNameLike(pageable, name);
     }
 }

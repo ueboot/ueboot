@@ -25,7 +25,6 @@ public class RoleFindReq {
     private String code;
     private String orgCode;
     private String role;
-    @NotBlank
     private String name;
     private String description;
     private Boolean available;

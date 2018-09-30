@@ -7,6 +7,8 @@ package com.ueboot.shiro.repository.role;
 
 import com.ueboot.shiro.entity.Role;
 import com.ueboot.core.repository.BaseRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**

@@ -63,13 +63,7 @@ public class RoleController {
     public Response<Page<RoleResp>> page(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.ASC)
                                                  Pageable pageable, @RequestBody(required = false) RoleFindReq req) {
 
-        Page<Role> entities = null;
-        if (req == null || StringUtils.isEmpty(req.getName())) {
-            entities = roleService.findBy(pageable);
-        } else {
-            entities = roleService.findByName(pageable, req.getName());
-        }
-
+        Page<Role> entities = roleService.findByName(pageable, req != null ? req.getName() : "");
 
         Page<RoleResp> body = entities.map(entity -> {
             RoleResp resp = new RoleResp();
