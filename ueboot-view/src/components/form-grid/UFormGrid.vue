@@ -893,10 +893,15 @@
                     }
                 });
             },
-            noticeError(title, desc) {
-                this.$Notice.error({
-                    title: title,
-                    desc: desc
+            noticeError(title='', desc='') {
+                 let content=title;
+                 if(desc!==''){
+                      content=content+','+desc;
+                 }
+                 this.$Message.error({
+                    content: content,
+                    duration: 10,
+                    closable: true
                 });
             },
             validate(key) {
@@ -1294,6 +1299,7 @@
                             });
                             this.pageData();
                         }).catch(response => {
+                             console.log("111111");
                             this.formGrid.toolbar.delete.loading = false;
                             this.$forceUpdate();
                             return false;
@@ -1574,7 +1580,6 @@
                         this.$axios.post(this.formGrid.options.url.delete, data, params).then(response => {
                             this.pageData();
                         }).catch(response => {
-                            this.noticeError('数据删除失败', response.message ? response.message : '系统或网络异常');
                             this.$forceUpdate();
                             return false;
                         });

@@ -82,6 +82,9 @@
                         ]
                     },
                     table: {
+                        rowClick:(row,index)=>{
+                            this.$refs["formGrid"].$refs["dataTable"].toggleSelect(index)
+                        },
                         operation: {
                             primaryKey: 'id',
                             buttons: [
@@ -191,6 +194,7 @@
                 }).then((response) => {
                     this.$Message.success('角色授权成功！');
                     this.loading = false;
+                    this.permissionModal = false;
                 });
             }
         }

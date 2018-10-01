@@ -155,9 +155,8 @@ export default {
             let fileNum = files.length;
       // 是否文件为空
             if (fileNum < 1) {
-                this.$Notice.info({
-                    title: '温馨提醒',
-                    desc: lang.error.multiFile
+                this.message.info({
+                    content: '温馨提醒 '+lang.error.multiFile
                 });
                 return false;
             }
@@ -183,9 +182,12 @@ export default {
                 Log.d(_fileType);
                 let type = '|' + _fileType + '|';
                 if (fileType_ && fileType_.indexOf(type) < 0) {
-                    this.$Notice.error({
-                        title: '文件类型错误',
-                        desc: '仅限支持' + fileType.join(',') + '格式文件'
+
+                    let message='文件类型错误仅限支持' + fileType.join(',') + '格式文件'
+                    that.$Message.error({
+                        content: message,
+                        duration: 10,
+                        closable: true
                     });
                     return false;
                 }
@@ -285,6 +287,10 @@ export default {
                 title: '上传结果',
                 desc: '文件已上传成功'
             });
+            that.$Message.success({
+                content: '上传结果',
+                closable: true
+            });
         },
         // 上传失败
         function (resData) {
@@ -295,9 +301,10 @@ export default {
             if (resData && resData['message']) {
                 message = resData['message'];
             }
-            that.$Notice.error({
-                title: '上传结果',
-                desc: message
+            that.$Message.error({
+                content: message,
+                duration: 10,
+                closable: true
             });
         }
       );
