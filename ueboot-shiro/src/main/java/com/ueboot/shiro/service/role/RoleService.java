@@ -22,7 +22,13 @@ public interface RoleService extends BaseService<Role> {
 
     void deleteRole(Long[] roleIds);
 
+
     Page<Role> findByName(Pageable pageable, String name);
 
-
+    /***
+     * 统计是否有
+     * @param id
+     * @return
+     */
+    Long statisticUserByRoleId(Long id);
 }

@@ -11,6 +11,7 @@ import com.ueboot.core.repository.BaseRepository;
 import com.ueboot.shiro.repository.permission.PermissionRepository;
 import com.ueboot.shiro.repository.role.RoleRepository;
 import com.ueboot.core.service.impl.BaseServiceImpl;
+import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.role.RoleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,9 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Resource
     private PermissionRepository permissionRepository;
 
+    @Autowired
+    private UserRoleRepository userRoleRepository;
+
     @Override
     protected BaseRepository getBaseRepository() {
         return roleRepository;
@@ -65,5 +69,11 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Override
     public Page<Role> findByName(Pageable pageable, String name) {
         return this.roleRepository.findByNameLike(pageable, name);
+    }
+
+
+    @Override
+    public Long statisticUserByRoleId(Long id) {
+        return userRoleRepository.statisticUserSumByRoleId(id);
     }
 }

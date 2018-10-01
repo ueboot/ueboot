@@ -99,13 +99,25 @@ public class RoleController {
 
     @RequiresPermissions("ueboot:role:delete")
     @PostMapping(value = "/delete")
-    public Response<Void> delete(Long[] id) {
-        roleService.deleteRole(id);
+    public Response<String> delete(Long[] id) {
+
+        if(id==null||id.length==0||id.length!=1){
+
+            throw new BusinessException("请选择需要删除的角色!");
+        }
+        Long roleId=id[0];
+        //统计是否授权有用户
+        Long  statisticNum=roleService.statisticUserByRoleId(roleId);
+        if(statisticNum>0){
+            throw new BusinessException("该角色已被分配，需要解除分配才可以删除！");
+        }
+        roleService.delete(id);
         // 删除 角色日志记录
         String optUserName = (String) SecurityUtils.getSubject().getPrincipal();
         this.shiroEventListener.deleteRoleEvent(optUserName, id);
         return new Response<>();
     }
+
 
     @RequiresPermissions("ueboot:role:read")
     @GetMapping(value = "/{id}")

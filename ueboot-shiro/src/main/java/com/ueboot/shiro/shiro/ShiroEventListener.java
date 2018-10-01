@@ -31,7 +31,7 @@ public interface ShiroEventListener {
 
     void saveRoleEvent(String optUserName, String roleStr);
 
-    void deleteRoleEvent(String optUserName, Long[] id);
+    void deleteRoleEvent(String optUserName, Long ... id);
 
     void saveUserEvent(String optUserName, String userStr);
 
@@ -39,6 +39,6 @@ public interface ShiroEventListener {
 
     void saveUserRoleEvent(String optUserName, String userRoleStr);
 
-    void deleteUserRoleEvent(String optUserName, Long[] id);
+    void deleteUserRoleEvent(String optUserName, Long ... id);
 
 }

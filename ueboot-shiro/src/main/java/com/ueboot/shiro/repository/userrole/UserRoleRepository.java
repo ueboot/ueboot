@@ -40,4 +40,6 @@ public interface UserRoleRepository extends BaseRepository<UserRole, Long>,UserR
      */
     List<UserRole> findByRoleId(Long roleId);
 
+
+
 }

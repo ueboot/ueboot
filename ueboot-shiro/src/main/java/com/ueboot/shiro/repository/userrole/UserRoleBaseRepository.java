@@ -17,4 +17,11 @@ import org.springframework.stereotype.Repository;
 */
 public interface UserRoleBaseRepository  {
 
+
+    /***
+     * 统计是否有
+     * @param roleId
+     * @return
+     */
+    Long statisticUserSumByRoleId(Long roleId);
 }
