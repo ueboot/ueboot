@@ -188,6 +188,11 @@
             handleSubmit() {
                 this.loading = true;
                 let resourceIds = this.$refs['utree'].getCheckedNodes();
+                if(resourceIds.length===0){
+                    this.$Message.info('请选择授权的菜单列表！');
+                    this.loading = false;
+                    return;
+                }
                 this.$axios.post('/ueboot/permission/save', {
                     roleId: this.selectRoleId,
                     resourceIds: resourceIds
