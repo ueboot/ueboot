@@ -175,7 +175,7 @@ export default {
                         }
                     },
                     columns: [
-            {title: 'id', key: 'id', minWidth: 40, align: 'center'},
+            {title: 'ID', key: 'id', minWidth: 40, align: 'center'},
             {title: '用户名', key: 'userName', minWidth: 80},
             {title: '所属角色', key: 'roleNames', minWidth: 120},
                         {
