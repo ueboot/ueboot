@@ -6,6 +6,8 @@
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-framework</artifactId>
     <version>2.2.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>ueboot-framework</name>
     <modules>
         <module>ueboot-parent</module>
         <module>ueboot-core</module>
@@ -13,8 +15,7 @@
         <module>ueboot-shiro</module>
         <module>ueboot-generator</module>
     </modules>
-    <packaging>pom</packaging>
-    <name>ueboot-framework</name>
+
     <description>
         ueboot是一个基于spring boot1.5.16 + vue2.0+iview3.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
     </description>
