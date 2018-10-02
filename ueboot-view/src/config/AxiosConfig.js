@@ -35,10 +35,7 @@ export default class AxiosConfig {
             if (response.status === 200 && response.data.code === 'OK') {
                 return response.data;
             } else if (response.data.code === '401') {
-                iView.Message.error('尚未登录，请先登录!');
-                if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
-                    window.location.href = conf.unauthorizedUrl;
-                }
+                toLogin(conf)
             } else if (response.data.code === '500') {
                 iView.Notice.error({desc: response.data.message});
             }
@@ -46,15 +43,32 @@ export default class AxiosConfig {
             return Promise.reject(response.data);
         }, function (error) {
             iView.LoadingBar.error();
-            iView.Notice.error({desc: error.response.data.message});
             // 403 状态执行页面跳转，其余状态不跳转
             if (error.response.status === 403) {
-                if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
-                    window.location.href = conf.unauthorizedUrl;
-                }
+                toLogin(conf)
+                return Promise.reject(error.response.data)
             } else {
+                iView.Notice.error({desc: error.response.data.message});
                 return Promise.reject(error.response.data);
             }
         });
+        
+        function toLogin(conf) {
+            iView.Modal.info({
+                closable:false,
+                'mask-closable':false,
+                title: '提示',
+                content: '您尚未登录，或当前用户会话已过期，点击确定按钮返回到登录界面。',
+                loading: true,
+                onOk: () => {
+                    setTimeout(() => {
+                        iView.Modal.remove();
+                        if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
+                            window.location.href = conf.unauthorizedUrl;
+                        }
+                    }, 2000);
+                }
+            });
+        }
     }
 }

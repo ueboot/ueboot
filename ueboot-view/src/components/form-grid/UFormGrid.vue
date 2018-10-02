@@ -976,7 +976,7 @@
                     }
                     Log.d('接口返回对象,%o', response);
                 }).catch(response => {
-                    this.noticeError('数据查询出现异常', response.message ? response.message : '系统或网络异常');
+                    //this.noticeError('数据查询出现异常', response.message ? response.message : '系统或网络异常');
                     if (this.formGrid) {
                         this.clearTableData()
                         this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
