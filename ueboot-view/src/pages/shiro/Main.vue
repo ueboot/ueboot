@@ -34,7 +34,7 @@
                                     <span style="color: white; margin-right:6px">{{loginName}}</span>
                                     <Dropdown @on-click="dropdownClick">
                                         <Avatar :icon="config.page_main.dropdown.avatar.icon"
-                                                :src="config.page_main.dropdown.avatar.src"
+                                                :src="userImageSrc"
                                                 :style="config.page_main.dropdown.avatar.style" size="large"/>
                                         <DropdownMenu slot="list">
                                             <DropdownItem v-for="(item,index) in config.page_main.dropdown.items"
@@ -170,6 +170,7 @@
                 config: {},
                 loginName: '', // 登录账号名称
                 lastLoginTime: '', // 上次登录时间
+                userImageSrc:'',
                 state: '',
                 toggle: true,
                 theme: 'light',
@@ -371,7 +372,11 @@
             if (loginInfo !== '') {
                 let o = JSON.parse(loginInfo);
                 this.loginName = o[this.config.page_main.userNameKey] || '';// 登录账号名称
+
             }
+            this.userImageSrc = sessionStorage.getItem('login.userAvatar')|| '';// 登录账号名称
+            console.log(this.userImageSrc);
+            console.log("111111111");
 
         }
     };
