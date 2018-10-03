@@ -9,17 +9,37 @@
                                @item-click="itemClick"></u-tree-select>
             </i-col>
         </Row>
+        <Row>
+                <i-col span="16">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <Form  ref="testForm" name="testForm" :data="dataForm">
+                            <color-picker v-model="dataForm.color" ></color-picker>
+                            <button type="primary" @click="resetColor">重置</button>
+                    </Form>
+                </i-col>
+        </Row>
     </div>
 </template>
 
 <script type="application/javascript">
 
+
+    import USelect from './USelect'
+
     import UTreeSelect from "../../../src/components/tree-select/UTreeSelect";
 
+    import ColorPicker from './ColorPicker';
+
     export default {
-        components: {UTreeSelect},
+        components: {UTreeSelect,ColorPicker},
         data() {
             return {
+                color:'',
+                dataForm:{
+                    color:'',
+                },
                 tree: [],
                 tree2: [
                     {id: 1, "name": "根节点1", parentId: null, opened: true},
@@ -48,6 +68,10 @@
         methods: {
             itemClick(node,item,e) {
                 console.log(item.origin)
+            },
+            resetColor(){
+                this.$refs['testForm'].resetFields();
+                this.dataForm.color='';
             }
         },
         watch: {

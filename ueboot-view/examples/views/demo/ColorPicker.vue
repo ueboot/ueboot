@@ -44,7 +44,7 @@
         '#808900', '#194D33', '#0C797D', '#0062B1', '#653294', '#AB149E'
     ]
     export default {
-        name: "UColorPicker",
+        name: "ColorPicker",
         components: {
             'compact-picker': Compact
         },

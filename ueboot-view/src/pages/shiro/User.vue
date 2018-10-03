@@ -116,6 +116,9 @@ export default {
                     ]
                 },
                 table: {
+                    rowClick:(row,index)=>{
+                        this.$refs['formGrid'].$refs['dataTable'].toggleSelect(index)
+                    },
                     operation: {
                         primaryKey: 'id',
                         buttons: [
