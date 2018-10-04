@@ -2,6 +2,7 @@ package com.ueboot.shiro.shiro.processor;
 
 
 import com.ueboot.shiro.entity.UserInfo;
+import com.ueboot.shiro.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Date;
 
 
@@ -24,6 +26,9 @@ public class ShiroProcessor {
 	public static final String LOCK_KEY="ueboot:user:lock:";
 
 	@Autowired
+	private UserService userService;
+
+	@Resource
 	private RedisTemplate redisTemplate;
 
 	public void login(String username, String password) {
@@ -39,30 +44,26 @@ public class ShiroProcessor {
 			currentUser.login(token);
 			log.info("验证用户和密码结束...");
 		}catch(UnknownAccountException e){
-			//model.addAttribute(Constants.LOGIN_ERROR_MSG,"用户或密码不正确.");
 			log.error(e.getMessage(),e);
-			//return R.error("用户不存在");
 			throw new AuthenticationException("用户不存在");
 		}catch(IncorrectCredentialsException e){
 			log.error(e.getMessage(),e);
-//			return R.error("登录的用户密码不正确");
 			throw new AuthenticationException("用户的密码不正确");
 		}catch(LockedAccountException e){
 			log.error(e.getMessage(),e);
-//			return R.error("用户已锁定");
 			throw new AuthenticationException("用户已锁定");
 		}catch(ExpiredCredentialsException e){
 			log.error(e.getMessage(),e);
-//			return R.error("密码已过期，请联系管理员");
 			throw new AuthenticationException("密码已过期，请联系管理员");
 		}catch(ExcessiveAttemptsException e){
 			log.error(e.getMessage(),e);
+			//Redis 记录锁记录
 			redisTemplate.opsForValue().set(LOCK_KEY+username,new UserInfo(username,new Date()));
-			//return R.error("输入密码次超5次，账号已经锁定");
+			//更新数据
+			this.userService.lockByUserName(username);
 			throw new ExcessiveAttemptsException("输入密码次超5次，账号已经锁定");
 		}catch(AuthenticationException e){
 			log.error(e.getMessage(),e);
-			//return R.error("用户的密码不正确");
 			throw new AuthenticationException("用户或密码不正确");
 		}
 

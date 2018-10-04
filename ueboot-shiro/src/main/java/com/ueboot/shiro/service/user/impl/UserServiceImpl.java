@@ -5,20 +5,20 @@
  */
 package com.ueboot.shiro.service.user.impl;
 
-import com.ueboot.core.exception.BusinessException;
-import com.ueboot.shiro.entity.User;
 import com.ueboot.core.repository.BaseRepository;
+import com.ueboot.core.service.impl.BaseServiceImpl;
+import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.entity.UserRole;
 import com.ueboot.shiro.repository.user.UserRepository;
-import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.user.UserService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -59,6 +59,17 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         return userRepository.findByUserName(userName);
     }
 
+
+    @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 30, propagation = Propagation.REQUIRED)
+    public void lockByUserName(String userName) {
+        User user = this.userRepository.findByUserName(userName);
+        if (user == null) {
+            return;
+        }
+        user.setLocked(Boolean.TRUE);
+        this.userRepository.save(user);
+    }
 
     /**
      * 根据ID查找用户

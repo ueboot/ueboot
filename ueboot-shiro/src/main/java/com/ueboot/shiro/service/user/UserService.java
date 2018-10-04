@@ -31,4 +31,9 @@ public interface UserService extends BaseService<User> {
 
     void deleteById(Long[] id);
 
+    /***
+     *
+     * @param username
+     */
+    void lockByUserName(String username);
 }

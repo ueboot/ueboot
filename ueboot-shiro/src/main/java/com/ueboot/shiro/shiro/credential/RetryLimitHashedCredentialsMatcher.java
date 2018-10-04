@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,7 +52,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
     /***
      * 密码重试的KEY
      */
-    public static final String PASSWORD_RETRY_CACHE="SHIRO:PASSWORD:RETRY:COUNT:{0}";
+    public static final String PASSWORD_RETRY_CACHE="SHIRO2:PASSWORD:RETRY:COUNT:{0}";
 
     /***
      * Redis Tamplete
@@ -86,9 +87,9 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
 
         if(!redisTemplate.hasKey(key)) {
-            retryCount = new AtomicInteger(0);
+            retryCount =new AtomicInteger(0);
         }else{
-             retryCount =(AtomicInteger)redisTemplate.opsForValue().get(key);
+             retryCount = (AtomicInteger) redisTemplate.opsForValue().get(key);
         }
 
         log.info("userName:{},retryCount:{}",userName,retryCount);
@@ -104,7 +105,8 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
             redisTemplate.delete(key);
         }else{
             //默认设置为1天
-            redisTemplate.opsForValue().set(key,retryCount, TimeUnit.DAYS.toHours(1));
+            redisTemplate.opsForValue().set(key,retryCount);
+            redisTemplate.expire(key,1,TimeUnit.HOURS);
             log.info("userName:{},retryCount:{}",userName,retryCount);
         }
         return matches;
