@@ -1,6 +1,6 @@
 /*
  * Copyright (c)  2018, XiQiao
- * All rights reserved. 
+ * All rights reserved.
  *
  * Id:RetryLimitHashedCredentialsMatcher.java   2018-07-09 22:25 wanglijun
  */
@@ -89,7 +89,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         if(!redisTemplate.hasKey(key)) {
             retryCount =new AtomicInteger(0);
         }else{
-             retryCount = (AtomicInteger) redisTemplate.opsForValue().get(key);
+            retryCount = (AtomicInteger) redisTemplate.opsForValue().get(key);
         }
 
         log.info("userName:{},retryCount:{}",userName,retryCount);
