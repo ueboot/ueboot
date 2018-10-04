@@ -143,7 +143,7 @@
                                 },
                                 {
                                     type: "compactColorPicker",
-                                    name: "compactColorPicker",
+                                    name: "name",
                                     label: "颜色",
                                 },
                             ],

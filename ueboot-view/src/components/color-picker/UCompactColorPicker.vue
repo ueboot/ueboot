@@ -4,12 +4,12 @@
             <compact-picker v-model="colors" @input="changeColor" :palette="palette"/>
         </Row>
         <Row v-else>
-            <Dropdown trigger="custom" style="width:100%" :visible="visible"
+            <Dropdown trigger="custom" style="width:280px" :visible="visible"
                       @on-clickoutside="handleClose">
                 <i-input v-model="inputColor" disabled>
                     <div slot="prepend" class="selectedColor" :style="{background:inputColor}"></div>
                     <span slot="append">
-                         <Icon type="md-color-fill" slot="suffix" @click="showColorModal"/>
+                        <Icon type="md-color-fill" slot="suffix" @click="showColorModal"/>
                     </span>
                 </i-input>
 
@@ -25,7 +25,9 @@
                     </Row>
                     <div class="compact-picker-parent">
                         <compact-picker v-model="colors" @input="changeColor" :palette="palette"/>
-
+                    </div>
+                    <div style="text-align:right;margin:10px;">
+                        <Button type="info" size="small" @click="handleClose">关闭</Button>
                     </div>
                 </div>
             </Dropdown>
@@ -123,7 +125,7 @@
                 this.colors = newValue===''?'#AB149F':newValue
             },
             inputColor: function (val) {
-                this.$emit("onColorChange", val)
+                this.$emit("onnColorChange", val)
             }
         }
     }
@@ -138,27 +140,22 @@
         background-color: #fff;
         box-shadow: none;
     }
-
     .vc-compact .vc-compact-color-item {
         width: 20px;
         height: 20px;
     }
-
     .colorParent {
         margin: 10px;
     }
-
     .colorModel {
         width: 100%;
         height: 30px;
         border-radius: 4px;
         box-shadow: 0 0 2px #999999;
     }
-
     .compact-picker-parent {
         margin-top: 20px;
     }
-
     .selectedColor {
         min-height: 22px;
         min-width: 22px;
