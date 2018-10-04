@@ -25,6 +25,7 @@ import org.springframework.util.CollectionUtils;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -102,7 +103,8 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         if(matches) {
             redisTemplate.delete(key);
         }else{
-            redisTemplate.opsForValue().set(key,retryCount);
+            //默认设置为1天
+            redisTemplate.opsForValue().set(key,retryCount, TimeUnit.DAYS.toHours(1));
             log.info("userName:{},retryCount:{}",userName,retryCount);
         }
         return matches;
