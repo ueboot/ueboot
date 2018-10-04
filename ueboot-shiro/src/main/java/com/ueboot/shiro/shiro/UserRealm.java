@@ -64,10 +64,10 @@ public class UserRealm extends AuthorizingRealm {
             throw new AuthenticationException("用户不存在");
         }
         if (user.isLocked()) {
-            throw new LockedAccountException("账号已经被锁定，无法操作！");
+            throw new LockedAccountException("您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理！");
         }
         if (user.getCredentialExpiredDate() != null && new Date().compareTo(user.getCredentialExpiredDate()) > -1) {
-            throw new AuthenticationException("密码已经过期，无法操作！");
+            throw new AuthenticationException("密码已经过期，请联系你的管理员进行处理！");
         }
         username = user.getUserName();
         ByteSource credentialsSalt = ByteSource.Util.bytes(username);
