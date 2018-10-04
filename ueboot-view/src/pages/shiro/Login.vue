@@ -116,14 +116,14 @@
                     return;
                 }
                 if (this.formCustom.password === '') {
-                    this.$Notice.error({
+                    this.$Message.error({
                         content: '密码不能为空',
                         duration: 3
                     });
                     return;
                 }
                 if (this.formCustom.captcha === '') {
-                    this.$Notice.error({
+                    this.$Message.error({
                         content: '验证码不能为空',
                         duration: 3
                     });
