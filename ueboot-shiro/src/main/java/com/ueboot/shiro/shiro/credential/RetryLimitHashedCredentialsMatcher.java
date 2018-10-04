@@ -94,8 +94,8 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
         log.info("userName:{},retryCount:{}",userName,retryCount);
         //retry count + 1
-
-        if(retryCount.incrementAndGet() > this.retryMaxCount) {
+        //大于等于最大次数
+        if(retryCount.incrementAndGet() >= this.retryMaxCount) {
             throw new ExcessiveAttemptsException("超过最大重试次数，最大值："+this.retryMaxCount);
         }
 
