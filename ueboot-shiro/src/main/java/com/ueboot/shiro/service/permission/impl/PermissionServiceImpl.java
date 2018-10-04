@@ -15,7 +15,6 @@ import com.ueboot.shiro.repository.role.RoleRepository;
 import com.ueboot.shiro.service.permission.PermissionService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
 import com.ueboot.shiro.shiro.UserRealm;
-import com.ueboot.shiro.shiro.cache.ShiroRedisCahceManger;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -26,7 +25,6 @@ import org.springframework.util.Assert;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

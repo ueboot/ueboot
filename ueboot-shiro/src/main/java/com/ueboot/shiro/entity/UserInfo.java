@@ -13,6 +13,11 @@ public class UserInfo {
 
     private Date expiredDate;
 
+
+    public  UserInfo(){
+        super();
+    }
+
     /***
      *
      * @param userName
