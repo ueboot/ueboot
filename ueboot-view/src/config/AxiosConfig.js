@@ -57,7 +57,8 @@ export default class AxiosConfig {
                 toLogin(conf)
                 return Promise.reject(error.response.data)
             } else {
-                iView.Notice.error({desc: error.response.data.message});
+                iView.Message.error({content: error.response.data.message,duration: 10,
+                    closable: true});
                 return Promise.reject(error.response.data);
             }
         });
