@@ -4,7 +4,7 @@
             <compact-picker v-model="colors" @input="changeColor" :palette="palette"/>
         </Row>
         <Row v-else>
-            <Dropdown trigger="custom" style="width:280px" :visible="visible"
+            <Dropdown trigger="custom" style="width:100%;" :visible="visible"
                       @on-clickoutside="handleClose">
                 <i-input v-model="inputColor" disabled>
                     <div slot="prepend" class="selectedColor" :style="{background:inputColor}"></div>
