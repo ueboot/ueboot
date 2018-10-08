@@ -296,7 +296,7 @@
                    :columns="formGrid.table.columns"
                    :data="formGrid.table.data" :stripe="formGrid.table.stripe" :loading="formGrid.table.loading"
                    :size="formGrid.table.size" @on-row-click="formGrid.table.rowClick"
-                   @on-row-dblclick="formGrid.table.rowDblclick" @on-expand="formGrid.table.expand"
+                   @on-row-dblclick="formGrid.table.rowDblClick" @on-expand="formGrid.table.expand"
                    :no-data-text="table.noDataText" @on-selection-change="onSelectionChange" :ref="tableRef"
                    @on-select="onSelect" @on-select-all="onSelectAll"></Table>
         </Row>
@@ -1457,7 +1457,8 @@
                                 marginRight: '5px'
                             },
                             on: {
-                                click: function () {
+                                click: function (e) {
+                                    e.stopPropagation()
                                     let row = _this.formGrid.table.data[params.index];
                                     Log.d('操作功能点击事件,row:%o', row);
                                     clickEvent(row, params.index, _this);
