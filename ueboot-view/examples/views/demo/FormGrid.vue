@@ -143,6 +143,7 @@
                                 },
                                 {
                                     type: "compactColorPicker",
+
                                     name: "compactColorPicker",
                                     init:'#AB149E',
                                     label: "颜色",

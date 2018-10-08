@@ -893,10 +893,15 @@
                     }
                 });
             },
-            noticeError(title, desc) {
-                this.$Notice.error({
-                    title: title,
-                    desc: desc
+            noticeError(title='', desc='') {
+                 let content=title;
+                 if(desc!==''){
+                      content=content+','+desc;
+                 }
+                 this.$Message.error({
+                    content: content,
+                    duration: 10,
+                    closable: true
                 });
             },
             validate(key) {

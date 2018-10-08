@@ -9,12 +9,12 @@ import org.springframework.data.redis.core.RedisTemplate;
  * 基于Redis为shiro实现缓存功能，默认的shiro只提供了内存缓存和Ehcache实现
  * @author yangkui
  */
-public class ShiroRedisCahceManger extends AbstractCacheManager {
+public class ShiroRedisCacheManger extends AbstractCacheManager {
     private String keyNamespace = null;
 
     private RedisTemplate<Object, Object> redisTemplate;
 
-    public ShiroRedisCahceManger(String keyNamespace, RedisTemplate<Object, Object> redisTemplate) {
+    public ShiroRedisCacheManger(String keyNamespace, RedisTemplate<Object, Object> redisTemplate) {
         this.keyNamespace = keyNamespace;
         this.redisTemplate = redisTemplate;
     }

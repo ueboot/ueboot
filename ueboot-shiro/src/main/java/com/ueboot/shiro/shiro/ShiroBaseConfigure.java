@@ -4,11 +4,12 @@ package com.ueboot.shiro.shiro;
 import com.ueboot.core.condition.RedisDisabledCondition;
 import com.ueboot.core.condition.RedisEnableCondition;
 import com.ueboot.shiro.shiro.auditor.JpaAuditingAwareImpl;
-import com.ueboot.shiro.shiro.cache.ShiroRedisCahceManger;
+import com.ueboot.shiro.shiro.cache.ShiroRedisCacheManger;
 import com.ueboot.shiro.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.Realm;
@@ -17,9 +18,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -89,6 +88,12 @@ public class ShiroBaseConfigure {
         return userRealm;
     }
 
+
+    @Bean
+    public CacheManager getCacheManager(RedisTemplate<Object,Object> redisTemplate){
+       return new ShiroRedisCacheManger("ueboot-shiro",redisTemplate);
+    }
+
     /**
      * 当用户的环境配置了redisTemplate时则使用Redis做缓存
      * @param realm realm
@@ -101,8 +106,8 @@ public class ShiroBaseConfigure {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
         //使用自定义的Redis缓存实现，依赖redisTemplate，keyNamespace可以默认为空
-        ShiroRedisCahceManger cacheManager = new ShiroRedisCahceManger("ueboot-shiro",redisTemplate);
-        securityManager.setCacheManager(cacheManager);
+
+        securityManager.setCacheManager(this.getCacheManager(redisTemplate));
         return securityManager;
     }
     /**
@@ -143,8 +148,8 @@ public class ShiroBaseConfigure {
      */
     @Bean
     @ConditionalOnMissingBean
-    public CredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher  matcher=new RetryLimitHashedCredentialsMatcher();
+    public CredentialsMatcher hashedCredentialsMatcher(RedisTemplate<Object,Object> redisTemplate) {
+        HashedCredentialsMatcher  matcher=new RetryLimitHashedCredentialsMatcher(redisTemplate);
         matcher.setHashAlgorithmName ("SHA-512");
         //散列的次数，比如散列两次
         matcher.setHashIterations (2);

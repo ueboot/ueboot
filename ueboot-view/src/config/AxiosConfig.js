@@ -37,12 +37,23 @@ export default class AxiosConfig {
             } else if (response.data.code === '401') {
                 toLogin(conf)
             } else if (response.data.code === '500') {
-                iView.Notice.error({desc: response.data.message});
+                iView.Message.error({
+                    content: response.data.message,
+                    duration: 10,
+                    closable: true
+                });
+            } else if (response.data.code === '700') {
+                iView.Message.error({
+                    content: response.data.message,
+                    duration: 10,
+                    closable: true
+                });
             }
             iView.LoadingBar.error();
             return Promise.reject(response.data);
         }, function (error) {
             iView.LoadingBar.error();
+
             // 403 状态执行页面跳转，其余状态不跳转
             if (error.response.status === 403) {
                 toLogin(conf)
@@ -52,7 +63,6 @@ export default class AxiosConfig {
                 return Promise.reject(error.response.data);
             }
         });
-        
         function toLogin(conf) {
             iView.Modal.info({
                 closable:false,

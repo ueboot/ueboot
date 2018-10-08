@@ -5,7 +5,10 @@
 */
 package com.ueboot.shiro.repository.user;
 
-import org.springframework.stereotype.Repository;
+
+import com.ueboot.shiro.entity.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
 * 1.这里可以写基于StringQuery方式的自定义的接口，但是需要在实现类UserRepositoryImpl当中进行实现，
@@ -16,5 +19,14 @@ import org.springframework.stereotype.Repository;
 * @since 2.1.0 by ueboot-generator
 */
 public interface UserBaseRepository  {
+
+
+    /**
+     * 用户查询
+     * @param pageable
+     * @param userName
+     * @param fullName
+     */
+    Page<User> pageByUserNameAndFullName(Pageable pageable, String userName, String fullName);
 
 }

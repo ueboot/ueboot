@@ -126,12 +126,15 @@ export default {
                     }
                 },
                 table: {
+                    rowClick:(row,index)=>{
+                        this.$refs['formGrid'].$refs['dataTable'].toggleSelect(index)
+                    },
                     size: 'small',
                     operation: {
                         primaryKey: 'id'
                     },
                     columns: [
-            {title: 'id', key: 'id', minWidth: 60},
+            {title: 'ID', key: 'id', minWidth: 60},
             {title: '资源名称', key: 'name', minWidth: 100},
             {title: '资源类型', key: 'resourceType', minWidth: 100},
             {title: '资源路径', key: 'url', minWidth: 150},

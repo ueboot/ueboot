@@ -1,7 +1,8 @@
 import deepExtend from 'deep-extend';
+import Vue from 'Vue'
 import Log from '../utils/Log';
 import AxiosConfig from './AxiosConfig';
-
+import iView from 'iview';
 let ueboot_config = {
     sysTitle: 'ueboot权限管理',
     logoImage: '/static/img/logo.png',
@@ -55,7 +56,6 @@ let ueboot_config = {
     }
 };
 
-
 /**
  * 对外提供配置入口，针对Main页面上的一些参数可以进行配置化
  */
@@ -70,6 +70,13 @@ export default {
     },
     getConfig() {
         return ueboot_config;
-    }
+    },
+    setUserAvatar(src){
+       let userAvatarTemp={
+            src:src
+        }
+        deepExtend({},userAvatar,userAvatarTemp)
+    },
+
 
 };

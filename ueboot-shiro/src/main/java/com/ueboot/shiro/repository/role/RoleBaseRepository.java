@@ -5,6 +5,9 @@
 */
 package com.ueboot.shiro.repository.role;
 
+import com.ueboot.shiro.entity.Role;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,5 +19,8 @@ import org.springframework.stereotype.Repository;
 * @since 2.1.0 by ueboot-generator
 */
 public interface RoleBaseRepository  {
+
+
+    Page<Role> findByNameLike(Pageable pageable, String name);
 
 }

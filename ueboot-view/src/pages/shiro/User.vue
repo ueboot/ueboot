@@ -41,6 +41,7 @@
 </template>
 
 <script>
+
     export default {
         name: 'User',
         data() {
@@ -117,9 +118,9 @@
                         ]
                     },
                     table: {
-                        /*rowClick:(row,index)=>{
+                        rowClick:(row,index)=>{
                           this.$refs["formGrid"].$refs["dataTable"].toggleSelect(index)
-                        },*/
+                        },
                         operation: {
                             primaryKey: 'id',
                             buttons: [
@@ -179,7 +180,7 @@
                             }
                         },
                         columns: [
-                            {title: 'id', key: 'id', minWidth: 40, align: 'center'},
+                            {title: 'ID', key: 'id', minWidth: 40, align: 'center'},
                             {title: '用户名', key: 'userName', minWidth: 80},
                             {title: '所属角色', key: 'roleNames', minWidth: 120},
                             {
@@ -238,13 +239,15 @@
                             });
                         }
                     } else {
-                        this.$Message.error('表单校验失败');
+                       this.$Message.error({content:'表单校验失败',  duration: 10,
+                        closable: true});
                     }
-                });
-            },
-            handleReset(name) {
-                this.$refs[name].resetFields();
-            }
+
+            });
+        },
+        handleReset(name) {
+            this.$refs[name].resetFields();
         }
+
     };
 </script>
