@@ -34,7 +34,7 @@
                                     <span style="color: white; margin-right:6px">{{loginName}}</span>
                                     <Dropdown @on-click="dropdownClick">
                                         <Avatar :icon="config.page_main.dropdown.avatar.icon"
-                                                :src="userImageSrc"
+                                                :src="config.page_main.dropdown.avatar.src"
                                                 :style="config.page_main.dropdown.avatar.style" size="large"/>
                                         <DropdownMenu slot="list">
                                             <DropdownItem v-for="(item,index) in config.page_main.dropdown.items"
@@ -147,6 +147,7 @@
 <script>
     import config from '../../config/Config';
     import util from 'core-util-is';
+    import deepExtend from 'deep-extend'
 
     export default {
         data() {
@@ -170,7 +171,6 @@
                 config: {},
                 loginName: '', // 登录账号名称
                 lastLoginTime: '', // 上次登录时间
-                userImageSrc:'',
                 state: '',
                 toggle: true,
                 theme: 'light',
@@ -202,7 +202,7 @@
         watch: {
             $route(to, from) {
                 this.initBreadItems(to, this.menus);
-            }
+            },
         },
         methods: {
             // 监听路由变化动态改变面包屑导航，暂时只支持两级菜单
@@ -339,6 +339,10 @@
                         break;
                     }
                 }
+            },
+            //更新配置，供外部调用使用
+            updateConfig(config){
+                this.config = deepExtend({},this.config,config)
             }
         },
         computed: {
@@ -372,11 +376,7 @@
             if (loginInfo !== '') {
                 let o = JSON.parse(loginInfo);
                 this.loginName = o[this.config.page_main.userNameKey] || '';// 登录账号名称
-
             }
-            this.userImageSrc = sessionStorage.getItem('login.userAvatar')|| '';// 登录账号名称
-            console.log(this.userImageSrc);
-            console.log("111111111");
 
         }
     };

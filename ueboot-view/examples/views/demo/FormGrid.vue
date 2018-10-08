@@ -6,7 +6,6 @@
 
 <script type="application/javascript">
     import Vue from "vue";
-
     const tree = [
         {id: 1, "name": "根节点1", parentId: null, opened: true},
         {"name": "一级子节点", id: 2, parentId: 1, icon: 'fa fa-check icon-state-success'},
@@ -159,8 +158,8 @@
                                 }
                             },
                             {
-                                theme: "success", label: "自定义按钮2", icon: "plus", click: function (selections) {
-                                    console.log("自定义按钮2,%o", selections)
+                                theme: "success", label: "自定义按钮2", icon: "plus", click:  (selections)=> {
+                                    this.$root.$children[0].$children[0].updateConfig({"sysTitle":"test"})
                                 }
                             },
                             {
