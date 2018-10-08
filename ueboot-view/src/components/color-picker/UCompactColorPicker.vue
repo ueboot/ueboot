@@ -9,7 +9,9 @@
                 <i-input v-model="inputColor" disabled>
                     <div slot="prepend" class="selectedColor" :style="{background:inputColor}"></div>
                     <span slot="append">
-                        <Icon type="md-color-fill" slot="suffix" @click="showColorModal"/>
+
+                         <Icon type="md-color-fill" slot="suffix" @click="showColorModal"/>
+
                     </span>
                 </i-input>
 
@@ -144,6 +146,7 @@
         width: 20px;
         height: 20px;
     }
+
     .colorParent {
         margin: 10px;
     }
@@ -153,6 +156,7 @@
         border-radius: 4px;
         box-shadow: 0 0 2px #999999;
     }
+
     .compact-picker-parent {
         margin-top: 20px;
     }
