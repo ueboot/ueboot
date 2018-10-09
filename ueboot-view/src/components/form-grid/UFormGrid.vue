@@ -926,9 +926,12 @@
             // 重置查询条件
             resetSuperFilterSearch() {
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
-               // this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
                 //设置表格数据为空
                 this.clearTableData()
+                //如果设置的是自动加载，则清空时再次加载
+                if (this.formGrid.options.autoLoad) {
+                    this.pageData();
+                }
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
                     this.formGrid.toolbar.superFilter.reset.click();
                 }
@@ -981,7 +984,7 @@
                 }).catch(() => {
                     if (this.formGrid) {
                         this.clearTableData()
-                        this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
+                        this.table.noDataText = this.formGrid.table.tableLoadedErrorText;
                     }
                     this.$forceUpdate();
                     return false;
@@ -994,6 +997,7 @@
                 this.table.noDataText = this.formGrid.table.noDataText
                 this.table.height = 0
                 this.formGrid.pageable.total = 0
+
             },
             // 改变分页
             changePage(page) {
