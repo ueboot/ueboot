@@ -91,6 +91,10 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            @on-change="item.onChange"
+                                            @on-open-change="item.onOpenChange"
+                                            @on-ok="item.onOk"
+                                            @on-clear="item.onClear"
                                             :editable="item.editable" :transfer="item.transfer"
                                             v-model="queryParams[item.name]"></DatePicker>
                                 <DatePicker v-if="item.type === 'daterange'"
@@ -100,6 +104,10 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            @on-change="item.onChange"
+                                            @on-open-change="item.onOpenChange"
+                                            @on-ok="item.onOk"
+                                            @on-clear="item.onClear"
                                             :editable="item.editable" :transfer="item.transfer"
                                             v-model="queryParams[item.name]"></DatePicker>
                                 <DatePicker v-if="item.type === 'datetime' || item.type==='datetimerange'"
@@ -109,6 +117,10 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            @on-change="item.onChange"
+                                            @on-open-change="item.onOpenChange"
+                                            @on-ok="item.onOk"
+                                            @on-clear="item.onClear"
                                             :editable="item.editable" :transfer="item.transfer"
                                             v-model="queryParams[item.name]"></DatePicker>
                                 <DatePicker v-if="item.type==='month' || item.type==='year'"
@@ -118,6 +130,10 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            @on-change="item.onChange"
+                                            @on-open-change="item.onOpenChange"
+                                            @on-ok="item.onOk"
+                                            @on-clear="item.onClear"
                                             :editable="item.editable" :transfer="item.transfer"
                                             v-model="queryParams[item.name]"></DatePicker>
                                 <Checkbox-group v-model="formGrid.form.data[item.name]" :disabled="item.disabled"
@@ -786,7 +802,7 @@
                 //查询表单初始值设置为空，防止脏数据
                 // 设置高级搜索当中，如果存在下拉框的元素，需要进行数据初始化
                 if (superFilter && superFilter.columns) {
-                    this.setSelectItems(superFilter.columns);
+                    this.initConfigColumns(superFilter.columns);
                     this.setSuperFilterInitValue(superFilter.columns);
                     this.searchRuleValidate = this.getRuleValidate(superFilter.columns);
                     // 对所有列进行动态计算行数，用于页面渲染
@@ -1069,8 +1085,8 @@
                 for (let c of o.columns) {
                     // 初始化默认值
                     if (type === 'add' && c.init) {
-                        // 为number类型设置默认值，避免组件无法使用。
-                        if (c.type === 'number' && !c.init) {
+                        // 为number类型设置默认值，避免组件无法使用。允许设置为0和''
+                        if (c.type === 'number' && !c.init&&c.init!==0&&c.init!=='') {
                             c.init = 1;
                         }
                         this.$set(this.formGrid.form.data, c.name, c.init);
@@ -1085,7 +1101,7 @@
                     }
                 }
 
-                this.setSelectItems(o.columns);
+                this.initConfigColumns(o.columns);
                 // 设置级联下拉框
                 this.setCascaderData(o.columns);
                 // 重新组织格式，便于页面换行显示
@@ -1119,36 +1135,40 @@
                 Log.d('formRows:%o ,form.data:%o', this.formRows, this.formGrid.form.data);
             },
             /**
-             *设置下拉框属性
+             * 初始化表单项目的配置，如：设置下拉框属性，添加默认事件
              @target 数组，需要被设置的数组对象，数组当中每个元素与form表单需要的元素一样
              */
-            setSelectItems(target) {
+            initConfigColumns(target) {
                 // 针对type为select的数据，进行额外处理
                 for (let c of target) {
-                    if (c.type !== 'select') {
-                        continue;
-                    }
-                    Log.d('setSelectItems,%o', c);
                     /*绑定事件，页面绑定事件时，
                         如果使用(value)=>{item.onQueryChange?item.onQueryChange.call(this,value):()=>{}}
                         方式，会导致选择到初始值时不触发相关事件，并且影响表单重置功能
                     */
                     if (!util.isFunction(c.onChange)) {
                         c.onChange = function () {
-                        };
+                        }
                     }
                     if (!util.isFunction(c.onQueryChange)) {
                         c.onQueryChange = function () {
-                        };
+                        }
                     }
                     if (!util.isFunction(c.onClear)) {
                         c.onClear = function () {
-                        };
+                        }
                     }
                     if (!util.isFunction(c.onOpenChange)) {
                         c.onOpenChange = function () {
-                        };
+                        }
                     }
+                    if (!util.isFunction(c.onOk)) {
+                        c.onOk = function () {
+                        }
+                    }
+                    if (c.type !== 'select') {
+                        continue;
+                    }
+                    Log.d('initConfigColumns-select,%o', c);
                     let data = c.data || '';
                     if (util.isArray(data)) {
                         //必须用set方式设值
