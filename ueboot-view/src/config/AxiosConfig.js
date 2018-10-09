@@ -36,13 +36,7 @@ export default class AxiosConfig {
                 return response.data;
             } else if (response.data.code === '401') {
                 toLogin(conf)
-            } else if (response.data.code === '500') {
-                iView.Message.error({
-                    content: response.data.message,
-                    duration: 10,
-                    closable: true
-                });
-            } else if (response.data.code === '700') {
+            } else if (response.data.code === '500' || response.data.code === '700') {
                 iView.Message.error({
                     content: response.data.message,
                     duration: 10,
@@ -77,7 +71,7 @@ export default class AxiosConfig {
                         if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
                             window.location.href = conf.unauthorizedUrl;
                         }
-                    }, 2000);
+                    }, 500);
                 }
             });
         }

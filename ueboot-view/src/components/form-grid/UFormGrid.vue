@@ -960,28 +960,25 @@
                 Log.d('pageData QueryData:%o', data);
                 let page = this.formGrid.pageable.page;
                 let size = this.formGrid.pageable.size;
-                // 默认jpa查询从0开始，页面上显示从1开始所以需要减一
+                // 默认jpa查询从0开始，页面上显示从1开始所以需要减1
                 if (page > 0) {
                     page = page - 1;
                 }
                 let params = {page: page, size: size};
                 this.formGrid.table.loading = true;
                 this.$axios.post(this.formGrid.options.url.page, data, {params: params}).then(response => {
-                    if (this.formGrid) {
-                        this.formGrid.table.loading = false;
-                        this.table.noDataText = this.formGrid.table.noDataText;
-                        this.formGrid.table.data = response.body.content;
-                        if (this.formGrid.table.data && this.formGrid.table.data.length === 0) {
-                            this.table.height = 0
-                        } else {
-                            this.table.height = this.formGrid.table.height
-                        }
-                        this.formGrid.pageable.total = response.body.totalElements;
-                        this.$forceUpdate();
+                    this.table.noDataText = this.formGrid.table.noDataText;
+                    this.formGrid.table.loading = false;
+                    this.formGrid.table.data = response.body.content;
+                    if (this.formGrid.table.data && this.formGrid.table.data.length === 0) {
+                        this.table.height = 0
+                    } else {
+                        this.table.height = this.formGrid.table.height
                     }
+                    this.formGrid.pageable.total = response.body.totalElements;
+                    this.$forceUpdate();
                     Log.d('接口返回对象,%o', response);
-                }).catch(response => {
-                    //this.noticeError('数据查询出现异常', response.message ? response.message : '系统或网络异常');
+                }).catch(() => {
                     if (this.formGrid) {
                         this.clearTableData()
                         this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
