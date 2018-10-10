@@ -98,6 +98,8 @@
                 selectId: null,
                 //tree数据索引
                 treeMap: {},
+                //标识当前树数据是否为搜索用的tree
+                isSearchTree:false,
                 opt: {
                     showCheckbox: false,
                     multiple: false,
@@ -110,7 +112,7 @@
         // 监听父节点的值发生变化后，动态修改内部的数据
         watch: {
             value: function (newValue, oldValue) {
-                if (newValue !== oldValue) {
+                if (newValue !== oldValue && newValue!==null) {
                     this.selectId = parseInt(newValue)
                     this.inputValue = this.treeMap[newValue].name || ''
                 }
@@ -151,6 +153,8 @@
                 for (let o of treeData) {
                     if (selectId && (o['id'] === selectId)) {
                         o.selected = true
+                    }else{
+                        o.selected = false
                     }
                     map[o['id'] + ''] = o
                 }
@@ -171,13 +175,16 @@
                 this.$emit('input', null)
                 if (this.inputValue !== '' && this.inputValue !== null) {
                     this.treeData = this.searchTree(this.searchTreeData, this.inputValue)
+                    this.isSearchTree = true
                 } else {
                     this.treeData = [...this.tree]
+                    this.isSearchTree = false
                 }
             },
             // 通过构造一个新的列表方式来展示搜索结果，不直接渲染树
             searchTree(tree, keyWord) {
                 let newTree = []
+                let count = 0
                 // 从原始的数据当中生成的path路径，进行搜索
                 for (let i = 0; i < tree.length; i++) {
                     let t = tree[i]
@@ -209,8 +216,9 @@
                         newItem.label = labelStr.replace(reg, '<font color=red>$1</font>')
                         // 干掉所有的ParentId。不按层级显示，全部打平
                         newItem.parentId = null
-                        // 最多显示50个
-                        if (i < 50) {
+                        count++
+                        // 最多显示15个
+                        if (count < 15) {
                             newTree.push(newItem)
                         } else {
                             break
@@ -230,12 +238,18 @@
             handlerItemClick(node, item, e) {
                 this.visible = false
                 this.selectId = parseInt(item.id)
-                this.inputValue = item.text
+                this.inputValue = item.name
                 // 更新v-model属性的值
                 this.$emit('input', parseInt(item.id))
                 this.$emit('item-click', node, item, e)
+                //点击搜索结果后，树结构变为原始结构
+                if(this.isSearchTree){
+                    this.treeData = [...this.tree]
+                    this.initTreeMap(this.treeData, this.selectId)
+                }
                 // 调用一下input的blur事件，用于触发表单校验
                 this.$forceUpdate()
+
             },
             handleClose() {
                 this.visible = false
