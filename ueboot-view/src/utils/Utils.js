@@ -24,16 +24,17 @@ export default {
         let treeObject = {}
         /**
          * 1.先循环一次，根据parentId先归类
-         * 2.对已经归类的parentId进行逐级填充
+         * 2.对已经归类的parentId进行逐级填充找到下级，递归找到最下级。
+         * 3.同时从归类里面删除已经归并到父级的数据
          */
         let roots = {}
         for (let i = 0; i < tree.length; i++) {
             let item = tree[i]
-            treeObject[item.id+''] = item
+            treeObject[item.id + ''] = item
             let parentId = (item.parentId || "0") + ''
             let root = roots[parentId]
             if (root == null) {
-                root = {id:parentId,children:[item]}
+                root = {id: parentId, children: [item]}
             } else {
                 root.children.push(item)
             }
@@ -42,31 +43,38 @@ export default {
         let keys = Object.keys(roots)
         keys.forEach((key) => {
             let root = roots[key]
-            if (root&&root.children.length > 0) {
-                this.getChild(roots, root, root.name,treeObject)
+            if (root && root.children.length > 0) {
+                let object = treeObject[root.id + '']
+                this.getChild(roots, root, object?object.name:'', treeObject)
             }
         })
-        let treeData = roots[0].children
-        return treeData
+        keys = Object.keys(roots)
+        let array = []
+        keys.forEach((key) => {
+            roots[key].children.forEach((c) => {
+                array.push(c)
+            })
+        })
+        console.log(array)
+        return array
     },
     
-    getChild(roots, item, parentPath,treeObject) {
+    getChild(roots, item, parentPath, treeObject) {
         let children = []
         for (let i = 0; i < item.children.length; i++) {
             let o = item.children[i]
             let child = roots[o.id + '']
+            //拼装对象
+            o = this.assembleItem(o, parentPath, null)
+            //存在子节点，则递归查找子节点
             if (child && child.children.length > 0) {
-                this.getChild(roots, child, o.path,treeObject)
-                o = this.assembleItem(treeObject[child.id+''], parentPath, null)
+                this.getChild(roots, child, o.path?o.path:o.name, treeObject)
                 o.children = child.children
-                children.push(o)
-            }else {
-                o = this.assembleItem(treeObject[o.id+''], parentPath, null)
-                children.push(o)
             }
+            children.push(o)
             //删除已经填充到parent下的数据
-            if(child){
-                delete roots[o.id+'']
+            if (child) {
+                delete roots[o.id + '']
             }
         }
         item.children = children
@@ -125,7 +133,7 @@ export default {
             o.name = item.name;
             o.value = {id: item.id, name: item.name, parentId: item.parentId};
             //原始对象的值
-           // o.origin = deepExtend({}, item)
+            o.origin = deepExtend({}, item)
             o.selected = item.selected || false;
             o.disabled = item.disabled || false;
             o.loading = item.loading || false;

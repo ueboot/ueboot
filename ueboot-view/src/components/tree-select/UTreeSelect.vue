@@ -138,7 +138,7 @@
             // 避免污染this.tree
             this.treeData = [...this.tree]
             //构造一个带path的tree二维数组，不做层次构建，用于搜索
-            let t = Utils.getTreeData(this.treeData)
+            let t = Utils.getTreeData(this.treeData,null)
             let a = []
             this.getTreeChild(t,a)
             this.searchTreeData = a
@@ -179,7 +179,7 @@
                         let reg = new RegExp('(' + keyWord + ')', 'g')
                         let labelStr = t.path
                         let label = [...t.path]
-                        let charWidth = 12
+                        let charWidth = 14
                         // 每个字符占12px
                         let width = label.length * charWidth
                         // 超过组件宽度时，需要截取字符串(从后往前）
@@ -204,10 +204,12 @@
                         // 最多显示50个
                         if (i < 50) {
                             newTree.push(newItem)
+                        }else{
                             break
                         }
                     }
                 }
+                console.log("newTree ,%o",newTree)
                 return newTree
             },
 

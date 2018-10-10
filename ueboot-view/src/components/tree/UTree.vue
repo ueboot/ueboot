@@ -352,7 +352,7 @@ export default {
         }
         // 构建一次树
         if(this.tree&&this.tree.length>0){
-           this.$log.d("第一次构建树,%o",this.tree)
+           this.$log.d("开始构建树")
             this.initTree(this.tree)
         }
     },
