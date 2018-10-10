@@ -55,7 +55,6 @@ export default {
                 array.push(c)
             })
         })
-        console.log(array)
         return array
     },
     

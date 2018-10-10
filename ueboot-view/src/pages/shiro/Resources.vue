@@ -61,7 +61,6 @@ export default {
                 {'name': '功能', 'value': '功能'}
                             ],
                             onChange: (value) => {
-                                console.log(value);
                                 this.changeResourceType(value);
                             }
                         },

@@ -89,6 +89,7 @@ export default {
     },
     data () {
         return {
+
             treeData: [],
             draggedItem: undefined,
             draggedElm: undefined,
@@ -355,6 +356,10 @@ export default {
            this.$log.d("开始构建树")
             this.initTree(this.tree)
         }
+        this.$nextTick(() => {
+            this.$log.d("子组件加载完成")
+        })
+
     },
     components: {
         UTreeItem

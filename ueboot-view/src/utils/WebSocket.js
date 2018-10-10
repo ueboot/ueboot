@@ -72,7 +72,6 @@ export default function (options) {
     this.send = function () {
         if (prop.closed) {
       // throw 'InvalidOperation: Cannot send messages to a closed Websocket!';
-            console.log('连接已经关闭，尝试重新打开!');
             alert('当前链接已经关闭，请重新刷新尝试连接！');
         }
         if (!prop.opened) {

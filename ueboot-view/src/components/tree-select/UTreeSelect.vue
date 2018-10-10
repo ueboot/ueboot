@@ -225,7 +225,6 @@
                         }
                     }
                 }
-                console.log("newTree ,%o", newTree)
                 return newTree
             },
 
@@ -268,6 +267,8 @@
         mounted() {
             this.$nextTick(() => {
                 this.treeWidth = this.$refs[this.refName].$el.offsetWidth
+                this.notComplete = false
+                this.$log.d("父组件加载完成")
             })
         }
 

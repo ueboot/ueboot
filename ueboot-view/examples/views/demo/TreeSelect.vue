@@ -2,7 +2,7 @@
     <div>
         <Row>
             <i-col :span="8">
-                <u-tree-select :tree="tree" fixed refName="s1" v-model="selectTreeItem"></u-tree-select>
+                <u-tree-select :tree="tree" fixed refName="s1" v-model="selectTreeItem" ></u-tree-select>
             </i-col>
             <i-col :span="8">
                 <u-tree-select :tree="tree2" refName="s2" v-model="selectTreeItem2"
@@ -37,6 +37,8 @@
         components: {UTreeSelect,ColorPicker},
         data() {
             return {
+                //数据渲染未完成时
+                notComplete:true,
                 color:'',
                 dataForm:{
                     color:'',
@@ -84,6 +86,11 @@
                 console.log("parent newValue:%o", newValue)
             }
         },
+        mounted(){
+            this.$nextTick(() => {
+                this.$log.d("父组件加载完成")
+            })
+        }
 
     }
 </script>
