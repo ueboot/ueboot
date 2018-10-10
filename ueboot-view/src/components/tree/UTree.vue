@@ -98,12 +98,7 @@ export default {
     watch: {
     // 监听原始数据，发生变化后重新初始化值，并重新渲染树结构
         tree: function (newValue, oldValue) {
-            let start = new Date().getMilliseconds();
-
-            this.treeData = Utils.getTreeData(newValue);
-            let end = new Date().getMilliseconds();
-            this.$log.d('tree 构造耗时:%o,treeData', end - start, this.treeData);
-            this.initializeData(this.treeData);
+            this.initTree(newValue)
         }
     },
     computed: {
@@ -337,6 +332,14 @@ export default {
                 getChecked(t, result);
             });
             return result;
+        },
+        initTree(treeData){
+            let start = new Date().getTime();
+            this.treeData = Utils.getTreeData(treeData,null);
+            this.$log.d('tree 构造耗时:%o,treeData', new Date().getTime() - start);
+            this.initializeData(this.treeData);
+            this.$log.d('tree 初始化initializeData耗时:%o,treeData', new Date().getTime() - start);
+
         }
     },
     created () {
@@ -347,9 +350,11 @@ export default {
             this.$set(this.treeData, 0, this.initializeLoading());
             this.handleAsyncLoad(this.treeData, this);
         }
-    // 构建一次树
-        this.treeData = Utils.getTreeData(this.tree);
-        this.initializeData(this.treeData);
+        // 构建一次树
+        if(this.tree&&this.tree.length>0){
+           this.$log.d("第一次构建树,%o",this.tree)
+            this.initTree(this.tree)
+        }
     },
     components: {
         UTreeItem

@@ -84,6 +84,9 @@
                                     placeholder: "选择月份",
                                     option: {},
                                     format: "",
+                                    onChange:()=>{
+                                        console.log("month change")
+                                    }
                                 },
                                 {
                                     type: "datetimerange",

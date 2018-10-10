@@ -904,7 +904,8 @@
             // 初始化搜索框的初始值
             setSuperFilterInitValue(columns) {
                 columns.forEach((c) => {
-                    if (c.init) {
+                    //number类型允许初始值为0
+                    if (!!c.init || c.init === 0) {
                         this.$set(this.queryParams, c.name, c.init);
                     }
                 });

@@ -134,6 +134,7 @@
             }
         },
         created() {
+            let start = new Date().getTime();
             // 避免污染this.tree
             this.treeData = [...this.tree]
             //构造一个带path的tree二维数组，不做层次构建，用于搜索
@@ -142,9 +143,12 @@
             this.getTreeChild(t,a)
             this.searchTreeData = a
             this.selectId = this.value
+            this.$log.d('treeSelect 初始化getTreeChild耗时:%o,treeData', new Date().getTime() - start);
+
+
         },
         methods: {
-            //将树结构转成二维素组
+            //将树结构转成二维数组
             getTreeChild(tree,array){
                 tree.forEach(t=>{
                     let o = deepExtend({},t)
@@ -167,7 +171,8 @@
             searchTree(tree, keyWord) {
                 let newTree = []
                 // 从原始的数据当中生成的path路径，进行搜索
-                tree.forEach((t, index) => {
+                for(let i=0;i<tree.length;i++){
+                    let t = tree[i]
                     if (t.path.indexOf(keyWord) > -1) {
                         // 新复制对象，避免污染
                         let newItem = deepExtend({}, t)
@@ -197,11 +202,12 @@
                         // 干掉所有的ParentId。不按层级显示，全部打平
                         newItem.parentId = null
                         // 最多显示50个
-                        if (index < 50) {
+                        if (i < 50) {
                             newTree.push(newItem)
+                            break
                         }
                     }
-                })
+                }
                 return newTree
             },
 
