@@ -20,11 +20,71 @@ export default {
      */
     
     getTreeData(tree, handlerItem) {
+        //建立索引，便于后续组装树数据
+        let treeObject = {}
+        /**
+         * 1.先循环一次，根据parentId先归类
+         * 2.对已经归类的parentId进行逐级填充
+         */
+        let roots = {}
+        for (let i = 0; i < tree.length; i++) {
+            let item = tree[i]
+            treeObject[item.id+''] = item
+            let parentId = (item.parentId || "0") + ''
+            let root = roots[parentId]
+            if (root == null) {
+                root = {id:parentId,children:[item]}
+            } else {
+                root.children.push(item)
+            }
+            roots[parentId] = root
+        }
+        let keys = Object.keys(roots)
+        keys.forEach((key) => {
+            let root = roots[key]
+            if (root&&root.children.length > 0) {
+                this.getChild(roots, root, root.name,treeObject)
+            }
+        })
+        let treeData = roots[0].children
+        return treeData
+    },
+    
+    getChild(roots, item, parentPath,treeObject) {
+        let children = []
+        for (let i = 0; i < item.children.length; i++) {
+            let o = item.children[i]
+            let child = roots[o.id + '']
+            if (child && child.children.length > 0) {
+                this.getChild(roots, child, o.path,treeObject)
+                o = this.assembleItem(treeObject[child.id+''], parentPath, null)
+                o.children = child.children
+                children.push(o)
+            }else {
+                o = this.assembleItem(treeObject[o.id+''], parentPath, null)
+                children.push(o)
+            }
+            //删除已经填充到parent下的数据
+            if(child){
+                delete roots[o.id+'']
+            }
+        }
+        item.children = children
+    },
+    
+    getTreeData2(tree, handlerItem) {
         // 构造树结构
         let roots = [];
+        //临时保存所有根节点数据，用于快速判断使用
+        let rootTree = {}
         // 1.查找每个根节点。或者查找每个父级节点不存在的节点当根节点
-        tree.forEach((item) => {
+        for (let i = 0; i < tree.length; i++) {
+            let item = tree[i]
             let isRoot = true;
+            //如果当前节点的父节点已经存在，则直接跳过，
+            if (rootTree[item.parentId + ""]) {
+                continue
+            }
             // 查找一下当前节点所在的父亲节点是否存在，如果不存则当根节点
             for (let i = 0; i < tree.length; i++) {
                 if (item.parentId === tree[i].id) {
@@ -32,86 +92,81 @@ export default {
                     break;
                 }
             }
-            if (isRoot) {
-                let root = assembleItem(item, null);
-                let result = getChildren(tree, item.id, item.path);
-                if (result['child'] && result['child'].length > 0) {
-                    root.children = result['child'];
-                }
-                root.opened = result['hasSelected'];
-                roots.push(root);
+            if (!isRoot) {
+                continue
             }
-        });
-        
-        let sort = this.sort;
-        
-        function assembleItem(item, parentPath) {
-            let o = {};
-            if (handlerItem) {
-                o = handlerItem(item);
-            } else {
-                if (parentPath) {
-                    o.path = parentPath + '\\' + item.name;
-                } else {
-                    o.path = item.name;
-                }
-                
-                // 搜索的时候，会产生label属性，显示的内容格式与name不一样
-                o.text = item.label ? item.label : item.name;
-                o.name = item.name;
-                o.value = {id: item.id, name: item.name, parentId: item.parentId};
-                //原始对象的值
-                o.origin = deepExtend({}, item)
-                o.selected = item.selected || false;
-                o.disabled = item.disabled || false;
-                o.loading = item.loading || false;
-                o.icon = item.icon || '';
-                o.tip = item.tip || '';
-                o.opened = item.opened || false;
+            let root = this.assembleItem(item, null, handlerItem)
+            let result = this.getChildren(tree, item.id, item.path)
+            if (result['child'] && result['child'].length > 0) {
+                root.children = result['child']
             }
-            o.id = item.id;
-            o.parentId = item.parentId;
-            return o;
+            root.opened = result['hasSelected']
+            roots.push(root)
+            rootTree[item.parentId + ""] = true
         }
-        
-        // 2.递归循环所有节点,将节点加入到父节点当中
-        function getChildren(tree, parentId, parentPath) {
-            let result = {};
-            let child = [];
-            // 判断子节点是否有被勾选的情况，如有则父节点设置为打开状态
-            let hasSelected = false;
-            tree.forEach((item) => {
-                if (item.parentId === parentId) {
-                    let o = assembleItem(item, parentPath);
-                    if (o.selected) {
-                        hasSelected = true;
-                    }
-                    child.push(o);
-                }
-            });
-            child.forEach((item) => {
-                let result = getChildren(tree, item.id, item.path);
-                if (result['child'] && result['child'].length > 0) {
-                    item.children = result['child'];
-                }
-                item.opened = result['hasSelected'];
-            });
-            
-            // 是否需要排序
-            if (sort) {
-                this.sort(child, sort);
-            }
-            result['hasSelected'] = hasSelected;
-            result['child'] = child;
-            return result;
-        }
-        
-        if (sort) {
-            this.sort(roots, sort);
-        }
+        //todo 是否需要排序
         return roots;
+        
+    },
+    //组装树结构对象
+    assembleItem(item, parentPath, handlerItem) {
+        let o = {};
+        if (handlerItem) {
+            o = handlerItem(item);
+        } else {
+            if (parentPath) {
+                o.path = parentPath + '\\' + item.name;
+            } else {
+                o.path = item.name;
+            }
+            
+            // 搜索的时候，会产生label属性，显示的内容格式与name不一样
+            o.text = item.label ? item.label : item.name;
+            o.name = item.name;
+            o.value = {id: item.id, name: item.name, parentId: item.parentId};
+            //原始对象的值
+           // o.origin = deepExtend({}, item)
+            o.selected = item.selected || false;
+            o.disabled = item.disabled || false;
+            o.loading = item.loading || false;
+            o.icon = item.icon || '';
+            o.tip = item.tip || '';
+            o.opened = item.opened || false;
+        }
+        o.id = item.id;
+        o.parentId = item.parentId;
+        return o;
     },
     
+    // 2.递归循环所有节点,将节点加入到父节点当中
+    getChildren(tree, parentId, parentPath) {
+        let result = {};
+        let child = [];
+        // 判断子节点是否有被勾选的情况，如有则父节点设置为打开状态
+        let hasSelected = false;
+        tree.forEach((item) => {
+            if (item.parentId === parentId) {
+                let o = this.assembleItem(item, parentPath);
+                if (o.selected) {
+                    hasSelected = true;
+                }
+                child.push(o);
+            }
+        });
+        child.forEach((item) => {
+            let result = this.getChildren(tree, item.id, item.path);
+            if (result['child'] && result['child'].length > 0) {
+                item.children = result['child'];
+            }
+            item.opened = result['hasSelected'];
+        });
+        
+        //todo 是否需要排序
+        result['hasSelected'] = hasSelected;
+        result['child'] = child;
+        return result;
+        
+    },
     /**
      * 对数组对象进行排序操作
      * @param array 需要排序的对象数组

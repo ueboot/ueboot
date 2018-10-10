@@ -91,6 +91,10 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            @on-change="item.onChange"
+                                            @on-open-change="item.onOpenChange"
+                                            @on-ok="item.onOk"
+                                            @on-clear="item.onClear"
                                             :editable="item.editable" :transfer="item.transfer"
                                             v-model="queryParams[item.name]"></DatePicker>
                                 <DatePicker v-if="item.type === 'daterange'"
@@ -100,6 +104,10 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            @on-change="item.onChange"
+                                            @on-open-change="item.onOpenChange"
+                                            @on-ok="item.onOk"
+                                            @on-clear="item.onClear"
                                             :editable="item.editable" :transfer="item.transfer"
                                             v-model="queryParams[item.name]"></DatePicker>
                                 <DatePicker v-if="item.type === 'datetime' || item.type==='datetimerange'"
@@ -109,6 +117,10 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            @on-change="item.onChange"
+                                            @on-open-change="item.onOpenChange"
+                                            @on-ok="item.onOk"
+                                            @on-clear="item.onClear"
                                             :editable="item.editable" :transfer="item.transfer"
                                             v-model="queryParams[item.name]"></DatePicker>
                                 <DatePicker v-if="item.type==='month' || item.type==='year'"
@@ -118,6 +130,10 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            @on-change="item.onChange"
+                                            @on-open-change="item.onOpenChange"
+                                            @on-ok="item.onOk"
+                                            @on-clear="item.onClear"
                                             :editable="item.editable" :transfer="item.transfer"
                                             v-model="queryParams[item.name]"></DatePicker>
                                 <Checkbox-group v-model="formGrid.form.data[item.name]" :disabled="item.disabled"
@@ -296,7 +312,7 @@
                    :columns="formGrid.table.columns"
                    :data="formGrid.table.data" :stripe="formGrid.table.stripe" :loading="formGrid.table.loading"
                    :size="formGrid.table.size" @on-row-click="formGrid.table.rowClick"
-                   @on-row-dblclick="formGrid.table.rowDblclick" @on-expand="formGrid.table.expand"
+                   @on-row-dblclick="formGrid.table.rowDblClick" @on-expand="formGrid.table.expand"
                    :no-data-text="table.noDataText" @on-selection-change="onSelectionChange" :ref="tableRef"
                    @on-select="onSelect" @on-select-all="onSelectAll"></Table>
         </Row>
@@ -786,7 +802,7 @@
                 //查询表单初始值设置为空，防止脏数据
                 // 设置高级搜索当中，如果存在下拉框的元素，需要进行数据初始化
                 if (superFilter && superFilter.columns) {
-                    this.setSelectItems(superFilter.columns);
+                    this.initConfigColumns(superFilter.columns);
                     this.setSuperFilterInitValue(superFilter.columns);
                     this.searchRuleValidate = this.getRuleValidate(superFilter.columns);
                     // 对所有列进行动态计算行数，用于页面渲染
@@ -888,7 +904,8 @@
             // 初始化搜索框的初始值
             setSuperFilterInitValue(columns) {
                 columns.forEach((c) => {
-                    if (c.init) {
+                    //number类型允许初始值为0
+                    if (!!c.init || c.init === 0) {
                         this.$set(this.queryParams, c.name, c.init);
                     }
                 });
@@ -926,9 +943,12 @@
             // 重置查询条件
             resetSuperFilterSearch() {
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
-               // this.setSuperFilterInitValue(this.formGrid.toolbar.superFilter.columns);
                 //设置表格数据为空
                 this.clearTableData()
+                //如果设置的是自动加载，则清空时再次加载
+                if (this.formGrid.options.autoLoad) {
+                    this.pageData();
+                }
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
                     this.formGrid.toolbar.superFilter.reset.click();
                 }
@@ -960,31 +980,28 @@
                 Log.d('pageData QueryData:%o', data);
                 let page = this.formGrid.pageable.page;
                 let size = this.formGrid.pageable.size;
-                // 默认jpa查询从0开始，页面上显示从1开始所以需要减一
+                // 默认jpa查询从0开始，页面上显示从1开始所以需要减1
                 if (page > 0) {
                     page = page - 1;
                 }
                 let params = {page: page, size: size};
                 this.formGrid.table.loading = true;
                 this.$axios.post(this.formGrid.options.url.page, data, {params: params}).then(response => {
-                    if (this.formGrid) {
-                        this.formGrid.table.loading = false;
-                        this.table.noDataText = this.formGrid.table.noDataText;
-                        this.formGrid.table.data = response.body.content;
-                        if (this.formGrid.table.data && this.formGrid.table.data.length === 0) {
-                            this.table.height = 0
-                        } else {
-                            this.table.height = this.formGrid.table.height
-                        }
-                        this.formGrid.pageable.total = response.body.totalElements;
-                        this.$forceUpdate();
+                    this.table.noDataText = this.formGrid.table.noDataText;
+                    this.formGrid.table.loading = false;
+                    this.formGrid.table.data = response.body.content;
+                    if (this.formGrid.table.data && this.formGrid.table.data.length === 0) {
+                        this.table.height = 0
+                    } else {
+                        this.table.height = this.formGrid.table.height
                     }
+                    this.formGrid.pageable.total = response.body.totalElements;
+                    this.$forceUpdate();
                     Log.d('接口返回对象,%o', response);
-                }).catch(response => {
-                    //this.noticeError('数据查询出现异常', response.message ? response.message : '系统或网络异常');
+                }).catch(() => {
                     if (this.formGrid) {
                         this.clearTableData()
-                        this.formGrid.table.noDataText = this.formGrid.table.tableLoadedErrorText;
+                        this.table.noDataText = this.formGrid.table.tableLoadedErrorText;
                     }
                     this.$forceUpdate();
                     return false;
@@ -997,6 +1014,7 @@
                 this.table.noDataText = this.formGrid.table.noDataText
                 this.table.height = 0
                 this.formGrid.pageable.total = 0
+
             },
             // 改变分页
             changePage(page) {
@@ -1068,8 +1086,8 @@
                 for (let c of o.columns) {
                     // 初始化默认值
                     if (type === 'add' && c.init) {
-                        // 为number类型设置默认值，避免组件无法使用。
-                        if (c.type === 'number' && !c.init) {
+                        // 为number类型设置默认值，避免组件无法使用。允许设置为0和''
+                        if (c.type === 'number' && !c.init&&c.init!==0&&c.init!=='') {
                             c.init = 1;
                         }
                         this.$set(this.formGrid.form.data, c.name, c.init);
@@ -1084,7 +1102,7 @@
                     }
                 }
 
-                this.setSelectItems(o.columns);
+                this.initConfigColumns(o.columns);
                 // 设置级联下拉框
                 this.setCascaderData(o.columns);
                 // 重新组织格式，便于页面换行显示
@@ -1118,36 +1136,40 @@
                 Log.d('formRows:%o ,form.data:%o', this.formRows, this.formGrid.form.data);
             },
             /**
-             *设置下拉框属性
+             * 初始化表单项目的配置，如：设置下拉框属性，添加默认事件
              @target 数组，需要被设置的数组对象，数组当中每个元素与form表单需要的元素一样
              */
-            setSelectItems(target) {
+            initConfigColumns(target) {
                 // 针对type为select的数据，进行额外处理
                 for (let c of target) {
-                    if (c.type !== 'select') {
-                        continue;
-                    }
-                    Log.d('setSelectItems,%o', c);
                     /*绑定事件，页面绑定事件时，
                         如果使用(value)=>{item.onQueryChange?item.onQueryChange.call(this,value):()=>{}}
                         方式，会导致选择到初始值时不触发相关事件，并且影响表单重置功能
                     */
                     if (!util.isFunction(c.onChange)) {
                         c.onChange = function () {
-                        };
+                        }
                     }
                     if (!util.isFunction(c.onQueryChange)) {
                         c.onQueryChange = function () {
-                        };
+                        }
                     }
                     if (!util.isFunction(c.onClear)) {
                         c.onClear = function () {
-                        };
+                        }
                     }
                     if (!util.isFunction(c.onOpenChange)) {
                         c.onOpenChange = function () {
-                        };
+                        }
                     }
+                    if (!util.isFunction(c.onOk)) {
+                        c.onOk = function () {
+                        }
+                    }
+                    if (c.type !== 'select') {
+                        continue;
+                    }
+                    Log.d('initConfigColumns-select,%o', c);
                     let data = c.data || '';
                     if (util.isArray(data)) {
                         //必须用set方式设值
@@ -1457,7 +1479,8 @@
                                 marginRight: '5px'
                             },
                             on: {
-                                click: function () {
+                                click: function (e) {
+                                    e.stopPropagation()
                                     let row = _this.formGrid.table.data[params.index];
                                     Log.d('操作功能点击事件,row:%o', row);
                                     clickEvent(row, params.index, _this);

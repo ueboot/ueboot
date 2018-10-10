@@ -239,14 +239,17 @@
                             });
                         }
                     } else {
-                       this.$Message.error({content:'表单校验失败',  duration: 10,
-                        closable: true});
+                        this.$Message.error({
+                            content: '表单校验失败', duration: 10,
+                            closable: true
+                        });
                     }
 
-            });
-        },
-        handleReset(name) {
-            this.$refs[name].resetFields();
+                });
+            },
+            handleReset(name) {
+                this.$refs[name].resetFields();
+            }
         }
 
     };

@@ -1,5 +1,12 @@
 
 ## 1.7版本更新记录
+- v1.7.11
+    - 为date类型增加onchange等事件
+    - number类型允许初始值为0和空字符串
+- v1.7.10
+    - 解决表格操作按钮点击时会触发rowClick事件的问题。
+- v1.7.8 
+    - main.vue页面增加updateConfig方法，可以通过` this.$root.$children[0].$children[0].updateConfig({"sysTitle":"test"})`方式调用来动态修改配置
 - v1.7.2
     - table增加多个事件
         - rowDblclick

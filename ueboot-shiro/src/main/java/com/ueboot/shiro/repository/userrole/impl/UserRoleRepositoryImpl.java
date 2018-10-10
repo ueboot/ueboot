@@ -5,14 +5,13 @@
 */
 package com.ueboot.shiro.repository.userrole.impl;
 
+import com.ueboot.core.jpa.repository.DefaultJpaRepository;
 import com.ueboot.core.jpa.repository.query.StringQuery;
 import com.ueboot.shiro.entity.StatisticInfo;
 import com.ueboot.shiro.entity.UserRole;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.stereotype.Repository;
-import com.ueboot.core.jpa.repository.DefaultJpaRepository;
 import com.ueboot.shiro.repository.userrole.UserRoleBaseRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class UserRoleRepositoryImpl extends DefaultJpaRepository<UserRole,Long> 
                 .predicate(true)
                 .build();
         List<StatisticInfo> list=this.find(query,StatisticInfo.class);
-        if(CollectionUtils.isEmpty(list)){
+        if(list!=null&&list.isEmpty()){
             return 0L;
         }
         return list.get(0).getNum();

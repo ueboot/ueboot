@@ -5,8 +5,8 @@
                 <u-tree-select :tree="tree" fixed refName="s1" v-model="selectTreeItem"></u-tree-select>
             </i-col>
             <i-col :span="8">
-                <u-tree-select :tree="tree2" refName="s2" v-model="selectTreeItem"
-                               @item-click="itemClick"></u-tree-select>
+              <!--  <u-tree-select :tree="tree2" refName="s2" v-model="selectTreeItem"
+                               @item-click="itemClick"></u-tree-select>-->
             </i-col>
         </Row>
         <Row>
@@ -16,7 +16,7 @@
                     <br/>
                     <Form  ref="testForm" name="testForm" :data="dataForm">
                             <color-picker v-model="dataForm.color" ></color-picker>
-                            <button type="primary" @click="resetColor">重置</button>
+                            <i-button type="primary" @click="resetColor">重置</i-button>
                     </Form>
                 </i-col>
         </Row>
@@ -31,6 +31,7 @@
     import UTreeSelect from "../../../src/components/tree-select/UTreeSelect";
 
     import ColorPicker from './ColorPicker';
+    import treeData from '../../assets/dataowner_json'
 
     export default {
         components: {UTreeSelect,ColorPicker},
@@ -40,7 +41,7 @@
                 dataForm:{
                     color:'',
                 },
-                tree: [],
+                tree: treeData.tree,
                 tree2: [
                     {id: 1, "name": "根节点1", parentId: null, opened: true},
                     {"name": "一级子节点", id: 2, parentId: 1, icon: 'fa fa-check icon-state-success'},
@@ -73,6 +74,9 @@
                 this.$refs['testForm'].resetFields();
                 this.dataForm.color='';
             }
+        },
+        created(){
+         //  this.$utils.getTreeData(treeData.tree)
         },
         watch: {
             selectTreeItem: function (newValue, oldValue) {
