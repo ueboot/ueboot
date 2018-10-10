@@ -7,7 +7,7 @@
                     :klass="klass"
                     :maxHeight="maxHeight"
                     @item-click="handlerItemClick"
-                    :sort="sort" :ref="refName"></u-tree>
+                    :sort="sort" :ref="refName" v-model="selectId"></u-tree>
         </Row>
         <Row v-else>
             <Dropdown trigger="custom" style="width:100%" :visible="visible" class="utree-select"
@@ -93,9 +93,11 @@
                 // 组件的宽度，用于控制搜索结果展示时的长度
                 treeWidth: null,
                 //用于搜索的树结构，带path的属性
-                searchTreeData:null,
+                searchTreeData: null,
                 // 当前选择的节点ID，也可以当初始值赋值给utree组件
                 selectId: null,
+                //tree数据索引
+                treeMap: {},
                 opt: {
                     showCheckbox: false,
                     multiple: false,
@@ -109,15 +111,8 @@
         watch: {
             value: function (newValue, oldValue) {
                 if (newValue !== oldValue) {
-                    let name = ''
-                    for (let o of this.treeData) {
-                        if (o['id'] === parseInt(newValue)) {
-                            name = o['name']
-                            break
-                        }
-                    }
                     this.selectId = parseInt(newValue)
-                    this.inputValue = name
+                    this.inputValue = this.treeMap[newValue].name || ''
                 }
             },
             tree: function (newValue, oldValue) {
@@ -137,25 +132,38 @@
             let start = new Date().getTime();
             // 避免污染this.tree
             this.treeData = [...this.tree]
+            this.initTreeMap(this.treeData, this.value)
             //构造一个带path的tree二维数组，不做层次构建，用于搜索
-            let t = Utils.getTreeData(this.treeData,null)
+            let t = Utils.getTreeData(this.treeData, null)
             let a = []
-            this.getTreeChild(t,a)
+            this.getTreeChild(t, a)
             this.searchTreeData = a
-            this.selectId = this.value
-            this.$log.d('treeSelect 初始化getTreeChild耗时:%o,treeData', new Date().getTime() - start);
-
-
+            if (this.value) {
+                this.selectId = this.value
+                this.inputValue = this.treeMap[this.value].name || ''
+            }
+            this.$log.d('treeSelect 初始化getTreeChild耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
         },
+
         methods: {
+            initTreeMap(treeData, selectId) {
+                let map = {}
+                for (let o of treeData) {
+                    if (selectId && (o['id'] === selectId)) {
+                        o.selected = true
+                    }
+                    map[o['id'] + ''] = o
+                }
+                this.treeMap = map
+            },
             //将树结构转成二维数组
-            getTreeChild(tree,array){
-                tree.forEach(t=>{
-                    let o = deepExtend({},t)
+            getTreeChild(tree, array) {
+                tree.forEach(t => {
+                    let o = deepExtend({}, t)
                     o.children = null
                     array.push(o)
-                    if(t.children&&t.children.length>0){
-                        this.getTreeChild(t.children,array)
+                    if (t.children && t.children.length > 0) {
+                        this.getTreeChild(t.children, array)
                     }
                 })
             },
@@ -171,7 +179,7 @@
             searchTree(tree, keyWord) {
                 let newTree = []
                 // 从原始的数据当中生成的path路径，进行搜索
-                for(let i=0;i<tree.length;i++){
+                for (let i = 0; i < tree.length; i++) {
                     let t = tree[i]
                     if (t.path.indexOf(keyWord) > -1) {
                         // 新复制对象，避免污染
@@ -204,12 +212,12 @@
                         // 最多显示50个
                         if (i < 50) {
                             newTree.push(newItem)
-                        }else{
+                        } else {
                             break
                         }
                     }
                 }
-                console.log("newTree ,%o",newTree)
+                console.log("newTree ,%o", newTree)
                 return newTree
             },
 

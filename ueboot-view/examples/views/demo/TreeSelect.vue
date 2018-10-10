@@ -5,8 +5,8 @@
                 <u-tree-select :tree="tree" fixed refName="s1" v-model="selectTreeItem"></u-tree-select>
             </i-col>
             <i-col :span="8">
-                <u-tree-select :tree="tree2" refName="s2" v-model="selectTreeItem2"
-                               @item-click="itemClick"></u-tree-select>
+                <!--<u-tree-select :tree="tree2" refName="s2" v-model="selectTreeItem2"-->
+                               <!--@item-click="itemClick"></u-tree-select>-->
             </i-col>
         </Row>
         <Row>
@@ -62,7 +62,7 @@
                     wholeRow: true
                 },
 
-                selectTreeItem: null,//当前选择的树节点
+                selectTreeItem: 1,//当前选择的树节点
                 selectTreeItem2: null,//当前选择的树节点
                 //  sort:{"sort":"desc","field":"id"}
             }

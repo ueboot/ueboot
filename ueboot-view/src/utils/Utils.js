@@ -45,7 +45,7 @@ export default {
             let root = roots[key]
             if (root && root.children.length > 0) {
                 let object = treeObject[root.id + '']
-                this.getChild(roots, root, object?object.name:'', treeObject)
+                root.opened =  this.getChild(roots, root, object?object.name:'', treeObject)
             }
         })
         keys = Object.keys(roots)
@@ -61,14 +61,19 @@ export default {
     
     getChild(roots, item, parentPath, treeObject) {
         let children = []
+        // 判断子节点是否有被勾选的情况，如有则父节点设置为打开状态
+        let hasSelected = false;
         for (let i = 0; i < item.children.length; i++) {
             let o = item.children[i]
             let child = roots[o.id + '']
             //拼装对象
             o = this.assembleItem(o, parentPath, null)
+            if (o.selected || o.opened) {
+                hasSelected = true;
+            }
             //存在子节点，则递归查找子节点
             if (child && child.children.length > 0) {
-                this.getChild(roots, child, o.path?o.path:o.name, treeObject)
+                o.opened = this.getChild(roots, child, o.path?o.path:o.name, treeObject)
                 o.children = child.children
             }
             children.push(o)
@@ -78,6 +83,7 @@ export default {
             }
         }
         item.children = children
+        return hasSelected
     },
     
     getTreeData2(tree, handlerItem) {
