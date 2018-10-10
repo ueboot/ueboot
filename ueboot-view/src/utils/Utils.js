@@ -68,13 +68,13 @@ export default {
             let child = roots[o.id + '']
             //拼装对象
             o = this.assembleItem(o, parentPath, null)
-            if (o.selected || o.opened) {
-                hasSelected = true;
-            }
             //存在子节点，则递归查找子节点
             if (child && child.children.length > 0) {
                 o.opened = this.getChild(roots, child, o.path?o.path:o.name, treeObject)
                 o.children = child.children
+            }
+            if (o.selected || o.opened) {
+                hasSelected = true;
             }
             children.push(o)
             //删除已经填充到parent下的数据

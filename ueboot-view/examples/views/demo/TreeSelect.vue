@@ -62,7 +62,7 @@
                     wholeRow: true
                 },
 
-                selectTreeItem: 1,//当前选择的树节点
+                selectTreeItem: 1217,//当前选择的树节点
                 selectTreeItem2: null,//当前选择的树节点
                 //  sort:{"sort":"desc","field":"id"}
             }
