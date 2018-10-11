@@ -146,7 +146,6 @@
         created() {
             // 避免污染this.tree
             this.treeData = [...this.tree]
-            this.parentTreeData = Utils.getParentTreeData(this.treeData,null)
             this.initTreeMap(this.treeData, this.value)
         },
 
@@ -172,6 +171,7 @@
                     this.selectId = selectId
                     this.inputValue = this.treeMap[selectId] ? this.treeMap[selectId].name : ''
                 }
+                this.parentTreeData = Utils.getParentTreeData(this.treeData,null)
                 this.$log.d('treeSelect 初始化getTreeChild耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
             },
             //将树结构转成二维数组
@@ -289,14 +289,20 @@
                     id = oriNode.data.id
                 }
                 //根据ID获取子节点数据
-                let child = this.parentTreeData[id].children||[]
-                //判断每个子节点是否还有子节点，没有子节点则设置样式为没有+号
-                child.forEach((c)=>{
-                    if(!this.parentTreeData[c.id]){
-                        c.isLeaf = true
-                    }
-                })
-                callback(child)
+                let data = this.parentTreeData[id]
+                if(data){
+                    data = this.parentTreeData[id].children||[]
+                    //判断每个子节点是否还有子节点，没有子节点则设置样式为没有+号
+                    data.forEach((c)=>{
+                        if(!this.parentTreeData[c.id]){
+                            c.isLeaf = true
+                        }
+                    })
+                }else{
+                    data = []
+                }
+                callback(data)
+
             }
         },
         mounted() {

@@ -276,7 +276,7 @@
                                     self.$set(oriParent, i, dataItem);
                                 }
                             } else {
-                                oriNode.model[self.childrenFieldName] = [];
+                                oriNode[self.childrenFieldName] = [];
                             }
                         });
                     }

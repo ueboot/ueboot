@@ -5,11 +5,11 @@
                 <u-tree-select :tree="tree" fixed async refName="s1" v-model="selectTreeItem"></u-tree-select>
             </i-col>
             <i-col :span="8">
-                <u-tree-select :tree="tree" async refName="s2" v-model="selectTreeItem2"
-                               @item-click="itemClick"></u-tree-select>
+              <!--  <u-tree-select :tree="tree" async refName="s2" v-model="selectTreeItem2"
+                               @item-click="itemClick"></u-tree-select>-->
             </i-col>
             <i-col :span="8">
-                <u-tree-select :tree="tree" fixed refName="s3" ></u-tree-select>
+                <!--<u-tree-select :tree="tree" fixed refName="s3" ></u-tree-select>-->
             </i-col>
         </Row>
         <Row>
@@ -28,11 +28,7 @@
 
 <script type="application/javascript">
 
-
-    import USelect from './USelect'
-
     import UTreeSelect from "../../../src/components/tree-select/UTreeSelect";
-
     import ColorPicker from './ColorPicker';
     import treeData from '../../assets/dataowner_json'
 
@@ -44,7 +40,7 @@
                 dataForm:{
                     color:'',
                 },
-                tree: treeData.tree,
+                tree: [],
                 tree2: [
                     {id: 1, "name": "根节点1", parentId: null, opened: true},
                     {"name": "一级子节点", id: 2, parentId: 1, icon: 'fa fa-check icon-state-success'},
@@ -91,6 +87,10 @@
             this.$nextTick(() => {
                 this.$log.d("父组件加载完成")
             })
+            //模拟异步加载树数据
+            setTimeout(()=>{
+                this.tree = treeData.tree
+            },3000)
 
         }
 
