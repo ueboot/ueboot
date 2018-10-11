@@ -237,6 +237,9 @@
         },
         mounted() {
             this.handleGroupMaxHeight();
+            this.$nextTick(() => {
+                this.$emit('on-mounted',true)
+            })
         }
     };
 </script>

@@ -30,8 +30,7 @@
                                 <u-compact-color-picker v-if="item.type === 'compactColorPicker'"
                                                         v-model="queryParams[item.name]"
                                                         :fixed="item.fixed"
-                                                        :palette="item.palette"
-                                >
+                                                        :palette="item.palette">
                                 </u-compact-color-picker>
 
                                 <i-input v-model="queryParams[item.name]" :type="item.type"
@@ -724,7 +723,8 @@
                 superFilterRows: [],
                 // grid查询参数
                 queryParams: {},
-                temp: 'haha',
+                //点击查询后临时保存的查询参数，后续如果只做分页查询，参数不受查询条件变化影响，必须要重新点击查询按钮才改变
+                tmpQueryParams: {},
                 //
                 formGrid: {},
                 table: {
@@ -955,13 +955,21 @@
             },
             // 高级搜索框按钮
             superFilterSearch(page) {
+                let params = deepExtend({}, this.queryParams)
+
+                //防止表单重置操作偶然会出现无法重置的时候，猜测是因为这个queryParams对象经过axios进行变化，导致底层事件监听出现异常
+                if (!this.formGrid.toolbar.superFilter.submitBefore(params)) {
+                    Log.e("superFilter.submitBefore 返回false，阻止查询")
+                    return;
+                }
+                this.tmpQueryParams = params
                 this.pageData(page);
             },
             pageData(page) {
                 if (page && (typeof (page) === 'number')) {
                     this.formGrid.pageable.page = page;
                 }
-                if (this.formGrid.toolbar.superFilter.rows.length > 0) {
+                if (this.superFilterRows.length > 0) {
                     this.$refs[this.formGrid.toolbar.superFilter.name].validate((valid) => {
                         if (valid) {
                             this.fetchData();
@@ -975,8 +983,7 @@
             },
             fetchData() {
                 this.table.noDataText = this.formGrid.table.tableLoadingText;
-                //防止表单重置操作偶然会出现无法重置的时候，猜测是因为这个queryParams对象经过axios进行变化，导致底层事件监听出现异常
-                let data = deepExtend({}, this.queryParams)
+               let data = this.tmpQueryParams
                 Log.d('pageData QueryData:%o', data);
                 let page = this.formGrid.pageable.page;
                 let size = this.formGrid.pageable.size;
