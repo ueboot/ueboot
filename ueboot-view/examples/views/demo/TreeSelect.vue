@@ -5,8 +5,11 @@
                 <u-tree-select :tree="tree" fixed async refName="s1" v-model="selectTreeItem"></u-tree-select>
             </i-col>
             <i-col :span="8">
-                <u-tree-select :tree="tree2" refName="s2" v-model="selectTreeItem2"
+                <u-tree-select :tree="tree" async refName="s2" v-model="selectTreeItem2"
                                @item-click="itemClick"></u-tree-select>
+            </i-col>
+            <i-col :span="8">
+                <u-tree-select :tree="tree" fixed refName="s3" ></u-tree-select>
             </i-col>
         </Row>
         <Row>

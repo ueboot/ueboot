@@ -142,6 +142,8 @@ export default {
             
             // 搜索的时候，会产生label属性，显示的内容格式与name不一样
             o.text = item.label ? item.label : item.name;
+            //防止多次assemble后，导致label不存在了
+            o.label = o.text
             o.name = item.name;
             o.value = {id: item.id, name: item.name, parentId: item.parentId};
             //原始对象的值

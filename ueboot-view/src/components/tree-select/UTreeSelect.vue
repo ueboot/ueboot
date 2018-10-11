@@ -3,12 +3,11 @@
         <Row v-if="fixed">
             <i-input v-model="inputValue" search @on-keyup="inputOnSearch" @on-search="inputOnSearch"
                      @on-focus="inputFocus"/>
-            <u-tree :tree="treeData" :size="size" :collapse="collapse" :async="async" :asyncFun="asyncLoadData" :loadingText="loadingText"
+            <u-tree :tree="treeData" :size="size" :collapse="collapse" :async="newAsync" :asyncFun="asyncLoadData" :loadingText="loadingText"
                     :klass="klass"
                     :maxHeight="maxHeight"
                     @item-click="handlerItemClick"
                     :sort="sort" :ref="refName" v-model="selectId"></u-tree>
-
         </Row>
 
         <Row v-else>
@@ -17,7 +16,7 @@
                 <i-input v-model="inputValue" search @on-keyup="inputOnSearch" @on-search="inputOnSearch"
                          @on-focus="inputFocus"/>
                 <div slot="list">
-                    <u-tree v-model="selectId" :tree="treeData" :size="size" :collapse="collapse"  :async="async" :asyncFun="asyncLoadData"
+                    <u-tree v-model="selectId" :tree="treeData" :size="size" :collapse="collapse"  :async="newAsync" :asyncFun="asyncLoadData"
                             :loadingText="loadingText" :klass="klass"
                             :maxHeight="maxHeight"
                             @item-click="handlerItemClick"
@@ -88,8 +87,6 @@
 
         data() {
             return {
-                //数据渲染未完成时
-                treeMounted: false,
                 // 传给UTree组件的数据
                 treeData: [],
                 inputValue: null,
@@ -112,7 +109,9 @@
                     multiple: false,
                     allowBatch: false,
                     wholeRow: true
-                }
+                },
+                //使用新的字段保留原始的标识
+                newAsync:this.async
             }
         },
 
@@ -134,8 +133,12 @@
                 if (newValue === '' || newValue === null) {
                     // 避免污染this.tree
                     this.$nextTick(() => {
-                        this.treeMounted = false
-                        this.treeData = [...this.tree]
+                        //非异步才给全数据，否则为空，通过异步加载
+                        if(!this.async){
+                            this.treeData = [...this.tree]
+                        }else {
+                            this.treeData = []
+                        }
                     })
                 }
             }
@@ -187,8 +190,16 @@
                 if (this.inputValue !== '' && this.inputValue !== null) {
                     this.treeData = this.searchTree(this.searchTreeData, this.inputValue)
                     this.isSearchTree = true
+                    //搜索时，不做异步加载
+                    this.newAsync = false
                 } else {
-                    this.treeData = [...this.tree]
+                    this.newAsync = this.async
+                    //非异步才给全数据，否则为空，通过异步加载
+                    if(!this.async){
+                        this.treeData = [...this.tree]
+                    }else {
+                        this.treeData = []
+                    }
                     this.isSearchTree = false
                 }
             },
@@ -232,6 +243,7 @@
                         if (count < 15) {
                             newTree.push(newItem)
                         } else {
+                            newTree.push(newItem)
                             break
                         }
                     }
@@ -254,8 +266,15 @@
                 this.$emit('item-click', node, item, e)
                 //点击搜索结果后，树结构变为原始结构
                 if(this.isSearchTree){
-                    this.treeData = [...this.tree]
-                    this.initTreeMap(this.treeData, this.selectId)
+                    this.newAsync = this.async
+                    this.isSearchTree = false
+                    //非异步才给全数据，否则为空，通过异步加载
+                    if(!this.async){
+                        this.treeData = [...this.tree]
+                        this.initTreeMap(this.treeData, this.selectId)
+                    }else {
+                        this.treeData = []
+                    }
                 }
                 // 调用一下input的blur事件，用于触发表单校验
                 this.$forceUpdate()
