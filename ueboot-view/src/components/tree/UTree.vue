@@ -77,7 +77,8 @@ export default {
                 return {};
             }
         },
-        async: {type: Function},
+        async: {type: Boolean, default: false},
+        asyncFun: {type: Function},
         loadingText: {type: String, default: 'Loading...'},
         draggable: {type: Boolean, default: false},
         dragOverBackgroundColor: {type: String, default: '#C9FDC9'},
@@ -194,7 +195,8 @@ export default {
         },
         initializeLoading () {
             let item = {};
-            item[this.textFieldName] = this.loadingText;
+            item.id = 0
+            item["text"] = '加载中';
             item.disabled = true;
             item.loading = true;
             return this.initializeDataItem(item);
@@ -253,7 +255,7 @@ export default {
             let self = this;
             if (this.async) {
                 if (oriParent[0].loading) {
-                    this.async(oriNode, (data) => {
+                    this.asyncFun(oriNode, (data) => {
                         if (data.length > 0) {
                             for (let i in data) {
                                 if (!data[i].isLeaf) {
@@ -344,21 +346,22 @@ export default {
         }
     },
     created () {
-
+        // 构建一次树
+        if(this.tree&&this.tree.length>0){
+            this.$log.d("开始构建树")
+           // this.initTree(this.tree)
+        }
     },
     mounted () {
         if (this.async) {
-            this.$set(this.treeData, 0, this.initializeLoading());
-            this.handleAsyncLoad(this.treeData, this);
-        }
-        // 构建一次树
-        if(this.tree&&this.tree.length>0){
-           this.$log.d("开始构建树")
+            this.$log.d("异步构建树")
+            let item =this.initializeLoading()
+            this.$set(this.treeData, 0, item);
+            this.handleAsyncLoad(this.treeData, item);
+        }else{
+            this.$log.d("开始构建树")
             this.initTree(this.tree)
         }
-        this.$nextTick(() => {
-            this.$log.d("子组件加载完成")
-        })
 
     },
     components: {

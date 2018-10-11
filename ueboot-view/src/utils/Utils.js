@@ -27,19 +27,7 @@ export default {
          * 2.对已经归类的parentId进行逐级填充找到下级，递归找到最下级。
          * 3.同时从归类里面删除已经归并到父级的数据
          */
-        let roots = {}
-        for (let i = 0; i < tree.length; i++) {
-            let item = tree[i]
-            treeObject[item.id + ''] = item
-            let parentId = (item.parentId || "0") + ''
-            let root = roots[parentId]
-            if (root == null) {
-                root = {id: parentId, children: [item]}
-            } else {
-                root.children.push(item)
-            }
-            roots[parentId] = root
-        }
+        let roots = this.getParentTreeData(tree,treeObject)
         let keys = Object.keys(roots)
         keys.forEach((key) => {
             let root = roots[key]
@@ -57,7 +45,26 @@ export default {
         })
         return array
     },
-    
+    //获取根据parentId归类的树数据
+    getParentTreeData(tree,treeObject){
+        let roots = {}
+        for (let i = 0; i < tree.length; i++) {
+            let item = tree[i]
+            if(treeObject!==null){
+                treeObject[item.id + ''] = item
+            }
+            let parentId = (item.parentId || "0") + ''
+            item = this.assembleItem(item,null,null)
+            let root = roots[parentId]
+            if (root == null) {
+                root = {id: parentId, children: [item]}
+            } else {
+                root.children.push(item)
+            }
+            roots[parentId] = root
+        }
+        return roots
+    },
     getChild(roots, item, parentPath, treeObject) {
         let children = []
         // 判断子节点是否有被勾选的情况，如有则父节点设置为打开状态

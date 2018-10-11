@@ -3,23 +3,26 @@
         <Row v-if="fixed">
             <i-input v-model="inputValue" search @on-keyup="inputOnSearch" @on-search="inputOnSearch"
                      @on-focus="inputFocus"/>
-            <u-tree :tree="treeData" :size="size" :collapse="collapse" :async="async" :loadingText="loadingText"
+            <u-tree :tree="treeData" :size="size" :collapse="collapse" :async="async" :asyncFun="asyncLoadData" :loadingText="loadingText"
                     :klass="klass"
                     :maxHeight="maxHeight"
                     @item-click="handlerItemClick"
                     :sort="sort" :ref="refName" v-model="selectId"></u-tree>
+
         </Row>
+
         <Row v-else>
             <Dropdown trigger="custom" style="width:100%" :visible="visible" class="utree-select"
                       @on-clickoutside="handleClose">
                 <i-input v-model="inputValue" search @on-keyup="inputOnSearch" @on-search="inputOnSearch"
                          @on-focus="inputFocus"/>
                 <div slot="list">
-                    <u-tree v-model="selectId" :tree="treeData" :size="size" :collapse="collapse" :async="async"
+                    <u-tree v-model="selectId" :tree="treeData" :size="size" :collapse="collapse"  :async="async" :asyncFun="asyncLoadData"
                             :loadingText="loadingText" :klass="klass"
                             :maxHeight="maxHeight"
                             @item-click="handlerItemClick"
                             :sort="sort" :ref="refName"></u-tree>
+
                 </div>
             </Dropdown>
         </Row>
@@ -62,7 +65,7 @@
             },
             size: {type: String, validator: value => ['large', 'small'].indexOf(value) > -1},
             collapse: {type: Boolean, default: false},
-            async: {type: Function},
+            async: {type: Boolean, default: false},
             loadingText: {type: String, default: 'Loading...'},
             klass: String,
             maxHeight: {
@@ -85,6 +88,8 @@
 
         data() {
             return {
+                //数据渲染未完成时
+                treeMounted: false,
                 // 传给UTree组件的数据
                 treeData: [],
                 inputValue: null,
@@ -98,8 +103,10 @@
                 selectId: null,
                 //tree数据索引
                 treeMap: {},
-                //标识当前树数据是否为搜索用的tree
-                isSearchTree:false,
+                //标识当前树数据是否为搜索用的tree，还是正常的树
+                isSearchTree: false,
+                //根据parentId归类的树数据
+                parentTreeData:[],
                 opt: {
                     showCheckbox: false,
                     multiple: false,
@@ -112,53 +119,57 @@
         // 监听父节点的值发生变化后，动态修改内部的数据
         watch: {
             value: function (newValue, oldValue) {
-                if (newValue !== oldValue && newValue!==null) {
+                if (newValue !== oldValue && newValue !== null) {
                     this.selectId = parseInt(newValue)
-                    this.inputValue = this.treeMap[newValue].name || ''
+                    this.inputValue = this.treeMap[newValue] ? this.treeMap[newValue].name : ''
                 }
             },
             tree: function (newValue, oldValue) {
                 this.treeData = newValue
+                //tree的数据发生变化时需要重新初始化搜索树数据
+                this.initTreeMap(this.treeData, this.value)
             },
             inputValue: function (newValue, oldValue) {
                 // 如果没有选择任何内容，则树结构恢复原始状态
                 if (newValue === '' || newValue === null) {
                     // 避免污染this.tree
                     this.$nextTick(() => {
+                        this.treeMounted = false
                         this.treeData = [...this.tree]
                     })
                 }
             }
         },
         created() {
-            let start = new Date().getTime();
             // 避免污染this.tree
             this.treeData = [...this.tree]
+            this.parentTreeData = Utils.getParentTreeData(this.treeData,null)
             this.initTreeMap(this.treeData, this.value)
-            //构造一个带path的tree二维数组，不做层次构建，用于搜索
-            let t = Utils.getTreeData(this.treeData, null)
-            let a = []
-            this.getTreeChild(t, a)
-            this.searchTreeData = a
-            if (this.value) {
-                this.selectId = this.value
-                this.inputValue = this.treeMap[this.value].name || ''
-            }
-            this.$log.d('treeSelect 初始化getTreeChild耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
         },
 
         methods: {
             initTreeMap(treeData, selectId) {
+                let start = new Date().getTime();
                 let map = {}
                 for (let o of treeData) {
                     if (selectId && (o['id'] === selectId)) {
                         o.selected = true
-                    }else{
+                    } else {
                         o.selected = false
                     }
                     map[o['id'] + ''] = o
                 }
                 this.treeMap = map
+                //构造一个带上下级path的tree二维数组，用于搜索
+                let t = Utils.getTreeData(this.treeData, null)
+                let a = []
+                this.getTreeChild(t, a)
+                this.searchTreeData = a
+                if (selectId) {
+                    this.selectId = selectId
+                    this.inputValue = this.treeMap[selectId] ? this.treeMap[selectId].name : ''
+                }
+                this.$log.d('treeSelect 初始化getTreeChild耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
             },
             //将树结构转成二维数组
             getTreeChild(tree, array) {
@@ -248,27 +259,30 @@
                 }
                 // 调用一下input的blur事件，用于触发表单校验
                 this.$forceUpdate()
-
             },
             handleClose() {
                 this.visible = false
             },
             asyncLoadData(oriNode, callback) {
-                let data = []
-                if (oriNode.value) {
-
-                } else {
-                    // 查找第一层数据
-                    data.push(oriNode.treeData)
+                console.log("asyncLoadData,%o",oriNode)
+                let id = oriNode.id ? oriNode.id : 0
+                if(oriNode.data){
+                    id = oriNode.data.id
                 }
-                callback(data)
+                //根据ID获取子节点数据
+                let child = this.parentTreeData[id].children||[]
+                //判断每个子节点是否还有子节点，没有子节点则设置样式为没有+号
+                child.forEach((c)=>{
+                    if(!this.parentTreeData[c.id]){
+                        c.isLeaf = true
+                    }
+                })
+                callback(child)
             }
         },
         mounted() {
             this.$nextTick(() => {
                 this.treeWidth = this.$refs[this.refName].$el.offsetWidth
-                this.notComplete = false
-                this.$log.d("父组件加载完成")
             })
         }
 
