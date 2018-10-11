@@ -1,5 +1,9 @@
 
 ## 1.7版本更新记录
+- v1.7.13
+    - 为树和treeSelect增加async属性，可以实现异步加载数据，提升性能
+    - 为formGrid的查询按钮，增加beforeSubmit方法
+    - 解决formGrid查询时表单校验不通过后还会进行查询的问题
 - v1.7.12
     - 优化tree的性能，重构treeData拼装方式
 - v1.7.11

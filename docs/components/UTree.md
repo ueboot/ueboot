@@ -66,6 +66,8 @@
 | allow-batch | Boolean      |    true |  允许批量选择（勾选父节点，默认选择子节点） |
 | klass | String      |     |  追加自定义tree的样式 |
 | maxHeight | Number      | 400    |  设置树组件弹出框最大高度，超过后自动出现滚动条 |
+| async | Boolean      | false    |   是否使用异步方式加载数据|
+| asyncFun | Function      |     |  异步加载时的回调方法，需要再这里返回下一层数据和初始数据 |
 
 
 tree数据格式示例：
@@ -113,6 +115,31 @@ tree数据格式示例：
 **item** : 当前选择的节点数据，返回的value值包含{id:id,value:name}
 
 **e** : event
+
+**asyncFun** 异步加载数据
+- 示例：
+```javascript
+
+asyncLoadData(oriNode, callback) {
+    let id = oriNode.id ? oriNode.id : 0
+    if(oriNode.data){
+        id = oriNode.data.id
+    }
+    //根据ID获取子节点数据
+    //this.parentTreeData 为自定义的结构的数据，目的就是根据当前点击的节点ID查找到子节点
+    let child = this.parentTreeData[id].children||[]
+    //判断每个子节点是否还有子节点，没有子节点则设置样式为没有+号
+    child.forEach((c)=>{
+        if(!this.parentTreeData[c.id]){
+            c.isLeaf = true
+        }
+    })
+    //一定要执行该方法
+    callback(child)
+}
+
+```
+
 
 ## 5.tree数据格式可选属性
 

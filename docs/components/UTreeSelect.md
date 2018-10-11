@@ -71,6 +71,7 @@
 | klass | String      |     |  追加自定义tree的样式 |
 | maxHeight | Number      | 400    |  设置树组件弹出框最大高度，超过后自动出现滚动条 |
 | refName | String      | tree1    |   如果同一个页面存在2个以上的UTreeSelect组件时，一定要加上refName属性，且不能同名|
+| async | Boolean      | false    |   是否使用异步方式加载数据|
 
 tree数据格式示例：
 ```javascript
