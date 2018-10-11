@@ -53,7 +53,7 @@ export default {
             if(treeObject!==null){
                 treeObject[item.id + ''] = item
             }
-            let parentId = (item.parentId || "0") + ''
+            let parentId = (item.parentId || "root") + ''
             item = this.assembleItem(item,null,null)
             let root = roots[parentId]
             if (root == null) {

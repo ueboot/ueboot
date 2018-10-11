@@ -102,12 +102,12 @@
                 if (this.async) {
                     //异步加载时，数据通过异步方法获取
                     this.treeData = []
-                    this.$log.d("重新异步构建树，%o",this.treeData)
+                    this.$log.d("重新异步构建树，%o",newValue)
                     let item = this.initializeLoading()
                     this.$set(this.treeData, 0, item);
                     this.handleAsyncLoad(this.treeData, item);
                 } else {
-                    this.$log.d("重新构建树")
+                    this.$log.d("重新构建树,%o",newValue)
                     this.initTree(newValue)
                 }
             }
@@ -204,7 +204,7 @@
             },
             initializeLoading() {
                 let item = {};
-                item.id = 0
+                item.id = 'root'
                 item["text"] = '加载中';
                 item.disabled = true;
                 item.loading = true;

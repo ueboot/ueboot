@@ -243,10 +243,17 @@
                         if (count < 15) {
                             newTree.push(newItem)
                         } else {
+                            let tip = '当前搜索结果超过15个，未完全显示。'
+                            newItem.label=`<font color=gray>${tip}</font>`
+                            newItem.tip = tip
+                            newItem.id = null
                             newTree.push(newItem)
                             break
                         }
                     }
+                }
+                if(newTree.length ===0){
+                    newTree.push({id:null,label:`<font color=gray>没有找到相关数据</font>`,tip:'没有找到相关数据'})
                 }
                 return newTree
             },
@@ -283,8 +290,7 @@
                 this.visible = false
             },
             asyncLoadData(oriNode, callback) {
-                console.log("asyncLoadData,%o",oriNode)
-                let id = oriNode.id ? oriNode.id : 0
+                let id = oriNode.id ? oriNode.id : 'root'
                 if(oriNode.data){
                     id = oriNode.data.id
                 }

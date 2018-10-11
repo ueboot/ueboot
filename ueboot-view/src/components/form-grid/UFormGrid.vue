@@ -955,9 +955,8 @@
             },
             // 高级搜索框按钮
             superFilterSearch(page) {
-                let params = deepExtend({}, this.queryParams)
-
                 //防止表单重置操作偶然会出现无法重置的时候，猜测是因为这个queryParams对象经过axios进行变化，导致底层事件监听出现异常
+                let params = deepExtend({}, this.queryParams)
                 if (!this.formGrid.toolbar.superFilter.submitBefore(params)) {
                     Log.e("superFilter.submitBefore 返回false，阻止查询")
                     return;
@@ -974,7 +973,7 @@
                         if (valid) {
                             this.fetchData();
                         } else {
-                            this.noticeError('查询条件校验失败', '');
+                            this.noticeError(this.formGrid.toolbar.superFilter.validateErrorMsg, '');
                         }
                     });
                 } else {

@@ -51,10 +51,12 @@ export default {
             name: 'searchForm',
             colNumber: 4,
             columns: [],
+            validateErrorMsg:'查询条件校验失败',
       // 根据columns动态计算出来的值，无需传入
             rows: {},
             submit: {theme: 'primary', label: '查询', icon: 'md-search', long: false},
-            reset: {theme: 'primary', label: '重置', icon: 'md-close', long: false, ghost: true}
+            reset: {theme: 'primary', label: '重置', icon: 'md-close', long: false, ghost: true},
+            submitBefore:()=>{return true}
         }
     },
     pageable: {
