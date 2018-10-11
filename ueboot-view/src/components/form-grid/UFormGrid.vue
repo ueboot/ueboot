@@ -26,13 +26,11 @@
                                     <span slot="append" v-if="item.append">{{item.append}}</span>
                                 </i-input>
 
+                                <!-- 颜色选取器 -->
                                 <u-compact-color-picker v-if="item.type === 'compactColorPicker'"
                                                         v-model="queryParams[item.name]"
-                                                        :colorAccount="item.colorAccount"
-                                                        :defaultColor="item.defaultColor"
-                                                        :lineMaxAccount="item.lineMaxAccount"
-                                                        :isPickerShow="item.isPickerShow"
-                                >
+                                                        :fixed="item.fixed"
+                                                        :palette="item.palette">
                                 </u-compact-color-picker>
 
                                 <i-input v-model="queryParams[item.name]" :type="item.type"
@@ -477,10 +475,8 @@
                             <!-- 颜色拾取器 -->
                             <template v-else-if="item.type === 'compactColorPicker'">
                                 <u-compact-color-picker v-model="formGrid.form.data[item.name]"
-                                                        :colorAccount="item.colorAccount"
-                                                        :defaultColor="item.defaultColor"
-                                                        :lineMaxAccount="item.lineMaxAccount"
-                                                        :isPickerShow="item.isPickerShow"
+                                                        :fixed="item.fixed"
+                                                        :palette="item.palette"
                                 >
                                 </u-compact-color-picker>
                             </template>
@@ -987,7 +983,7 @@
             },
             fetchData() {
                 this.table.noDataText = this.formGrid.table.tableLoadingText;
-                let data = this.tmpQueryParams
+               let data = this.tmpQueryParams
                 Log.d('pageData QueryData:%o', data);
                 let page = this.formGrid.pageable.page;
                 let size = this.formGrid.pageable.size;
