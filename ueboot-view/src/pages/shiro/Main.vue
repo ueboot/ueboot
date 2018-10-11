@@ -341,6 +341,7 @@
                 }
             },
             //更新配置，供外部调用使用
+            //this.$root.$children[0].$children[0].updateConfig({"sysTitle":"test"})
             updateConfig(config){
                 this.config = deepExtend({},this.config,config)
             }

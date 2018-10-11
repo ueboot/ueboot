@@ -847,6 +847,8 @@
                     }
                     this.superFilterRows = rows;
                 }
+                //初始化的查询条件，防止自动加载时没有查询条件
+                this.tmpQueryParams = deepExtend({}, this.queryParams)
             },
             // 初始化表单规则
             getRuleValidate(columns) {
@@ -943,6 +945,7 @@
             // 重置查询条件
             resetSuperFilterSearch() {
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
+                this.tmpQueryParams = deepExtend({}, this.queryParams)
                 //设置表格数据为空
                 this.clearTableData()
                 //如果设置的是自动加载，则清空时再次加载

@@ -3,7 +3,7 @@ import Log from '../utils/Log';
 import AxiosConfig from './AxiosConfig';
 let ueboot_config = {
     sysTitle: 'ueboot权限管理',
-    logoImage: '/static/img/ueboot.svg',
+    logoImage: '/static/img/ueboot.png',
     page_login: {
         // 登录界面风格，可取值 ['theme1','theme2']
         theme: 'theme2',
