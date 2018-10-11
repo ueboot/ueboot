@@ -26,10 +26,12 @@
                                     <span slot="append" v-if="item.append">{{item.append}}</span>
                                 </i-input>
 
+                                <!-- 颜色选取器 -->
                                 <u-compact-color-picker v-if="item.type === 'compactColorPicker'"
-                                                        v-model="queryParams[item.name]"  :colorAccount="item.colorAccount"
-                                    :defaultColor="item.defaultColor" :lineMaxAccount="item.lineMaxAccount" :isPickerShow="item.isPickerShow"
-                                    >
+                                                        v-model="queryParams[item.name]"
+                                                        :fixed="item.fixed"
+                                                        :palette="item.palette"
+                                >
                                 </u-compact-color-picker>
 
                                 <i-input v-model="queryParams[item.name]" :type="item.type"
@@ -474,10 +476,8 @@
                             <!-- 颜色拾取器 -->
                             <template v-else-if="item.type === 'compactColorPicker'">
                                 <u-compact-color-picker v-model="formGrid.form.data[item.name]"
-                                                        :colorAccount="item.colorAccount"
-                                                        :defaultColor="item.defaultColor"
-                                                        :lineMaxAccount="item.lineMaxAccount"
-                                                        :isPickerShow="item.isPickerShow"
+                                                        :fixed="item.fixed"
+                                                        :palette="item.palette"
                                 >
                                 </u-compact-color-picker>
                             </template>
@@ -653,7 +653,7 @@
         name: 'UFormGrid',
         components: {
             'ueUpload': ueUpload,
-            UTreeSelect,UCompactColorPicker
+            UTreeSelect, UCompactColorPicker
         },
         props: {
             tableRef: {
@@ -910,12 +910,12 @@
                     }
                 });
             },
-            noticeError(title='', desc='') {
-                 let content=title;
-                 if(desc!==''){
-                      content=content+','+desc;
-                 }
-                 this.$Message.error({
+            noticeError(title = '', desc = '') {
+                let content = title;
+                if (desc !== '') {
+                    content = content + ',' + desc;
+                }
+                this.$Message.error({
                     content: content,
                     duration: 10,
                     closable: true
@@ -976,7 +976,7 @@
             fetchData() {
                 this.table.noDataText = this.formGrid.table.tableLoadingText;
                 //防止表单重置操作偶然会出现无法重置的时候，猜测是因为这个queryParams对象经过axios进行变化，导致底层事件监听出现异常
-                let data = deepExtend({},this.queryParams)
+                let data = deepExtend({}, this.queryParams)
                 Log.d('pageData QueryData:%o', data);
                 let page = this.formGrid.pageable.page;
                 let size = this.formGrid.pageable.size;
@@ -1087,7 +1087,7 @@
                     // 初始化默认值
                     if (type === 'add' && c.init) {
                         // 为number类型设置默认值，避免组件无法使用。允许设置为0和''
-                        if (c.type === 'number' && !c.init&&c.init!==0&&c.init!=='') {
+                        if (c.type === 'number' && !c.init && c.init !== 0 && c.init !== '') {
                             c.init = 1;
                         }
                         this.$set(this.formGrid.form.data, c.name, c.init);

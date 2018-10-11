@@ -6,6 +6,7 @@
 
 <script type="application/javascript">
     import Vue from "vue";
+
     const tree = [
         {id: 1, "name": "根节点1", parentId: null, opened: true},
         {"name": "一级子节点", id: 2, parentId: 1, icon: 'fa fa-check icon-state-success'},
@@ -24,7 +25,7 @@
             return {
                 formGrid: {
                     options: {
-                        autoLoad:false,
+                        autoLoad: false,
                         url: {
                             /*query: "http://wodewj.oss-cn-shanghai.aliyuncs.com/dev/data.json"*/
                             page: "/ueboot/user/page"
@@ -84,7 +85,7 @@
                                     placeholder: "选择月份",
                                     option: {},
                                     format: "",
-                                    onChange:()=>{
+                                    onChange: () => {
                                         console.log("month change")
                                     }
                                 },
@@ -109,7 +110,7 @@
                                             label: '王府井'
                                         }]
                                     }]
-                                },/*,
+                                }, /*,
                                 {
                                     type: "select",
                                     name: "province",
@@ -145,10 +146,10 @@
                                 },
                                 {
                                     type: "compactColorPicker",
-
                                     name: "compactColorPicker",
-                                    init:'#AB149E',
+                                    init: '#AB149E', // 颜色默认值
                                     label: "颜色",
+                                    // palette: [],// 颜色数组
                                 },
                             ],
                         },
@@ -161,12 +162,12 @@
                                 }
                             },
                             {
-                                theme: "success", label: "自定义按钮2", icon: "plus", click:  (selections)=> {
-                                    this.$root.$children[0].$children[0].updateConfig({"sysTitle":"test"})
+                                theme: "success", label: "自定义按钮2", icon: "plus", click: (selections) => {
+                                    this.$root.$children[0].$children[0].updateConfig({"sysTitle": "test"})
                                 }
                             },
                             {
-                                label: "导出全部",key:'exportAllData'
+                                label: "导出全部", key: 'exportAllData'
                             },
                         ],
                         buttons: {
@@ -268,12 +269,12 @@
                         size: 100000,
                     },
                     table: {
-                        rowClick:(row,index)=>{
+                        rowClick: (row, index) => {
                             this.$log.d(row)
                         },
                         noDataText: '已努力查询，但还是没找到！',
-                        tableLoadingText:'正在努力为您加载数据,请稍候1...',
-                        tableLoadedErrorText:'数据查询出现异常，需要管理员查看后台日志，寻找原因1。',
+                        tableLoadingText: '正在努力为您加载数据,请稍候1...',
+                        tableLoadedErrorText: '数据查询出现异常，需要管理员查看后台日志，寻找原因1。',
                         operation: {
                             primaryKey: "createTime",
                             buttons: [{
@@ -333,9 +334,9 @@
             resetSuperFilter(value) {
                 console.log("--------change###,%o", value)
                 this.formGrid.toolbar.superFilter.columns.forEach((c) => {
-                    if (value==='haha'&&c.name === 'province2') {
-                      c.data = [{name: "上海", value: "haha1"}, {name: "北京", value: "hehe1"}]
-                    }else if (value==='hehe'&&c.name === 'province2') {
+                    if (value === 'haha' && c.name === 'province2') {
+                        c.data = [{name: "上海", value: "haha1"}, {name: "北京", value: "hehe1"}]
+                    } else if (value === 'hehe' && c.name === 'province2') {
                         c.data = [{name: "天津", value: "haha1"}, {name: "广州", value: "hehe1"}]
                     }
                 })
