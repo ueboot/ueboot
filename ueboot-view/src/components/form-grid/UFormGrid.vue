@@ -950,7 +950,7 @@
                 this.clearTableData()
                 //如果设置的是自动加载，则清空时再次加载
                 if (this.formGrid.options.autoLoad) {
-                    this.pageData();
+                    this.reloadData();
                 }
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
                     this.formGrid.toolbar.superFilter.reset.click();

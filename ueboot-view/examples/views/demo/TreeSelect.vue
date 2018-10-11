@@ -30,8 +30,7 @@
 
     import UTreeSelect from "../../../src/components/tree-select/UTreeSelect";
     import ColorPicker from './ColorPicker';
-    import treeData from '../../assets/dataowner_json'
-
+    import service from '../../service/service'
     export default {
         components: {UTreeSelect,ColorPicker},
         data() {
@@ -89,7 +88,7 @@
             })
             //模拟异步加载树数据
             setTimeout(()=>{
-                this.tree = treeData.tree
+                this.tree = service.queryTreeData(this)
             },3000)
 
         }

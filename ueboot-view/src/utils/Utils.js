@@ -50,7 +50,7 @@ export default {
         let roots = {}
         for (let i = 0; i < tree.length; i++) {
             let item = tree[i]
-            if(treeObject!==null){
+            if(treeObject){
                 treeObject[item.id + ''] = item
             }
             let parentId = (item.parentId || "root") + ''
