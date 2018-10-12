@@ -27,13 +27,13 @@ export default {
          * 2.对已经归类的parentId进行逐级填充找到下级，递归找到最下级。
          * 3.同时从归类里面删除已经归并到父级的数据
          */
-        let roots = this.getParentTreeData(tree,treeObject)
+        let roots = this.getParentTreeData(tree, treeObject)
         let keys = Object.keys(roots)
         keys.forEach((key) => {
             let root = roots[key]
             if (root && root.children.length > 0) {
                 let object = treeObject[root.id + '']
-                root.opened =  this.getChild(roots, root, object?object.name:'', treeObject)
+                root.opened = this.getChild(roots, root, object ? object.name : '', treeObject)
             }
         })
         keys = Object.keys(roots)
@@ -46,15 +46,15 @@ export default {
         return array
     },
     //获取根据parentId归类的树数据
-    getParentTreeData(tree,treeObject){
+    getParentTreeData(tree, treeObject) {
         let roots = {}
         for (let i = 0; i < tree.length; i++) {
             let item = tree[i]
-            if(treeObject){
+            if (treeObject) {
                 treeObject[item.id + ''] = item
             }
             let parentId = (item.parentId || "root") + ''
-            item = this.assembleItem(item,null,null)
+            item = this.assembleItem(item, null, null)
             let root = roots[parentId]
             if (root == null) {
                 root = {id: parentId, children: [item]}
@@ -73,19 +73,22 @@ export default {
             let o = item.children[i]
             let child = roots[o.id + '']
             //拼装对象
-            o = this.assembleItem(o, parentPath, null)
+            let b = this.assembleItem(o, parentPath, null)
             //存在子节点，则递归查找子节点
             if (child && child.children.length > 0) {
-                o.opened = this.getChild(roots, child, o.path?o.path:o.name, treeObject)
-                o.children = child.children
+                b.opened = this.getChild(roots, child, b.path ? b.path : b.name, treeObject)
+                b.children = child.children
+            } else {
+                //保留当前节点的子节点
+                b.children = o.children
             }
-            if (o.selected || o.opened) {
+            if (b.selected || b.opened) {
                 hasSelected = true;
             }
-            children.push(o)
+            children.push(b)
             //删除已经填充到parent下的数据
             if (child) {
-                delete roots[o.id + '']
+                delete roots[b.id + '']
             }
         }
         item.children = children

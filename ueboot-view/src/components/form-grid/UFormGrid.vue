@@ -477,9 +477,12 @@
                             <template v-else-if="item.type === 'compactColorPicker'">
                                 <u-compact-color-picker v-model="formGrid.form.data[item.name]"
                                                         :fixed="item.fixed"
-                                                        :palette="item.palette"
-                                >
+                                                        :palette="item.palette">
                                 </u-compact-color-picker>
+                            </template>
+
+                            <template v-else-if="item.type === 'customer'">
+
                             </template>
 
                             <template v-else>
@@ -489,7 +492,6 @@
                         </Form-item>
                     </i-col>
                 </Row>
-
             </Form>
             <div slot="footer">
                 <Button type="primary" @click="handleSubmit()" :loading="formGrid.form.loading">

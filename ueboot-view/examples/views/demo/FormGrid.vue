@@ -1,12 +1,20 @@
 <template>
     <div>
-        <u-form-grid :data="formGrid" ref="child"></u-form-grid>
+        <u-form-grid :data="formGrid" ref="child">
+            <template slot="formItem">
+                <Form-item :label="item.label" :prop="item.name" v-if="item.show">
+
+                    <i-input v-model="itemData" type="text"
+
+                    >
+                    </i-input>
+                </Form-item>
+            </template>
+        </u-form-grid>
     </div>
 </template>
 
 <script type="application/javascript">
-    import Vue from "vue";
-
     const tree = [
         {id: 1, "name": "根节点1", parentId: null, opened: true},
         {"name": "一级子节点", id: 2, parentId: 1, icon: 'fa fa-check icon-state-success'},
@@ -23,6 +31,12 @@
     const _this = {
         data() {
             return {
+                itemData:null,
+                item:{
+                    name:'test',
+                    show:true,
+                    label:'test'
+                },
                 formGrid: {
                     options: {
                         autoLoad: false,
