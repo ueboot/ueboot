@@ -8,6 +8,9 @@
 
 import axios from 'axios';
 import iView from 'iview';
+import config from './Config'
+//标识一下是否显示了未登录提示，防止弹出多次
+let showNotLogin = false
 
 export default class AxiosConfig {
     static init(conf) {
@@ -28,7 +31,7 @@ export default class AxiosConfig {
             iView.LoadingBar.error();
             return Promise.reject(error);
         });
-
+        
         // 添加一个响应拦截器
         axios.interceptors.response.use(function (response) {
             iView.LoadingBar.finish();
@@ -47,31 +50,40 @@ export default class AxiosConfig {
             return Promise.reject(response.data);
         }, function (error) {
             iView.LoadingBar.error();
-
+            
             // 403 状态执行页面跳转，其余状态不跳转
             if (error.response.status === 403) {
                 toLogin(conf)
                 return Promise.reject(error.response.data)
             } else {
-                iView.Message.error({content: error.response.data.message,duration: 10,
-                    closable: true});
+                iView.Message.error({
+                    content: error.response.data.message, duration: 10,
+                    closable: true
+                });
                 return Promise.reject(error.response.data);
             }
         });
+        
         function toLogin(conf) {
+            if(showNotLogin){
+                return
+            }
+            showNotLogin = true
+            let cnf = config.getConfig()
             iView.Modal.info({
-                closable:false,
-                'mask-closable':false,
+                closable: false,
+                'mask-closable': false,
                 title: '提示',
-                content: '您尚未登录，或当前用户会话已过期，点击确定按钮返回到登录界面。',
+                content: cnf.axios.notLoginMsg,
                 loading: true,
                 onOk: () => {
                     setTimeout(() => {
+                        showNotLogin = false
                         iView.Modal.remove();
                         if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
                             window.location.href = conf.unauthorizedUrl;
                         }
-                    }, 500);
+                    }, 200);
                 }
             });
         }

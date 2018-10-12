@@ -70,16 +70,12 @@
                                           @on-clear="item.onClear"
                                           @on-open-change="item.onOpenChange"
                                 >
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
-                                        {{ option.name }}
-                                    </Option>
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">{{option.name}}</Option>
                                 </i-select>
 
                                 <template v-else-if="item.type==='radio'">
                                     <Radio-group v-model="queryParams[item.name]" :disabled="item.disabled">
-                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">
-                                            {{o.name}}
-                                        </Radio>
+                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">{{o.name}}</Radio>
                                     </Radio-group>
                                 </template>
                                 <template v-else-if="item.type==='treeSelect'">
@@ -398,16 +394,13 @@
                                           @on-open-change="item.onOpenChange"
                                 >
 
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
-                                        {{ option.name }}
-                                    </Option>
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">{{option.name}}</Option>
                                 </i-select>
                             </template>
 
                             <template v-else-if="item.type==='radio'">
                                 <Radio-group v-model="formGrid.form.data[item.name]" :disabled="item.disabled">
-                                    <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">{{o.name}}
-                                    </Radio>
+                                    <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">{{o.name}}</Radio>
                                 </Radio-group>
                             </template>
 
@@ -794,7 +787,7 @@
                 }
                 // 渲染表格每列特殊情况
                 this.renderColumn();
-                Log.d('data 初始化对象:%o', this.formGrid);
+                Log.d('data 初始化对象');
             },
             // 对添加、编辑、查看表单数据进行初始化
             renderForm() {

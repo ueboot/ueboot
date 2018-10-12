@@ -46,7 +46,9 @@ let ueboot_config = {
     },
     axios: {
         baseURL:'',
-        unauthorizedUrl:'/#/login'
+        unauthorizedUrl:'/#/login',
+        //未登录文字提示
+        notLoginMsg:'您尚未登录，或当前用户会话已过期，点击确定按钮返回到登录界面。'
     },
     //日志级别，使用this.$log.d()这种方式记录日志时的级别
     log:{
