@@ -62,6 +62,9 @@
                                           :filterable="item.filterable"
                                           :multiple="item.multiple" v-model="queryParams[item.name]"
                                           :placeholder="item.placeholder"
+                                          :disabled="item.disabled"
+                                          :size="item.size"
+                                          :placement="item.placement"
                                           @on-change="item.onChange"
                                           @on-query-change="item.onQueryChange"
                                           @on-clear="item.onClear"
@@ -92,6 +95,7 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            :disabled="item.disabled"
                                             @on-change="item.onChange"
                                             @on-open-change="item.onOpenChange"
                                             @on-ok="item.onOk"
@@ -105,6 +109,7 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            :disabled="item.disabled"
                                             @on-change="item.onChange"
                                             @on-open-change="item.onOpenChange"
                                             @on-ok="item.onOk"
@@ -118,6 +123,7 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            :disabled="item.disabled"
                                             @on-change="item.onChange"
                                             @on-open-change="item.onOpenChange"
                                             @on-ok="item.onOk"
@@ -131,6 +137,7 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            :disabled="item.disabled"
                                             @on-change="item.onChange"
                                             @on-open-change="item.onOpenChange"
                                             @on-ok="item.onOk"
@@ -326,17 +333,18 @@
         </Row>
 
         <!--form表单-->
-        <Modal
+            <Modal
             v-model="modal.editModal"
             :title="modal.title"
             :closable="modal.closable"
             :mask-closable="modal.maskClosable"
             :loading="modal.loading"
             :scrollable="modal.scrollable"
-            :width="modal.width">
-            <Form :model="formGrid.form.data" :label-position="formGrid.form.labelPosition"
+            :width="modal.width" >
+                <!--通过if来重新渲染表单，防止脏数据导致重置功能无效-->
+                <Form :model="formGrid.form.data" :label-position="formGrid.form.labelPosition"
                   :label-width="formGrid.form.labelWidth"
-                  :rules="ruleValidate" :ref="formGrid.form.name">
+                  :rules="ruleValidate" :ref="formGrid.form.name"  v-if="modal.editModal">
                 <Row v-for="(row,index1) in formRows" :key="'formRow'+index1">
                     <i-col v-for="(item,index2) in row" :key="'formItem'+index2"
                            :span="24/formGrid.form.colNumber">
@@ -502,7 +510,6 @@
                 <Button @click="cancel()" style="margin-left: 8px" :disabled="formGrid.form.loading">取消</Button>
             </div>
         </Modal>
-
         <!--查看详情界面-->
         <Modal
             v-model="modal.viewModal"
@@ -1078,7 +1085,6 @@
             // 重置表单
             handleReset() {
                 this.$refs[this.formGrid.form.name].resetFields();
-                this.$forceUpdate();
             },
             // 模态窗口点击取消按钮事件
             cancel() {
@@ -1089,12 +1095,12 @@
             },
             // 设置表单的渲染元素，添加、编辑、查看可能要求不同，所以需要重新渲染。
             setFormColumns(type) {
-                this.handleReset();
+                this.formRows = []
                 // 从用户设定的元素列表当中copy一份数据给当前操作使用，避免数据污染
                 let o = deepExtend({}, {columns: this.formGrid.form.columns});
                 for (let c of o.columns) {
                     // 初始化默认值
-                    if (type === 'add' && c.init) {
+                    if (type === 'add') {
                         // 为number类型设置默认值，避免组件无法使用。允许设置为0和''
                         if (c.type === 'number' && !c.init && c.init !== 0 && c.init !== '') {
                             c.init = 1;
@@ -1289,8 +1295,6 @@
             },
             // toolbar添加按钮事件
             formAdd() {
-                // 清空表单
-                this.formGrid.form.data = {};
                 this.setFormColumns('add');
                 this.modal.editModal = true;
             },
@@ -1524,7 +1528,7 @@
                     this.$axios.post(this.formGrid.options.url.get, data, params).then(response => {
                         let data = response.body;
                         this.formatFormField(data);
-                        this.formGrid.form.data = data;
+                        this.$set(this.formGrid.form,'data',data)
                         if (type === 'view') {
                             this.modal.viewModal = true;
                         } else {
@@ -1538,26 +1542,30 @@
                     });
                 } else {
                     Log.d('get data :%o', row);
-                    let data = deepExtend({}, row);
-                    this.formatFormField(data);
-                    this.formGrid.form.data = data;
-                    if (type === 'view') {
-                        this.modal.viewModal = true;
-                    } else {
-                        this.modal.editModal = true;
-                    }
+                    let rowData = deepExtend({}, row);
+                    this.formatFormField(rowData);
+                    let keys = Object.keys(rowData)
+                    keys.forEach((k)=>{
+                        this.$set(this.formGrid.form.data,k,rowData[k])
+                    })
+                    this.$nextTick(()=>{
+                        if (type === 'view') {
+                            this.modal.viewModal = true;
+                        } else {
+                            this.modal.editModal = true;
+                        }
+                    })
                 }
             },
             // 操作查看按钮
             optViewClick(row, index) {
-                this.formGrid.form.data = {};
+                this.$set(this.formGrid.form,'data',{})
                 this.setFormColumns('view');
                 this.formGrid.form.isView = true;
                 this.getFormData(row, 'view');
             },
             // 操作编辑按钮
             optEditClick(row, index) {
-                this.formGrid.form.data = {};
                 this.setFormColumns('edit');
                 this.formGrid.form.isEdit = true;
                 this.getFormData(row, 'edit');
