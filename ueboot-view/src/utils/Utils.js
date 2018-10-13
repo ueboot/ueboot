@@ -205,5 +205,19 @@ export default {
                 return b[sort['field']] - a[sort['field']];
             }
         });
+    },
+    //克隆一个对象，浅copy
+    clone(object) {
+        let o = {}
+        let keys = Object.keys(object)
+        //不可使用deepExtend，会出现重置无效的问题
+        if (keys && keys.length > 0) {
+            keys.forEach((k) => {
+                //复制重置后的默认值，防止点击查询时没有使用默认值进行查询
+                o[k] = object[k]
+            })
+        }
+        return o
     }
+    
 };

@@ -16,3 +16,7 @@
 
 ## 6.本地文档
 - 启动命令 docsify serve docs
+## 7.本地安装
+本地安装后，修改了文件，实时生效。无效发布后再update
+- npm install /Users/yangkui/workspace/ueboot-quick-dev-gitee/ueboot-view 
+

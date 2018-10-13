@@ -70,12 +70,14 @@
                                           @on-clear="item.onClear"
                                           @on-open-change="item.onOpenChange"
                                 >
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">{{option.name}}</Option>
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" v-html="option.name">
+                                    </Option>
                                 </i-select>
 
                                 <template v-else-if="item.type==='radio'">
                                     <Radio-group v-model="queryParams[item.name]" :disabled="item.disabled">
-                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">{{o.name}}</Radio>
+                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index" v-html="o.name">
+                                        </Radio>
                                     </Radio-group>
                                 </template>
                                 <template v-else-if="item.type==='treeSelect'">
@@ -329,18 +331,18 @@
         </Row>
 
         <!--form表单-->
-            <Modal
+        <Modal
             v-model="modal.editModal"
             :title="modal.title"
             :closable="modal.closable"
             :mask-closable="modal.maskClosable"
             :loading="modal.loading"
             :scrollable="modal.scrollable"
-            :width="modal.width" >
-                <!--通过if来重新渲染表单，防止脏数据导致重置功能无效-->
-                <Form :model="formGrid.form.data" :label-position="formGrid.form.labelPosition"
+            :width="modal.width">
+            <!--通过if来重新渲染表单，防止脏数据导致重置功能无效-->
+            <Form :model="formGrid.form.data" :label-position="formGrid.form.labelPosition"
                   :label-width="formGrid.form.labelWidth"
-                  :rules="ruleValidate" :ref="formGrid.form.name"  v-if="modal.editModal">
+                  :rules="ruleValidate" :ref="formGrid.form.name" v-if="modal.editModal">
                 <Row v-for="(row,index1) in formRows" :key="'formRow'+index1">
                     <i-col v-for="(item,index2) in row" :key="'formItem'+index2"
                            :span="24/formGrid.form.colNumber">
@@ -394,13 +396,15 @@
                                           @on-open-change="item.onOpenChange"
                                 >
 
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">{{option.name}}</Option>
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" v-html="option.name">
+                                    </Option>
                                 </i-select>
                             </template>
 
                             <template v-else-if="item.type==='radio'">
                                 <Radio-group v-model="formGrid.form.data[item.name]" :disabled="item.disabled">
-                                    <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">{{o.name}}</Radio>
+                                    <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">{{o.name}}
+                                    </Radio>
                                 </Radio-group>
                             </template>
 
@@ -643,6 +647,7 @@
 
 <script>
     import Log from '../../utils/Log';
+    import Utils from '../../utils/Utils'
     import deepExtend from 'deep-extend';
     import defaultData from './default';
     import util from 'core-util-is';
@@ -946,9 +951,11 @@
             },
             // 重置查询条件
             resetSuperFilterSearch() {
-                this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
-                this.tmpQueryParams = deepExtend({}, this.queryParams)
                 //设置表格数据为空
+                this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
+                //不可使用deepExtend，会出现重置无效的问题
+                this.tmpQueryParams = Utils.clone(this.queryParams)
+
                 this.clearTableData()
                 //如果设置的是自动加载，则清空时再次加载
                 if (this.formGrid.options.autoLoad) {
@@ -987,7 +994,7 @@
             },
             fetchData() {
                 this.table.noDataText = this.formGrid.table.tableLoadingText;
-               let data = this.tmpQueryParams
+                let data = this.tmpQueryParams
                 Log.d('pageData QueryData:%o', data);
                 let page = this.formGrid.pageable.page;
                 let size = this.formGrid.pageable.size;
@@ -1523,7 +1530,7 @@
                     this.$axios.post(this.formGrid.options.url.get, data, params).then(response => {
                         let data = response.body;
                         this.formatFormField(data);
-                        this.$set(this.formGrid.form,'data',data)
+                        this.$set(this.formGrid.form, 'data', data)
                         if (type === 'view') {
                             this.modal.viewModal = true;
                         } else {
@@ -1540,10 +1547,10 @@
                     let rowData = deepExtend({}, row);
                     this.formatFormField(rowData);
                     let keys = Object.keys(rowData)
-                    keys.forEach((k)=>{
-                        this.$set(this.formGrid.form.data,k,rowData[k])
+                    keys.forEach((k) => {
+                        this.$set(this.formGrid.form.data, k, rowData[k])
                     })
-                    this.$nextTick(()=>{
+                    this.$nextTick(() => {
                         if (type === 'view') {
                             this.modal.viewModal = true;
                         } else {
@@ -1554,7 +1561,7 @@
             },
             // 操作查看按钮
             optViewClick(row, index) {
-                this.$set(this.formGrid.form,'data',{})
+                this.$set(this.formGrid.form, 'data', {})
                 this.setFormColumns('view');
                 this.formGrid.form.isView = true;
                 this.getFormData(row, 'view');

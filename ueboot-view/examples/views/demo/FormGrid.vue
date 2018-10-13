@@ -53,6 +53,13 @@
                             columns: [
                                 {
                                     type: "text",
+                                    label: "姓名1",
+                                    name: "name1",
+                                    icon: "plus",
+                                    placeholder: "请填写姓名"
+                                },
+                                {
+                                    type: "text",
                                     label: "姓名",
                                     name: "name",
                                     icon: "plus",
@@ -68,12 +75,18 @@
                                     required: true
                                 },
                                 {
-                                    type: "daterange",
-                                    label: "日期范围",
-                                    name: "daterange",
-                                    placeholder: "选择日期范围",
-                                    option: {},
-                                    format: ""
+                                    type: "select",
+                                    name: "province",
+                                    label: "下拉框1",
+                                    clearable: true,
+                                    filterable: false,
+                                    multiple: false,
+                                    required:true,
+                                    init:'hehe',
+                                    onChange: (value) => {
+                                        console.log(value)
+                                    },
+                                    data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },
                                 {
                                     type: "date",
@@ -125,21 +138,7 @@
                                         }]
                                     }]
                                 }, /*,
-                                {
-                                    type: "select",
-                                    name: "province",
-                                    label: "下拉框1",
-                                    clearable: true,
-                                    filterable: false,
-                                    multiple: false,
-                                    required:true,
-                                    init:'hehe',
-                                    onChange: (value) => {
-                                        console.log(value)
-                                        this.resetSuperFilter(value)
-                                    },
-                                    data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
-                                },
+
                                 {
                                     type: "select",
                                     name: "province2",
