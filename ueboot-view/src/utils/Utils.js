@@ -149,8 +149,12 @@ export default {
             o.label = o.text
             o.name = item.name;
             o.value = {id: item.id, name: item.name, parentId: item.parentId};
-            //原始对象的值
-            o.origin = deepExtend({}, item)
+            //原始对象的值,有可能存在多次组装，避免多次引用，这里只取第一次的原始值
+            if(item.origin){
+                o.origin = deepExtend({}, item.origin)
+            }else{
+                o.origin = deepExtend({}, item)
+            }
             o.selected = item.selected || false;
             o.disabled = item.disabled || false;
             o.loading = item.loading || false;

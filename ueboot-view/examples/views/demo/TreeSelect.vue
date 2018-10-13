@@ -2,7 +2,7 @@
     <div>
         <Row>
             <i-col :span="8">
-                <u-tree-select :tree="tree" fixed async refName="s1" v-model="selectTreeItem"></u-tree-select>
+                <u-tree-select :tree="tree" fixed async refName="s1" @item-click="itemClick" v-model="selectTreeItem"></u-tree-select>
             </i-col>
             <i-col :span="8">
               <!--  <u-tree-select :tree="tree" async refName="s2" v-model="selectTreeItem2"
@@ -67,7 +67,7 @@
         },
         methods: {
             itemClick(node,item,e) {
-                console.log(item.origin)
+                console.log(item)
             },
             resetColor(){
                 this.$refs['testForm'].resetFields();

@@ -233,7 +233,7 @@
                             labelStr = strs.reverse().join('')
                         }
                         newItem.tip = t.path
-                        newItem.origin = t.origin
+                        newItem.origin = deepExtend({},t.origin)
                         newItem.label = labelStr.replace(reg, '<font color=red>$1</font>')
                         // 干掉所有的ParentId。不按层级显示，全部打平
                         newItem.parentId = null
