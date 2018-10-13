@@ -67,7 +67,7 @@
         },
         methods: {
             itemClick(node,item,e) {
-                console.log(item)
+                this.$log.d("选择的item",item)
             },
             resetColor(){
                 this.$refs['testForm'].resetFields();
@@ -79,7 +79,7 @@
         },
         watch: {
             selectTreeItem: function (newValue, oldValue) {
-                console.log("parent newValue:%o", newValue)
+                this.$log.d("parent newValue:%o", newValue)
             }
         },
         mounted(){
@@ -89,7 +89,7 @@
             //模拟异步加载树数据
             setTimeout(()=>{
                 this.tree = service.queryTreeData(this)
-            },3000)
+            },1000)
 
         }
 

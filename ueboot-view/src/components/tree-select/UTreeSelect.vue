@@ -142,6 +142,7 @@
             }
         },
         created() {
+            this.$log.d("####")
             // 避免污染this.tree
             this.treeData = [...this.tree]
             this.initTreeMap(this.treeData, this.value)
@@ -162,6 +163,8 @@
                 this.treeMap = map
                 //构造一个带上下级path的tree二维数组，用于搜索
                 let t = Utils.getTreeData(this.treeData, null)
+                this.$log.d('treeSelect1 初始化getTreeData耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
+                start = new Date().getTime();
                 let a = []
                 this.getTreeChild(t, a)
                 this.searchTreeData = a
@@ -169,13 +172,15 @@
                     this.selectId = selectId
                     this.inputValue = this.treeMap[selectId] ? this.treeMap[selectId].name : ''
                 }
+                this.$log.d('treeSelect2 初始化getTreeChild耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
+                start = new Date().getTime();
                 this.parentTreeData = Utils.getParentTreeData(this.treeData,null)
-                this.$log.d('treeSelect 初始化getTreeChild耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
+               this.$log.d('treeSelect3 初始化getParentTreeData耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
             },
             //将树结构转成二维数组
             getTreeChild(tree, array) {
                 tree.forEach(t => {
-                    let o = deepExtend({}, t)
+                    let o = Utils.clone(t)
                     o.children = null
                     array.push(o)
                     if (t.children && t.children.length > 0) {
@@ -299,8 +304,15 @@
                     data = this.parentTreeData[id].children||[]
                     //判断每个子节点是否还有子节点，没有子节点则设置样式为没有+号
                     data.forEach((c)=>{
-                        if(!this.parentTreeData[c.id]){
-                            c.isLeaf = true
+                        //异步情况下，不执行opened状态
+                        c.opened = false
+                        //给出有下一级的数据标识，防止不出现+号
+                        let o = this.parentTreeData[c.id]
+                        c.children = []
+                        if(o&&o.children){
+                            c.hasChild = true
+                        }else{
+                            c.hasChild = false
                         }
                     })
                 }else{

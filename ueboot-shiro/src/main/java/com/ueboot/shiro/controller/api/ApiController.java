@@ -73,7 +73,7 @@ public class ApiController {
             session.setAttribute(CAPTCHA_KEY, "");
         } else {
             session.setAttribute(CAPTCHA_KEY, "");
-            throw new IllegalArgumentException("验证码不正确!");
+            throw new BusinessException("验证码不正确!");
         }
         String loginMessage="";
         shiroEventListener.beforeLogin(params.getUsername(), params.getCaptcha());

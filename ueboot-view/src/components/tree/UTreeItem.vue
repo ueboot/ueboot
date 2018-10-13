@@ -55,6 +55,7 @@
     export default {
         name: 'UTreeItem',
         props: {
+            async:{type:Boolean,default:false},
             data: {type: Object, required: true},
             textFieldName: {type: String},
             valueFieldName: {type: String},
@@ -114,6 +115,10 @@
         },
         computed: {
             isFolder() {
+                //有这个标识，代表有子节点，但是异步请求时，不会有子节点数据，但是可以有这个标识
+                if(this.model.hasChild){
+                    return true
+                }
                 return this.model[this.childrenFieldName] && this.model[this.childrenFieldName].length>0;
             },
             classes() {
@@ -165,7 +170,7 @@
                 return {
                     'position': this.model.opened ? '' : 'relative',
                     'max-height': this.allowTransition ? this.maxHeight + 'px' : '',
-                    'transition-duration': this.allowTransition ? Math.ceil(this.model[this.childrenFieldName].length / 100) * 300 + 'ms' : '',
+                    'transition-duration': this.allowTransition&&!this.async ? Math.ceil(this.model[this.childrenFieldName].length / 100) * 300 + 'ms' : '',
                     'transition-property': this.allowTransition ? 'max-height' : '',
                     'display': this.allowTransition ? 'block' : (this.model.opened ? 'block' : 'none')
                 };

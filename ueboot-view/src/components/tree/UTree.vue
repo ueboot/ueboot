@@ -263,23 +263,21 @@
             handleAsyncLoad(oriParent, oriNode, oriItem) {
                 let self = this;
                 if (this.async) {
-                    if (oriParent[0].loading) {
-                        this.asyncFun(oriNode, (data) => {
-                            if (data.length > 0) {
-                                for (let i in data) {
-                                    if (!data[i].isLeaf) {
-                                        if (typeof data[i][self.childrenFieldName] !== 'object') {
-                                            data[i][self.childrenFieldName] = [self.initializeLoading()];
-                                        }
+                    this.asyncFun(oriNode, (data) => {
+                        if (data.length > 0) {
+                            for (let i in data) {
+                                if (!data[i].isLeaf) {
+                                    if (typeof data[i][self.childrenFieldName] !== 'object') {
+                                        data[i][self.childrenFieldName] = [self.initializeLoading()];
                                     }
-                                    let dataItem = self.initializeDataItem(data[i]);
-                                    self.$set(oriParent, i, dataItem);
                                 }
-                            } else {
-                                oriNode[self.childrenFieldName] = [];
+                                let dataItem = self.initializeDataItem(data[i]);
+                                self.$set(oriParent, i, dataItem);
                             }
-                        });
-                    }
+                        } else {
+                            oriNode[self.childrenFieldName] = [];
+                        }
+                    });
                 }
             },
             onItemDragStart(e, oriNode, oriItem) {

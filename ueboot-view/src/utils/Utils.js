@@ -142,7 +142,7 @@ export default {
             } else {
                 o.path = item.name;
             }
-            
+        
             // 搜索的时候，会产生label属性，显示的内容格式与name不一样
             o.text = item.label ? item.label : item.name;
             //防止多次assemble后，导致label不存在了
@@ -151,9 +151,9 @@ export default {
             o.value = {id: item.id, name: item.name, parentId: item.parentId};
             //原始对象的值,有可能存在多次组装，避免多次引用，这里只取第一次的原始值
             if(item.origin){
-                o.origin = deepExtend({}, item.origin)
+                o.origin = this.clone(item.origin)
             }else{
-                o.origin = deepExtend({}, item)
+                o.origin = this.clone(item)
             }
             o.selected = item.selected || false;
             o.disabled = item.disabled || false;
@@ -164,7 +164,7 @@ export default {
         }
         o.id = item.id;
         o.parentId = item.parentId;
-        return o;
+        return o
     },
     
     // 2.递归循环所有节点,将节点加入到父节点当中
@@ -212,7 +212,16 @@ export default {
     },
     //克隆一个对象，浅copy
     clone(object) {
-        return JSON.parse(JSON.stringify(object));
+        let o = {}
+        let keys = Object.keys(object)
+        //不可使用deepExtend，会出现重置无效的问题
+        if (keys && keys.length > 0) {
+            keys.forEach((k) => {
+                //复制重置后的默认值，防止点击查询时没有使用默认值进行查询
+                o[k] = object[k]
+            })
+        }
+        return o
     }
     
 };

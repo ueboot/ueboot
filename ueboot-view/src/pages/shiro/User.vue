@@ -23,8 +23,8 @@
             <p slot="header">
                 请注意，您当前正在对<span style="color:red; vertical-align: top;">{{formCustom.userName}}</span> 用户进行角色分配操作！
             </p>
-            <Form ref="formCustom2" :model="formCustom" :rules="ruleCustom" :label-width="80">
-                <FormItem label="所属角色" prop="roles" required>
+            <Form ref="formCustom2" :model="formCustom" :label-width="80">
+                <FormItem label="所属角色" prop="roles">
                     <Select v-model="formCustom.roleIds" multiple style="width:260px">
                         <Option v-for="item in roleData" :value="item.value" :key="item.value">{{ item.name }}</Option>
                     </Select>
@@ -118,8 +118,8 @@
                         ]
                     },
                     table: {
-                        rowClick:(row,index)=>{
-                          this.$refs["formGrid"].$refs["dataTable"].toggleSelect(index)
+                        rowClick: (row, index) => {
+                            this.$refs["formGrid"].$refs["dataTable"].toggleSelect(index)
                         },
                         operation: {
                             primaryKey: 'id',
@@ -143,6 +143,8 @@
                                                 }
                                             });
                                             this.formCustom.roleIds = a;
+                                        } else {
+                                            this.formCustom.roleIds = [];
                                         }
                                         this.formCustom.userName = row['userName'];
                                     }
