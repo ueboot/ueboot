@@ -52,7 +52,7 @@ let ueboot_config = {
     },
     //日志级别，使用this.$log.d()这种方式记录日志时的级别
     log:{
-        level:3,
+        level:2,
     }
 };
 
