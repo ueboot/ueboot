@@ -339,9 +339,11 @@
                     if (item.selected) {
                         result.push(item.id);
                     }
-                    item.children.forEach((c) => {
-                        getChecked(c, result);
-                    });
+                    if(item.children){
+                        item.children.forEach((c) => {
+                            getChecked(c, result);
+                        });
+                    }
                 }
 
                 let result = [];

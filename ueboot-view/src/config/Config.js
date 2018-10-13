@@ -21,6 +21,10 @@ let ueboot_config = {
         logoStyle: {
             minWidth: '250px'
         },
+        logoImageStyle:{
+          width:'50%',
+          height:'50%'
+        },
         //右侧风格，下拉模式或者横向模式
         rightTheme:'dropdown',
         rightStyle: {

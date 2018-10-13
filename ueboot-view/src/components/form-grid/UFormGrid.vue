@@ -70,13 +70,15 @@
                                           @on-clear="item.onClear"
                                           @on-open-change="item.onOpenChange"
                                 >
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" v-html="option.name">
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
+                                            v-html="option.name">
                                     </Option>
                                 </i-select>
 
                                 <template v-else-if="item.type==='radio'">
                                     <Radio-group v-model="queryParams[item.name]" :disabled="item.disabled">
-                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index" v-html="o.name">
+                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index"
+                                               v-html="o.name">
                                         </Radio>
                                     </Radio-group>
                                 </template>
@@ -396,7 +398,8 @@
                                           @on-open-change="item.onOpenChange"
                                 >
 
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" v-html="option.name">
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
+                                            v-html="option.name">
                                     </Option>
                                 </i-select>
                             </template>

@@ -5,14 +5,8 @@
                 <Menu mode="horizontal" theme="dark" active-name="1">
                     <div class="layout-parent">
                         <div class="layout-logo" :style="config.page_main.logoStyle">
-                           <Row>
-                               <i-col :span="12">
-                                   <img :src="config.logoImage" :alt="config.sysTitle" class="header-img">
-                               </i-col>
-                               <i-col :span="12">
-                                   <div class="header-span">{{config.sysTitle}}</div>
-                               </i-col>
-                           </Row>
+                            <div :style="config.page_main.logoImageStyle" ><img :src="config.logoImage" :alt="config.sysTitle" class="header-img"></div>
+                            <div class="header-span">{{config.sysTitle}}</div>
                         </div>
                         <div class="layout-nav" :style="config.page_main.rightStyle">
                             <Row justify="end" type="flex" v-if="config.page_main.rightTheme!=='dropdown'">
@@ -446,12 +440,15 @@
     }
 
     .layout-logo {
+        flex-direction: row;
         display: flex;
         max-height: 60px;
         padding: 0 20px;
         border-radius: 3px;
         position: relative;
         vertical-align: middle;
+        justify-content: flex-start;
+        align-content: flex-start;
     }
 
     .ivu-layout-header a {
