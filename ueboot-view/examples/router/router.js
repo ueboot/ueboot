@@ -14,7 +14,6 @@ import Areas from "../views/setting/Areas.vue";
 import Activities from "../views/activity/Activities.vue";
 import SecKillActivity from "../views/activity/SecKillActivity.vue";
 import TreeSelect from '../views/demo/TreeSelect'
-import RecommdationRelation from '../views/demo/RecommdationRelation.vue'
 import {Page_Login, Page_Main, Page_Shiro_User, Page_Shiro_Role, Page_Shiro_Resources} from 'ueboot'
 
 import Login from '../../src/pages/shiro/Login'
@@ -75,11 +74,6 @@ export default new Router({
                     path: 'formGrid3',
                     name: 'FormGrid视图3',
                     component: FormGrid3,
-                },
-                {
-                    path: '/RecommdationRelation',
-                    name: 'RecommdationRelation',
-                    component: RecommdationRelation,
                 },
                 {
                     path: 'cascader',

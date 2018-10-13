@@ -118,10 +118,8 @@
         // 监听父节点的值发生变化后，动态修改内部的数据
         watch: {
             value: function (newValue, oldValue) {
-                if (newValue !== oldValue && newValue !== null) {
-                    this.selectId = parseInt(newValue)
-                    this.inputValue = this.treeMap[newValue] ? this.treeMap[newValue].name : ''
-                }
+                this.selectId = parseInt(newValue)
+                this.inputValue = this.treeMap[newValue] ? this.treeMap[newValue].name : ''
             },
             tree: function (newValue, oldValue) {
                 this.treeData = newValue
@@ -131,10 +129,10 @@
             inputValue: function (newValue, oldValue) {
                 // 如果没有选择任何内容，则树结构恢复原始状态
                 if (newValue === '' || newValue === null) {
-                    // 避免污染this.tree
                     this.$nextTick(() => {
-                        //非异步才给全数据，否则为空，通过异步加载
                         if(!this.async){
+                            // 避免污染this.tree
+                            //非异步才给全数据，否则为空，通过异步加载
                             this.treeData = [...this.tree]
                         }else {
                             this.treeData = []
@@ -186,13 +184,14 @@
                 })
             },
             inputOnSearch(event) {
-                this.$emit('input', null)
                 if (this.inputValue !== '' && this.inputValue !== null) {
                     this.treeData = this.searchTree(this.searchTreeData, this.inputValue)
                     this.isSearchTree = true
                     //搜索时，不做异步加载
                     this.newAsync = false
                 } else {
+                    //当输入的内容为空时，清空之前选择的值，否则继续保留上次选择的值
+                    this.$emit('input', null)
                     this.newAsync = this.async
                     //非异步才给全数据，否则为空，通过异步加载
                     if(!this.async){

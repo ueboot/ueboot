@@ -916,6 +916,12 @@
             // 初始化搜索框的初始值
             setSuperFilterInitValue(columns) {
                 columns.forEach((c) => {
+                    //先默认设置一个属性，防止重置时无法被监听到
+                    if (['cascader', 'checkbox'].includes(c.type)) {
+                        this.$set(this.queryParams, c.name, new Array());
+                    }else{
+                        this.$set(this.queryParams, c.name, null);
+                    }
                     //number类型允许初始值为0
                     if (!!c.init || c.init === 0) {
                         this.$set(this.queryParams, c.name, c.init);
@@ -971,7 +977,7 @@
             // 高级搜索框按钮
             superFilterSearch(page) {
                 //防止表单重置操作偶然会出现无法重置的时候，猜测是因为这个queryParams对象经过axios进行变化，导致底层事件监听出现异常
-                let params = deepExtend({}, this.queryParams)
+                let params = Utils.clone(this.queryParams)
                 if (!this.formGrid.toolbar.superFilter.submitBefore(params)) {
                     Log.e("superFilter.submitBefore 返回false，阻止查询")
                     return;
