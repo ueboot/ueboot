@@ -796,7 +796,9 @@
                     this.formGrid.table.columns.splice(0, 0, this.formGrid.table.selection);
                 }
                 // 渲染表格每列特殊情况
-                this.renderColumn();
+                this.renderColumn()
+                //默认情况下导出按钮为禁用状态，查询有结果后才可以
+                this.setExportButtonStatus(false, true)
                 Log.d('data 初始化对象');
             },
             // 对添加、编辑、查看表单数据进行初始化
@@ -919,7 +921,7 @@
                     //先默认设置一个属性，防止重置时无法被监听到
                     if (['cascader', 'checkbox'].includes(c.type)) {
                         this.$set(this.queryParams, c.name, new Array());
-                    }else{
+                    } else {
                         this.$set(this.queryParams, c.name, null);
                     }
                     //number类型允许初始值为0
@@ -1013,13 +1015,17 @@
                 }
                 let params = {page: page, size: size};
                 this.formGrid.table.loading = true;
+                //设置导出按钮为loading状态
+                this.setExportButtonStatus(true,false)
                 this.$axios.post(this.formGrid.options.url.page, data, {params: params}).then(response => {
                     this.table.noDataText = this.formGrid.table.noDataText;
                     this.formGrid.table.loading = false;
                     this.formGrid.table.data = response.body.content;
                     if (this.formGrid.table.data && this.formGrid.table.data.length === 0) {
                         this.table.height = 0
+                        this.setExportButtonStatus(false,true)
                     } else {
+                        this.setExportButtonStatus(false, false)
                         this.table.height = this.formGrid.table.height
                     }
                     this.formGrid.pageable.total = response.body.totalElements;
@@ -1663,7 +1669,21 @@
                     this.fetchExcelData(size);
                 }
             },
+            //对导出按钮，设置相关状态
+            setExportButtonStatus(loading, disabled) {
+                if (!this.formGrid.toolbar.button) {
+                    return
+                }
+                this.formGrid.toolbar.button.forEach((b) => {
+                    if (["exportCurrentPage", 'exportAllData'].includes(b.key)) {
+                        b.loading = loading || false
+                        b.disabled = disabled || false
+                    }
+                })
+            },
             fetchExcelData(size) {
+                //设置导出按钮为loading状态
+                this.setExportButtonStatus(true,false)
                 let data = {};
                 data = deepExtend({}, this.queryParams);
                 let page = this.formGrid.pageable.page;
@@ -1688,15 +1708,18 @@
                             columns.push({key: key, title: title});
                         }
                     );
+                    this.setExportButtonStatus(false,false)
                     this.defaultExport(columns, body);
                     this.$forceUpdate();
                 }).catch(response => {
+                    this.setExportButtonStatus(false,false)
                     this.$set(this.formGrid.table, 'data', []);
                     this.noticeError('数据查询出现异常', '系统服务或网络异常');
                 });
             },
             defaultExport(columns, data) {
                 if (!this.formGrid.toolbar.groups.export) {
+                    Log.e("对导出功能未配置groups.export属性")
                     return;
                 }
                 let fileName = this.formGrid.toolbar.groups.export['fileName'] || '原数据导出';

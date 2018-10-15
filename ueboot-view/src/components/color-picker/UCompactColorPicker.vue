@@ -9,12 +9,9 @@
                 <i-input v-model="inputColor" disabled>
                     <div slot="prepend" class="selectedColor" :style="{background:inputColor}"></div>
                     <span slot="append">
-
                          <Icon type="md-color-fill" slot="suffix" @click="showColorModal"/>
-
                     </span>
                 </i-input>
-
                 <div slot="list" class="colorParent">
                     <Row type="flex" align="middle">
                         <i-col span="10">
