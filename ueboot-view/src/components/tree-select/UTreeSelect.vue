@@ -3,7 +3,8 @@
         <Row v-if="fixed">
             <i-input v-model="inputValue" search @on-keyup="inputOnSearch" @on-search="inputOnSearch"
                      @on-focus="inputFocus"/>
-            <u-tree :tree="treeData" :size="size" :collapse="collapse" :async="newAsync" :asyncFun="asyncLoadData" :loadingText="loadingText"
+            <u-tree :tree="treeData" :size="size" :collapse="collapse" :async="newAsync" :asyncFun="asyncLoadData"
+                    :loadingText="loadingText"
                     :klass="klass"
                     :maxHeight="maxHeight"
                     @item-click="handlerItemClick"
@@ -16,7 +17,8 @@
                 <i-input v-model="inputValue" search @on-keyup="inputOnSearch" @on-search="inputOnSearch"
                          @on-focus="inputFocus"/>
                 <div slot="list">
-                    <u-tree v-model="selectId" :tree="treeData" :size="size" :collapse="collapse"  :async="newAsync" :asyncFun="asyncLoadData"
+                    <u-tree v-model="selectId" :tree="treeData" :size="size" :collapse="collapse" :async="newAsync"
+                            :asyncFun="asyncLoadData"
                             :loadingText="loadingText" :klass="klass"
                             :maxHeight="maxHeight"
                             @item-click="handlerItemClick"
@@ -89,6 +91,8 @@
             return {
                 // 传给UTree组件的数据
                 treeData: [],
+                //已经初始化过的树数据，用于页面异步加载的时候初始化显示使用第一层数据。
+                initTreeData: [],
                 inputValue: null,
                 selectTreeItem: null,
                 visible: false,
@@ -103,7 +107,7 @@
                 //标识当前树数据是否为搜索用的tree，还是正常的树
                 isSearchTree: false,
                 //根据parentId归类的树数据
-                parentTreeData:[],
+                parentTreeData: [],
                 opt: {
                     showCheckbox: false,
                     multiple: false,
@@ -111,7 +115,7 @@
                     wholeRow: true
                 },
                 //使用新的字段保留原始的标识
-                newAsync:this.async
+                newAsync: this.async
             }
         },
 
@@ -130,11 +134,11 @@
                 // 如果没有选择任何内容，则树结构恢复原始状态
                 if (newValue === '' || newValue === null) {
                     this.$nextTick(() => {
-                        if(!this.async){
+                        if (!this.async) {
                             // 避免污染this.tree
                             //非异步才给全数据，否则为空，通过异步加载
                             this.treeData = [...this.tree]
-                        }else {
+                        } else {
                             this.treeData = []
                         }
                     })
@@ -162,11 +166,13 @@
                 }
                 this.treeMap = map
                 //构造一个带上下级path的tree二维数组，用于搜索
-                let t = Utils.getTreeData(this.treeData, null)
+                this.initTreeData = Utils.getTreeData(this.treeData, null)
+                //找到第一层数据
+
                 this.$log.d('treeSelect1 初始化getTreeData耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
                 start = new Date().getTime();
                 let a = []
-                this.getTreeChild(t, a)
+                this.getTreeChild(this.initTreeData, a)
                 this.searchTreeData = a
                 if (selectId) {
                     this.selectId = selectId
@@ -174,8 +180,8 @@
                 }
                 this.$log.d('treeSelect2 初始化getTreeChild耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
                 start = new Date().getTime();
-                this.parentTreeData = Utils.getParentTreeData(this.treeData,null)
-               this.$log.d('treeSelect3 初始化getParentTreeData耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
+                this.parentTreeData = Utils.getParentTreeData(this.treeData, null)
+                this.$log.d('treeSelect3 初始化getParentTreeData耗时:%o,selectId:%o', new Date().getTime() - start, this.selectId);
             },
             //将树结构转成二维数组
             getTreeChild(tree, array) {
@@ -199,9 +205,9 @@
                     this.$emit('input', null)
                     this.newAsync = this.async
                     //非异步才给全数据，否则为空，通过异步加载
-                    if(!this.async){
+                    if (!this.async) {
                         this.treeData = [...this.tree]
-                    }else {
+                    } else {
                         this.treeData = []
                     }
                     this.isSearchTree = false
@@ -238,7 +244,7 @@
                             labelStr = strs.reverse().join('')
                         }
                         newItem.tip = t.path
-                        newItem.origin = deepExtend({},t.origin)
+                        newItem.origin = deepExtend({}, t.origin)
                         newItem.label = labelStr.replace(reg, '<font color=red>$1</font>')
                         // 干掉所有的ParentId。不按层级显示，全部打平
                         newItem.parentId = null
@@ -248,7 +254,7 @@
                             newTree.push(newItem)
                         } else {
                             let tip = '当前搜索结果超过15个，未完全显示。'
-                            newItem.label=`<font color=gray>${tip}</font>`
+                            newItem.label = `<font color=gray>${tip}</font>`
                             newItem.tip = tip
                             newItem.id = null
                             newTree.push(newItem)
@@ -256,8 +262,8 @@
                         }
                     }
                 }
-                if(newTree.length ===0){
-                    newTree.push({id:null,label:`<font color=gray>没有找到相关数据</font>`,tip:'没有找到相关数据'})
+                if (newTree.length === 0) {
+                    newTree.push({id: null, label: `<font color=gray>没有找到相关数据</font>`, tip: '没有找到相关数据'})
                 }
                 return newTree
             },
@@ -276,14 +282,14 @@
                 this.$emit('input', parseInt(item.id))
                 this.$emit('item-click', node, item, e)
                 //点击搜索结果后，树结构变为原始结构
-                if(this.isSearchTree){
+                if (this.isSearchTree) {
                     this.newAsync = this.async
                     this.isSearchTree = false
                     //非异步才给全数据，否则为空，通过异步加载
-                    if(!this.async){
+                    if (!this.async) {
                         this.treeData = [...this.tree]
                         this.initTreeMap(this.treeData, this.selectId)
-                    }else {
+                    } else {
                         this.treeData = []
                     }
                 }
@@ -295,27 +301,35 @@
             },
             asyncLoadData(oriNode, callback) {
                 let id = oriNode.id ? oriNode.id : 'root'
-                if(oriNode.data){
+                if (oriNode.data) {
                     id = oriNode.data.id
                 }
-                //根据ID获取子节点数据
-                let data = this.parentTreeData[id]
-                if(data){
-                    data = this.parentTreeData[id].children||[]
+                let data = null
+                //根节点数据直接获取第一层数据
+                if ('root' === id) {
+                    data = this.initTreeData
+                } else {
+                    //根据ID获取子节点数据
+                    data = this.parentTreeData[id]
+                    if (data) {
+                        data = this.parentTreeData[id].children || []
+                    }
+                }
+                if (data) {
                     //判断每个子节点是否还有子节点，没有子节点则设置样式为没有+号
-                    data.forEach((c)=>{
+                    data.forEach((c) => {
                         //异步情况下，不执行opened状态
                         c.opened = false
                         //给出有下一级的数据标识，防止不出现+号
                         let o = this.parentTreeData[c.id]
                         c.children = []
-                        if(o&&o.children){
+                        if (o && o.children) {
                             c.hasChild = true
-                        }else{
+                        } else {
                             c.hasChild = false
                         }
                     })
-                }else{
+                } else {
                     data = []
                 }
                 callback(data)
