@@ -65,7 +65,7 @@
             wholeRow: {type: Boolean, default: false},
             noDots: {type: Boolean, default: false},
             collapse: {type: Boolean, default: false},
-            multiple: {type: Boolean, default: false},
+            multiple: {type: Boolean, default: true},
             allowBatch: {type: Boolean, default: true},
             allowTransition: {type: Boolean, default: true},
             textFieldName: {type: String, default: 'text'},
@@ -238,6 +238,7 @@
                 } else {
                     this.handleSingleSelectItems(oriNode, oriItem);
                 }
+
                 // 更新v-model属性的值
                 this.$emit('input', oriItem.id);
                 this.$emit('item-click', oriNode, oriItem, e);
@@ -334,7 +335,8 @@
             getCheckedNodes() {
                 // 递归查询获取所有被勾选的节点
                 function getChecked(item, result) {
-                    if (item.selected) {
+                    //勾选的和半选的都算选中的
+                    if (item.selected || item.undetermined) {
                         result.push(item.id);
                     }
                     if(item.children){

@@ -82,6 +82,7 @@ export default class AxiosConfig {
                         iView.Modal.remove();
                         if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
                             window.location.href = conf.unauthorizedUrl;
+                            //IE下有可能不刷新
                         }
                     }, 200);
                 }
