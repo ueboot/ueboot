@@ -11,7 +11,7 @@
         <div role="presentation" :class="wholeRowClasses" v-if="isWholeRow">&nbsp;</div>
         <i class="tree-icon tree-ocl" role="presentation" @click="handleItemToggle"></i>
         <div :class="anchorClasses" v-on="events">
-            <i class="tree-icon tree-checkbox" role="presentation" v-if="showCheckbox && !model.loading"></i>
+            <i :class="{'tree-icon':true,'tree-checkbox': true,'tree-undetermined': this.model.undetermined}" role="presentation" v-if="showCheckbox && !model.loading"></i>
             <slot :vm="this" :model="model">
                 <i :class="themeIconClasses" role="presentation" v-if="!model.loading"></i>
                 <span v-html="model[textFieldName]"></span>
@@ -155,6 +155,7 @@
                     {'tree-themeicon-custom': !!this.model.icon}
                 ];
             },
+
             isWholeRow() {
                 if (this.wholeRow) {
                     if (this.$parent.model === undefined) {
@@ -174,7 +175,8 @@
                     'transition-property': this.allowTransition ? 'max-height' : '',
                     'display': this.allowTransition ? 'block' : (this.model.opened ? 'block' : 'none')
                 };
-            }
+            },
+
         },
         methods: {
             handleItemToggle(e) {
@@ -204,7 +206,36 @@
             handleItemClick(e) {
                 if (this.model.disabled) return;
                 this.model.selected = !this.model.selected;
+                if (this.$parent.$options._componentTag === 'u-tree-item') {
+                    this.$parent.handleSetUndetermined();
+                }
                 this.onItemClick(this, this.model, e);
+            },
+            //设置为半选状态
+            handleSetUndetermined(){
+                //判断子节点是否有勾选的，且不是全部勾选
+                let undetermined = false
+                let allSelected = true
+                if(this.model.children){
+                    this.model.children.forEach((c)=>{
+                        //子节点存在半选、选中时，父级节点都为半选
+                        if(c.undetermined){
+                            undetermined = true
+                        }
+                        if(c.selected){
+                            undetermined = true
+                        }else {
+                            allSelected = false
+                        }
+                    })
+                }
+                this.model.undetermined = undetermined
+                this.model.selected = allSelected
+                this.$forceUpdate()
+                //循环调用父级的方法
+                if (this.$parent.$options._componentTag === 'u-tree-item') {
+                    this.$parent.handleSetUndetermined();
+                }
             },
             handleItemMouseOver() {
                 this.isHover = true;

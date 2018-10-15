@@ -80,7 +80,7 @@
             async: {type: Boolean, default: false},
             asyncFun: {type: Function},
             loadingText: {type: String, default: 'Loading...'},
-            draggable: {type: Boolean, default: false},
+            draggable: {type: Boolean, default: true},
             dragOverBackgroundColor: {type: String, default: '#C9FDC9'},
             klass: String,
             maxHeight: {
@@ -238,6 +238,7 @@
                 } else {
                     this.handleSingleSelectItems(oriNode, oriItem);
                 }
+
                 // 更新v-model属性的值
                 this.$emit('input', oriItem.id);
                 this.$emit('item-click', oriNode, oriItem, e);
@@ -334,7 +335,8 @@
             getCheckedNodes() {
                 // 递归查询获取所有被勾选的节点
                 function getChecked(item, result) {
-                    if (item.selected) {
+                    //勾选的和半选的都算选中的
+                    if (item.selected || item.undetermined) {
                         result.push(item.id);
                     }
                     if(item.children){
