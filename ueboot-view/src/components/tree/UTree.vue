@@ -65,7 +65,7 @@
             wholeRow: {type: Boolean, default: false},
             noDots: {type: Boolean, default: false},
             collapse: {type: Boolean, default: false},
-            multiple: {type: Boolean, default: false},
+            multiple: {type: Boolean, default: true},
             allowBatch: {type: Boolean, default: true},
             allowTransition: {type: Boolean, default: true},
             textFieldName: {type: String, default: 'text'},
@@ -80,7 +80,7 @@
             async: {type: Boolean, default: false},
             asyncFun: {type: Function},
             loadingText: {type: String, default: 'Loading...'},
-            draggable: {type: Boolean, default: true},
+            draggable: {type: Boolean, default: false},
             dragOverBackgroundColor: {type: String, default: '#C9FDC9'},
             klass: String,
             maxHeight: {
