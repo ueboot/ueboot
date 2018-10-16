@@ -65,7 +65,7 @@
             wholeRow: {type: Boolean, default: false},
             noDots: {type: Boolean, default: false},
             collapse: {type: Boolean, default: false},
-            multiple: {type: Boolean, default: true},
+            multiple: {type: Boolean, default: false},
             allowBatch: {type: Boolean, default: true},
             allowTransition: {type: Boolean, default: true},
             textFieldName: {type: String, default: 'text'},

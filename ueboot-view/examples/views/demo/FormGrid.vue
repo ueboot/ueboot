@@ -52,6 +52,11 @@
                             colNumber: 4,
                             columns: [
                                 {
+                                    type: "hidden",
+                                    name:'hidden',
+                                    init:'1',
+                                },
+                                {
                                     type: "text",
                                     label: "姓名1",
                                     name: "name1",
@@ -79,12 +84,13 @@
                                     name: "province",
                                     label: "下拉框1",
                                     clearable: true,
-                                    filterable: false,
+                                    filterable: true,
                                     multiple: false,
                                     required:true,
                                     init:'hehe',
                                     onChange: (value) => {
                                         console.log(value)
+                                        this.$refs['child'].queryParams['hidden'] ='2'
                                     },
                                     data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },

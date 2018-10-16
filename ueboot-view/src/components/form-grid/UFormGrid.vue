@@ -10,6 +10,12 @@
             <Form :model="queryParams" :label-position="formGrid.toolbar.superFilter.labelPosition"
                   :label-width="formGrid.toolbar.superFilter.labelWidth" :ref="formGrid.toolbar.superFilter.name"
                   :rules="searchRuleValidate">
+                <!--隐藏表单元素，一定只能使用text设置为不显示，不可使用hidden。否则重置功能无法使用-->
+                <template  v-for="(item,index3) in superFilterHiddenColumns" >
+                    <Form-item :label="item.label" :prop="item.name" style="display: none">
+                        <i-input type="text"   v-model="queryParams[item.name]" :key="'hidden'+index3" />
+                    </Form-item>
+                </template>
                 <i-col :span="24">
                     <Row v-for="(row,index1) in superFilterRows" :key="'row'+index1">
                         <i-col v-for="(item,index2) in row" :key="'superfilter'+index2"
@@ -37,8 +43,7 @@
                                          :placeholder="item.placeholder"
                                          v-if="item.type==='password'" :disabled="item.disabled">
                                 </i-input>
-                                <!--隐藏表单-->
-                                <input type="hidden" v-if="item.type==='hidden'" v-model="queryParams[item.name]"/>
+
                                 <i-switch v-model="queryParams[item.name]" @on-change="item.change"
                                           v-if="item.type === 'switch'" :disabled="item.disabled"></i-switch>
                                 <InputNumber v-if="item.type === 'number'" :type="item.type"
@@ -70,7 +75,7 @@
                                           @on-clear="item.onClear"
                                           @on-open-change="item.onOpenChange"
                                 >
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" :label="option.name"
                                             v-html="option.name">
                                     </Option>
                                 </i-select>
@@ -398,7 +403,7 @@
                                           @on-open-change="item.onOpenChange"
                                 >
 
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" :label="option.name"
                                             v-html="option.name">
                                     </Option>
                                 </i-select>
@@ -544,8 +549,8 @@
                             </template>
                             <template v-else-if="item.type==='select'">
                                 <i-select disabled v-model="formGrid.form.data[item.name]" readonly>
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
-                                        {{ option.name }}
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
+                                            :label="option.name" v-html="option.name">
                                     </Option>
                                 </i-select>
                             </template>
@@ -731,6 +736,8 @@
                 formRows: [],
                 //渲染高级搜索表单的行数
                 superFilterRows: [],
+                //渲染高级搜索时的隐藏表单元素
+                superFilterHiddenColumns: [],
                 // grid查询参数
                 queryParams: {},
                 //点击查询后临时保存的查询参数，后续如果只做分页查询，参数不受查询条件变化影响，必须要重新点击查询按钮才改变
@@ -836,8 +843,8 @@
                             columns.push(c);
                             i++;
                         } else {
-                            // 隐藏输入框，直接绑定变量
-                            this.$set(this.queryParams, c.name, c.init);
+                            // 隐藏输入框，单独放入一个位置
+                            this.superFilterHiddenColumns.push(c)
                         }
                     });
                     if (columns.length > 0 && columns.length < colNumber) {
@@ -966,7 +973,7 @@
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
                 //不可使用deepExtend，会出现重置无效的问题
                 this.tmpQueryParams = Utils.clone(this.queryParams)
-
+                this.setExportButtonStatus(false,true)
                 this.clearTableData()
                 //如果设置的是自动加载，则清空时再次加载
                 if (this.formGrid.options.autoLoad) {
@@ -1750,18 +1757,6 @@
                     });
                 });
 
-                /* //修改form表单值
-                  this.$on("setFormFieldData", (fieldName, data) => {
-                    this.$set(this.formGrid.form.data, fieldName, data);
-                  });
-                  //修改高级搜索框的数据
-                  this.$on("setSuperFilter", (superFilter) => {
-                    //与原来的做合并
-                    let o = deepExtend({},this.formGrid.toolbar.superFilter,superFilter)
-                    this.$set(this.formGrid.toolbar, "superFilter", o );
-                    //重新渲染搜索表单
-                    this.renderSearchForm()
-                  }); */
                 // 上传成功
                 this.$on('uploadSuccess', (jsonData, scope) => {
                     // 上传成功的业务逻辑代码
