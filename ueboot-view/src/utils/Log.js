@@ -14,7 +14,7 @@ const level = {
     ALL: 4
 };
 
-let logLevel = level.INFO;
+let logLevel = level.DEBUG;
 
 export default {
     d() {

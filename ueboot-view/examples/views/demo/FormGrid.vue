@@ -1,12 +1,20 @@
 <template>
     <div>
-        <u-form-grid :data="formGrid" ref="child"></u-form-grid>
+        <u-form-grid :data="formGrid" ref="child">
+            <template slot="formItem">
+                <Form-item :label="item.label" :prop="item.name" v-if="item.show">
+
+                    <i-input v-model="itemData" type="text"
+
+                    >
+                    </i-input>
+                </Form-item>
+            </template>
+        </u-form-grid>
     </div>
 </template>
 
 <script type="application/javascript">
-    import Vue from "vue";
-
     const tree = [
         {id: 1, "name": "根节点1", parentId: null, opened: true},
         {"name": "一级子节点", id: 2, parentId: 1, icon: 'fa fa-check icon-state-success'},
@@ -23,6 +31,12 @@
     const _this = {
         data() {
             return {
+                itemData:null,
+                item:{
+                    name:'test',
+                    show:true,
+                    label:'test'
+                },
                 formGrid: {
                     options: {
                         autoLoad: false,
@@ -37,6 +51,18 @@
                             label: "高级搜索",
                             colNumber: 4,
                             columns: [
+                                {
+                                    type: "hidden",
+                                    name:'hidden',
+                                    init:'1',
+                                },
+                                {
+                                    type: "text",
+                                    label: "姓名1",
+                                    name: "name1",
+                                    icon: "plus",
+                                    placeholder: "请填写姓名"
+                                },
                                 {
                                     type: "text",
                                     label: "姓名",
@@ -54,12 +80,19 @@
                                     required: true
                                 },
                                 {
-                                    type: "daterange",
-                                    label: "日期范围",
-                                    name: "daterange",
-                                    placeholder: "选择日期范围",
-                                    option: {},
-                                    format: ""
+                                    type: "select",
+                                    name: "province",
+                                    label: "下拉框1",
+                                    clearable: true,
+                                    filterable: true,
+                                    multiple: false,
+                                    required:true,
+                                    init:'hehe',
+                                    onChange: (value) => {
+                                        console.log(value)
+                                        this.$refs['child'].queryParams['hidden'] ='2'
+                                    },
+                                    data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },
                                 {
                                     type: "date",
@@ -111,21 +144,7 @@
                                         }]
                                     }]
                                 }, /*,
-                                {
-                                    type: "select",
-                                    name: "province",
-                                    label: "下拉框1",
-                                    clearable: true,
-                                    filterable: false,
-                                    multiple: false,
-                                    required:true,
-                                    init:'hehe',
-                                    onChange: (value) => {
-                                        console.log(value)
-                                        this.resetSuperFilter(value)
-                                    },
-                                    data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
-                                },
+
                                 {
                                     type: "select",
                                     name: "province2",

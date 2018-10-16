@@ -3,7 +3,7 @@ import Log from '../utils/Log';
 import AxiosConfig from './AxiosConfig';
 let ueboot_config = {
     sysTitle: 'ueboot权限管理',
-    logoImage: '/static/img/ueboot.svg',
+    logoImage: '/static/img/ueboot.png',
     page_login: {
         // 登录界面风格，可取值 ['theme1','theme2']
         theme: 'theme2',
@@ -20,6 +20,10 @@ let ueboot_config = {
         menuWidth:250,
         logoStyle: {
             minWidth: '250px'
+        },
+        logoImageStyle:{
+          width:'50%',
+          height:'50%'
         },
         //右侧风格，下拉模式或者横向模式
         rightTheme:'dropdown',
@@ -46,11 +50,13 @@ let ueboot_config = {
     },
     axios: {
         baseURL:'',
-        unauthorizedUrl:'/#/login'
+        unauthorizedUrl:'/#/login',
+        //未登录文字提示
+        notLoginMsg:'您尚未登录，或当前用户会话已过期，点击确定按钮返回到登录界面。'
     },
     //日志级别，使用this.$log.d()这种方式记录日志时的级别
     log:{
-        level:3,
+        level:2,
     }
 };
 

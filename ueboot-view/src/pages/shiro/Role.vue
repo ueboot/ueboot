@@ -62,7 +62,19 @@
                             columns: [
                                 {type: 'text', name: 'name', label: '角色名称'}
                             ]
-                        }
+                        },
+                        groups: {
+                            export: {
+                                label: '导出全部',
+                                show: true,
+                                fileName: '数据导出文件',
+                                columns: [
+                                    {title: '角色名称', key: 'name', minWidth: 100},
+                                    {title: '角色描述', key: 'description', minWidth: 80},
+                                    {title: '是否启用', key: 'available', minWidth: 100},
+                                ]
+                            }
+                        },
                     },
                     form: {
                         modal: {

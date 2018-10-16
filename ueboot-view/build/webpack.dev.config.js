@@ -12,13 +12,12 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 
-
 module.exports = merge(webpackBaseConfig, {
     devtool: 'eval-source-map',
-
+    
     // 入口
     entry: {
-        app:['babel-polyfill','./examples/main'],
+        app: ['babel-polyfill', './examples/main'],
         // main: './examples/main',
         vendors: ['vue', 'vue-router']
     },
@@ -41,10 +40,10 @@ module.exports = merge(webpackBaseConfig, {
         clientLogLevel: 'warning',
         historyApiFallback: {
             rewrites: [
-                { from: /.*/, to: path.posix.join("/", 'index.html') },
+                {from: /.*/, to: path.posix.join("/", 'index.html')},
             ],
         },
-        host:'localhost',
+        host: 'localhost',
         hot: true,
         contentBase: false, // since we use CopyWebpackPlugin.
         compress: true,
@@ -53,20 +52,27 @@ module.exports = merge(webpackBaseConfig, {
         publicPath: "/",
         proxy: {
             //本地代理
+            '/structure/*': {
+                target: 'http://localhost:8095',
+                debug: true,
+                changeOrigin: true,
+                secure: false
+            },
+            //本地代理
             '/ueboot/*': {
                 target: 'http://localhost:8000',
-                    debug:true,
-                    changeOrigin: true,
-                    secure: false
-            }
+                debug: true,
+                changeOrigin: true,
+                secure: false
+            },
         },
         quiet: true, // necessary for FriendlyErrorsPlugin
         watchOptions: {
-            poll:false,
+            poll: false,
         }
     },
     plugins: [
-        new webpack.optimize.CommonsChunkPlugin({ name: 'vendors', filename: 'vendor.bundle.js' }),
+        new webpack.optimize.CommonsChunkPlugin({name: 'vendors', filename: 'vendor.bundle.js'}),
         new HtmlWebpackPlugin({
             inject: true,
             filename: path.join(__dirname, '../examples/dist/index.html'),

@@ -10,6 +10,12 @@
             <Form :model="queryParams" :label-position="formGrid.toolbar.superFilter.labelPosition"
                   :label-width="formGrid.toolbar.superFilter.labelWidth" :ref="formGrid.toolbar.superFilter.name"
                   :rules="searchRuleValidate">
+                <!--隐藏表单元素，一定只能使用text设置为不显示，不可使用hidden。否则重置功能无法使用-->
+                <template  v-for="(item,index3) in superFilterHiddenColumns" >
+                    <Form-item :label="item.label" :prop="item.name" style="display: none">
+                        <i-input type="text"   v-model="queryParams[item.name]" :key="'hidden'+index3" />
+                    </Form-item>
+                </template>
                 <i-col :span="24">
                     <Row v-for="(row,index1) in superFilterRows" :key="'row'+index1">
                         <i-col v-for="(item,index2) in row" :key="'superfilter'+index2"
@@ -30,16 +36,14 @@
                                 <u-compact-color-picker v-if="item.type === 'compactColorPicker'"
                                                         v-model="queryParams[item.name]"
                                                         :fixed="item.fixed"
-                                                        :palette="item.palette"
-                                >
+                                                        :palette="item.palette">
                                 </u-compact-color-picker>
 
                                 <i-input v-model="queryParams[item.name]" :type="item.type"
                                          :placeholder="item.placeholder"
                                          v-if="item.type==='password'" :disabled="item.disabled">
                                 </i-input>
-                                <!--隐藏表单-->
-                                <input type="hidden" v-if="item.type==='hidden'" v-model="queryParams[item.name]"/>
+
                                 <i-switch v-model="queryParams[item.name]" @on-change="item.change"
                                           v-if="item.type === 'switch'" :disabled="item.disabled"></i-switch>
                                 <InputNumber v-if="item.type === 'number'" :type="item.type"
@@ -63,20 +67,23 @@
                                           :filterable="item.filterable"
                                           :multiple="item.multiple" v-model="queryParams[item.name]"
                                           :placeholder="item.placeholder"
+                                          :disabled="item.disabled"
+                                          :size="item.size"
+                                          :placement="item.placement"
                                           @on-change="item.onChange"
                                           @on-query-change="item.onQueryChange"
                                           @on-clear="item.onClear"
                                           @on-open-change="item.onOpenChange"
                                 >
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
-                                        {{ option.name }}
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" :label="option.name"
+                                            v-html="option.name">
                                     </Option>
                                 </i-select>
 
                                 <template v-else-if="item.type==='radio'">
                                     <Radio-group v-model="queryParams[item.name]" :disabled="item.disabled">
-                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index">
-                                            {{o.name}}
+                                        <Radio :label="o.label" v-for="(o,index) in item.items" :key="index"
+                                               v-html="o.name">
                                         </Radio>
                                     </Radio-group>
                                 </template>
@@ -93,6 +100,7 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            :disabled="item.disabled"
                                             @on-change="item.onChange"
                                             @on-open-change="item.onOpenChange"
                                             @on-ok="item.onOk"
@@ -106,6 +114,7 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            :disabled="item.disabled"
                                             @on-change="item.onChange"
                                             @on-open-change="item.onOpenChange"
                                             @on-ok="item.onOk"
@@ -119,6 +128,7 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            :disabled="item.disabled"
                                             @on-change="item.onChange"
                                             @on-open-change="item.onOpenChange"
                                             @on-ok="item.onOk"
@@ -132,6 +142,7 @@
                                             :placement="item.placement" :options="item.options" :confirm="item.confirm"
                                             :open="item.open" :size="item.size" :clearable="item.clearable"
                                             :readonly="item.readonly"
+                                            :disabled="item.disabled"
                                             @on-change="item.onChange"
                                             @on-open-change="item.onOpenChange"
                                             @on-ok="item.onOk"
@@ -335,9 +346,10 @@
             :loading="modal.loading"
             :scrollable="modal.scrollable"
             :width="modal.width">
+            <!--通过if来重新渲染表单，防止脏数据导致重置功能无效-->
             <Form :model="formGrid.form.data" :label-position="formGrid.form.labelPosition"
                   :label-width="formGrid.form.labelWidth"
-                  :rules="ruleValidate" :ref="formGrid.form.name">
+                  :rules="ruleValidate" :ref="formGrid.form.name" v-if="modal.editModal">
                 <Row v-for="(row,index1) in formRows" :key="'formRow'+index1">
                     <i-col v-for="(item,index2) in row" :key="'formItem'+index2"
                            :span="24/formGrid.form.colNumber">
@@ -391,8 +403,8 @@
                                           @on-open-change="item.onOpenChange"
                                 >
 
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
-                                        {{ option.name }}
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" :label="option.name"
+                                            v-html="option.name">
                                     </Option>
                                 </i-select>
                             </template>
@@ -477,9 +489,12 @@
                             <template v-else-if="item.type === 'compactColorPicker'">
                                 <u-compact-color-picker v-model="formGrid.form.data[item.name]"
                                                         :fixed="item.fixed"
-                                                        :palette="item.palette"
-                                >
+                                                        :palette="item.palette">
                                 </u-compact-color-picker>
+                            </template>
+
+                            <template v-else-if="item.type === 'customer'">
+
                             </template>
 
                             <template v-else>
@@ -489,7 +504,6 @@
                         </Form-item>
                     </i-col>
                 </Row>
-
             </Form>
             <div slot="footer">
                 <Button type="primary" @click="handleSubmit()" :loading="formGrid.form.loading">
@@ -503,7 +517,6 @@
                 <Button @click="cancel()" style="margin-left: 8px" :disabled="formGrid.form.loading">取消</Button>
             </div>
         </Modal>
-
         <!--查看详情界面-->
         <Modal
             v-model="modal.viewModal"
@@ -536,8 +549,8 @@
                             </template>
                             <template v-else-if="item.type==='select'">
                                 <i-select disabled v-model="formGrid.form.data[item.name]" readonly>
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index">
-                                        {{ option.name }}
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
+                                            :label="option.name" v-html="option.name">
                                     </Option>
                                 </i-select>
                             </template>
@@ -642,6 +655,7 @@
 
 <script>
     import Log from '../../utils/Log';
+    import Utils from '../../utils/Utils'
     import deepExtend from 'deep-extend';
     import defaultData from './default';
     import util from 'core-util-is';
@@ -722,9 +736,12 @@
                 formRows: [],
                 //渲染高级搜索表单的行数
                 superFilterRows: [],
+                //渲染高级搜索时的隐藏表单元素
+                superFilterHiddenColumns: [],
                 // grid查询参数
                 queryParams: {},
-                temp: 'haha',
+                //点击查询后临时保存的查询参数，后续如果只做分页查询，参数不受查询条件变化影响，必须要重新点击查询按钮才改变
+                tmpQueryParams: {},
                 //
                 formGrid: {},
                 table: {
@@ -786,8 +803,10 @@
                     this.formGrid.table.columns.splice(0, 0, this.formGrid.table.selection);
                 }
                 // 渲染表格每列特殊情况
-                this.renderColumn();
-                Log.d('data 初始化对象:%o', this.formGrid);
+                this.renderColumn()
+                //默认情况下导出按钮为禁用状态，查询有结果后才可以
+                this.setExportButtonStatus(false, true)
+                Log.d('data 初始化对象');
             },
             // 对添加、编辑、查看表单数据进行初始化
             renderForm() {
@@ -824,8 +843,8 @@
                             columns.push(c);
                             i++;
                         } else {
-                            // 隐藏输入框，直接绑定变量
-                            this.$set(this.queryParams, c.name, c.init);
+                            // 隐藏输入框，单独放入一个位置
+                            this.superFilterHiddenColumns.push(c)
                         }
                     });
                     if (columns.length > 0 && columns.length < colNumber) {
@@ -847,6 +866,8 @@
                     }
                     this.superFilterRows = rows;
                 }
+                //初始化的查询条件，防止自动加载时没有查询条件
+                this.tmpQueryParams = deepExtend({}, this.queryParams)
             },
             // 初始化表单规则
             getRuleValidate(columns) {
@@ -904,6 +925,12 @@
             // 初始化搜索框的初始值
             setSuperFilterInitValue(columns) {
                 columns.forEach((c) => {
+                    //先默认设置一个属性，防止重置时无法被监听到
+                    if (['cascader', 'checkbox'].includes(c.type)) {
+                        this.$set(this.queryParams, c.name, new Array());
+                    } else {
+                        this.$set(this.queryParams, c.name, null);
+                    }
                     //number类型允许初始值为0
                     if (!!c.init || c.init === 0) {
                         this.$set(this.queryParams, c.name, c.init);
@@ -942,12 +969,15 @@
             },
             // 重置查询条件
             resetSuperFilterSearch() {
-                this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
                 //设置表格数据为空
+                this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
+                //不可使用deepExtend，会出现重置无效的问题
+                this.tmpQueryParams = Utils.clone(this.queryParams)
+                this.setExportButtonStatus(false,true)
                 this.clearTableData()
                 //如果设置的是自动加载，则清空时再次加载
                 if (this.formGrid.options.autoLoad) {
-                    this.pageData();
+                    this.reloadData();
                 }
                 if (util.isFunction(this.formGrid.toolbar.superFilter.reset.click)) {
                     this.formGrid.toolbar.superFilter.reset.click();
@@ -955,18 +985,25 @@
             },
             // 高级搜索框按钮
             superFilterSearch(page) {
+                //防止表单重置操作偶然会出现无法重置的时候，猜测是因为这个queryParams对象经过axios进行变化，导致底层事件监听出现异常
+                let params = Utils.clone(this.queryParams)
+                if (!this.formGrid.toolbar.superFilter.submitBefore(params)) {
+                    Log.e("superFilter.submitBefore 返回false，阻止查询")
+                    return;
+                }
+                this.tmpQueryParams = params
                 this.pageData(page);
             },
             pageData(page) {
                 if (page && (typeof (page) === 'number')) {
                     this.formGrid.pageable.page = page;
                 }
-                if (this.formGrid.toolbar.superFilter.rows.length > 0) {
+                if (this.superFilterRows.length > 0) {
                     this.$refs[this.formGrid.toolbar.superFilter.name].validate((valid) => {
                         if (valid) {
                             this.fetchData();
                         } else {
-                            this.noticeError('查询条件校验失败', '');
+                            this.noticeError(this.formGrid.toolbar.superFilter.validateErrorMsg, '');
                         }
                     });
                 } else {
@@ -975,8 +1012,7 @@
             },
             fetchData() {
                 this.table.noDataText = this.formGrid.table.tableLoadingText;
-                //防止表单重置操作偶然会出现无法重置的时候，猜测是因为这个queryParams对象经过axios进行变化，导致底层事件监听出现异常
-                let data = deepExtend({}, this.queryParams)
+                let data = this.tmpQueryParams
                 Log.d('pageData QueryData:%o', data);
                 let page = this.formGrid.pageable.page;
                 let size = this.formGrid.pageable.size;
@@ -986,13 +1022,17 @@
                 }
                 let params = {page: page, size: size};
                 this.formGrid.table.loading = true;
+                //设置导出按钮为loading状态
+                this.setExportButtonStatus(true,false)
                 this.$axios.post(this.formGrid.options.url.page, data, {params: params}).then(response => {
                     this.table.noDataText = this.formGrid.table.noDataText;
                     this.formGrid.table.loading = false;
                     this.formGrid.table.data = response.body.content;
                     if (this.formGrid.table.data && this.formGrid.table.data.length === 0) {
                         this.table.height = 0
+                        this.setExportButtonStatus(false,true)
                     } else {
+                        this.setExportButtonStatus(false, false)
                         this.table.height = this.formGrid.table.height
                     }
                     this.formGrid.pageable.total = response.body.totalElements;
@@ -1069,7 +1109,6 @@
             // 重置表单
             handleReset() {
                 this.$refs[this.formGrid.form.name].resetFields();
-                this.$forceUpdate();
             },
             // 模态窗口点击取消按钮事件
             cancel() {
@@ -1080,12 +1119,12 @@
             },
             // 设置表单的渲染元素，添加、编辑、查看可能要求不同，所以需要重新渲染。
             setFormColumns(type) {
-                this.handleReset();
+                this.formRows = []
                 // 从用户设定的元素列表当中copy一份数据给当前操作使用，避免数据污染
                 let o = deepExtend({}, {columns: this.formGrid.form.columns});
                 for (let c of o.columns) {
                     // 初始化默认值
-                    if (type === 'add' && c.init) {
+                    if (type === 'add') {
                         // 为number类型设置默认值，避免组件无法使用。允许设置为0和''
                         if (c.type === 'number' && !c.init && c.init !== 0 && c.init !== '') {
                             c.init = 1;
@@ -1280,8 +1319,6 @@
             },
             // toolbar添加按钮事件
             formAdd() {
-                // 清空表单
-                this.formGrid.form.data = {};
                 this.setFormColumns('add');
                 this.modal.editModal = true;
             },
@@ -1515,7 +1552,7 @@
                     this.$axios.post(this.formGrid.options.url.get, data, params).then(response => {
                         let data = response.body;
                         this.formatFormField(data);
-                        this.formGrid.form.data = data;
+                        this.$set(this.formGrid.form, 'data', data)
                         if (type === 'view') {
                             this.modal.viewModal = true;
                         } else {
@@ -1529,26 +1566,30 @@
                     });
                 } else {
                     Log.d('get data :%o', row);
-                    let data = deepExtend({}, row);
-                    this.formatFormField(data);
-                    this.formGrid.form.data = data;
-                    if (type === 'view') {
-                        this.modal.viewModal = true;
-                    } else {
-                        this.modal.editModal = true;
-                    }
+                    let rowData = deepExtend({}, row);
+                    this.formatFormField(rowData);
+                    let keys = Object.keys(rowData)
+                    keys.forEach((k) => {
+                        this.$set(this.formGrid.form.data, k, rowData[k])
+                    })
+                    this.$nextTick(() => {
+                        if (type === 'view') {
+                            this.modal.viewModal = true;
+                        } else {
+                            this.modal.editModal = true;
+                        }
+                    })
                 }
             },
             // 操作查看按钮
             optViewClick(row, index) {
-                this.formGrid.form.data = {};
+                this.$set(this.formGrid.form, 'data', {})
                 this.setFormColumns('view');
                 this.formGrid.form.isView = true;
                 this.getFormData(row, 'view');
             },
             // 操作编辑按钮
             optEditClick(row, index) {
-                this.formGrid.form.data = {};
                 this.setFormColumns('edit');
                 this.formGrid.form.isEdit = true;
                 this.getFormData(row, 'edit');
@@ -1635,7 +1676,21 @@
                     this.fetchExcelData(size);
                 }
             },
+            //对导出按钮，设置相关状态
+            setExportButtonStatus(loading, disabled) {
+                if (!this.formGrid.toolbar.button) {
+                    return
+                }
+                this.formGrid.toolbar.button.forEach((b) => {
+                    if (["exportCurrentPage", 'exportAllData'].includes(b.key)) {
+                        b.loading = loading || false
+                        b.disabled = disabled || false
+                    }
+                })
+            },
             fetchExcelData(size) {
+                //设置导出按钮为loading状态
+                this.setExportButtonStatus(true,false)
                 let data = {};
                 data = deepExtend({}, this.queryParams);
                 let page = this.formGrid.pageable.page;
@@ -1660,15 +1715,18 @@
                             columns.push({key: key, title: title});
                         }
                     );
+                    this.setExportButtonStatus(false,false)
                     this.defaultExport(columns, body);
                     this.$forceUpdate();
                 }).catch(response => {
+                    this.setExportButtonStatus(false,false)
                     this.$set(this.formGrid.table, 'data', []);
                     this.noticeError('数据查询出现异常', '系统服务或网络异常');
                 });
             },
             defaultExport(columns, data) {
                 if (!this.formGrid.toolbar.groups.export) {
+                    Log.e("对导出功能未配置groups.export属性")
                     return;
                 }
                 let fileName = this.formGrid.toolbar.groups.export['fileName'] || '原数据导出';
@@ -1699,18 +1757,6 @@
                     });
                 });
 
-                /* //修改form表单值
-                  this.$on("setFormFieldData", (fieldName, data) => {
-                    this.$set(this.formGrid.form.data, fieldName, data);
-                  });
-                  //修改高级搜索框的数据
-                  this.$on("setSuperFilter", (superFilter) => {
-                    //与原来的做合并
-                    let o = deepExtend({},this.formGrid.toolbar.superFilter,superFilter)
-                    this.$set(this.formGrid.toolbar, "superFilter", o );
-                    //重新渲染搜索表单
-                    this.renderSearchForm()
-                  }); */
                 // 上传成功
                 this.$on('uploadSuccess', (jsonData, scope) => {
                     // 上传成功的业务逻辑代码

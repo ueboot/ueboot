@@ -5,10 +5,8 @@
                 <Menu mode="horizontal" theme="dark" active-name="1">
                     <div class="layout-parent">
                         <div class="layout-logo" :style="config.page_main.logoStyle">
-                            <a class="header-logo">
-                                <img :src="config.logoImage" :alt="config.sysTitle" class="header-img">
-                                <span class="header-span">{{config.sysTitle}}</span>
-                            </a>
+                            <div :style="config.page_main.logoImageStyle" ><img :src="config.logoImage" :alt="config.sysTitle" class="header-img"></div>
+                            <div class="header-span">{{config.sysTitle}}</div>
                         </div>
                         <div class="layout-nav" :style="config.page_main.rightStyle">
                             <Row justify="end" type="flex" v-if="config.page_main.rightTheme!=='dropdown'">
@@ -341,6 +339,7 @@
                 }
             },
             //更新配置，供外部调用使用
+            //this.$root.$children[0].$children[0].updateConfig({"sysTitle":"test"})
             updateConfig(config){
                 this.config = deepExtend({},this.config,config)
             }
@@ -441,8 +440,15 @@
     }
 
     .layout-logo {
+        flex-direction: row;
+        display: flex;
+        max-height: 60px;
+        padding: 0 20px;
         border-radius: 3px;
         position: relative;
+        vertical-align: middle;
+        justify-content: flex-start;
+        align-content: flex-start;
     }
 
     .ivu-layout-header a {
@@ -453,46 +459,24 @@
         background-color: rgba(0, 0, 0, 0.05);
     }
 
-    .header-logo {
-        background: 0 0;
-        text-decoration: none;
-        outline: 0;
-        cursor: pointer;
-        transition: color 0.2s ease;
-        display: inline-block;
-        float: none !important;
-        height: auto;
-        padding: 0 20px;
-        font-size: 20px;
-        font-weight: 700;
-        line-height: 50px;
-        text-align: center;
-        color: #eaebed !important;
-    }
-
     .header-img {
         border-style: none;
         display: inline-block !important;
-        max-height: 20px;
-        margin-top: -4px;
         vertical-align: middle;
         visibility: visible;
         border: 0;
-        color: #eaebed !important;
+        width: 100%;
+        height: 100%;
     }
 
     .header-span {
-        box-sizing: border-box;
         color: rgb(184, 196, 201);
-        cursor: pointer;
-        display: inline;
         font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", 微软雅黑, Arial, sans-serif;
         font-size: 20px;
         font-weight: bold;
-        height: auto;
-        line-height: 50px;
+        height: 100%;
         margin-left: 5px;
-        text-align: center;
+        text-align: left;
     }
 
     .layout-ceiling-main .header-menu {

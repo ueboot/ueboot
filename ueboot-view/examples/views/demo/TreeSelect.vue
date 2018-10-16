@@ -2,11 +2,14 @@
     <div>
         <Row>
             <i-col :span="8">
-                <u-tree-select :tree="tree" fixed refName="s1" v-model="selectTreeItem"></u-tree-select>
+                <u-tree-select :tree="tree" fixed async refName="s1" @item-click="itemClick" v-model="selectTreeItem"></u-tree-select>
             </i-col>
             <i-col :span="8">
-              <!--  <u-tree-select :tree="tree2" refName="s2" v-model="selectTreeItem"
+              <!--  <u-tree-select :tree="tree" async refName="s2" v-model="selectTreeItem2"
                                @item-click="itemClick"></u-tree-select>-->
+            </i-col>
+            <i-col :span="8">
+                <!--<u-tree-select :tree="tree" fixed refName="s3" ></u-tree-select>-->
             </i-col>
         </Row>
         <Row>
@@ -25,14 +28,9 @@
 
 <script type="application/javascript">
 
-
-    import USelect from './USelect'
-
     import UTreeSelect from "../../../src/components/tree-select/UTreeSelect";
-
     import ColorPicker from './ColorPicker';
-    import treeData from '../../assets/dataowner_json'
-
+    import service from '../../service/service'
     export default {
         components: {UTreeSelect,ColorPicker},
         data() {
@@ -41,7 +39,7 @@
                 dataForm:{
                     color:'',
                 },
-                tree: treeData.tree,
+                tree: [],
                 tree2: [
                     {id: 1, "name": "根节点1", parentId: null, opened: true},
                     {"name": "一级子节点", id: 2, parentId: 1, icon: 'fa fa-check icon-state-success'},
@@ -62,13 +60,14 @@
                     wholeRow: true
                 },
 
-                selectTreeItem: null,//当前选择的树节点
+                selectTreeItem: 1217,//当前选择的树节点
+                selectTreeItem2: null,//当前选择的树节点
                 //  sort:{"sort":"desc","field":"id"}
             }
         },
         methods: {
             itemClick(node,item,e) {
-                console.log(item.origin)
+                this.$log.d("选择的item",item)
             },
             resetColor(){
                 this.$refs['testForm'].resetFields();
@@ -80,9 +79,19 @@
         },
         watch: {
             selectTreeItem: function (newValue, oldValue) {
-                console.log("parent newValue:%o", newValue)
+                this.$log.d("parent newValue:%o", newValue)
             }
         },
+        mounted(){
+            this.$nextTick(() => {
+                this.$log.d("父组件加载完成")
+            })
+            //模拟异步加载树数据
+            setTimeout(()=>{
+                this.tree = service.queryTreeData(this)
+            },1000)
+
+        }
 
     }
 </script>

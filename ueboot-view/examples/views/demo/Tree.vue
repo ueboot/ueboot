@@ -2,7 +2,7 @@
   <div>
     <Row>
       <Col :span="8">
-      <u-tree v-model="selectTreeItem" :tree="tree"  :showCheckbox="options.showCheckbox"></u-tree>
+      <u-tree v-model="selectTreeItem" multiple :tree="tree"  :showCheckbox="options.showCheckbox"></u-tree>
       </Col>
       <i-col :span="8">
         <div>
