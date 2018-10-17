@@ -89,8 +89,8 @@
                                     required:true,
                                     init:'hehe',
                                     onChange: (value) => {
-                                        console.log(value)
-                                        this.$refs['child'].queryParams['hidden'] ='2'
+                                        this.$refs['child'].resetSuperFilterColumns([{name:'name2',init:'newValue'}])
+
                                     },
                                     data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },

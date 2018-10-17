@@ -11,9 +11,9 @@
                   :label-width="formGrid.toolbar.superFilter.labelWidth" :ref="formGrid.toolbar.superFilter.name"
                   :rules="searchRuleValidate">
                 <!--隐藏表单元素，一定只能使用text设置为不显示，不可使用hidden。否则重置功能无法使用-->
-                <template  v-for="(item,index3) in superFilterHiddenColumns" >
+                <template v-for="(item,index3) in superFilterHiddenColumns">
                     <Form-item :label="item.label" :prop="item.name" style="display: none">
-                        <i-input type="text"   v-model="queryParams[item.name]" :key="'hidden'+index3" />
+                        <i-input type="text" v-model="queryParams[item.name]" :key="'hidden'+index3"/>
                     </Form-item>
                 </template>
                 <i-col :span="24">
@@ -75,7 +75,8 @@
                                           @on-clear="item.onClear"
                                           @on-open-change="item.onOpenChange"
                                 >
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" :label="option.name"
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
+                                            :label="option.name"
                                             v-html="option.name">
                                     </Option>
                                 </i-select>
@@ -403,7 +404,8 @@
                                           @on-open-change="item.onOpenChange"
                                 >
 
-                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index" :label="option.name"
+                                    <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
+                                            :label="option.name"
                                             v-html="option.name">
                                     </Option>
                                 </i-select>
@@ -738,6 +740,8 @@
                 superFilterRows: [],
                 //渲染高级搜索时的隐藏表单元素
                 superFilterHiddenColumns: [],
+                // 所有搜索表单元素，便于修改。保存的是对象的引用类型
+                superFilterAllColumns: [],
                 // grid查询参数
                 queryParams: {},
                 //点击查询后临时保存的查询参数，后续如果只做分页查询，参数不受查询条件变化影响，必须要重新点击查询按钮才改变
@@ -754,7 +758,7 @@
             this.init();
         },
         watch: {
-            // 监听高级搜索条件变化
+            // 监听高级搜索条件变化，后重新渲染界面
             'data.toolbar.superFilter': {
                 handler: function (newValue, oldValue) {
                     Log.d('监听到data.toolbar.superFilter.columns变化,%o,%o', newValue, oldValue);
@@ -862,9 +866,10 @@
                         if (!allHidden) {
                             columns.push({'type': 'queryButton', 'span': 24});
                         }
-                        rows.push(columns);
+                        rows.push(columns)
                     }
-                    this.superFilterRows = rows;
+                    this.superFilterRows = rows
+                    this.superFilterAllColumns = superFilter.columns
                 }
                 //初始化的查询条件，防止自动加载时没有查询条件
                 this.tmpQueryParams = deepExtend({}, this.queryParams)
@@ -973,7 +978,7 @@
                 this.$refs[this.formGrid.toolbar.superFilter.name].resetFields();
                 //不可使用deepExtend，会出现重置无效的问题
                 this.tmpQueryParams = Utils.clone(this.queryParams)
-                this.setExportButtonStatus(false,true)
+                this.setExportButtonStatus(false, true)
                 this.clearTableData()
                 //如果设置的是自动加载，则清空时再次加载
                 if (this.formGrid.options.autoLoad) {
@@ -1023,14 +1028,14 @@
                 let params = {page: page, size: size};
                 this.formGrid.table.loading = true;
                 //设置导出按钮为loading状态
-                this.setExportButtonStatus(true,false)
+                this.setExportButtonStatus(true, false)
                 this.$axios.post(this.formGrid.options.url.page, data, {params: params}).then(response => {
                     this.table.noDataText = this.formGrid.table.noDataText;
                     this.formGrid.table.loading = false;
                     this.formGrid.table.data = response.body.content;
                     if (this.formGrid.table.data && this.formGrid.table.data.length === 0) {
                         this.table.height = 0
-                        this.setExportButtonStatus(false,true)
+                        this.setExportButtonStatus(false, true)
                     } else {
                         this.setExportButtonStatus(false, false)
                         this.table.height = this.formGrid.table.height
@@ -1690,7 +1695,7 @@
             },
             fetchExcelData(size) {
                 //设置导出按钮为loading状态
-                this.setExportButtonStatus(true,false)
+                this.setExportButtonStatus(true, false)
                 let data = {};
                 data = deepExtend({}, this.queryParams);
                 let page = this.formGrid.pageable.page;
@@ -1715,11 +1720,11 @@
                             columns.push({key: key, title: title});
                         }
                     );
-                    this.setExportButtonStatus(false,false)
+                    this.setExportButtonStatus(false, false)
                     this.defaultExport(columns, body);
                     this.$forceUpdate();
                 }).catch(response => {
-                    this.setExportButtonStatus(false,false)
+                    this.setExportButtonStatus(false, false)
                     this.$set(this.formGrid.table, 'data', []);
                     this.noticeError('数据查询出现异常', '系统服务或网络异常');
                 });
@@ -1736,6 +1741,28 @@
             },
             showImportView() {
                 this.modal.importModal = !this.modal.importModal;
+            },
+
+            //重新设置。不会重新渲染表单
+            resetSuperFilterColumns(columns) {
+                if (!util.isArray(columns)) {
+                    Log.e("resetSuperFilterColumns方法需要数组格式")
+                }
+                this.superFilterAllColumns.forEach((c1) => {
+                    columns.forEach((c2) => {
+                        if(c1.name === c2.name){
+                            //将新的属性给原对象
+                            c1 = deepExtend(c1,c2)
+                            //重新赋值初始值
+                            this.$set(this.queryParams, c1.name, c1.init);
+                            //TODO 重设时有一定的限制，部分逻辑需要重新设置。如事件、下拉框
+                            if(c2.data){
+                                //this.initConfigColumns()
+                            }
+
+                        }
+                    })
+                })
             }
         },
         mounted() {
@@ -1746,17 +1773,12 @@
                 // 添加监听器
                 // table重新加载
                 this.$on('reloadData', () => {
-                    this.$nextTick(() => {
-                        this.reloadData();
-                    });
+                    this.reloadData();
                 });
                 // table重新加载当前页数据
                 this.$on('refreshData', () => {
-                    this.$nextTick(() => {
-                        this.pageData();
-                    });
+                    this.pageData();
                 });
-
                 // 上传成功
                 this.$on('uploadSuccess', (jsonData, scope) => {
                     // 上传成功的业务逻辑代码
