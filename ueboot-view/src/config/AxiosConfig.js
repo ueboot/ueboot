@@ -57,7 +57,7 @@ export default class AxiosConfig {
                 return Promise.reject(error.response.data)
             } else {
                 iView.Message.error({
-                    content: error.response.data.message, duration: 10,
+                    content: error.response.data.message?error.response.data.message:'系统异常！', duration: 10,
                     closable: true
                 });
                 return Promise.reject(error.response.data);

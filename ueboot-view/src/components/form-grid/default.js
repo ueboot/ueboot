@@ -115,6 +115,7 @@ export default {
             align: 'center'
         },
         stripe: true,
+        notLoadingText:'请点击查询按钮进行查询',
         noDataText: '已努力查询，但还是没找到！',
         tableLoadingText:'正在努力为您加载数据,请稍候...',
         tableLoadedErrorText:'数据查询出现异常，需要管理员查看后台日志，寻找原因。',

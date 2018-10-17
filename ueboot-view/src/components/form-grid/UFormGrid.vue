@@ -790,7 +790,7 @@
                 this.formGrid = deepExtend({}, this.formGrid, this.data);
                 // 和默认值进行合并，一定要加一个{},防止修改掉defaultData对象，导致页面切换时数据异常
                 this.formGrid = deepExtend({}, defaultData, this.formGrid);
-                this.table.noDataText = this.formGrid.table.noDataText
+                this.table.noDataText = this.formGrid.table.notLoadingText
                 this.table.height = this.formGrid.table.height
                 this.renderForm();
                 // 对搜索表单数据进行处理
@@ -1056,10 +1056,9 @@
             clearTableData() {
                 this.formGrid.table.loading = false
                 this.formGrid.table.data = []
-                this.table.noDataText = this.formGrid.table.noDataText
+                this.table.noDataText = this.formGrid.table.notLoadingText
                 this.table.height = 0
                 this.formGrid.pageable.total = 0
-
             },
             // 改变分页
             changePage(page) {
@@ -1757,6 +1756,7 @@
                             this.$set(this.queryParams, c1.name, c1.init);
                             //TODO 重设时有一定的限制，部分逻辑需要重新设置。如事件、下拉框
                             if(c2.data){
+                                c1.items = c2.data
                                 //this.initConfigColumns()
                             }
 
