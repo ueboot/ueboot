@@ -486,4 +486,9 @@
         width: 90px;
     }
 
+    /* 解决：内容高度过高，白色背景高度不够 */
+    .layout .ivu-layout .ivu-layout .ivu-layout .ivu-layout-content{
+        overflow: auto;
+    }
+
 </style>
