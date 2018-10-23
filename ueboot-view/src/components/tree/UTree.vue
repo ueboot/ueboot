@@ -239,13 +239,19 @@
                     this.handleSingleSelectItems(oriNode, oriItem);
                 }
 
+                oriNode.model.undetermined = oriNode.model.selected
+
                 // 更新v-model属性的值
                 this.$emit('input', oriItem.id);
                 this.$emit('item-click', oriNode, oriItem, e);
             },
             handleSingleSelectItems(oriNode, oriItem) {
                 this.handleRecursionNodeChilds(this, node => {
-                    if (node.model) node.model.selected = false;
+                    if (node.model){
+                        node.model.selected = false
+                        node.model.undetermined = false
+                    }
+
                 });
                 oriNode.model.selected = true;
             },
@@ -253,6 +259,7 @@
                 this.handleRecursionNodeChilds(oriNode, node => {
                     if (node.model.disabled) return;
                     node.model.selected = oriNode.model.selected;
+                    node.model.undetermined = false
                 });
             },
             onItemToggle(oriNode, oriItem, e) {
