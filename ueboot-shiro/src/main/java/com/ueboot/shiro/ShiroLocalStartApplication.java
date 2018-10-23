@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @ComponentScan(value = {"com.ueboot.core","com.ueboot.shiro"})
-@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 6000, redisNamespace = "ueboot_shiro")
 public class ShiroLocalStartApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShiroLocalStartApplication.class, args);
