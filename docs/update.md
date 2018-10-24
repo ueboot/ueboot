@@ -1,5 +1,7 @@
 
 ## 1.7版本更新记录
+- v1.7.29
+    - formGrid增加resetSuperFilterColumns方法，可以重设搜索表单属性，避免直接改superFilter.columns导致UI重新渲染，失去用户已经填写的值
 - v1.7.26
     - 解决树结构半选问题
 - v1.7.25

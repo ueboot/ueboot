@@ -89,8 +89,8 @@
                                     required:true,
                                     init:'hehe',
                                     onChange: (value) => {
-                                        console.log(value)
-                                        this.$refs['child'].queryParams['hidden'] ='2'
+                                        this.$refs['child'].resetSuperFilterColumns([{name:'name2',init:'newValue'}])
+
                                     },
                                     data: [{name: "哈哈", value: "haha"}, {name: "呵呵", value: "hehe"}]
                                 },
@@ -166,7 +166,7 @@
                                 {
                                     type: "compactColorPicker",
                                     name: "compactColorPicker",
-                                    init: '#AB149E', // 颜色默认值
+                                    // init: '#AB149E', // 颜色默认值
                                     label: "颜色",
                                     // palette: [],// 颜色数组
                                 },
@@ -382,6 +382,17 @@
                 this.$refs.child.$emit('reloadData');
                 console.log("reload");
             }
+        },
+        mounted(){
+           /* setTimeout(()=>{
+                this.formGrid.toolbar.superFilter.columns.forEach((c)=>{
+                    if(c.name === 'compactColorPicker'){
+                        this.$set(c,'palette',[  '#4D4D4D', '#999999', '#FFFFFF', '#F44E3B', '#FE9200', '#FCDC00'])
+                        // c.palette = [  '#4D4D4D', '#999999', '#FFFFFF', '#F44E3B', '#FE9200', '#FCDC00']
+                        console.log("reset!!!")
+                    }
+                })
+            },3000)*/
         }
     }
     export default _this
