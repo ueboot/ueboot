@@ -166,7 +166,7 @@
                                 {
                                     type: "compactColorPicker",
                                     name: "compactColorPicker",
-                                    init: '#AB149E', // 颜色默认值
+                                    // init: '#AB149E', // 颜色默认值
                                     label: "颜色",
                                     // palette: [],// 颜色数组
                                 },
