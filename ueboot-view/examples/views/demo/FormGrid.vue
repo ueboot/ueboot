@@ -382,6 +382,17 @@
                 this.$refs.child.$emit('reloadData');
                 console.log("reload");
             }
+        },
+        mounted(){
+           /* setTimeout(()=>{
+                this.formGrid.toolbar.superFilter.columns.forEach((c)=>{
+                    if(c.name === 'compactColorPicker'){
+                        this.$set(c,'palette',[  '#4D4D4D', '#999999', '#FFFFFF', '#F44E3B', '#FE9200', '#FCDC00'])
+                        // c.palette = [  '#4D4D4D', '#999999', '#FFFFFF', '#F44E3B', '#FE9200', '#FCDC00']
+                        console.log("reset!!!")
+                    }
+                })
+            },3000)*/
         }
     }
     export default _this

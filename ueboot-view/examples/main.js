@@ -14,6 +14,7 @@ import  userAvatarSrc from './assets/userImage.png';
 Vue.use(iView);
 Vue.use(ueboot);
 ueboot.Config.setConfig({
+    log:{level:4},
     sysTitle:'UEBOOT测试',
     axios:{baseURL: "", unauthorizedUrl: '/#/login'},
     page_login:{successRouter:{name:"用户管理"}},

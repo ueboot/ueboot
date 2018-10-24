@@ -238,9 +238,6 @@
                 } else {
                     this.handleSingleSelectItems(oriNode, oriItem);
                 }
-
-                oriNode.model.undetermined = oriNode.model.selected
-
                 // 更新v-model属性的值
                 this.$emit('input', oriItem.id);
                 this.$emit('item-click', oriNode, oriItem, e);
