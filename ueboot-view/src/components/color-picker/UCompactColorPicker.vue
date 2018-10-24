@@ -124,7 +124,11 @@
                 this.inputColor = newValue
                 //如果没有初始值，则设置为一个不存在defaultColor列表当中的值，避免出现默认白点选中的情况
                 //重置表单时会触发该代码
-                this.colors = newValue===''?'#AB149F':newValue
+                let colors = '#AB149F'
+                if(newValue){
+                    colors = newValue===''?'#AB149F':newValue
+                }
+                this.colors = colors
             },
             inputColor: function (val) {
                 this.$emit("onnColorChange", val)
