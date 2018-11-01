@@ -1042,12 +1042,16 @@
                     }
                     this.formGrid.pageable.total = response.body.totalElements;
                     this.$forceUpdate();
+                    //预留接口，供外部处理
+                    this.formGrid.toolbar.superFilter.submitAfter(deepExtend({},this.formGrid.pageable),deepExtend({},response.body))
                     Log.d('接口返回对象,%o', response);
                 }).catch(() => {
                     if (this.formGrid) {
                         this.clearTableData()
                         this.table.noDataText = this.formGrid.table.tableLoadedErrorText;
                     }
+                    //预留接口，供外部处理
+                    this.formGrid.toolbar.superFilter.submitAfter(deepExtend({},this.formGrid.pageable),null)
                     this.$forceUpdate();
                     return false;
                 });

@@ -56,7 +56,9 @@ export default {
             rows: {},
             submit: {theme: 'primary', label: '查询', icon: 'md-search', long: false},
             reset: {theme: 'primary', label: '重置', icon: 'md-close', long: false, ghost: true},
-            submitBefore:()=>{return true}
+            submitBefore:()=>{return true},
+            //分页查询后的回调方法
+            submitAfter:(pageble,data)=>{}
         }
     },
     pageable: {
