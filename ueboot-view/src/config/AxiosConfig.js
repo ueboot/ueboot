@@ -83,10 +83,21 @@ export default class AxiosConfig {
                         if (conf !== undefined && conf.unauthorizedUrl !== undefined) {
                             window.location.href = conf.unauthorizedUrl;
                             //IE下有可能不刷新
+                            if(isIE()){
+                                window.location.reload();
+                            }
                         }
                     }, 200);
                 }
             });
+        }
+    
+        function isIE() {
+            let userAgent = navigator.userAgent; //取得浏览器的userAgent字符串  
+            let isIE = userAgent.indexOf("compatible") > -1 && userAgent.indexOf("MSIE") > -1; //判断是否IE<11浏览器  
+            let isEdge = userAgent.indexOf("Edge") > -1 && !isIE; //判断是否IE的Edge浏览器  
+            let isIE11 = userAgent.indexOf('Trident') > -1 && userAgent.indexOf("rv:11.0") > -1;
+            return (isIE || isEdge || isIE11)
         }
     }
 }

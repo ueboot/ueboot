@@ -41,7 +41,6 @@
                     options: {
                         autoLoad: false,
                         url: {
-                            /*query: "http://wodewj.oss-cn-shanghai.aliyuncs.com/dev/data.json"*/
                             page: "/ueboot/user/page"
                         }
                     },
