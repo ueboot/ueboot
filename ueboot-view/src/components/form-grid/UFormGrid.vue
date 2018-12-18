@@ -402,6 +402,7 @@
                                           @on-query-change="item.onQueryChange"
                                           @on-clear="item.onClear"
                                           @on-open-change="item.onOpenChange"
+                                          :disabled="item.disabled"
                                 >
 
                                     <Option v-for="(option,index) in item.items" :value="option.value" :key="'o'+index"
