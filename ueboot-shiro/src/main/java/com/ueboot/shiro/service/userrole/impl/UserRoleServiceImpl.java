@@ -15,6 +15,7 @@ import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.service.userrole.UserRoleService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
+import com.ueboot.shiro.shiro.UserRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -48,6 +49,9 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole> implements Us
     // shiro 权限日志
     @Resource
     private ShiroEventListener shiroEventListener;
+
+    @Resource
+    private UserRealm userRealm;
 
     @Override
     protected BaseRepository getBaseRepository() {
@@ -85,6 +89,10 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole> implements Us
         user.setRoleIds(roleIdsStr.toString());
         userRepository.save(user);
 
+        //清除权限缓存
+        if (userRealm.getAuthorizationCache() != null) {
+            userRealm.getAuthorizationCache().clear();
+        }
         // 用户角色 保存/修改 日志记录
         String optUserName = (String) SecurityUtils.getSubject().getPrincipal();
         this.shiroEventListener.saveUserRoleEvent(optUserName, roleName);
