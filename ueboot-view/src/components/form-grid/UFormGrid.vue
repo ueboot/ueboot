@@ -1042,12 +1042,16 @@
                     }
                     this.formGrid.pageable.total = response.body.totalElements;
                     this.$forceUpdate();
+                    //预留接口，供外部处理
+                    this.formGrid.toolbar.superFilter.submitAfter(deepExtend({},this.formGrid.pageable),deepExtend({},response.body))
                     Log.d('接口返回对象,%o', response);
                 }).catch(() => {
                     if (this.formGrid) {
                         this.clearTableData()
                         this.table.noDataText = this.formGrid.table.tableLoadedErrorText;
                     }
+                    //预留接口，供外部处理
+                    this.formGrid.toolbar.superFilter.submitAfter(deepExtend({},this.formGrid.pageable),null)
                     this.$forceUpdate();
                     return false;
                 });
@@ -1659,25 +1663,26 @@
             },
             // 按条件导出所有数据
             exportData() {
-                this.exportPageData(100000);
+                //导出第一页10万记录
+                this.exportPageData(100000,0);
             },
             // 到处当前页数据
             exportCurrentPageData() {
                 this.exportPageData();
             },
             // 导出查询数据功能方法
-            exportPageData(size) {
+            exportPageData(size,pageNumber) {
                 // 获取field 获取数据
                 if (this.formGrid.toolbar.superFilter.columns.length > 0) {
                     this.$refs[this.formGrid.toolbar.superFilter.name].validate((valid) => {
                         if (valid) {
-                            this.fetchExcelData(size);
+                            this.fetchExcelData(size,pageNumber);
                         } else {
                             this.noticeError('查询条件校验失败', '');
                         }
                     });
                 } else {
-                    this.fetchExcelData(size);
+                    this.fetchExcelData(size,pageNumber);
                 }
             },
             //对导出按钮，设置相关状态
@@ -1692,7 +1697,7 @@
                     }
                 })
             },
-            fetchExcelData(size) {
+            fetchExcelData(size,pageNumber) {
                 //设置导出按钮为loading状态
                 this.setExportButtonStatus(true, false)
                 let data = {};
@@ -1705,6 +1710,10 @@
                 // 默认jpa查询从0开始，页面上显示从1开始所以需要减一
                 if (page > 0) {
                     page = page - 1;
+                }
+                //指定页码
+                if(pageNumber){
+                    page = pageNumber
                 }
                 let params = {page: page, size: pageSize};
 

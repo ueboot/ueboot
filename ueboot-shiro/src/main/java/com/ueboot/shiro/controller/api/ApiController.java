@@ -17,8 +17,6 @@ import com.ueboot.shiro.util.PasswordUtil;
 import jodd.datetime.JDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
@@ -33,6 +31,7 @@ import java.io.IOException;
 import java.util.*;
 
 /**
+ *
  * ueboot-shiro 对外提供Api接口（用户登录、退出、验证码、用户菜单、）
  *
  * @author yangkui
@@ -53,6 +52,7 @@ public class ApiController {
     private final ShiroService shiroService;
 
     private final ShiroEventListener shiroEventListener;
+
 
     @Autowired
     public ApiController(ShiroProcessor shiroProcessor, ResourcesService resourcesService,
