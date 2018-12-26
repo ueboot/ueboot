@@ -110,3 +110,10 @@ http://www.ueboot.com
 
     脚手架工程代码包含了所有整合配置项和示例代码，可以直接拿来使用，在这个基础上进行二次开发，省去如何集成ueboot配置事项。
     
+## 4.pom修改版本号
+```bash
+   -- 在项目根目录下直接执行如下命令
+    mvn versions:set -DnewVersion=2.3.0-SNAPSHOT
+    -- 手工修改ueboot-parent目录下的pom.xml当中涉及到ueboot的版本号
+
+```
