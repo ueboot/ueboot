@@ -2,6 +2,9 @@
 
 http://www.ueboot.com
 
+# 脚手架工程
+ https://github.com/ueboot/ueboot-starter
+   当前项目为框架核心代码，无法直接运行使用，可以基于脚手架做二次开发。脚手架工程提供了最基础的代码架构，只需要要导入初始数据库即可。
 ## 1. 概要介绍
   - ueboot是一个基于`spring boot + vue2.0+iview3.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
   - 基于iViewUI提供了一套CRUD快速开发UI组件,只需要配置json即可完成单表的CRUD功能，配合后端Java能在1分钟内完成开发。
