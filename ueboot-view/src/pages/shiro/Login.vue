@@ -135,9 +135,12 @@
                     if (response.body) {
                         window.sessionStorage.setItem('ueboot_login_info', JSON.stringify(response.body));
                     }
-                    this.$router.push(this.config.page_login.successRouter);
-
                     this.loading = false;
+                    if(this.util.isFunction(this.config.page_login.successCallBack)){
+                        this.config.page_login.successCallBack(response.body,this)
+                    }else{
+                        this.$router.push(this.config.page_login.successRouter);
+                    }
                 }, (response) => {
                     // if (response.code === '400') {
                     //     this.$Message.error({content: response.message, duration: 3});
