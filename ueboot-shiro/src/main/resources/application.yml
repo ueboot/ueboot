@@ -33,9 +33,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     # 本地开发需要自己配置对应的数据库
-    url: jdbc:mysql://xxxx:3306/ueboot-shiro?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://47.100.242.77:3306/ueboot-shiro?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
-    password: xxxx
+    password: ookkookk
     tomcat:
       max-wait: 500
       max-active: 200
