@@ -84,6 +84,8 @@
 </template>
 <script>
     import config from '../../config/Config';
+    import util from 'core-util-is';
+
 
     export default {
         data() {
@@ -136,7 +138,7 @@
                         window.sessionStorage.setItem('ueboot_login_info', JSON.stringify(response.body));
                     }
                     this.loading = false;
-                    if(this.util.isFunction(this.config.page_login.successCallBack)){
+                    if(util.isFunction(this.config.page_login.successCallBack)){
                         this.config.page_login.successCallBack(response.body,this)
                     }else{
                         this.$router.push(this.config.page_login.successRouter);
