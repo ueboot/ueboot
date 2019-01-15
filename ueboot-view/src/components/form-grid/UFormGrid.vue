@@ -1712,8 +1712,8 @@
                 if (page > 0) {
                     page = page - 1;
                 }
-                //指定页码
-                if(pageNumber){
+                //指定页码,如果为0，则为0
+                if(pageNumber || pageNumber === 0){
                     page = pageNumber
                 }
                 let params = {page: page, size: pageSize};
