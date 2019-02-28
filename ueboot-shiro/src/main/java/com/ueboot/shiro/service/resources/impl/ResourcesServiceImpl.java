@@ -127,15 +127,15 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
             //先删权限
             List<Permission> permissions = this.permissionRepository.findByResourceId(i);
             if (!permissions.isEmpty()) {
-                this.permissionRepository.delete(permissions);
+                this.permissionRepository.deleteAll(permissions);
             }
             //删除子节点
             List<Resources> resources = this.resourcesRepository.findByParentId(i);
             if (!resources.isEmpty()) {
-                this.resourcesRepository.delete(resources);
+                this.resourcesRepository.deleteAll(resources);
             }
             //删除自己
-            this.resourcesRepository.delete(i);
+            this.resourcesRepository.deleteById(i);
 
 
             // 删除资源日志记录

@@ -82,7 +82,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
 
         Long[] oldResourceIds = new Long[old.size()];   // 记录原始资源IDs
         if (!old.isEmpty()) {
-            permissionRepository.delete(old);
+            permissionRepository.deleteAll(old);
             // 将资源列表转化为资源ID数组
             oldResourceIds = old.stream().map(Permission::getId).collect(Collectors.toList()).toArray(new Long[old.size()]);
         }
