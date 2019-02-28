@@ -25,10 +25,4 @@ public interface RoleRepository extends BaseRepository<Role, Long>,RoleBaseRepos
      * @return 角色对象
      */
     Role findByName(String name);
-    /**
-     * 根据角色ID查找角色
-     * @param roleId 角色id
-     * @return 角色对象
-     */
-    Role findById(Long roleId);
 }

@@ -2,6 +2,8 @@
 
 http://www.ueboot.com
 
+当前使用springboot版本为2.x
+
 # 脚手架工程
  https://github.com/ueboot/ueboot-starter
    当前项目为框架核心代码，无法直接运行使用，可以基于脚手架做二次开发。脚手架工程提供了最基础的代码架构，只需要要导入初始数据库即可。
@@ -19,10 +21,10 @@ http://www.ueboot.com
 
 | 序号 | 组件名称 | 版本号 |说明 |
 | ------ | ------ | ------ |------ |
-1 | ueboot-core | 2.1.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
-2 | ueboot-shiro|2.1.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
-3 | ueboot-parent|2.1.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
-4 | ueboot-generator|2.1.0-SNAPSHOT|代码生成器，通可以快速生成前后端代码
+1 | ueboot-core | 3.0.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
+2 | ueboot-shiro|3.0.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
+3 | ueboot-parent|3.0.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
+4 | ueboot-generator|3.0.0-SNAPSHOT|代码生成器，通可以快速生成前后端代码
 5 | ueboot-ui|1.5.23|前端UI组件，提供了一套快速开发的CRUD、Tree、权限配置界面等组件
 6 | ueboot-excel|xxx|（开发中）excel相关功能
 7 | ueboot-weixin|xxx|（开发中）微信相关功能
@@ -66,7 +68,7 @@ http://www.ueboot.com
  <parent>
         <groupId>com.ueboot</groupId>
         <artifactId>ueboot-parent</artifactId>
-        <version>2.1.0-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath/> 
     </parent>
 ```
@@ -116,7 +118,7 @@ http://www.ueboot.com
 ## 4.pom修改版本号
 ```bash
    -- 在项目根目录下直接执行如下命令
-    mvn versions:set -DnewVersion=2.3.0-SNAPSHOT
+    mvn versions:set -DnewVersion=3.0.0-SNAPSHOT
     -- 手工修改ueboot-parent目录下的pom.xml当中涉及到ueboot的版本号
 
 ```

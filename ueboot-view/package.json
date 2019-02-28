@@ -79,7 +79,7 @@
         "font-awesome": "^4.7.0",
         "friendly-errors-webpack-plugin": "^1.6.1",
         "growl": "^1.10.5",
-        "gulp": "3.9.1",
+        "gulp": "^4.0.0",
         "gulp-autoprefixer": "^5.0.0",
         "gulp-clean-css": "^3.9.3",
         "gulp-less": "^4.0.0",
@@ -108,7 +108,7 @@
         "vue-style-loader": "^4.0.2",
         "vue-template-compiler": "^2.5.16",
         "webpack": "^3.11.0",
-        "webpack-dev-server": "^2.11.1",
+        "webpack-dev-server": "^3.2.1",
         "webpack-merge": "^3.0.0"
     },
     "engines": {

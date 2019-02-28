@@ -21,7 +21,6 @@ import java.util.List;
 */
 @Repository
 public interface ResourcesRepository extends BaseRepository<Resources, Long>,ResourcesBaseRepository {
-    Resources findById(Long id);
 
     List<Resources> findByParentId(Long parentId);
 

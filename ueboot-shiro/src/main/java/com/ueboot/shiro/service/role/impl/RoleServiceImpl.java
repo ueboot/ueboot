@@ -61,7 +61,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         for (int i = 0; i < roleIds.length; i++) {
             Long roleId = roleIds[i];
             List<Permission> permissions = permissionRepository.findByRoleId(roleId);
-            permissionRepository.delete(permissions);
+            permissionRepository.deleteAll(permissions);
             this.delete(roleId);
         }
     }
