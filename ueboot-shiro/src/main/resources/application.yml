@@ -1,15 +1,16 @@
 server:
   port: 8000
-  session:
-    cookie: ueboot-shiro
   servlet:
     context-path: /
+    session:
+      cookie:
+        name: ueboot-shiro
 spring:
   cache:
     type: redis
     cache-names: systemCache
   session:
-    store-type: Redis
+    store-type: redis
   servlet:
     multipart:
       enabled: true
@@ -33,9 +34,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     # 本地开发需要自己配置对应的数据库
-    url: jdbc:mysql://120.26.102.228:3306/acmplatform?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    url: jdbc:mysql://127.0.0.1:3306/ueboot-shiro?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
-    password: accp
+    password: root
     tomcat:
       max-wait: 500
       max-active: 200
@@ -44,16 +45,14 @@ spring:
       min-idle: 5
   redis:
     host: 127.0.0.1
-    password: 1234567890
+    password:
     port: 6379
     database: 1
-    timeout: 60000
-    jedis:
-      pool:
-        max-active: 20
-        max-wait: 1000
-        max-idle: 100
-        min-idle: 5
+    timeout: 60s
+  data:
+    redis:
+      repositories:
+        enabled: false #设置为false,防止启动时提示Multiple Spring Data modules found, entering strict repository configuration mode
 logging:
   level:
     root: info
