@@ -26,6 +26,7 @@ import org.springframework.util.Assert;
 import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -87,14 +88,14 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
             oldResourceIds = old.stream().map(Permission::getId).collect(Collectors.toList()).toArray(new Long[old.size()]);
         }
 
-        Role role = roleRepository.getOne(roleId);
+        Optional<Role> role = roleRepository.findById(roleId);
         Assert.notNull(role, "roleId对应的角色不存在,roleId:" + roleId);
         Arrays.asList(resourceIds).forEach((rid) -> {
             Resources r = new Resources();
             r.setId(rid);
             Permission p = new Permission();
             p.setResource(r);
-            p.setRole(role);
+            role.ifPresent(p::setRole);
             permissionRepository.save(p);
         });
         //清除权限缓存

@@ -1,6 +1,5 @@
 package com.ueboot.core.condition;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.env.Environment;
@@ -12,11 +11,10 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
  * @author yangkui
  */
 public class RedisEnableCondition implements Condition {
-    @Autowired
-    private Environment env ;
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        Environment env = context.getEnvironment();
         String storeType = env.getProperty("spring.session.store-type");
-        return !"redis".equals(storeType);
+        return "redis".equalsIgnoreCase(storeType);
     }
 }

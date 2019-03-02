@@ -10,7 +10,7 @@ import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ import java.util.List;
  * @author yangkui
  */
 @Configuration
-public class MvcConfig extends WebMvcConfigurerAdapter {
+public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -41,9 +41,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
                     return p;
                 }
                 if (p.getPageSize() > limits.maxSize()) {
-                    return new PageRequest(p.getPageNumber(), limits.maxSize(), p.getSort());
+                    return  PageRequest.of(p.getPageNumber(), limits.maxSize(), p.getSort());
                 } else if (p.getPageSize() < limits.minSize()) {
-                    return new PageRequest(p.getPageNumber(), limits.minSize(), p.getSort());
+                    return  PageRequest.of(p.getPageNumber(), limits.minSize(), p.getSort());
                 }
 
                 return p;
@@ -52,6 +52,5 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         //这里设置为最大值，目的是让默认的spring最大值校验通过。实则在生成Pageable对象时再改为设置的最大值
         resolver.setMaxPageSize(Integer.MAX_VALUE);
         argumentResolvers.add(resolver);
-        super.addArgumentResolvers(argumentResolvers);
     }
 }

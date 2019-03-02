@@ -3,7 +3,6 @@ package com.ueboot.core.jpa.repository;
 import com.ueboot.core.jpa.repository.query.NamedParams;
 import com.ueboot.core.jpa.repository.query.QueryUtils;
 import com.ueboot.core.jpa.repository.query.StringQuery;
-import org.hibernate.SQLQuery;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.internal.QueryImpl;
 import org.hibernate.transform.ResultTransformer;
@@ -154,7 +153,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
 
         setQueryParams(query, params);
         query.setMaxResults(pageable.getPageSize());
-        query.setFirstResult(Integer.valueOf(pageable.getOffset() + ""));
+        query.setFirstResult((int) pageable.getOffset());
 
         List<T> resultList = query.getResultList();
 
@@ -295,7 +294,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
 
         setQueryParams(query, params);
         query.setMaxResults(pageable.getPageSize());
-        query.setFirstResult(Integer.valueOf(pageable.getOffset() + ""));
+        query.setFirstResult((int) pageable.getOffset());
 
         List<S> resultList = query.unwrap(QueryImpl.class).setResultTransformer(Transformers.aliasToBean(transformer)).list();
 
@@ -319,7 +318,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
 
         setQueryParams(query, params);
         query.setMaxResults(pageable.getPageSize());
-        query.setFirstResult(Integer.valueOf(pageable.getOffset() + ""));
+        query.setFirstResult((int) pageable.getOffset());
 
         List<S> resultList = query.unwrap(QueryImpl.class).setResultTransformer(transformer).list();
 
@@ -374,7 +373,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         Query query = em.createNativeQuery(sql);
         setQueryParams(query, params);
 
-        SQLQuery sqlQuery = query.unwrap(SQLQuery.class);
+        NativeQuery sqlQuery = query.unwrap(NativeQuery.class);
         stringQuery.getScalars().forEach((s, type) -> {
             sqlQuery.addScalar(s, type);
         });
@@ -407,7 +406,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         NamedParams params = stringQuery.getParams();
         setQueryParams(query, params);
         query.setMaxResults(pageable.getPageSize());
-        query.setFirstResult(Integer.valueOf(pageable.getOffset() + ""));
+        query.setFirstResult((int) pageable.getOffset());
 
         List resultList = query.getResultList();
         String countSql = QueryUtils.genCountQueryString(sql);
@@ -449,9 +448,9 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         NamedParams params = stringQuery.getParams();
         setQueryParams(query, params);
         query.setMaxResults(pageable.getPageSize());
-        query.setFirstResult(Integer.valueOf(pageable.getOffset() + ""));
+        query.setFirstResult((int) pageable.getOffset());
 
-        SQLQuery sqlQuery = query.unwrap(SQLQuery.class);
+        NativeQuery sqlQuery = query.unwrap(NativeQuery.class);
         stringQuery.getScalars().forEach((s, type) -> {
             sqlQuery.addScalar(s, type);
         });
@@ -477,9 +476,9 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         NamedParams params = stringQuery.getParams();
         setQueryParams(query, params);
         query.setMaxResults(pageable.getPageSize());
-        query.setFirstResult(Integer.valueOf(pageable.getOffset() + ""));
+        query.setFirstResult((int) pageable.getOffset());
 
-        SQLQuery sqlQuery = query.unwrap(SQLQuery.class);
+        NativeQuery sqlQuery = query.unwrap(NativeQuery.class);
         stringQuery.getScalars().forEach((s, type) -> {
             sqlQuery.addScalar(s, type);
         });
@@ -551,7 +550,7 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
 
         setQueryParams(query, params);
         query.setMaxResults(pageable.getPageSize());
-        query.setFirstResult(Integer.valueOf(pageable.getOffset() + ""));
+        query.setFirstResult((int) pageable.getOffset());
 
         List<T> resultList = query.getResultList();
 

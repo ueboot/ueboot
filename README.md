@@ -8,7 +8,7 @@ http://www.ueboot.com
  https://github.com/ueboot/ueboot-starter
    当前项目为框架核心代码，无法直接运行使用，可以基于脚手架做二次开发。脚手架工程提供了最基础的代码架构，只需要要导入初始数据库即可。
 ## 1. 概要介绍
-  - ueboot是一个基于`spring boot + vue2.0+iview3.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
+  - ueboot是一个基于`spring boot2 + vue2.0+iview3.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
   - 基于iViewUI提供了一套CRUD快速开发UI组件,只需要配置json即可完成单表的CRUD功能，配合后端Java能在1分钟内完成开发。
   - 平台默认提供了安全防范，防止XSS攻击、SQL注入等。
   - 提供代码生成器，生成页面和Java代码，避免纯粹重再复劳动，生成的代码完全可以自主二次修改。
@@ -109,11 +109,19 @@ http://www.ueboot.com
 即可实现。
 
 
-## 3.脚手架工程
+## 3.运行
 
-点击这里获取[脚手架工程](https://github.com/ueboot/ueboot-starter)
+当前项目可以直接启动ueboot-shiro当后台，ueboot-view当前台，进行开发与测试。ueboot-shiro模块会用到其他模块，可以通过在这个模块当中验证修改的功能
 
-    脚手架工程代码包含了所有整合配置项和示例代码，可以直接拿来使用，在这个基础上进行二次开发，省去如何集成ueboot配置事项。
+- 启动前台
+`cd ueboot-view` 执行 `npm run dev` 需要事先执行过`npm install`
+- 启动后台
+    - 打开ueboot-shiro模块
+    - 初始化数据库，脚本文件在/resources/sql/ueboot-shiro.sql
+    - 修改resources/application.yml文件当中的 数据库链接和Redis配置，需要事先初始化好数据库表结构
+    - 找到com.ueboot.shiro.ShiroLocalStartApplication 类，直接右键运行即可
+- 访问
+
     
 ## 4.pom修改版本号
 ```bash
