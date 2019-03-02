@@ -71,7 +71,7 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole> implements Us
         StringBuilder roleIdsStr = new StringBuilder();
         for (int i = 0; i < roleIds.length; i++) {
             Long roleId = roleIds[i];
-            Role role = roleRepository.findById(roleId);
+            Role role = roleRepository.getOne(roleId);
             roleIdsStr.append(roleId).append(",");
             roleNames.append(role.getName()).append(",");
             role.setId(roleId);

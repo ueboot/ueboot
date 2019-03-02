@@ -43,10 +43,10 @@
     </developers>
     <properties>
         <!--每次发布当前模块时，需要修改这里的版本号-->
-        <ueboot.core.version>2.2.0-SNAPSHOT</ueboot.core.version>
-        <ueboot.generator.version>2.2.0-SNAPSHOT</ueboot.generator.version>
-        <ueboot.shiro.version>2.2.0-SNAPSHOT</ueboot.shiro.version>
-        <ueboot.excel.version>2.2.0-SNAPSHOT</ueboot.excel.version>
+        <ueboot.core.version>3.0.0-SNAPSHOT</ueboot.core.version>
+        <ueboot.generator.version>3.0.0-SNAPSHOT</ueboot.generator.version>
+        <ueboot.shiro.version>3.0.0-SNAPSHOT</ueboot.shiro.version>
+        <ueboot.excel.version>3.0.0-SNAPSHOT</ueboot.excel.version>
 
         <java.version>1.8</java.version>
         <fastjson.version>1.2.31</fastjson.version>

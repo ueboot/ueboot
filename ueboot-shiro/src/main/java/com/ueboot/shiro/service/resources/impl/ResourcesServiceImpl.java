@@ -99,7 +99,7 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
 
     @Override
     public Resources findById(Long id) {
-        return resourcesRepository.findById(id);
+        return resourcesRepository.getOne(id);
     }
 
     /**

@@ -87,7 +87,7 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
             oldResourceIds = old.stream().map(Permission::getId).collect(Collectors.toList()).toArray(new Long[old.size()]);
         }
 
-        Role role = roleRepository.findById(roleId);
+        Role role = roleRepository.getOne(roleId);
         Assert.notNull(role, "roleId对应的角色不存在,roleId:" + roleId);
         Arrays.asList(resourceIds).forEach((rid) -> {
             Resources r = new Resources();
