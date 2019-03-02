@@ -32,11 +32,13 @@ spring:
           databaseZone: Asia/Shanghai
     show-sql: true
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    # 本地开发需要自己配置对应的数据库
-    url: jdbc:mysql://127.0.0.1:3306/ueboot-shiro?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 本地开发需要自己配置对应的数据库，采用加密方式
+    url: ENC(azN5gtD4LMtsos/l7pvuBmzcQursb1W5K7Sn3chpKB+DA/Xa97M9kDhOU9yAXuIrDkQu8c0lyPEa2B9mmgIelIIcnCCi8zAFM07esAcpJDCkTdBUoe0GpZGx1t72M35Fbh4uTHiITiHFAcYhPes6Am0C60luD4mCc+7VeqXAR1fMdjnqmmtkZRw+CsVLYApt)
+    #url: jdbc:mysql://127.0.0.1:3306/ueboot-shiro?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull
     username: root
-    password: root
+    # 加密后的密码
+    password: ENC(xIOpQ585xlp0nREocHniEa/v5Ybdqx2W)
     tomcat:
       max-wait: 500
       max-active: 200
@@ -44,7 +46,7 @@ spring:
       max-idle: 5
       min-idle: 5
   redis:
-    host: 127.0.0.1
+    host: ENC(Fz+uDUi0xCUm50CIs9nUzzO5dRWLUzvo)
     password:
     port: 6379
     database: 1
@@ -60,3 +62,7 @@ logging:
 #    org.hibernate: info
 #    org.hibernate.type.descriptor.sql.BasicBinder: trace
 #    org.hibernate.type.descriptor.sql.BasicExtractor: trace
+jasypt:
+  encryptor:
+    # 加密用到的秘钥
+    password: ueboot
