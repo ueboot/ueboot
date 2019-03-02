@@ -120,8 +120,9 @@ http://www.ueboot.com
     - 初始化数据库，脚本文件在/resources/sql/ueboot-shiro.sql
     - 修改resources/application.yml文件当中的 数据库链接和Redis配置，需要事先初始化好数据库表结构
     - 找到com.ueboot.shiro.ShiroLocalStartApplication 类，直接右键运行即可
-- 访问
-
+- 访问http://localhost:8000/swagger-ui.html 可以查看后台接口文档
+- 访问http://localhost:9999 可以操作登录界面，默认用户名ueboot 密码：111111
+    
     
 ## 4.pom修改版本号
 ```bash
