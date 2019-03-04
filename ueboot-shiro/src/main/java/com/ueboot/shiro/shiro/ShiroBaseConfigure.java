@@ -171,6 +171,7 @@ public class ShiroBaseConfigure {
         } else {
             matcher = new HashedCredentialsMatcher();
         }
+        matcher.setHashAlgorithmName("SHA-512");
         //散列的次数，比如散列两次
         matcher.setHashIterations(2);
         matcher.setStoredCredentialsHexEncoded(Boolean.TRUE);
