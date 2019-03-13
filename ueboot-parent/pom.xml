@@ -37,8 +37,8 @@
         <jodd.version>3.9.1</jodd.version>
         <druid.version>1.1.8</druid.version>
         <ok.http.version>3.11.0</ok.http.version>
-        <jackson.version>2.8.10</jackson.version>
-        <jackson.databind.version>2.8.11.1</jackson.databind.version>
+        <jackson.version>2.9.8</jackson.version>
+        <jackson.databind.version>2.9.8</jackson.databind.version>
         <ojdbc.version>11.2.0.3</ojdbc.version>
     </properties>
 
