@@ -88,7 +88,7 @@
             })
             //模拟异步加载树数据
             setTimeout(()=>{
-                this.tree = service.queryTreeData(this)
+                // this.tree = service.queryTreeData(this)
             },1000)
 
         }

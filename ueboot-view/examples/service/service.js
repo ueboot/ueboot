@@ -1,4 +1,4 @@
-import treeData from '../assets/dataowner_json'
+// import treeData from '../assets/dataowner_json'
 let TREE_CACHE = null
 
 export default {
@@ -8,7 +8,7 @@ export default {
             return TREE_CACHE
         } else {
             vue.$log.d("调用接口")
-            TREE_CACHE = treeData.tree
+            // TREE_CACHE = treeData.tree
             return TREE_CACHE
         }
     }
