@@ -662,7 +662,7 @@ import Utils from '../../utils/Utils'
 import deepExtend from 'deep-extend'
 import defaultData from './default'
 import util from 'core-util-is'
-import ueUpload from '../upload/Upload.vue'
+import ueUpload from '../upload/upload2.vue'
 import UTreeSelect from '../tree-select/UTreeSelect'
 import UCompactColorPicker from '../color-picker/UCompactColorPicker'
 

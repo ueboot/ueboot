@@ -120,7 +120,7 @@ export default {
         let files = e.dataTransfer.files
         this.reset()
         if (this.checkFiles(files)) {
-          this.Upload(files)
+          this.upload2(files)
         }
       }
     },
@@ -143,7 +143,7 @@ export default {
         let files = e.target.files
         this.reset()
         if (this.checkFiles(files)) {
-          this.Upload(files)
+          this.upload2(files)
         }
       }
     },
