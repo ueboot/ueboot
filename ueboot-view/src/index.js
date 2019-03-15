@@ -22,17 +22,10 @@ const ueboot = {
   UForm,
   Utils,
   Config,
-  // 兼容旧写法（带下划线的名字，无法通过eslint校验)
-  Page_Login: PageLogin,
   PageLogin,
-  //
-  Page_Main: PageMain,
   PageMain,
-  Page_Shiro_User: PageShiroUser,
   PageShiroUser,
-  Page_Shiro_Resources: PageShiroResources,
   PageShiroResources,
-  Page_Shiro_Role: PageShiroRole,
   PageShiroRole
 }
 
@@ -40,7 +33,6 @@ const install = function (Vue, opts = {}) {
   Object.keys(ueboot).forEach((key) => {
     Vue.component(key, ueboot[key])
   })
-
   Vue.prototype.$log = Log
   Vue.prototype.$utils = Utils
   Vue.prototype.$axios = axios
