@@ -62,9 +62,6 @@ public class ShiroProcessor {
 			//更新数据
 			this.userService.lockByUserName(username);
 			throw new ExcessiveAttemptsException("登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理");
-		}catch(AuthenticationException e){
-			log.error(e.getMessage(),e);
-			throw new AuthenticationException("用户或密码不正确");
 		}
 
 		log.info("对用户[" + username + "]进行登录验证..验证通过");
