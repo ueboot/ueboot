@@ -36,19 +36,19 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice {
     private String AES_PRIVATE_KEY;
 
     @Override
-    public boolean supports(MethodParameter methodParameter, Class aClass) {
+    public boolean supports(MethodParameter methodParameter, Class clazz) {
         return true;
     }
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class aClass, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
+    public Object beforeBodyWrite(Object body, MethodParameter methodParameter, MediaType mediaType, Class clazz, ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         if (Objects.requireNonNull(methodParameter.getMethod()).isAnnotationPresent(AesSecurityParameter.class)) {
             //获取注解配置的包含和去除字段
             AesSecurityParameter serializedField = methodParameter.getMethodAnnotation(AesSecurityParameter.class);
             //出参是否需要加密
             assert serializedField != null;
             if (serializedField.outEncode()) {
-                logger.info("对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行加密");
+                logger.debug("对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行加密");
                 return encodeAes(methodParameter, body);
             }
         }
@@ -58,7 +58,7 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice {
             //出参是否需要加密
             assert serializedField != null;
             if (serializedField.outEncode()) {
-                logger.info("对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行加密");
+                logger.debug("对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行加密");
                 return encodeRsa(methodParameter, body);
             }
         }
@@ -68,7 +68,7 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice {
             //出参是否需要加密
             assert serializedField != null;
             if (serializedField.outEncode()) {
-                logger.info("对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行加密");
+                logger.debug("对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行加密");
                 return encodeAesRsa(methodParameter, body);
             }
         }
@@ -162,9 +162,5 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice {
             sb.append(base.charAt(number));
         }
         return sb.toString();
-    }
-
-    public static void main(String[] args) {
-        System.out.println(getRandomString(16));
     }
 }

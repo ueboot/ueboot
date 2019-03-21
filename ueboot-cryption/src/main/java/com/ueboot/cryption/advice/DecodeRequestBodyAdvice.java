@@ -2,6 +2,7 @@ package com.ueboot.cryption.advice;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.ueboot.core.exception.BusinessException;
 import com.ueboot.cryption.annotation.AesSecurityParameter;
 import com.ueboot.cryption.annotation.RsaSecurityParameter;
 import com.ueboot.cryption.annotation.SecurityParameter;
@@ -61,7 +62,7 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
                 //入参是否需要解密
                 assert serializedField != null;
                 if (serializedField.inDecode()) {
-                    logger.info("注解AesSecurityParameter,对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行解密");
+                    logger.debug("注解AesSecurityParameter,对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行解密");
                     return new AesHttpInputMessage(inputMessage);
                 }
             }
@@ -71,7 +72,7 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
                 //入参是否需要解密
                 assert serializedField != null;
                 if (serializedField.inDecode()) {
-                    logger.info("注解RsaSecurityParameter,对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行解密");
+                    logger.debug("注解RsaSecurityParameter,对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行解密");
                     return new RsaHttpInputMessage(inputMessage);
                 }
             }
@@ -81,7 +82,7 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
                 //入参是否需要解密
                 assert serializedField != null;
                 if (serializedField.inDecode()) {
-                    logger.info("注解SecurityParameter,对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行解密");
+                    logger.debug("注解SecurityParameter,对方法method :【" + methodParameter.getMethod().getName() + "】返回数据进行解密");
                     return new MyHttpInputMessage(inputMessage);
                 }
             }
@@ -126,27 +127,27 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
                 // 加密的ase秘钥
                 String encrypted = requestMap.get("encrypted");
                 if (StringUtils.isEmpty(data) || StringUtils.isEmpty(encrypted)) {
-                    throw new RuntimeException("参数【requestData】缺失异常！");
+                    throw new BusinessException("参数【requestData】缺失异常！");
                 } else {
                     String content;
                     String aseKey;
                     try {
                         aseKey = EncryptRsaUtils.decryptDataOnJava(encrypted, SERVER_PRIVATE_KEY);
                     } catch (Exception e) {
-                        throw new RuntimeException("参数【aseKey】解析异常！");
+                        throw new BusinessException("参数【aseKey】解析异常！");
                     }
                     try {
                         content = EncryptAesUtils.decrypt(data, aseKey);
                     } catch (Exception e) {
-                        throw new RuntimeException("参数【content】解析异常！");
+                        throw new BusinessException("参数【content】解析异常！");
                     }
                     if (StringUtils.isEmpty(content) || StringUtils.isEmpty(aseKey)) {
-                        throw new RuntimeException("参数【requestData】解析参数空指针异常!");
+                        throw new BusinessException("参数【requestData】解析参数空指针异常!");
                     }
                     return content;
                 }
             }
-            throw new RuntimeException("参数【requestData】不合法异常！");
+            throw new BusinessException("参数【requestData】不合法异常！");
         }
     }
 
@@ -178,21 +179,21 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
                 // 密文
                 String data = requestMap.get("requestData");
                 if (StringUtils.isEmpty(data)) {
-                    throw new RuntimeException("参数【requestData】缺失异常！");
+                    throw new BusinessException("参数【requestData】缺失异常！");
                 } else {
                     String content;
                     try {
                         content = EncryptRsaUtils.decryptDataOnJava(data, SERVER_PRIVATE_KEY);
                     } catch (Exception e) {
-                        throw new RuntimeException("参数【rsaKey】解析异常！");
+                        throw new BusinessException("参数【rsaKey】解析异常！");
                     }
                     if (StringUtils.isEmpty(content)) {
-                        throw new RuntimeException("参数【requestData】解析参数空指针异常!");
+                        throw new BusinessException("参数【requestData】解析参数空指针异常!");
                     }
                     return content;
                 }
             }
-            throw new RuntimeException("参数【requestData】不合法异常！");
+            throw new BusinessException("参数【requestData】不合法异常！");
         }
     }
 
@@ -225,21 +226,21 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
                 // 密文
                 String data = requestMap.get("requestData");
                 if (StringUtils.isEmpty(data)) {
-                    throw new RuntimeException("参数【requestData】缺失异常！");
+                    throw new BusinessException("参数【requestData】缺失异常！");
                 } else {
                     String content;
                     try {
                         content = EncryptAesUtils.decrypt(data, AES_PRIVATE_KEY);
                     } catch (Exception e) {
-                        throw new RuntimeException("参数【content】解析异常！");
+                        throw new BusinessException("参数【content】解析异常！");
                     }
                     if (StringUtils.isEmpty(content)) {
-                        throw new RuntimeException("参数【requestData】解析参数空指针异常!");
+                        throw new BusinessException("参数【requestData】解析参数空指针异常!");
                     }
                     return content;
                 }
             }
-            throw new RuntimeException("参数【requestData】不合法异常！");
+            throw new BusinessException("参数【requestData】不合法异常！");
         }
     }
 }
