@@ -79,7 +79,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
      */
     @Override
     public User findById(Long id) {
-        return userRepository.findById(id);
+        return userRepository.getOne(id);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
             //删除用户所属角色
             List<UserRole> userRoleList = this.userRoleRepository.findByUserId(i);
             if (!userRoleList.isEmpty()) {
-                this.userRoleRepository.delete(userRoleList);
+                this.userRoleRepository.deleteAll(userRoleList);
             }
         }
         this.delete(id);

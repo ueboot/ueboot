@@ -5,14 +5,14 @@
  */
 package com.ueboot.shiro.service.userrole.impl;
 
+import com.ueboot.core.repository.BaseRepository;
+import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.entity.Role;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.entity.UserRole;
-import com.ueboot.core.repository.BaseRepository;
 import com.ueboot.shiro.repository.role.RoleRepository;
 import com.ueboot.shiro.repository.user.UserRepository;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
-import com.ueboot.core.service.impl.BaseServiceImpl;
 import com.ueboot.shiro.service.userrole.UserRoleService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
 import com.ueboot.shiro.shiro.UserRealm;
@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -64,15 +63,15 @@ public class UserRoleServiceImpl extends BaseServiceImpl<UserRole> implements Us
         //删除原有数据
         List<UserRole> roles = userRoleRepository.findByUserId(userId);
         if (!roles.isEmpty()) {
-            this.userRoleRepository.delete(roles);
+            this.userRoleRepository.deleteAll(roles);
         }
         //插入新数据
-        User user = userRepository.findById(userId);
+        User user = userRepository.getOne(userId);
         StringBuilder roleNames = new StringBuilder();
         StringBuilder roleIdsStr = new StringBuilder();
         for (int i = 0; i < roleIds.length; i++) {
             Long roleId = roleIds[i];
-            Role role = roleRepository.findById(roleId);
+            Role role = roleRepository.getOne(roleId);
             roleIdsStr.append(roleId).append(",");
             roleNames.append(role.getName()).append(",");
             role.setId(roleId);

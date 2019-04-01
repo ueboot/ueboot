@@ -14,6 +14,8 @@ import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.handler.ShiroExceptionHandler;
 import com.ueboot.shiro.shiro.processor.ShiroProcessor;
 import com.ueboot.shiro.util.PasswordUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import jodd.datetime.JDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
@@ -65,6 +67,8 @@ public class ApiController {
     }
 
     @PostMapping(value = "/public/login")
+    @ApiOperation(value = "用户登录",notes = "校验码的获取参加校验码获取接口，返回接口后台可以自定义")
+    @ApiImplicitParam(name = "params", value = "登录接口参数", required = true, dataType = "LoginVo")
     public Response<Map<String, Object>> login(@RequestBody LoginVo params, HttpServletRequest request) {
         HttpSession session = request.getSession(true);
         String sessionCaptcha = (String) session.getAttribute(CAPTCHA_KEY);
@@ -89,6 +93,7 @@ public class ApiController {
     }
 
     @PostMapping(value = "/private/logout")
+    @ApiOperation(value = "用户退出")
     public Response<Void> logout(@RequestBody LoginVo params) {
         // 登出日志记录
         String currentUserName = (String) SecurityUtils.getSubject().getPrincipal();
@@ -102,6 +107,7 @@ public class ApiController {
 
     @RequiresAuthentication
     @RequestMapping(value = "/private/updatePassword")
+    @ApiOperation(value = "更新密码")
     public Response<Void> updatePassword(@RequestBody UpdatePasswordReq req) {
         String userName = (String) SecurityUtils.getSubject().getPrincipal();
         //加密旧密码
@@ -132,6 +138,7 @@ public class ApiController {
      */
     @RequiresAuthentication
     @RequestMapping(value = "/private/menus", method = RequestMethod.GET)
+    @ApiOperation(value = "获取登录用户的菜单资源")
     public Response<List<MenuVo>> menus() {
         Subject currentUser = SecurityUtils.getSubject();
         String username = (String) currentUser.getPrincipal();
@@ -187,6 +194,7 @@ public class ApiController {
      * @throws IOException IOException
      */
     @RequestMapping(value = "/public/captcha", method = RequestMethod.GET)
+    @ApiOperation(value = "获取验证码")
     public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");

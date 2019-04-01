@@ -5,7 +5,7 @@
 
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-framework</artifactId>
-    <version>2.2.0-SNAPSHOT</version>
+    <version>3.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ueboot-framework</name>
     <modules>
@@ -14,16 +14,17 @@
         <module>ueboot-excel</module>
         <module>ueboot-shiro</module>
         <module>ueboot-generator</module>
+        <module>ueboot-cryption</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.16.RELEASE</version>
+        <version>2.1.3.RELEASE</version>
         <relativePath/>
     </parent>
 
     <description>
-        ueboot是一个基于spring boot1.5.16 + vue2.0+iview3.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
+        ueboot是一个基于spring boot 2.1.3 + vue2.0+iview3.0的基础平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
     </description>
     <url>https://github.com/ueboot/ueboot</url>
     <licenses>
@@ -43,17 +44,18 @@
     </developers>
     <properties>
         <!--每次发布当前模块时，需要修改这里的版本号-->
-        <ueboot.core.version>2.2.0-SNAPSHOT</ueboot.core.version>
-        <ueboot.generator.version>2.2.0-SNAPSHOT</ueboot.generator.version>
-        <ueboot.shiro.version>2.2.0-SNAPSHOT</ueboot.shiro.version>
-        <ueboot.excel.version>2.2.0-SNAPSHOT</ueboot.excel.version>
+        <ueboot.core.version>3.0.0-SNAPSHOT</ueboot.core.version>
+        <ueboot.generator.version>3.0.0-SNAPSHOT</ueboot.generator.version>
+        <ueboot.shiro.version>3.0.0-SNAPSHOT</ueboot.shiro.version>
+        <ueboot.excel.version>3.0.0-SNAPSHOT</ueboot.excel.version>
+        <ueboot.cryption.version>1.0.0-SNAPSHOT</ueboot.cryption.version>
 
         <java.version>1.8</java.version>
-        <fastjson.version>1.2.21</fastjson.version>
+        <fastjson.version>1.2.31</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
         <shiro.version>1.4.0</shiro.version>
-        <jackson.version>2.8.10</jackson.version>
-        <jackson.databind.version>2.8.11.1</jackson.databind.version>
+        <jackson.version>2.9.8</jackson.version>
+        <jackson.databind.version>2.9.8</jackson.databind.version>
     </properties>
 
     <dependencyManagement>
@@ -79,10 +81,21 @@
                 <version>${ueboot.shiro.version}</version>
             </dependency>
             <dependency>
+                <groupId>com.ueboot</groupId>
+                <artifactId>ueboot-cryption</artifactId>
+                <version>${ueboot.cryption.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>4.3.6.RELEASE</version>
                 <scope>test</scope>
+            </dependency>
+            <!--spring 整合redis-->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-redis</artifactId>
+                <version>2.0.7.RELEASE</version>
             </dependency>
             <!-- lombok包 -->
             <dependency>
@@ -169,7 +182,7 @@
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
-                <version>1.3.2</version>
+                <version>1.3.3</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.poi</groupId>
@@ -206,6 +219,24 @@
                 <artifactId>javax.persistence-api</artifactId>
                 <version>2.2</version>
             </dependency>
+            <!--配置文件加密，解决数据库配置有密码的问题-->
+            <dependency>
+                <groupId>com.github.ulisesbocchio</groupId>
+                <artifactId>jasypt-spring-boot-starter</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <!--swagger接口-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
     <profiles>

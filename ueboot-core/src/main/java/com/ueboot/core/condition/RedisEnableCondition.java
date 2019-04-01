@@ -1,8 +1,8 @@
 package com.ueboot.core.condition;
 
-import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
@@ -13,8 +13,8 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 public class RedisEnableCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        RelaxedPropertyResolver resolver = new RelaxedPropertyResolver(
-                context.getEnvironment(), "spring.cache.");
-        return "redis".equals(resolver.getProperty("type"));
+        Environment env = context.getEnvironment();
+        String storeType = env.getProperty("spring.session.store-type");
+        return "redis".equalsIgnoreCase(storeType);
     }
 }
