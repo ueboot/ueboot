@@ -1,7 +1,5 @@
 package com.ueboot.shiro.util;
 
-import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
-import org.jasypt.encryption.pbe.config.EnvironmentPBEConfig;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -17,15 +15,4 @@ public class PasswordUtilTest {
         System.out.println(PasswordUtil.sha512("zhenguo","111111"));
     }
 
-    @Test
-    public  void test(){
-        StandardPBEStringEncryptor standardPBEStringEncryptor = new StandardPBEStringEncryptor();
-        EnvironmentPBEConfig config = new EnvironmentPBEConfig();
-        config.setAlgorithm("PBEWithMD5AndDES");          // 加密的算法，这个算法是默认的
-        config.setPassword("ueboot");                        // 加密的密钥
-        standardPBEStringEncryptor.setConfig(config);
-        String plainText = "jdbc:mysql://47.100.242.77:3306/keying-proxy?useSSL=false&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull";
-        String encryptedText = standardPBEStringEncryptor.encrypt(plainText);
-        System.out.println(encryptedText);
-    }
 }
