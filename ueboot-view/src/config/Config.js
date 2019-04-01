@@ -7,7 +7,14 @@ let ueboot_config = {
     page_login: {
         // 登录界面风格，可取值 ['theme1','theme2']
         theme: 'theme2',
-        //登录成功后的跳转路径
+        /**
+         * 登录成功后的回调方法，有这个方法后会替换默认的路由跳转事件
+         * @param responseBody 登录成功后返回的结果
+         * @param _this 当前Login.vue页面的this对象，如果需要跳转路由等，直接用
+         * _this.$router.push({path:'/'});
+         */
+        //successCallBack:(responseBody,_this)=>{},
+        //登录成功后的跳转路径。与successCallBack互斥，存在callback方法，则当前配置无效
         successRouter:{path:'/'},
         //logo图片行内样式
         logoStyle:'width:100px;height:100px;',
