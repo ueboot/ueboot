@@ -88,7 +88,7 @@ public class DecodeRequestBodyAdvice implements RequestBodyAdvice {
             }
             return inputMessage;
         } catch (Exception e) {
-            logger.error("对方法method :【{}】返回数据进行解密出现异常：{}", method.getName(), e);
+            logger.error("对方法method :【{}】返回数据进行解密出现异常：{}", method.getName(), e.getMessage());
             return inputMessage;
         }
     }
