@@ -1,5 +1,22 @@
 
 ## 1.7版本更新记录
+- v1.7.40
+    - 登录页面增加登录成功后返回的回调事件，可以自定义实现登录成功后跳转
+    - 
+    ```javascript
+          page_login: {
+              /**
+               * 登录成功后的回调方法，有这个方法后会替换默认的路由跳转事件
+               * @param responseBody 登录成功后返回的结果
+               * @param _this 当前Login.vue页面的this对象，如果需要跳转路由等，直接用
+               * _this.$router.push({path:'/'});
+               */
+              successCallBack:(responseBody,_this)=>{},
+              //登录成功后的跳转路径。与successCallBack互斥，存在callback方法，则当前配置无效
+              successRouter:{path:'/'}
+            }
+
+    ```
 - v1.7.39
     - 表单编辑时可以对输入框做禁用状态。
 - v1.7.38
