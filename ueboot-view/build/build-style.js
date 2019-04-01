@@ -26,7 +26,7 @@ gulp.task('fonts', function () {
     gulp.src('../src/styles/iview/common/iconfont/fonts/*.*')
         .pipe(gulp.dest('../dist/styles/fonts'));
 });
-
+//只能使用gulp3.9的版本
 gulp.task('default', ['css', 'fonts']);
 // gulp.task('default',function () {
 //
