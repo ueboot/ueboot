@@ -11,7 +11,6 @@
     <modules>
         <module>ueboot-parent</module>
         <module>ueboot-core</module>
-        <module>ueboot-excel</module>
         <module>ueboot-shiro</module>
         <module>ueboot-generator</module>
     </modules>
