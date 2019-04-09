@@ -2,6 +2,7 @@ package com.ueboot.core.configure;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ueboot.core.annotation.XSSNotCheck;
 import com.ueboot.core.exception.BusinessException;
 import com.ueboot.core.utils.XSSUtil;
 import org.slf4j.Logger;
@@ -86,7 +87,13 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         byte[] bytes = baos.toByteArray();
         String jsonStr = new String(bytes);
         //防止xss攻击，sql注入
-        jsonStr = XSSUtil.checkXssStr(jsonStr);
+        XSSNotCheck notCheck = clazz.getAnnotation(XSSNotCheck.class);
+        //加了注解则不仅限xss字段拦截
+        if(notCheck==null){
+            jsonStr = XSSUtil.checkXssStr(jsonStr);
+        }else{
+            log.warn("当前类:{}标注无需进行xss字段拦截，注意安全!",clazz.getName());
+        }
         bytes = jsonStr.getBytes();
         log.info("Request:{},xss filter json:{}", clazz.getName(), jsonStr);
 
