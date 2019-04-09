@@ -67,7 +67,7 @@ public class UserRealm extends AuthorizingRealm {
             throw new LockedAccountException("您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理！");
         }
         if (user.getCredentialExpiredDate() != null && new Date().compareTo(user.getCredentialExpiredDate()) > -1) {
-            throw new AuthenticationException("密码已经过期，请联系你的管理员进行处理！");
+            throw new ExpiredCredentialsException("密码已经过期，请联系你的管理员进行处理！");
         }
         username = user.getUserName();
         ByteSource credentialsSalt = ByteSource.Util.bytes(username);
