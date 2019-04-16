@@ -14,9 +14,7 @@ import Areas from '../views/setting/Areas.vue'
 import Activities from '../views/activity/Activities.vue'
 import SecKillActivity from '../views/activity/SecKillActivity.vue'
 import TreeSelect from '../views/demo/TreeSelect'
-import {PageLogin, PageMain, PageShiroResources, PageShiroRole, PageShiroUser} from 'ueboot'
-
-import Login from '../../src/pages/shiro/Login'
+import { PageLogin, PageMain, PageShiroResources, PageShiroRole, PageShiroUser } from 'ueboot'
 
 Vue.use(Router)
 
@@ -28,7 +26,7 @@ export default new Router({
     {
       path: '/login',
       name: 'Login',
-      component: PageLogin,
+      component: PageLogin
     },
     {
       path: '/',
@@ -38,84 +36,84 @@ export default new Router({
         {
           path: '/ueboot/shiro/User',
           name: '用户管理',
-          component: PageShiroUser,
+          component: PageShiroUser
         },
         {
           path: '/ueboot/shiro/Resources',
           name: '资源管理',
-          component: PageShiroResources,
+          component: PageShiroResources
         },
         {
           path: '/ueboot/shiro/Role',
           name: '角色管理',
-          component: PageShiroRole,
+          component: PageShiroRole
         },
         {
           path: 'treeSelect',
           name: '树结构下拉框',
-          component: TreeSelect,
+          component: TreeSelect
         },
         {
           path: 'tree',
           name: '树结构',
-          component: TreeDemo,
+          component: TreeDemo
         },
         {
           path: 'crud',
           name: 'CRUD视图',
-          component: FormGrid,
+          component: FormGrid
         },
         {
           path: 'formGrid2',
           name: 'FormGrid视图2',
-          component: FormGrid2,
+          component: FormGrid2
         },
         {
           path: 'formGrid3',
           name: 'FormGrid视图3',
-          component: FormGrid3,
+          component: FormGrid3
         },
         {
           path: 'cascader',
           name: 'Cascader',
-          component: Cascader,
+          component: Cascader
         },
         {
           path: 'customer',
           name: 'customer',
-          component: ListCustomer,
+          component: ListCustomer
         },
         {
           path: 'Knowledge',
           name: 'Knowledge',
-          component: ListKnowledge,
+          component: ListKnowledge
         },
         {
           path: 'FormDemo',
           name: 'Form表单',
-          component: FormDemo,
+          component: FormDemo
         },
         {
           path: 'customers',
           name: 'Customers',
-          component: Customers,
+          component: Customers
         },
         {
           path: 'category',
           name: 'category',
-          component: Category,
+          component: Category
         },
         {
           path: 'areas',
           name: 'Areas',
-          component: Areas,
+          component: Areas
         },
         {
           path: 'activities',
           name: 'Activities',
-          component: Activities,
+          component: Activities
         },
-        {path: 'activities/secKillActivity', name: '秒杀活动', component: SecKillActivity},
+        { path: 'activities/secKillActivity', name: '秒杀活动', component: SecKillActivity }
       ]
     }
   ]

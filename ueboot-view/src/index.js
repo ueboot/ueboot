@@ -42,5 +42,18 @@ const install = function (Vue, opts = {}) {
 if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue)
 }
-
-module.exports = Object.assign(ueboot, { install })
+export {
+  UTree,
+  UFormGrid,
+  UTreeSelect,
+  Log,
+  WebSocket,
+  UForm,
+  Utils,
+  Config,
+  PageLogin,
+  PageMain,
+  PageShiroUser,
+  PageShiroResources,
+  PageShiroRole
+}

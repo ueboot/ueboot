@@ -1,3 +1,4 @@
+const path = require('path')
 module.exports = {
   pages: {
     index: {
@@ -17,7 +18,9 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        'ueboot': '@/index'
+        'ueboot': path.resolve(__dirname, './src/index'),
+        'vue$': 'vue/dist/vue.esm.js',
+        '@': path.resolve('src'),
       }
     }
   }
