@@ -18,9 +18,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ${entityName}Repository extends BaseRepository<${entityFullName}, Long>,${entityName}BaseRepository {
       /**
-      * 根据ID查找对象
-      * @param id 主键ID
+      * 示例方法，可以删除
+      * 根据属性XX查找对象
+      * @param xx 参数值
       * @return 对象
       */
-      ${entityFullName} findById(Long id);
+     // ${entityFullName} findByXX(String xx);
 }

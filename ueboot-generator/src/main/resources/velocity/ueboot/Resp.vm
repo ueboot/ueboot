@@ -13,7 +13,7 @@ import lombok.Setter;
 * 用于前端发起查询请求时，返回查询结果
 * Created on ${DATE}
 * @author ${USER}
-* @since 2.1.0 by ueboot-generator
+* @since 3.0.0 by ueboot-generator
 */
 @Setter
 @Getter

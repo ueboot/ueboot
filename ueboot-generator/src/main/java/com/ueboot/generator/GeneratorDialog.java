@@ -90,13 +90,13 @@ public class GeneratorDialog extends JDialog {
                     entityName = entityName.toLowerCase();
                             entityPackageNameValue = entityPackageNameValue.substring(0, entityPackageNameValue.lastIndexOf("."));
                     if (StringUtil.isBlank(repositoryPackageName.getText())) {
-                        repositoryPackageName.setText(entityPackageNameValue.replace("entity", "repository")+entityName);
+                        repositoryPackageName.setText(entityPackageNameValue.replace("Entity", "repository")+entityName);
                     }
                     if (StringUtil.isBlank(servicePackageName.getText())) {
-                        servicePackageName.setText(entityPackageNameValue.replace("entity", "service")+entityName);
+                        servicePackageName.setText(entityPackageNameValue.replace("Entity", "service")+entityName);
                     }
                     if (StringUtil.isBlank(controllerPackageName.getText())) {
-                        controllerPackageName.setText(entityPackageNameValue.replace("entity", controllerModuleName.getText() + ".controller")+entityName);
+                        controllerPackageName.setText(entityPackageNameValue.replace("Entity", controllerModuleName.getText() + ".controller")+entityName);
                     }
                     if (StringUtil.isBlank(vueFilePath.getText())) {
                         vueFilePath.setText("src" + separator + "views");

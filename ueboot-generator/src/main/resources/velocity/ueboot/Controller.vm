@@ -23,7 +23,7 @@ import javax.annotation.Resource;
 /**
  * Created on ${DATE}
  * @author ${USER}
- * @since 2.1.0 by ueboot-generator
+ * @since 3.0.0 by ueboot-generator
  */
 @Slf4j
 @RestController
