@@ -1,0 +1,99 @@
+package ${controllerPackageName};
+
+import com.ueboot.core.controller.BasicController;
+import com.ueboot.core.exception.BusinessException;
+import com.ueboot.core.http.response.Response;
+import ${controllerPackageName}.vo.*;
+import ${entityPackageName}.${entityFullName};
+import ${servicePackageName}.${entityName}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+
+import com.ueboot.core.annotation.UeLog;
+import java.util.List;
+import java.util.Optional;
+
+
+/**
+ * TODO
+ *
+ * @author ${USER}
+ */
+@Slf4j
+@RestController
+@RequestMapping(value = "/private$requestPath${lowEntityName}")
+public class ${entityName}Controller extends BasicController<${entityFullName}> {
+
+    private final String MODULE_NAME = "TODO";
+
+    private final String M_PREFIX = "${lowEntityName}/${lowEntityName}/";
+
+    private final String P_PREFIX = "${lowEntityName}:${lowEntityName}:";
+
+    @Resource
+    private ${entityName}Service ${lowEntityName}Service;
+
+
+    @PostMapping(value = M_PREFIX + PAGE)
+    @RequiresPermissions(value = P_PREFIX + PAGE)
+    @UeLog(value = MODULE_NAME + PAGE_CH)
+    public Response<Page<${entityName}Resp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.ASC)
+                                                     Pageable pageable, @RequestBody(required = false) ${entityName}FindReq req){
+        Page<${entityFullName}> ${lowEntityName}Page = ${lowEntityName}Service.pagingBy(pageable);
+        return converterDTV.map(${lowEntityName}Page, ${entityName}Resp::to${entityName}Resp);
+    }
+
+    @PostMapping(value = M_PREFIX + LIST)
+    @RequiresPermissions(value = P_PREFIX + LIST)
+    @UeLog(value = MODULE_NAME + LIST_CH)
+    public Response<List<${entityName}Resp>> list() {
+        List<${entityFullName}> ${lowEntityName}List = ${lowEntityName}Service.findAll();
+        return converterDTV.map(${lowEntityName}List, ${entityName}Resp::to${entityName}Resp);
+    }
+
+    @PostMapping(value = M_PREFIX + ADD)
+    @RequiresPermissions(value = P_PREFIX + ADD)
+    @UeLog(value = MODULE_NAME + ADD_CH)
+    public Response<Long> add(@RequestBody ${entityName}Req req) {
+        return new Response<>(${lowEntityName}Service.save(req.to${entityFullName}()).getId());
+    }
+
+    @PostMapping(value = M_PREFIX + UPDATE)
+    @RequiresPermissions(value = P_PREFIX + UPDATE)
+    @UeLog(value = MODULE_NAME + UPDATE_CH)
+    public Response<Long> update(@RequestBody ${entityName}Req req) {
+        validation(req.getId());
+        return new Response<>(${lowEntityName}Service.save(req.to${entityFullName}()).getId());
+    }
+
+    @PostMapping(value = M_PREFIX + DELETE)
+    @RequiresPermissions(value = P_PREFIX + DELETE)
+    @UeLog(value = MODULE_NAME + DELETE_CH)
+    public Response<Void> delete(Long[] ids) {
+        for (Long id: ids) {
+            ${lowEntityName}Service.logicDelete(id);
+        }
+        return new Response<>();
+    }
+
+    @PostMapping(value = M_PREFIX + SINGLE + "/{id}")
+    @RequiresPermissions(value = P_PREFIX + SINGLE)
+    @UeLog(value = MODULE_NAME + SINGLE_CH)
+    public Response<${entityName}Resp> single(@PathVariable Long id) {
+        Optional<${entityFullName}> optional${entityName} = ${lowEntityName}Service.findById(id);
+        return optional${entityName}.map(${entityName} -> new Response<>(${entityName}Resp.to${entityName}Resp(${entityName}))).orElseGet(() -> new Response<>(new ${entityName}Resp()));
+    }
+
+    private static void validation(Long id) {
+        if (id == null) {
+            throw new BusinessException("缺少关键参数");
+        }
+    }
+}

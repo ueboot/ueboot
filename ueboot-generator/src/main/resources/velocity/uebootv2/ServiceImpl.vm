@@ -1,0 +1,62 @@
+package ${servicePackageName}.impl;
+
+import ${entityPackageName}.${entityFullName};
+import com.ueboot.core.repository.BaseRepository;
+import ${repositoryPackageName}.${entityName}Repository;
+import com.ueboot.core.service.impl.BaseServiceImpl;
+import ${servicePackageName}.${entityName}Service;
+import lombok.extern.slf4j.Slf4j;
+import javax.annotation.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+/**
+* 业务描述：TODO
+*
+* @author ${USER}
+*/
+@Slf4j
+@Service
+public class ${entityName}ServiceImpl extends BaseServiceImpl<${entityFullName}> implements ${entityName}Service{
+
+    @Resource
+    private ${entityName}Repository ${lowEntityName}Repository;
+
+    @Override
+    protected BaseRepository getBaseRepository() {
+         return ${lowEntityName}Repository;
+    }
+
+    @Override
+    public Page<${entityFullName}> pagingBy(Pageable pageable) {
+        return ${lowEntityName}Repository.pagingBy(pageable);
+    }
+
+    /**
+    * TODO 根据ID查找对象
+    * TODO 案例根据业务需要进行删除
+    *
+    * @param id 主键ID
+    * @return TODO 对象
+    */
+    @Override
+    public Optional<${entityFullName}> findById(Long id){
+      return ${lowEntityName}Repository.findById(id);
+    }
+
+    /**
+    * 根据主键进行逻辑删除
+    *
+    * @param id 主键ID
+    */
+    @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 300, propagation = Propagation.REQUIRED)
+    public void logicDelete(Long id) {
+        ${lowEntityName}Repository.setDeletedBy(Boolean.FALSE, id);
+    }
+}

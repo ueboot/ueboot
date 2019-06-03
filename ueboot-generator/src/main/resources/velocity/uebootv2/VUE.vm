@@ -1,0 +1,47 @@
+<template>
+    <u-form-grid :data="formGrid" ref="formGrid"></u-form-grid>
+</template>
+
+<script>
+    export default {
+        name: '${entityName}',
+        data() {
+            return {
+                formGrid: {
+                    options: {
+                        url: {
+                            page: "/${requestPath}/${lowEntityName}/page",
+                            save: "/${requestPath}/${lowEntityName}/save",
+                            delete: "/${requestPath}/${lowEntityName}/delete",
+                        }
+                    },
+                    tips: {title: "${entityName}", content: "${entityName}"},
+                    form: {
+                        modal: {
+                            title: "${entityName}"
+                        },
+                        columns: [
+                            #foreach($object in ${fields})
+                            {label: "$object.name", type: "text", name: "$object.name", required: true},
+                            #end
+
+                        ]
+                    },
+                    table: {
+                        operation: {
+                            primaryKey: "id",
+                        },
+                        columns: [
+                            #foreach($object in ${fields})
+                            {title: '$object.name', key: '$object.name',minWidth:120},
+                            #end
+                        ]
+                    }
+                }
+            }
+        },
+        methods: {}
+    }
+</script>
+
+

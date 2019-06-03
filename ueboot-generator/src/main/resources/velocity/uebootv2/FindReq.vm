@@ -1,0 +1,18 @@
+package ${controllerPackageName}.vo;
+
+
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * TODO 用于前端发起查询请求时，接收请求参数
+ *
+ * @author ${USER}
+ */
+@Setter
+@Getter
+public class ${entityName}FindReq {
+#foreach($object in ${fields})
+    private $object.type $object.name;
+#end
+}

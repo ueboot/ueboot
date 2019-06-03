@@ -1,0 +1,29 @@
+package ${controllerPackageName}.vo;
+
+
+import ${entityPackageName}.${entityFullName};
+import lombok.Getter;
+import lombok.Setter;
+import javax.validation.constraints.NotBlank;
+import org.springframework.beans.BeanUtils;
+
+/**
+ * 用于前端发起对象保存和更新请求时，接收请求参数
+
+ * @author ${USER}
+ */
+@Setter
+@Getter
+public class ${entityName}Req {
+#foreach($object in ${fields})
+  #if($object.type.equals("String"))
+  @NotBlank
+  #end
+  private $object.type $object.name;
+#end
+  public ${entityName}Entity to${entityName}Entity(){
+    ${entityName}Entity ${lowEntityName} = new ${entityName}Entity();
+    BeanUtils.copyProperties(this, ${lowEntityName});
+    return ${lowEntityName};
+  }
+}

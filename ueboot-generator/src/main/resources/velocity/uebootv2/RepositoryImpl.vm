@@ -1,0 +1,31 @@
+package ${repositoryPackageName}.impl;
+
+import ${entityPackageName}.${entityFullName};
+import com.ueboot.core.jpa.repository.query.StringQuery;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
+import com.ueboot.core.jpa.repository.DefaultJpaRepository;
+import ${repositoryPackageName}.${entityName}BaseRepository;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+* 自定义接口实现类，继承DefaultJpaRepository所有方法，例如find(),findBySql()等方法
+* 相关使用示例，参见文档http://docs.ueboot.com
+*
+* @author ${USER}
+*/
+@Slf4j
+@Repository
+public class ${entityName}RepositoryImpl extends DefaultJpaRepository<${entityFullName},Long> implements ${entityName}BaseRepository {
+
+    @Override
+    public Page<${entityFullName}> pagingBy(Pageable pageable) {
+
+        StringQuery query = StringQuery.newQuery()
+        .query(" FROM " + ${entityFullName}.class.getName() + " u WHERE delete=:delete ")
+        .param("delete", Boolean.FALSE)
+        .build();
+        return find(query, pageable);
+    }
+}
