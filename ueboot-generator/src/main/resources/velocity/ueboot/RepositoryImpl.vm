@@ -20,6 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 */
 @Slf4j
 @Repository
-public class ${entityName}RepositoryImpl extends DefaultJpaRepository<${entityFullName},Long> implements ${entitylName}BaseRepository {
+public class ${entityName}RepositoryImpl extends DefaultJpaRepository<${entityFullName},Long> implements ${entityName}BaseRepository {
 
 }
