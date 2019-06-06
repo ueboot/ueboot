@@ -22,7 +22,7 @@ public class ConverterDtv<T> {
             U u = converter.apply(o);
             listU.add(u);
         });
-        Page<U> result = new PageImpl<U>(listU, info.getPageable(), info.getTotalElements());
+        Page<U> result = new PageImpl<>(listU, info.getPageable(), info.getTotalElements());
         BeanUtils.copyProperties(info, result);
         return new Response<>(result);
     }
