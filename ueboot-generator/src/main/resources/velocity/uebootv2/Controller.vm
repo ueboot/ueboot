@@ -33,15 +33,19 @@ public class ${entityName}Controller extends BasicController<${entityFullName}> 
 
     private final String MODULE_NAME = "TODO";
 
-    private final String M_PREFIX = "${lowEntityName}/${lowEntityName}/";
-
     private final String P_PREFIX = "${lowEntityName}:${lowEntityName}:";
 
     @Resource
     private ${entityName}Service ${lowEntityName}Service;
 
-
-    @PostMapping(value = M_PREFIX + PAGE)
+    /**
+    * TODO 进行分页查询
+    *
+    * @param pageable TODO分页对象
+    * @param req 请求对象
+    * @return 已分页的数据对象集合
+    */
+    @PostMapping(value = PAGE)
     @RequiresPermissions(value = P_PREFIX + PAGE)
     @UeLog(value = MODULE_NAME + PAGE_CH)
     public Response<Page<${entityName}Resp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.ASC)
@@ -50,7 +54,12 @@ public class ${entityName}Controller extends BasicController<${entityFullName}> 
         return converterDTV.map(${lowEntityName}Page, ${entityName}Resp::to${entityName}Resp);
     }
 
-    @PostMapping(value = M_PREFIX + LIST)
+    /**
+    * 数据列表查询
+    *
+    * @return 数据对象集合
+    */
+    @PostMapping(value = LIST)
     @RequiresPermissions(value = P_PREFIX + LIST)
     @UeLog(value = MODULE_NAME + LIST_CH)
     public Response<List<${entityName}Resp>> list() {
@@ -58,22 +67,38 @@ public class ${entityName}Controller extends BasicController<${entityFullName}> 
         return converterDTV.map(${lowEntityName}List, ${entityName}Resp::to${entityName}Resp);
     }
 
-    @PostMapping(value = M_PREFIX + ADD)
+    /**
+    * TODO数据添加
+    *
+    * @param req 数据新增请求对象
+    * @return 主键ID
+    */
+    @PostMapping(value = ADD)
     @RequiresPermissions(value = P_PREFIX + ADD)
     @UeLog(value = MODULE_NAME + ADD_CH)
     public Response<Long> add(@RequestBody ${entityName}Req req) {
         return new Response<>(${lowEntityName}Service.save(req.to${entityFullName}()).getId());
     }
 
-    @PostMapping(value = M_PREFIX + UPDATE)
+    /**
+    * TODO数据修改
+    *
+    * @param req 数据修改请求对象
+    */
+    @PostMapping(value = UPDATE)
     @RequiresPermissions(value = P_PREFIX + UPDATE)
     @UeLog(value = MODULE_NAME + UPDATE_CH)
     public Response<Long> update(@RequestBody ${entityName}Req req) {
-        validation(req.getId());
+        Assert.notNull(req.getId(), "修改缺少关键参数");
         return new Response<>(${lowEntityName}Service.save(req.to${entityFullName}()).getId());
     }
 
-    @PostMapping(value = M_PREFIX + DELETE)
+    /**
+    * 批量删除
+    *
+    * @param ids 删除数据的主键ID集合
+    */
+    @PostMapping(value = DELETE)
     @RequiresPermissions(value = P_PREFIX + DELETE)
     @UeLog(value = MODULE_NAME + DELETE_CH)
     public Response<Void> delete(Long[] ids) {
@@ -83,17 +108,18 @@ public class ${entityName}Controller extends BasicController<${entityFullName}> 
         return new Response<>();
     }
 
-    @PostMapping(value = M_PREFIX + SINGLE + "/{id}")
-    @RequiresPermissions(value = P_PREFIX + SINGLE)
-    @UeLog(value = MODULE_NAME + SINGLE_CH)
-    public Response<${entityName}Resp> single(@PathVariable Long id) {
+    /**
+    * 根据主键ID获取单条记录的明细信息
+    *
+    * @param id 请求ID
+    * @return 明细信息数据对象
+    */
+    @PostMapping(value = GET + "/{id}")
+    @RequiresPermissions(value = P_PREFIX + GET)
+    @UeLog(value = MODULE_NAME + GET_CH)
+    public Response<${entityName}Resp> get(@PathVariable Long id) {
+        Assert.notNull(id, "修改缺少关键参数");
         Optional<${entityFullName}> optional${entityName} = ${lowEntityName}Service.findById(id);
         return optional${entityName}.map(${entityName} -> new Response<>(${entityName}Resp.to${entityName}Resp(${entityName}))).orElseGet(() -> new Response<>(new ${entityName}Resp()));
-    }
-
-    private static void validation(Long id) {
-        if (id == null) {
-            throw new BusinessException("缺少关键参数");
-        }
     }
 }

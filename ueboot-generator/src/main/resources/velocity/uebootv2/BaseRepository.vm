@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
-* 业务模块描述：TODO —— TODO持久化
+* 业务模块描述：TODO
 * 规范要求：凡是基于StringQuery方式的自定义的接口实现对象数据查询功能在此类进行编写
 * 实现类: ./impl/${entityFullName}RepositoryImpl.java
 *
