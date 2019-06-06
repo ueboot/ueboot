@@ -8,6 +8,7 @@ import ${entityPackageName}.${entityFullName};
 import ${servicePackageName}.${entityName}Service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.util.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
