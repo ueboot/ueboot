@@ -121,6 +121,6 @@ public class ${entityName}Controller extends BasicController<${entityFullName}> 
     public Response<${entityName}Resp> get(@PathVariable Long id) {
         Assert.notNull(id, "修改缺少关键参数");
         Optional<${entityFullName}> optional${entityName} = ${lowEntityName}Service.findById(id);
-        return optional${entityName}.map(${entityName} -> new Response<>(${entityName}Resp.to${entityName}Resp(${entityName}))).orElseGet(() -> new Response<>(new ${entityName}Resp()));
+        return optional${entityName}.map(${lowEntityName} -> new Response<>(${entityName}Resp.to${entityName}Resp(${lowEntityName}))).orElseGet(() -> new Response<>(new ${entityName}Resp()));
     }
 }

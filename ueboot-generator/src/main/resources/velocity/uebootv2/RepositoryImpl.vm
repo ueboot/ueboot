@@ -23,8 +23,8 @@ public class ${entityName}RepositoryImpl extends DefaultJpaRepository<${entityFu
     public Page<${entityFullName}> pagingBy(Pageable pageable) {
 
         StringQuery query = StringQuery.newQuery()
-        .query(" FROM " + ${entityFullName}.class.getName() + " u WHERE delete=:delete ")
-        .param("delete", Boolean.FALSE)
+        .query(" FROM " + ${entityFullName}.class.getName() + " u WHERE deleted=:deleted ")
+        .param("deleted", Boolean.FALSE)
         .build();
         return find(query, pageable);
     }
