@@ -29,7 +29,7 @@ import java.util.Optional;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/private$requestPath${lowEntityName}")
+@RequestMapping(value = "/private$requestPath${lowEntityName}/")
 public class ${entityName}Controller extends BasicController<${entityFullName}> {
 
     private final String MODULE_NAME = "TODO";
