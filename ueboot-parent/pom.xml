@@ -31,7 +31,7 @@
         <hutool.version>4.1.12</hutool.version>
         <spring.boot.starter.swagger.version>1.5.1.RELEASE</spring.boot.starter.swagger.version>
         <commons-net.version>3.3</commons-net.version>
-        <poi-ooxml.version>3.17</poi-ooxml.version>
+        <poi-ooxml.version>4.1.0</poi-ooxml.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <commons-io.version>2.5</commons-io.version>
         <jodd.version>3.9.1</jodd.version>
