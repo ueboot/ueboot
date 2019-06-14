@@ -42,7 +42,6 @@ public class SpringContextUtils implements ApplicationContextAware {
         if (SpringContextUtils.applicationContext == null) {
             SpringContextUtils.applicationContext = applicationContext;
         }
-        log.info ("{}",SpringContextUtils.applicationContext);
     }
 
     /***
@@ -52,7 +51,7 @@ public class SpringContextUtils implements ApplicationContextAware {
      */
     public static Object getBean(String beanName) throws BeansException {
         if (applicationContext.containsBean(beanName)) {
-            applicationContext.getBean(beanName);
+           return applicationContext.getBean(beanName);
         }
         return null;
     }
