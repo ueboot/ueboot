@@ -18,7 +18,7 @@ public class ${entityName}Resp {
 #end
     public static ${entityName}Resp to${entityName}Resp(${entityName}Entity source){
         ${entityName}Resp ${lowEntityName}Resp = new ${entityName}Resp();
-        BeanUtils.copyProperties(source, ${lowEntityName}}Resp);
+        BeanUtils.copyProperties(source, ${lowEntityName}Resp);
         return ${lowEntityName}Resp;
     }
 }
