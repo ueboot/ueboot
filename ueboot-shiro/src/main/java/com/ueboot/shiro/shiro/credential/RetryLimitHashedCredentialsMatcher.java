@@ -104,7 +104,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
         if(matches) {
             redisTemplate.delete(key);
         }else{
-            //默认设置为1天
+            //默认设置为1小时
             redisTemplate.opsForValue().set(key,retryCount);
             redisTemplate.expire(key,1,TimeUnit.HOURS);
             log.info("userName:{},retryCount:{}",userName,retryCount);

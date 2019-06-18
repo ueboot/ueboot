@@ -7,6 +7,7 @@ import org.springframework.data.domain.AuditorAware;
 import java.util.Optional;
 
 /**
+ * 用于支撑JPA当中审核人注解如何获取
  * @author yangkui
  */
 public class JpaAuditingAwareImpl implements AuditorAware<String> {

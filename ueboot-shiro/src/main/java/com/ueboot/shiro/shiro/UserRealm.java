@@ -1,14 +1,15 @@
 package com.ueboot.shiro.shiro;
 
 import com.ueboot.shiro.entity.User;
-import com.ueboot.shiro.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.Assert;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -59,10 +60,14 @@ public class UserRealm extends AuthorizingRealm {
         if (StringUtils.isEmpty(password)) {
             throw new AuthenticationException("密码不能为空！");
         }
-        User user = this.shiroService.getUser(username);
-        if (user == null) {
+        Object object = this.shiroService.getUser(username);
+        if (object == null) {
             throw new AuthenticationException("用户不存在");
         }
+        User user = new User();
+        BeanUtils.copyProperties(object,user);
+        Assert.notNull(user.getUserName(),"shiroService返回的对象不能缺少userName属性");
+        Assert.notNull(user.getPassword(),"shiroService返回的对象不能缺少password属性");
         if (user.isLocked()) {
             throw new LockedAccountException("您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理！");
         }
