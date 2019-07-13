@@ -47,20 +47,20 @@ public class ShiroProcessor {
 			log.error(e.getMessage(),e);
 			throw new AuthenticationException("用户不存在");
 		}catch(IncorrectCredentialsException e){
-			log.error(e.getMessage(),e);
+			log.error(e.getMessage());
 			throw new IncorrectCredentialsException("用户的密码不正确");
 		}catch(LockedAccountException e){
-			log.error(e.getMessage(),e);
+			log.error(e.getMessage());
 			throw new LockedAccountException("您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理");
 		}catch(ExpiredCredentialsException e){
-			log.error(e.getMessage(),e);
+			log.error(e.getMessage());
 			throw new AuthenticationException("密码已过期，请联系管理员");
 		}catch(ExcessiveAttemptsException e){
-			log.error(e.getMessage(),e);
+			log.error(e.getMessage());
 			//Redis 记录锁记录
 			redisTemplate.opsForValue().set(LOCK_KEY+username,new UserInfo(username,new Date()));
-			//更新数据
-			this.userService.lockByUserName(username);
+			//更新数据 todo 需要解耦userService类
+//			this.userService.lockByUserName(username);
 			throw new ExcessiveAttemptsException("登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理");
 		}
 
