@@ -2,6 +2,8 @@ package com.ueboot.core.exception;
 
 import com.ueboot.core.http.response.Response;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authc.*;
+import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -12,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.annotation.Priority;
+import javax.annotation.Resource;
 import java.io.IOException;
 
 /**
@@ -24,8 +26,56 @@ import java.io.IOException;
  */
 @Slf4j
 @ControllerAdvice
-@Priority(Ordered.LOWEST_PRECEDENCE)
 public class WebExceptionHandler {
+
+    @ExceptionHandler(UnknownAccountException.class)
+    @ResponseBody
+    public Response<Void> handleException(UnknownAccountException e) {
+        log.error("进行登录验证..验证未通过,未知账户 {}",e.getMessage());
+        return new Response<>(HttpStatus.OK.value() + "", "验证未通过,未知账户", null);
+    }
+    @ExceptionHandler(IncorrectCredentialsException.class)
+    @ResponseBody
+    public Response<Void> handleException(IncorrectCredentialsException e) {
+        log.error("用户名或密码错误:{}",e.getMessage());
+        return new Response<>(HttpStatus.OK.value() + "", "用户名或密码错误", null);
+    }
+    @ExceptionHandler(LockedAccountException.class)
+    @ResponseBody
+    public Response<Void> handleException(LockedAccountException e) {
+        log.error("进行登录验证..验证未通过,账户已锁定 {}",e.getMessage());
+        return new Response<>(HttpStatus.OK.value()+ "", "您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
+    }
+    @ExceptionHandler(ExcessiveAttemptsException.class)
+    @ResponseBody
+    public Response<Void> handleException(ExcessiveAttemptsException e) {
+        log.error("进行登录验证..验证未通过,错误次数过多 {}",e.getMessage());
+        return new Response<>(HttpStatus.OK.value() + "", "登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
+    }
+    //无权限的请求，返回403，前端会进行页面提示无权限访问
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseBody
+    public Response<Void> handleException(AuthorizationException e) {
+        log.error("权限验证未通过 {}",e.getMessage());
+        return new Response<>(HttpStatus.FORBIDDEN.value() + "", "当前用户无权限访问", null);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public Response<Void> handleException(AuthenticationException e) {
+        log.error(e.getMessage());
+        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", e.getMessage(), null);
+    }
+    //无权限的请求，返回401，前端会进行页面跳转到登录页面
+    @ExceptionHandler(UnauthenticatedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public Response<Void> handleException(UnauthenticatedException e) {
+        log.debug("{} was thrown", e.getClass(), e);
+        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "当前用户未登录", null);
+    }
 
 
     @ExceptionHandler({BusinessException.class})
@@ -42,6 +92,7 @@ public class WebExceptionHandler {
     public Response<Void> handleIllegalArgumentExceptions(final Exception e, final WebRequest req) {
         return new Response<>(HttpStatus.BAD_REQUEST.value() + "", e.getMessage(), null);
     }
+
 
     /**
      * 全局处理Exception
