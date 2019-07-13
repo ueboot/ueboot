@@ -39,7 +39,7 @@ public class UserRealm extends AuthorizingRealm {
         String username = (String) this.getAvailablePrincipal(principals);
         Set<String> roleNames = this.shiroService.getUserRoleNames(username);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
-        Set<String> permissions = this.shiroService.getRolePermission(roleNames);
+        Set<String> permissions = this.shiroService.getRolePermission(username,roleNames);
         //如果是指定的超级用户，则默认有一个最高权限，可以访问所有的功能
         if(SUPER_USER.equals(username)){
             permissions.add("*:*");
