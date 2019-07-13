@@ -80,7 +80,7 @@ public class ShiroExceptionHandler {
         ShiroExceptionHandler.remove();
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
     }
-    //无权限的请求，返回403，前端会进行页面跳转到登录页面
+    //无权限的请求，返回403，前端会进行页面提示无权限访问
     @ExceptionHandler(AuthorizationException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
@@ -100,15 +100,15 @@ public class ShiroExceptionHandler {
         ShiroExceptionHandler.remove();
         return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", e.getMessage(), null);
     }
-    //无权限的请求，返回403，前端会进行页面跳转到登录页面
+    //无权限的请求，返回401，前端会进行页面跳转到登录页面
     @ExceptionHandler(UnauthenticatedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ResponseBody
     public Response<Void> handleException(UnauthenticatedException e) {
         log.debug("{} was thrown", e.getClass(), e);
         ShiroExceptionHandler.remove();
         shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
-        return new Response<>(HttpStatus.FORBIDDEN.value() + "", "当前用户未登录", null);
+        return new Response<>(HttpStatus.UNAUTHORIZED.value() + "", "当前用户未登录", null);
     }
 
 }
