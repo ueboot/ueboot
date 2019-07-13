@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 
+import javax.annotation.Priority;
 import java.io.IOException;
 
 /**
@@ -23,7 +24,7 @@ import java.io.IOException;
  */
 @Slf4j
 @ControllerAdvice
-@Order(Ordered.LOWEST_PRECEDENCE)
+@Priority(Ordered.LOWEST_PRECEDENCE)
 public class WebExceptionHandler {
 
 
@@ -40,14 +41,6 @@ public class WebExceptionHandler {
     @ResponseBody
     public Response<Void> handleIllegalArgumentExceptions(final Exception e, final WebRequest req) {
         return new Response<>(HttpStatus.BAD_REQUEST.value() + "", e.getMessage(), null);
-    }
-
-    @ExceptionHandler(UnauthenticatedException.class)
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ResponseBody
-    public Response<Void> handleException(UnauthenticatedException e) {
-        log.debug("{} was thrown", e.getClass(), e);
-        return new Response<>(HttpStatus.FORBIDDEN.value() + "", "当前用户未登录", null);
     }
 
     /**
