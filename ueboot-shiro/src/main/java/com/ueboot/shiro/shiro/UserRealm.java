@@ -29,7 +29,7 @@ public class UserRealm extends AuthorizingRealm {
     /**
      * 超级用户，可以对权限功能进行设置，无需赋权也可以，防止新系统第一次无法登陆进去进行操作。
      */
-    public static final String SUPER_USER = "root";
+    public static final String SUPER_USER = "sysroot";
 
     @Resource
     private ShiroService shiroService;

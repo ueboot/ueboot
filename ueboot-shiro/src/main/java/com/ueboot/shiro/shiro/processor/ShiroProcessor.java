@@ -6,6 +6,7 @@ import com.ueboot.shiro.service.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
+import org.apache.shiro.cache.CacheManager;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.Date;
+
+import static com.ueboot.shiro.shiro.ShiroBaseConfigure.CACHE_REDIS_KEY;
 
 
 /**
@@ -25,11 +28,9 @@ public class ShiroProcessor {
 
 	public static final String LOCK_KEY="ueboot:user:lock:";
 
-	@Autowired
-	private UserService userService;
-
 	@Resource
-	private RedisTemplate redisTemplate;
+	private RedisTemplate<String,Object> redisTemplate;
+
 
 	public void login(String username, String password) {
 
@@ -59,8 +60,6 @@ public class ShiroProcessor {
 			log.error(e.getMessage());
 			//Redis 记录锁记录
 			redisTemplate.opsForValue().set(LOCK_KEY+username,new UserInfo(username,new Date()));
-			//更新数据 todo 需要解耦userService类
-//			this.userService.lockByUserName(username);
 			throw new ExcessiveAttemptsException("登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理");
 		}
 
@@ -70,6 +69,8 @@ public class ShiroProcessor {
 			token.clear();
 			throw new AuthenticationException();
 		}
+		//清空缓存当中已经存放过的权限信息，避免缓存一直有效
+		redisTemplate.delete(CACHE_REDIS_KEY+":"+username);
 		log.info("用户[" + username + "]登录认证通过");
 	}
 
