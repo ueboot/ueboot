@@ -69,8 +69,6 @@ public class ShiroProcessor {
 			token.clear();
 			throw new AuthenticationException();
 		}
-		//清空缓存当中已经存放过的权限信息，避免缓存一直有效
-		redisTemplate.delete(CACHE_REDIS_KEY+":"+username);
 		log.info("用户[" + username + "]登录认证通过");
 	}
 
