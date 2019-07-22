@@ -47,6 +47,7 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
 
     public Log4jFastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService) {
         super(new MediaType("application", "json", UTF8), new MediaType("application", "*+json", UTF8));
+        this.httpRequestValidatorService = httpRequestValidatorService;
     }
 
     @Override

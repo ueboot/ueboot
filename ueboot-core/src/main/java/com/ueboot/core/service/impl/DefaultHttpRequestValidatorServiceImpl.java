@@ -2,7 +2,7 @@ package com.ueboot.core.service.impl;
 
 import com.ueboot.core.service.HttpRequestValidatorService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * 默认为空
@@ -10,6 +10,6 @@ import org.springframework.stereotype.Service;
  * createTime:2019-07-2211:32
  */
 @ConditionalOnMissingBean(name = "httpRequestValidatorService")
-@Service(value = "httpRequestValidatorService")
+@Component
 public class DefaultHttpRequestValidatorServiceImpl implements HttpRequestValidatorService {
 }
