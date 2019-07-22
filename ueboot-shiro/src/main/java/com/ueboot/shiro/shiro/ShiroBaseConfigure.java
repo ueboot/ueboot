@@ -92,7 +92,7 @@ public class ShiroBaseConfigure {
 
     @Bean
     public CacheManager getCacheManager(RedisTemplate<Object, Object> redisTemplate) {
-        return new ShiroRedisCacheManger("ueboot-shiro", redisTemplate);
+        return new ShiroRedisCacheManger(CACHE_REDIS_KEY, redisTemplate);
     }
 
     /**
@@ -108,7 +108,6 @@ public class ShiroBaseConfigure {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
         //使用自定义的Redis缓存实现，依赖redisTemplate，keyNamespace可以默认为空
-
         securityManager.setCacheManager(this.getCacheManager(redisTemplate));
         return securityManager;
     }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.ueboot.core.annotation.XSSNotCheck;
 import com.ueboot.core.exception.BusinessException;
+import com.ueboot.core.service.HttpRequestValidatorService;
 import com.ueboot.core.utils.XSSUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +41,11 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
     public final static Charset UTF8 = Charset.forName("UTF-8");
 
     private Charset charset = UTF8;
+    private HttpRequestValidatorService httpRequestValidatorService;
 
     private SerializerFeature[] features =new SerializerFeature[]{SerializerFeature.DisableCircularReferenceDetect};
 
-    public Log4jFastJsonHttpMessageConverter() {
+    public Log4jFastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService) {
         super(new MediaType("application", "json", UTF8), new MediaType("application", "*+json", UTF8));
     }
 
@@ -94,6 +96,8 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         }else{
             log.warn("当前类:{}标注无需进行xss字段拦截，注意安全!",clazz.getName());
         }
+        httpRequestValidatorService.validator(jsonStr,clazz);
+
         bytes = jsonStr.getBytes();
         log.info("Request:{},xss filter json:{}", clazz.getName(), jsonStr);
 
