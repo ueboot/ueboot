@@ -75,7 +75,7 @@ public class ShiroBaseConfigure {
             protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json");
-                response.getWriter().write("{\"code\":401,\"errorMsg\":\"尚未登录，请登录!\"}");
+                response.getWriter().write("{\"code\":401,\"errorMsg\":\"尚未登录，请登录\"}");
             }
         });
         bean.setFilters(filterMap);

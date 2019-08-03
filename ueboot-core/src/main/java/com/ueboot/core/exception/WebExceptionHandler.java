@@ -79,7 +79,7 @@ public class WebExceptionHandler {
 
 
     @ExceptionHandler({BusinessException.class})
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Response<Void> handleBusinessException(BusinessException e) {
         return new Response<>(e.getCode() == null ? HttpStatus.INTERNAL_SERVER_ERROR.value() + "" : e.getCode(), e.getMessage(), null);
@@ -87,7 +87,7 @@ public class WebExceptionHandler {
 
 
     @ExceptionHandler(value = {IllegalArgumentException.class})
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public Response<Void> handleIllegalArgumentExceptions(final Exception e, final WebRequest req) {
         return new Response<>(HttpStatus.BAD_REQUEST.value() + "", e.getMessage(), null);
@@ -103,7 +103,7 @@ public class WebExceptionHandler {
      * @return 全局的错误提示
      */
     @ExceptionHandler(value = {Exception.class})
-    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Response<Void> handleOtherExceptions(final Exception e, final WebRequest req) {
         //记录日志

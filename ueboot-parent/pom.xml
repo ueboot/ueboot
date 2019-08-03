@@ -90,7 +90,7 @@
         <dependency>
             <groupId>com.ueboot</groupId>
             <artifactId>ueboot-generator</artifactId>
-            <version>${ueboot.generator.version}</version>
+            <version>3.0.0</version>
         </dependency>
         <!--ueboot权限相关-->
         <dependency>
