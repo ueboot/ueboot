@@ -18,6 +18,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -183,6 +184,7 @@ public class ShiroBaseConfigure {
      * 增加审计记录，根据登录用户补充创建人、修改人
      */
     @Bean
+    @ConditionalOnMissingBean
     public AuditorAware auditorAware() {
         return new JpaAuditingAwareImpl();
     }
