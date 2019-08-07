@@ -15,8 +15,6 @@ import java.lang.reflect.Method;
  * @author felix
  */
 @Slf4j
-@Aspect
-@Component
 public class UeLogAspect {
 
     /**
@@ -39,7 +37,7 @@ public class UeLogAspect {
         //获取切入点所在的方法
         Method method = signature.getMethod();
         //获取请求的类名
-        String methodInfo = joinPoint.getTarget().getClass().getName() + method.getName();
+        String methodInfo = joinPoint.getTarget().getClass().getName()+"#" + method.getName();
         //请求的参数
         Object[] args = joinPoint.getArgs();
         //将参数所在的数组转换成json

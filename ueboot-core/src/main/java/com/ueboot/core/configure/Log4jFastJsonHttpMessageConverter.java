@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
+import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -97,10 +98,8 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         }else{
             log.warn("当前类:{}标注无需进行xss字段拦截，注意安全!",clazz.getName());
         }
-        httpRequestValidatorService.validator(jsonStr,clazz);
-
         bytes = jsonStr.getBytes();
-        log.info("Request:{},xss filter json:{}", clazz.getName(), jsonStr);
+        log.info("Request Class:{},json:{}", clazz.getName(), jsonStr);
 
         Object reqBody = JSON.parseObject(bytes, 0, bytes.length, charset.newDecoder(), clazz);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -118,6 +117,7 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
             checkError = "请求参数格式校验不通过：" + checkError;
             throw new BusinessException(checkError);
         }
+        httpRequestValidatorService.validator(jsonStr,clazz);
 
         return reqBody;
     }
@@ -127,6 +127,9 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
             HttpMessageNotWritableException {
         OutputStream out = outputMessage.getBody();
         String text = JSON.toJSONString(obj, features);
+        if(!isEmpty(text)&&text.length()>1000){
+            text = text.substring(0,1000)+"...";
+        }
         log.info("Response:{}", text);
         byte[] bytes = text.getBytes(charset);
         out.write(bytes);
