@@ -127,10 +127,11 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
             HttpMessageNotWritableException {
         OutputStream out = outputMessage.getBody();
         String text = JSON.toJSONString(obj, features);
+        String logText = text;
         if(!isEmpty(text)&&text.length()>1000){
-            text = text.substring(0,1000)+"...";
+            logText = text.substring(0,1000)+"...";
         }
-        log.info("Response:{}", text);
+        log.info("Response:{}", logText);
         byte[] bytes = text.getBytes(charset);
         out.write(bytes);
     }

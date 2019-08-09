@@ -200,8 +200,7 @@ public class ApiController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0L);
         response.setContentType("image/jpeg");
-//        String captcha = CaptchaUtils.generate(4);
-        String captcha = "1111";
+        String captcha = CaptchaUtils.generate(4);
         HttpSession session = request.getSession();
         session.setAttribute(CAPTCHA_KEY, captcha.toLowerCase());
         int w = 200;
