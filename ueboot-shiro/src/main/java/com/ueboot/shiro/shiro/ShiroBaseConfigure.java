@@ -4,6 +4,7 @@ package com.ueboot.shiro.shiro;
 import com.ueboot.core.condition.RedisDisabledCondition;
 import com.ueboot.core.condition.RedisEnableCondition;
 import com.ueboot.shiro.shiro.auditor.JpaAuditingAwareImpl;
+import com.ueboot.shiro.shiro.cache.RedisCache;
 import com.ueboot.shiro.shiro.cache.ShiroRedisCacheManger;
 import com.ueboot.shiro.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import lombok.extern.slf4j.Slf4j;
@@ -93,7 +94,7 @@ public class ShiroBaseConfigure {
 
     @Bean
     public CacheManager getCacheManager(RedisTemplate<Object, Object> redisTemplate) {
-        return new ShiroRedisCacheManger(CACHE_REDIS_KEY, redisTemplate);
+        return new ShiroRedisCacheManger(RedisCache.keyNamespace, redisTemplate);
     }
 
     /**
