@@ -11,6 +11,7 @@ import com.ueboot.shiro.service.resources.ResourcesService;
 import com.ueboot.shiro.service.user.UserService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
 import com.ueboot.shiro.shiro.ShiroService;
+import com.ueboot.shiro.shiro.UserRealm;
 import com.ueboot.shiro.shiro.handler.ShiroExceptionHandler;
 import com.ueboot.shiro.shiro.processor.ShiroProcessor;
 import com.ueboot.shiro.util.PasswordUtil;
@@ -55,15 +56,18 @@ public class ApiController {
 
     private final ShiroEventListener shiroEventListener;
 
+    private final UserRealm userRealm;
+
 
     @Autowired
     public ApiController(ShiroProcessor shiroProcessor, ResourcesService resourcesService,
-                         UserService userService, ShiroService shiroService, ShiroEventListener shiroEventListener) {
+                         UserService userService, ShiroService shiroService, ShiroEventListener shiroEventListener,UserRealm userRealm) {
         this.shiroProcessor = shiroProcessor;
         this.resourcesService = resourcesService;
         this.userService = userService;
         this.shiroService = shiroService;
         this.shiroEventListener = shiroEventListener;
+        this.userRealm = userRealm;
     }
 
     @PostMapping(value = "/public/login")
@@ -80,6 +84,10 @@ public class ApiController {
             throw new BusinessException("验证码不正确!");
         }
         String loginMessage="";
+        if(userRealm!=null){
+            //清除缓存，防止重新授权后缓存还存在，导致无法调用新的权限查询功能
+            userRealm.getAuthorizationCache().remove(params.getUsername());
+        }
         shiroEventListener.beforeLogin(params.getUsername(), params.getCaptcha());
         ShiroExceptionHandler.set(params.getUsername());
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
