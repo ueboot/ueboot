@@ -18,6 +18,7 @@ import org.springframework.util.Assert;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -331,22 +332,22 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         return page;
     }
 
-    public void executeUpdate(String jpql) {
-        executeUpdate(jpql, NamedParams.newParams());
+    public int executeUpdate(String jpql) {
+       return executeUpdate(jpql, NamedParams.newParams());
     }
 
-    public void executeUpdate(StringQuery stringQuery) {
+    public int executeUpdate(StringQuery stringQuery) {
         Assert.notNull(stringQuery, "StringQuery myst not be null");
-        executeUpdate(stringQuery.getQuery(), stringQuery.getParams());
+      return  executeUpdate(stringQuery.getQuery(), stringQuery.getParams());
     }
 
-    public void executeUpdate(String jpql, NamedParams params) {
+    public int executeUpdate(String jpql, NamedParams params) {
         Assert.hasText(jpql, "JPQL must has text!");
         Assert.notNull(params, "Query Params must not be null!");
 
         Query query = em.createQuery(jpql);
         setQueryParams(query, params);
-        query.executeUpdate();
+       return query.executeUpdate();
     }
 
 
@@ -562,26 +563,46 @@ public class DefaultJpaRepository<T, ID extends Serializable> {
         return page;
     }
 
-    public void executeUpdateBySql(String sql) {
-        executeUpdateBySql(sql, NamedParams.newParams());
+    /**
+     * 统计数量
+     * @param stringQuery 查询条件
+     * @return 数量
+     */
+    public Long countByQuery(@NotNull StringQuery stringQuery){
+        String queryString = stringQuery.getQuery();
+        NamedParams params = stringQuery.getParams();
+        String countString = QueryUtils.genCountQueryString(queryString);
+        Query query = em.createQuery(countString);
+        setQueryParams(query, params);
+        return Long.valueOf(query.getSingleResult().toString());
     }
 
-    public void executeUpdateBySql(StringQuery stringQuery) {
+    public Long countBySql(@NotNull String sql){
+        String countString = QueryUtils.genCountQueryString(sql);
+        Query query = em.createNativeQuery(countString);
+        return Long.valueOf(query.getSingleResult().toString());
+    }
+
+    public int executeUpdateBySql(String sql) {
+        return executeUpdateBySql(sql, NamedParams.newParams());
+    }
+
+    public int executeUpdateBySql(StringQuery stringQuery) {
         Assert.notNull(stringQuery, "StringQuery must not be null!");
 
         String query = stringQuery.getQuery();
         NamedParams params = stringQuery.getParams();
 
-        executeUpdateBySql(query, params);
+       return executeUpdateBySql(query, params);
     }
 
-    public void executeUpdateBySql(String sql, NamedParams params) {
+    public int executeUpdateBySql(String sql, NamedParams params) {
         Assert.notNull(params, "Query params must not be null!");
         Assert.hasText(sql, "Sql must has text!");
 
         Query query = em.createNativeQuery(sql);
         setQueryParams(query, params);
-        query.executeUpdate();
+       return query.executeUpdate();
     }
 
 }
