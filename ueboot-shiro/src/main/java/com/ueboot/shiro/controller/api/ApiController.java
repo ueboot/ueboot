@@ -84,10 +84,7 @@ public class ApiController {
             throw new BusinessException("验证码不正确!");
         }
         String loginMessage="";
-        if(userRealm!=null){
-            //清除缓存，防止重新授权后缓存还存在，导致无法调用新的权限查询功能
-            userRealm.getAuthorizationCache().remove(params.getUsername());
-        }
+        String sessionId = session.getId();
         shiroEventListener.beforeLogin(params.getUsername(), params.getCaptcha());
         ShiroExceptionHandler.set(params.getUsername());
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
@@ -102,12 +99,10 @@ public class ApiController {
 
     @PostMapping(value = "/private/logout")
     @ApiOperation(value = "用户退出")
-    public Response<Void> logout(@RequestBody LoginVo params) {
+    public Response<Void> logout() {
         // 登出日志记录
         String currentUserName = (String) SecurityUtils.getSubject().getPrincipal();
         this.shiroEventListener.loginOutEvent(currentUserName);
-        // TODO 用户名获取为空
-        log.info("/logout  username: {} ", params.getUsername(), params.getPassword(), params.getCaptcha());
         this.shiroProcessor.logout();
         return new Response<>();
     }
