@@ -74,6 +74,9 @@ public class UserRealm extends AuthorizingRealm {
         if (user.getCredentialExpiredDate() != null && new Date().compareTo(user.getCredentialExpiredDate()) > -1) {
             throw new ExpiredCredentialsException("密码已经过期，请联系你的管理员进行处理！");
         }
+        if(!user.isValid()){
+            throw new DisabledAccountException("当前用户已经被禁用");
+        }
         username = user.getUserName();
         ByteSource credentialsSalt = ByteSource.Util.bytes(username);
         //判断密码是否一致，会在父类里面执行 ,与数据库中用户名和密码进行比对，密码盐值加密，第4个参数传入realName
