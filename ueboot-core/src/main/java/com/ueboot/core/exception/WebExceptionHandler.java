@@ -34,6 +34,13 @@ public class WebExceptionHandler {
         log.error("进行登录验证..验证未通过,未知账户 {}",e.getMessage());
         return new Response<>(HttpStatus.OK.value() + "", "验证未通过,未知账户", null);
     }
+
+    @ExceptionHandler(DisabledAccountException.class)
+    @ResponseBody
+    public Response<Void> handleException(DisabledAccountException e) {
+        log.error("进行登录验证..用户已被禁用{}",e.getMessage());
+        return new Response<>(HttpStatus.FORBIDDEN.value() + "", "该账号已被禁用，请联系管理员", null);
+    }
     @ExceptionHandler(IncorrectCredentialsException.class)
     @ResponseBody
     public Response<Void> handleException(IncorrectCredentialsException e) {
