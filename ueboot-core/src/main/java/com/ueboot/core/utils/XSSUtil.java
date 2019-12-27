@@ -1,7 +1,6 @@
 package com.ueboot.core.utils;
 
 import jodd.util.StringUtil;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +31,6 @@ public class XSSUtil {
             throw new RuntimeException("提交参数存在非法字符！value:" + value);
         }
         value = scriptingFilter(value);
-        value = StringEscapeUtils.escapeHtml(value);
         return value;
     }
 
@@ -53,22 +51,22 @@ public class XSSUtil {
         return false;
     }
 
-    private static Pattern p1 = Pattern.compile("<script.*?>", Pattern.CASE_INSENSITIVE);
+   /* private static Pattern p1 = Pattern.compile("<script.*?>", Pattern.CASE_INSENSITIVE);
     private static Pattern p2 = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
     private static Pattern p3 = Pattern.compile("<iframe.*?>", Pattern.CASE_INSENSITIVE);
-    private static Pattern p4 = Pattern.compile("</iframe>", Pattern.CASE_INSENSITIVE);
+    private static Pattern p4 = Pattern.compile("</iframe>", Pattern.CASE_INSENSITIVE);*/
+    private static Pattern p5 = Pattern.compile("<", Pattern.CASE_INSENSITIVE);
+    private static Pattern p6 = Pattern.compile(">", Pattern.CASE_INSENSITIVE);
 
     /**
-     * 脚本注入检测
+     * 脚本注入检测 只对<>符号进行转义即可
      *
      * @param value 需要校验的字符串
      * @return 校验过后的字符串
      */
     private static String scriptingFilter(String value) {
-        String str = p1.matcher(value).replaceAll("&lt;/script&gt;");
-        str = p2.matcher(str).replaceAll("&lt;/script&gt;");
-        str = p3.matcher(str).replaceAll("&lt;/iframe&gt;");
-        str = p4.matcher(str).replaceAll("&lt;/iframe&gt;");
+        String str = p5.matcher(value).replaceAll("&lt;");
+        str = p6.matcher(str).replaceAll("&gt;");
         return str;
     }
 
