@@ -12,10 +12,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * swagger2相关配置
+ * 默认不放开，防止发布生产时自动开放了。需要集成方根据实际场景放开配置
  * @author yangkui
  */
 @Configuration
-@EnableSwagger2
 public class Swagger2 {
     @Bean
     public Docket createRestApi() {
