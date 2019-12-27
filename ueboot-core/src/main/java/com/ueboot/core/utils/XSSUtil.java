@@ -1,6 +1,7 @@
 package com.ueboot.core.utils;
 
 import jodd.util.StringUtil;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
  */
 public class XSSUtil {
     private static Logger logger = LoggerFactory.getLogger(XSSUtil.class);
-    private static String inj_str = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
+    private static String injStr = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
             "char|declare|sitename|net user|xp_cmdshell|;|or|-|+|,|like'|and|exec|execute|insert|create|drop|" +
             "table|from|grant|use|group_concat|column_name|" +
             "information_schema.columns|table_schema|union|where|select|delete|update|order|by|count|*|" +
@@ -26,11 +27,12 @@ public class XSSUtil {
      * @return 校验后的字符串
      */
     public static String checkXssStr(String value) {
-        if (StringUtil.isNotBlank(value) && sql_inj(value)) {
+        if (StringUtil.isNotBlank(value) && sqlInject(value)) {
             logger.error("提交参数存在非法字符！,value:{}", value);
             throw new RuntimeException("提交参数存在非法字符！value:" + value);
         }
         value = scriptingFilter(value);
+        value = StringEscapeUtils.escapeHtml(value);
         return value;
     }
 
@@ -40,11 +42,11 @@ public class XSSUtil {
      * @param str 需要校验的字符串
      * @return 校验过后的字符串
      */
-    private static boolean sql_inj(String str) {
-        String[] inj_stra = inj_str.split("\\|");
+    private static boolean sqlInject(String str) {
+        String[] injStra = injStr.split("\\|");
 
-        for (int i = 0; i < inj_stra.length; i++) {
-            if (str.toLowerCase().indexOf(" " + inj_stra[i] + " ") >= 0) {
+        for (String s : injStra) {
+            if (str.toLowerCase().contains(" " + s + " ")) {
                 return true;
             }
         }
