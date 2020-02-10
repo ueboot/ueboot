@@ -9,6 +9,8 @@
 - 提供前端UI组件，后台管理系统的CRUD分分钟搞定
 - 提供代码生成器，不做重复劳动
 - 完善的帮组文档和丰富使用示例，不愁看不懂
+## 备案信息
+- [沪ICP备17053304号-2](http://www.beian.miit.gov.cn)
 
 [快速开始](#_1-概要介绍)
 [代码仓库](https://gitee.com/ueboot/ueboot-quick-dev.git)
