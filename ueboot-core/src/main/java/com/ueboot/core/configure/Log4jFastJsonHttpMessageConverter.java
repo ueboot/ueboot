@@ -43,6 +43,7 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
 
     private Charset charset = UTF8;
     private HttpRequestValidatorService httpRequestValidatorService;
+    private Validator validator;
 
     private SerializerFeature[] features =new SerializerFeature[]{SerializerFeature.DisableCircularReferenceDetect};
 
@@ -70,6 +71,17 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
 
     public void setFeatures(SerializerFeature... features) {
         this.features = features;
+    }
+
+
+
+    private Validator getValidator(){
+        if(this.validator!=null){
+            return this.validator;
+        }
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        this.validator = factory.getValidator();
+        return this.validator;
     }
 
     @Override
@@ -102,9 +114,8 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         log.info("Request Class:{},json:{}", clazz.getName(), jsonStr);
 
         Object reqBody = JSON.parseObject(bytes, 0, bytes.length, charset.newDecoder(), clazz);
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<Object>> validRetval = validator.validate(reqBody);
+
+        Set<ConstraintViolation<Object>> validRetval = this.getValidator().validate(reqBody);
         StringBuilder sb = new StringBuilder();
         // 校验失败
         if (!validRetval.isEmpty()) {

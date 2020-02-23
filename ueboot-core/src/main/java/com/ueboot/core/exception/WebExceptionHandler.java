@@ -114,7 +114,7 @@ public class WebExceptionHandler {
     @ResponseBody
     public Response<Void> handleOtherExceptions(final Exception e, final WebRequest req) {
         //记录日志
-        log.error(e.getMessage(), e);
+        log.error(req.getContextPath()+":"+e.getMessage(), e);
         return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "服务器系统异常", null);
     }
 }
