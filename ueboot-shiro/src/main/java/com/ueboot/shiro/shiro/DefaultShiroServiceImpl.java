@@ -50,7 +50,8 @@ public class DefaultShiroServiceImpl implements ShiroService {
     @Override
     public Map<String, String> addFilterChainDefinition() {
         Map<String, String> map = new HashMap<>(10);
-
+        map.put("/swagger-resources/","anon");
+        map.put("/swagger-ui.html","anon");
         return map;
     }
 
