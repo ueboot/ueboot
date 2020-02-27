@@ -1,12 +1,20 @@
 {
   "name": "ueboot",
-  "version": "1.7.44",
+  "version": "1.7.45",
   "description": "ueboot是一个基于`spring boot2 + vue2 + iview3`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）",
   "author": "ueboot",
   "scripts": {
-    "serve": "node --max_old_space_size=5096 node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint  examples/*/**--fix"
+    "dev": "webpack-dev-server --content-base test/  --inline --hot --compress --history-api-fallback --port 9999 --config build/webpack.dev.config.js",
+    "dev:s": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8081 --host 0.0.0.0 --config build/webpack.dev.config.js",
+    "dist:style": "gulp --gulpfile build/build-style.js",
+    "dist:dev": "webpack --config build/webpack.dist.dev.config.js",
+    "dist:prod": "webpack --config build/webpack.dist.prod.config.js",
+    "dist:locale": "webpack --config build/webpack.dist.locale.config.js",
+    "dist": "npm run dist:style && npm run dist:dev && npm run dist:prod",
+    "lint": "eslint --fix --ext .js,.vue src",
+    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
+    "test": "npm run lint && npm run unit",
+    "prepare": "npm run dist"
   },
   "dependencies": {
     "axios": "^0.18.0",
