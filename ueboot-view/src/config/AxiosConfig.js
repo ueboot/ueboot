@@ -51,8 +51,8 @@ export default class AxiosConfig {
     }, function (error) {
       iView.LoadingBar.error()
 
-      // 403 状态执行页面跳转，其余状态不跳转
-      if (error.response.status === 403) {
+      // 401 403 状态执行页面跳转，其余状态不跳转
+      if (error.response.status === 403 || error.response.status === 401) {
         toLogin(conf)
         return Promise.reject(error.response.data)
       } else {
