@@ -2,6 +2,7 @@ package com.ueboot.core.configure;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.ueboot.core.annotation.NotLog;
 import com.ueboot.core.annotation.XSSNotCheck;
 import com.ueboot.core.exception.BusinessException;
 import com.ueboot.core.service.HttpRequestValidatorService;
@@ -111,7 +112,10 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
             log.warn("当前类:{}标注无需进行xss字段拦截，注意安全!",clazz.getName());
         }
         bytes = jsonStr.getBytes();
-        log.info("Request Class:{},json:{}", clazz.getName(), jsonStr);
+        NotLog notLog = clazz.getAnnotation(NotLog.class);
+        if(notLog==null){
+            log.info("Request Class:{},json:{}", clazz.getName(), jsonStr);
+        }
 
         Object reqBody = JSON.parseObject(bytes, 0, bytes.length, charset.newDecoder(), clazz);
 
@@ -137,12 +141,16 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
     protected void writeInternal(Object obj, HttpOutputMessage outputMessage) throws IOException,
             HttpMessageNotWritableException {
         OutputStream out = outputMessage.getBody();
+        Class<? extends Object> clazz = obj.getClass();
+        NotLog notLog = clazz.getAnnotation(NotLog.class);
         String text = JSON.toJSONString(obj, features);
-        String logText = text;
-        if(!isEmpty(text)&&text.length()>1000){
-            logText = text.substring(0,1000)+"...";
+        if(notLog==null){
+            String logText = text;
+            if(!isEmpty(text)&&text.length()>1000){
+                logText = text.substring(0,1000)+"...";
+            }
+            log.info("Response:{}", logText);
         }
-        log.info("Response:{}", logText);
         byte[] bytes = text.getBytes(charset);
         out.write(bytes);
     }
