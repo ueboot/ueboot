@@ -29,8 +29,8 @@ let ueboot_config = {
             minWidth: '250px'
         },
         logoImageStyle:{
-          width:'50%',
-          height:'50%'
+            width:'50%',
+            height:'50%'
         },
         //右侧风格，下拉模式或者横向模式
         rightTheme:'dropdown',
@@ -50,12 +50,14 @@ let ueboot_config = {
                 src:'',
                 style:null
             }
-           
+
         },
         //退出登录成功后跳转的路由配置
         logoutSuccessRouter:{name:'Login'}
     },
     axios: {
+        //异步请求发生需要跳转到登录页面时，是否弹出确认提示框，默认为true
+        confirmToLogin:true,
         baseURL:'',
         unauthorizedUrl:'/#/login',
         //未登录文字提示
