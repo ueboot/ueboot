@@ -8,33 +8,26 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 /**
- * 业务描述：TODO
+ * 业务描述
  *
  * @author ${USER}
  */
 public interface ${entityName}Service extends BaseService<${entityFullName}> {
 
     /**
-    * TODO 进行分页查询
+    *  进行分页查询
     *
-    * @param pageable TODO分页对象
-    * @return 已分页的TODO数据对象
+    * @param pageable 分页对象
+    * @return 已分页的数据对象
     */
     Page<${entityFullName}> pagingBy(Pageable pageable);
 
     /**
-    * TODO 根据ID查找对象
-    * TODO 案例根据业务需要进行删除
+    *  根据ID查找对象
+    *  案例根据业务需要进行删除
     *
     * @param id 主键ID
-    * @return TODO 对象
+    * @return  对象
     */
     Optional<${entityFullName}> findById(Long id);
-
-    /**
-    * 根据主键进行逻辑删除
-    *
-    * @param id 主键ID
-    */
-    void logicDelete(Long id);
 }

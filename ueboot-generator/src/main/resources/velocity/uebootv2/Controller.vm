@@ -17,13 +17,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 
-import com.ueboot.core.annotation.UeLog;
 import java.util.List;
 import java.util.Optional;
 
 
 /**
- * TODO
  *
  * @author ${USER}
  */
@@ -32,23 +30,18 @@ import java.util.Optional;
 @RequestMapping(value = "/private$requestPath${lowEntityName}/")
 public class ${entityName}Controller extends BasicController<${entityFullName}> {
 
-    private final String MODULE_NAME = "TODO";
-
-    private final String P_PREFIX = "${lowEntityName}:${lowEntityName}:";
-
     @Resource
     private ${entityName}Service ${lowEntityName}Service;
 
     /**
-    * TODO 进行分页查询
+    *  进行分页查询
     *
-    * @param pageable TODO分页对象
+    * @param pageable 分页对象
     * @param req 请求对象
     * @return 已分页的数据对象集合
     */
     @PostMapping(value = PAGE)
-    @RequiresPermissions(value = P_PREFIX + PAGE)
-    @UeLog(value = MODULE_NAME + PAGE_CH)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + PAGE)
     public Response<Page<${entityName}Resp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.ASC)
                                                      Pageable pageable, @RequestBody(required = false) ${entityName}FindReq req){
         Page<${entityFullName}> ${lowEntityName}Page = ${lowEntityName}Service.pagingBy(pageable);
@@ -61,36 +54,32 @@ public class ${entityName}Controller extends BasicController<${entityFullName}> 
     * @return 数据对象集合
     */
     @PostMapping(value = LIST)
-    @RequiresPermissions(value = P_PREFIX + LIST)
-    @UeLog(value = MODULE_NAME + LIST_CH)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + LIST)
     public Response<List<${entityName}Resp>> list() {
         List<${entityFullName}> ${lowEntityName}List = ${lowEntityName}Service.findAll();
         return converterDTV.map(${lowEntityName}List, ${entityName}Resp::to${entityName}Resp);
     }
 
     /**
-    * TODO数据添加
+    * 数据添加
     *
     * @param req 数据新增请求对象
     * @return 主键ID
     */
     @PostMapping(value = ADD)
-    @RequiresPermissions(value = P_PREFIX + ADD)
-    @UeLog(value = MODULE_NAME + ADD_CH)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + ADD)
     public Response<Long> add(@RequestBody ${entityName}Req req) {
         return new Response<>(${lowEntityName}Service.save(req.to${entityFullName}()).getId());
     }
 
     /**
-    * TODO数据修改
+    * 数据修改
     *
     * @param req 数据修改请求对象
     */
     @PostMapping(value = UPDATE)
-    @RequiresPermissions(value = P_PREFIX + UPDATE)
-    @UeLog(value = MODULE_NAME + UPDATE_CH)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + UPDATE)
     public Response<Long> update(@RequestBody ${entityName}Req req) {
-        Assert.notNull(req.getId(), "修改缺少关键参数");
         return new Response<>(${lowEntityName}Service.save(req.to${entityFullName}()).getId());
     }
 
@@ -100,11 +89,11 @@ public class ${entityName}Controller extends BasicController<${entityFullName}> 
     * @param ids 删除数据的主键ID集合
     */
     @PostMapping(value = DELETE)
-    @RequiresPermissions(value = P_PREFIX + DELETE)
-    @UeLog(value = MODULE_NAME + DELETE_CH)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + DELETE)
     public Response<Void> delete(Long[] ids) {
         for (Long id: ids) {
-            ${lowEntityName}Service.logicDelete(id);
+            ${entityFullName} entity = ${lowEntityName}Service.findById(id);
+            ${lowEntityName}Service.delete(entity);
         }
         return new Response<>();
     }
@@ -116,8 +105,7 @@ public class ${entityName}Controller extends BasicController<${entityFullName}> 
     * @return 明细信息数据对象
     */
     @PostMapping(value = GET + "/{id}")
-    @RequiresPermissions(value = P_PREFIX + GET)
-    @UeLog(value = MODULE_NAME + GET_CH)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + GET)
     public Response<${entityName}Resp> get(@PathVariable Long id) {
         Assert.notNull(id, "修改缺少关键参数");
         Optional<${entityFullName}> optional${entityName} = ${lowEntityName}Service.findById(id);

@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
 * 自定义接口实现类，继承DefaultJpaRepository所有方法，例如find(),findBySql()等方法
-* 相关使用示例，参见文档http://docs.ueboot.com
+* 相关使用示例，参见文档http://www.ueboot.com
 *
 * @author ${USER}
 */
@@ -19,13 +19,5 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class ${entityName}RepositoryImpl extends DefaultJpaRepository<${entityFullName},Long> implements ${entityName}BaseRepository {
 
-    @Override
-    public Page<${entityFullName}> pagingBy(Pageable pageable) {
 
-        StringQuery query = StringQuery.newQuery()
-        .query(" FROM " + ${entityFullName}.class.getName() + " u WHERE deleted=:deleted ")
-        .param("deleted", Boolean.FALSE)
-        .build();
-        return find(query, pageable);
-    }
 }

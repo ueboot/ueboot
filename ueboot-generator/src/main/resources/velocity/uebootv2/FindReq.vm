@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * TODO 用于前端发起查询请求时，接收请求参数
+ * 用于前端发起查询请求时，接收请求参数
  *
  * @author ${USER}
  */

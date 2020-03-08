@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 /**
-* 业务模块描述：TODO
 * 规范要求：凡是基于StringQuery方式的自定义的接口实现对象数据查询功能在此类进行编写
 * 实现类: ./impl/${entityFullName}RepositoryImpl.java
 *
@@ -16,10 +15,10 @@ import org.springframework.data.domain.Pageable;
 public interface ${entityName}BaseRepository  {
 
     /**
-    * TODO 进行分页查询
+    * 进行分页查询
     *
-    * @param pageable TODO分页对象
-    * @return 已分页的TODO数据对象
+    * @param pageable 分页对象
+    * @return 已分页的数据对象
     */
     Page<${entityFullName}> pagingBy(Pageable pageable);
 }
