@@ -13,5 +13,5 @@
 - [沪ICP备17053304号-2](http://www.beian.miit.gov.cn)
 
 [快速开始](#_1-概要介绍)
-[代码仓库](https://gitee.com/ueboot/ueboot-quick-dev.git)
+[代码仓库](https://github.com/ueboot/ueboot.git)
 [NPM](https://www.npmjs.com/package/ueboot)
