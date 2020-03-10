@@ -120,17 +120,20 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         Object reqBody = JSON.parseObject(bytes, 0, bytes.length, charset.newDecoder(), clazz);
 
         Set<ConstraintViolation<Object>> validRetval = this.getValidator().validate(reqBody);
-        StringBuilder sb = new StringBuilder();
-        // 校验失败
-        if (!validRetval.isEmpty()) {
-            for (ConstraintViolation<Object> t : validRetval) {
-                sb.append(t.getPropertyPath()).append(t.getMessage()).append(",");
+        //自定义处理校验结论
+        if(!httpRequestValidatorService.doValidatorMsg(validRetval)){
+            StringBuilder sb = new StringBuilder();
+            // 校验失败
+            if (!validRetval.isEmpty()) {
+                for (ConstraintViolation<Object> t : validRetval) {
+                    sb.append(t.getPropertyPath()).append(t.getMessage()).append(",");
+                }
             }
-        }
-        String checkError = sb.toString();
-        if (!isEmpty(checkError)) {
-            checkError = "请求参数格式校验不通过：" + checkError;
-            throw new BusinessException(checkError);
+            String checkError = sb.toString();
+            if (!isEmpty(checkError)) {
+                checkError = "请求参数格式校验不通过：" + checkError;
+                throw new BusinessException(checkError);
+            }
         }
         httpRequestValidatorService.validator(jsonStr,clazz);
 

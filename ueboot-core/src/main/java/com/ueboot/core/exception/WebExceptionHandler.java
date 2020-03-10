@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.UnauthenticatedException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import java.io.IOException;
  */
 @Slf4j
 @ControllerAdvice
+@ConditionalOnMissingBean(name = "webExceptionHandler")
 public class WebExceptionHandler {
 
     @ExceptionHandler(UnknownAccountException.class)
