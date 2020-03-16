@@ -14,7 +14,7 @@
                         <Form ref="formCustom" :model="formCustom" class="login-container">
                             <i-input v-model="formCustom.username" placeholder="请输入登录账号"></i-input>
                             <i-input v-model="formCustom.password" type="password" placeholder="请输入密码"></i-input>
-                            <Row type="flex" justify="space-between">
+                            <Row type="flex" justify="space-between"  v-if="config.showCaptcha">
                                 <i-col span="16">
                                     <i-input type="text" @on-enter="handleSubmit('formCustom')"
                                              v-model="formCustom.captcha" :maxlength="4"
@@ -59,7 +59,7 @@
                                     <i-input v-model="formCustom.username" placeholder="请输入登录账号"></i-input>
                                     <i-input v-model="formCustom.password" type="password"
                                              placeholder="请输入密码"></i-input>
-                                    <Row type="flex" justify="space-between">
+                                    <Row type="flex" justify="space-between" v-if="config.showCaptcha">
                                         <i-col span="16">
                                             <i-input type="text" @on-enter="handleSubmit('formCustom')"
                                                      v-model="formCustom.captcha" :maxlength="4"
@@ -123,7 +123,7 @@ export default {
         })
         return
       }
-      if (this.formCustom.captcha === '') {
+      if (this.config.showCaptcha && this.formCustom.captcha === '') {
         this.$Message.error({
           content: '验证码不能为空',
           duration: 3
@@ -131,7 +131,7 @@ export default {
         return
       }
       this.loading = true
-      this.$axios.post('/ueboot/shiro/public/login', this.formCustom).then(response => {
+      this.$axios.post(this.config.loginUrl, this.formCustom).then(response => {
         this.$Message.success('登录成功')
         if (response.body) {
           window.sessionStorage.setItem('ueboot_login_info', JSON.stringify(response.body))
@@ -142,15 +142,11 @@ export default {
         } else {
           this.$router.push(this.config.page_login.successRouter)
         }
-      }, (response) => {
-        // if (response.code === '400') {
-        //     this.$Message.error({content: response.message, duration: 3});
-        // }
-        // if (response.code === '700') {
-        //     this.$Message.error({content: response.message, duration: 3});
-        // }
-        this.changeCaptchaUrl()
-        this.formCustom.captcha = ''
+      }, () => {
+        if(this.config.showCaptcha){
+          this.changeCaptchaUrl();
+          this.formCustom.captcha = ''
+        }
         this.loading = false
       })
     }

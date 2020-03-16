@@ -1,6 +1,6 @@
 package com.ueboot.shiro.config;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -16,7 +16,7 @@ import springfox.documentation.spring.web.plugins.Docket;
  * @author yangkui
  */
 @Configuration
-@ConditionalOnExpression("'${ueboot.shiro.swagger.enable}'")
+@ConditionalOnProperty(value = "ueboot.shiro.swagger.enable",havingValue = "true")
 public class Swagger2 {
     @Bean
     public Docket createRestApi() {

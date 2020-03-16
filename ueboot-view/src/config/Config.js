@@ -19,7 +19,9 @@ let ueboot_config = {
         //logo图片行内样式
         logoStyle:'width:100px;height:100px;',
         bgImage:'@/asserts/graphic3.svg',
-        formTitle:'系统登录'
+        formTitle:'系统登录',
+        loginUrl:'/ueboot/shiro/public/login',
+        showCaptcha:true
     },
     page_main: {
         //右上角显示的用户名取值的key,从登录成功后的ueboot_login_info当中获取
