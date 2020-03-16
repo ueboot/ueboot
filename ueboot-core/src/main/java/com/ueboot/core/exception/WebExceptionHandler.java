@@ -27,7 +27,7 @@ import java.io.IOException;
  */
 @Slf4j
 @ControllerAdvice
-@ConditionalOnMissingBean(name = "webExceptionHandler")
+@ConditionalOnMissingBean(name = "customWebExceptionHandler")
 public class WebExceptionHandler {
 
     @ExceptionHandler(UnknownAccountException.class)
