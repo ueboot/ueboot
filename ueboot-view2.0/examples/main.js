@@ -2,18 +2,16 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'
 import ueboot from '../packages/index'
-import iView from 'iview'
 import 'babel-polyfill'
 import ViewUI from 'view-design';
-import 'view-design/dist/styles/iview.css';
 Vue.use(ViewUI);
-
+// import style
+import 'view-design/dist/styles/iview.css';
 import 'font-awesome/less/font-awesome.less'
 
 import userAvatarSrc from './assets/userImage.png'
 
 Vue.use(ueboot)
-Vue.use(iView)
 ueboot.Config.setConfig({
   log: { level: 4 },
   sysTitle: 'UEBOOT测试',

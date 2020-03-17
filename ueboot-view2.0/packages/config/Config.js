@@ -26,13 +26,17 @@ let ueboot_config = {
     page_main: {
         //右上角显示的用户名取值的key,从登录成功后的ueboot_login_info当中获取
         userNameKey:'username',
-        menuWidth:250,
+        menuWidth:240,
+        headerStyle:{
+          color:'#fff',
+            padding:'0 15px'
+        },
         logoStyle: {
             minWidth: '250px'
         },
         logoImageStyle:{
-            width:'50%',
-            height:'50%'
+            width: "50%",
+            height: "50%"
         },
         //右侧风格，下拉模式或者横向模式
         rightTheme:'dropdown',

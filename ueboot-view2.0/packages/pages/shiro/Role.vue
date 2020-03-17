@@ -25,7 +25,9 @@
 </template>
 
 <script>
-export default {
+
+
+  export default {
   name: 'Role',
   data () {
     return {
@@ -94,6 +96,7 @@ export default {
           ]
         },
         table: {
+          showCheckbox: false,
           rowClick: (row, index) => {
             this.$refs['formGrid'].$refs['dataTable'].toggleSelect(index)
           },

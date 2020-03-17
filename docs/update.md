@@ -17,6 +17,9 @@
            component: ueboot.PageShiroUser
          },
      ```
+- 2.1.0
+    - 升级iview到iview-design组件，版本变更为4.1.3
+    - 调整Main.vue页面布局，解决样式错乱问题。直接使用iview布局
 - 2.0.3 
     - 初始版本发布，升级iview等组件
 

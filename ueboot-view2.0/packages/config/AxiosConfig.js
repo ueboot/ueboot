@@ -7,7 +7,7 @@
  */
 
 import axios from 'axios';
-import iView from 'iview';
+import iView from 'view-design';
 import config from './Config';
 //标识一下是否显示了未登录提示，防止弹出多次
 let showNotLogin = false;
