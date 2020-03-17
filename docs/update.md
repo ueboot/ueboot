@@ -1,6 +1,23 @@
 ## 2.0版本更新记录
 - 该版本采用最新的vue-cli构建，同时升级了iview等主要组件的版本。1.7.x版本可以无缝升级到此版本
-- 2.0.0 
+- 修改内容：
+    - main.js `import 'ueboot/dist/styles/ueboot.css'` 改为： `import 'ueboot/lib/ueboot.css'`
+    - main.js 增加iview样式 
+        ```
+        import ViewUI from 'view-design';
+         import 'view-design/dist/styles/iview.css';
+         Vue.use(ViewUI);
+      ```
+     - router.js当中的引用到ueboot相关的页面，也需要修改
+     原代码`import {PageLogin, PageMain, PageShiroUser, PageShiroRole, PageShiroResources} from 'ueboot'` 改为`import ueboot from 'ueboot'`
+     示例:```
+        {
+           path: '/ueboot/shiro/User',
+           name: 'User',
+           component: ueboot.PageShiroUser
+         },
+     ```
+- 2.0.3 
     - 初始版本发布，升级iview等组件
 
 

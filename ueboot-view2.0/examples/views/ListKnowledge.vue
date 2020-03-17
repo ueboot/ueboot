@@ -76,10 +76,10 @@ export default {
               'name': 'typeName',
               data: 'url:/admin/api/knowledgeType/find',
               required: true,
-              onChange: (value, data) => {
+              onChange: () => {
               // this.$refs.child.$emit('setFormFieldData','typeName',value.join('/'))
               },
-              fieldFormat: function (value, row) {
+              fieldFormat: function (value) {
               // row['typeName_']=[value]
                 return value.split('/')
               }
@@ -96,7 +96,7 @@ export default {
               show: true,
               'label': '查看列表',
               'theme': 'info',
-              click: (_this, row, index) => {
+              click: (_this, row) => {
                 // 跳转到列表页面
                 if (row.typeId === null || row.typeId === undefined) {
                   this.$Message.error({

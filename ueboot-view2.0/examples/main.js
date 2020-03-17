@@ -4,8 +4,9 @@ import router from './router/router'
 import ueboot from '../packages/index'
 import iView from 'iview'
 import 'babel-polyfill'
-/* 自定义样式 */
-import '../packages/styles/index.less'
+import ViewUI from 'view-design';
+import 'view-design/dist/styles/iview.css';
+Vue.use(ViewUI);
 
 import 'font-awesome/less/font-awesome.less'
 

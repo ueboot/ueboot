@@ -258,7 +258,7 @@ export default {
     }
     for (let itemEvent in this.itemEvents) {
       let itemEventCallback = this.itemEvents[itemEvent]
-      if (events.hasOwnProperty(itemEvent)) {
+      if (events.prototype.hasOwnProperty.call(itemEvent)) {
         let eventCallback = events[itemEvent]
         events[itemEvent] = function (event) {
           eventCallback(self, self.model, event)
