@@ -1,0 +1,112 @@
+@import "iview/custom";
+
+.login .ivu-btn-primary {
+  color: #fff;
+  background-color: #2d8cf0;
+  border-color: #2d8cf0;
+}
+
+.login .ivu-btn-primary:hover {
+  color: #fff;
+  background-color: @slider-color;
+  border-color: @slider-color;
+}
+
+.login .ivu-btn {
+  font-size: 13px;
+}
+
+.vm-login {
+  width: 900px;
+  height: 400px;
+
+  & > div {
+    padding: 30px;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .login-header {
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
+
+      span {
+        color: @primary-color;
+      }
+    }
+
+    .login-form {
+      input {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 45px;
+      }
+
+      button {
+        height: 45px;
+        width: 100%;
+      }
+    }
+
+    .login-footer {
+      margin-top: 10px;
+
+      span.forget {
+        float: right;
+      }
+
+      a {
+        color: #f7f7f7;
+      }
+    }
+  }
+
+  .login-ad {
+    height: 450px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 0 4px 4px 0;
+    background: url("../assets/lightning.png");
+    background-size: cover;
+
+    .photo-author {
+      position: absolute;
+      right: 6px;
+      bottom: 45px;
+    }
+  }
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.vm-panel {
+  background-color: @background-color-base;
+  text-align: left;
+  border-radius: 4px;
+
+  .panel-heading {
+    text-align: left;
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid;
+    padding: 15px;
+    font-weight: bold;
+  }
+
+  .panel-body {
+    padding: 15px;
+    font-size: 14px;
+  }
+}

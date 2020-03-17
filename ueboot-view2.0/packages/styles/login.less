@@ -1,0 +1,295 @@
+@import "iview/custom";
+
+.login .ivu-btn-primary {
+  color: #fff;
+  background-color: #2d8cf0;
+  border-color: #2d8cf0;
+}
+
+.login .ivu-btn-primary:hover {
+  color: #fff;
+  background-color: @slider-color;
+  border-color: @slider-color;
+}
+
+.login .ivu-btn {
+  font-size: 13px;
+}
+
+.vm-login {
+  width: 900px;
+  height: 400px;
+
+  & > div {
+    padding: 30px;
+  }
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .login-header {
+      text-align: center;
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 20px;
+
+      span {
+        color: @primary-color;
+      }
+    }
+
+    .login-form {
+      input {
+        margin-bottom: 20px;
+        width: 100%;
+        height: 45px;
+      }
+
+      button {
+        height: 45px;
+        width: 100%;
+      }
+    }
+
+    .login-footer {
+      margin-top: 10px;
+
+      span.forget {
+        float: right;
+      }
+
+      a {
+        color: #f7f7f7;
+      }
+    }
+  }
+
+  .login-ad {
+    height: 450px;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 0 4px 4px 0;
+    background-size: cover;
+
+    .photo-author {
+      position: absolute;
+      right: 6px;
+      bottom: 45px;
+    }
+  }
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.vm-panel {
+  background-color: @background-color-base;
+  text-align: left;
+  border-radius: 4px;
+
+  .panel-heading {
+    text-align: left;
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 1px solid;
+    padding: 15px;
+    font-weight: bold;
+  }
+
+  .panel-body {
+    padding: 15px;
+    font-size: 14px;
+  }
+}
+
+/* ueboot1 风格的样式 */
+.form-body {
+  height: 100%;
+
+  .website-logo {
+    position: absolute;
+    top: 70px;
+    left: 50%;
+    margin-left: -50px;
+    right: initial;
+    bottom: initial;
+    display: inline-block;
+    z-index: 1;
+
+    .logo {
+      display: inline-block;
+      background-size: contain;
+      background-repeat: no-repeat;
+
+      img {
+        width: 100px;
+      }
+    }
+  }
+
+  h3 {
+    color: #000;
+    text-align: left;
+    font-size: 24px;
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+
+  p {
+    color: #000;
+    text-align: left;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 20px;
+    margin-bottom: 30px;
+  }
+
+  .img-holder {
+    z-index: 0;
+    width: 100%;
+    overflow: hidden;
+    background-color: #152733;
+
+    .bg {
+      opacity: 1;
+      background-image: none;
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    .info-holder {
+      position: relative;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+
+      img {
+        display: inline-block;
+        max-width: 534px;
+        -webkit-animation: zoom-in-img 50s linear 0s infinite;
+        -moz-animation: zoom-in-img 50s linear 0s infinite;
+        -ms-animation: zoom-in-img 50s linear 0s infinite;
+        animation: zoom-in-img 50s linear 0s infinite;
+        -webkit-transform-origin: center center;
+        -moz-transform-origin: center center;
+        -ms-transform-origin: center center;
+        transform-origin: center center;
+        -webkit-transform: scale(1);
+        -moz-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+        width: 100%;
+        vertical-align: middle;
+        border-style: none;
+      }
+    }
+  }
+
+  .form-content {
+    padding: 125px 60px 60px;
+    -webkit-perspective: 800px;
+    -moz-perspective: 800px;
+    -ms-perspective: 800px;
+    perspective: 800px;
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+
+    .form-items {
+      padding: 35px 30px;
+      border-radius: 10px;
+      background-color: #fff;
+      -webkit-box-shadow: 0 6px 15px rgba(0, 0, 0, 0.16);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.16);
+      max-width: 400px;
+      text-align: left;
+      display: inline-block;
+      width: 100%;
+      -webkit-transition: all 0.4s ease;
+      transition: all 0.4s ease;
+
+      form {
+        margin-bottom: 0;
+      }
+
+      .other-links {
+        margin-top: 38px;
+        margin-bottom: 30px;
+      }
+
+      .page-links {
+        margin-bottom: 0;
+      }
+
+      input {
+        width: 100%;
+        padding: 9px 20px;
+        text-align: left;
+        border: 0;
+        outline: 0;
+        border-radius: 6px;
+        font-size: 15px;
+        font-weight: 300;
+        -webkit-transition: all 0.3s ease 0s;
+        transition: all 0.3s ease 0s;
+        margin-bottom: 14px;
+        background-color: rgb(247, 247, 247);
+        color: #8d8d8d;
+        height: 45px;
+      }
+
+      input:focus {
+        border: 0;
+        background-color: #eaeaea;
+        color: #000;
+      }
+    }
+  }
+
+  .row {
+    position: relative;
+    margin-left: 0;
+    margin-right: 0;
+    height: 100%;
+    flex-wrap: wrap;
+    display: flex;
+
+    .img-holder {
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      min-height: 700px;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+      padding: 60px;
+      text-align: center;
+    }
+  }
+
+  .form-holder {
+    margin-left: 0;
+    width: 100%;
+  }
+}
