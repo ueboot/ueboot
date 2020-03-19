@@ -55,7 +55,7 @@
         <apache.poi.version>3.14</apache.poi.version>
         <shiro.version>1.4.0</shiro.version>
         <jackson.version>2.9.8</jackson.version>
-        <jackson.databind.version>2.9.8</jackson.databind.version>
+        <jackson.databind.version>2.9.10.3</jackson.databind.version>
     </properties>
 
     <dependencyManagement>
