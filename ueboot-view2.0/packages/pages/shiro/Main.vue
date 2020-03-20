@@ -390,7 +390,6 @@
         background: #f5f7f9;
         position: relative;
         border-radius: 4px;
-        overflow: hidden;
         height: 100%;
     }
 
