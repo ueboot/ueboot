@@ -140,7 +140,7 @@ public class LogShiroEventListener implements ShiroEventListener {
      */
     @Override
     public void saveUserEvent(String optUserName, String userStr) {
-        log.info("【审计日志】操作人:{}，保修/修改用户名:{}！", optUserName, userStr);
+        log.info("【审计日志】操作人:{}，保存/修改用户名:{}！", optUserName, userStr);
 
     }
 

@@ -41,7 +41,8 @@
 </template>
 
 <script>
-
+  const ch = document.documentElement.clientHeight;
+  const height = Math.round(ch * 0.75);
 export default {
   name: 'User',
   data () {
@@ -118,6 +119,7 @@ export default {
           ]
         },
         table: {
+          height:height,
           rowClick: (row, index) => {
             this.$refs['formGrid'].$refs['dataTable'].toggleSelect(index)
           },
@@ -178,7 +180,7 @@ export default {
               }
             ],
             column: {
-              minWidth: 220
+              minWidth: 240
             }
           },
           columns: [
