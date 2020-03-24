@@ -1,14 +1,15 @@
 package com.ueboot.shiro.shiro;
 
 import com.ueboot.shiro.entity.User;
-import com.ueboot.shiro.util.PasswordUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.util.Assert;
 import org.apache.shiro.util.ByteSource;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -28,7 +29,7 @@ public class UserRealm extends AuthorizingRealm {
     /**
      * 超级用户，可以对权限功能进行设置，无需赋权也可以，防止新系统第一次无法登陆进去进行操作。
      */
-    public static final String SUPER_USER = "root";
+    public static final String SUPER_USER = "sysroot";
 
     @Resource
     private ShiroService shiroService;
@@ -38,7 +39,7 @@ public class UserRealm extends AuthorizingRealm {
         String username = (String) this.getAvailablePrincipal(principals);
         Set<String> roleNames = this.shiroService.getUserRoleNames(username);
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roleNames);
-        Set<String> permissions = this.shiroService.getRolePermission(roleNames);
+        Set<String> permissions = this.shiroService.getRolePermission(username,roleNames);
         //如果是指定的超级用户，则默认有一个最高权限，可以访问所有的功能
         if(SUPER_USER.equals(username)){
             permissions.add("*:*");
@@ -59,15 +60,22 @@ public class UserRealm extends AuthorizingRealm {
         if (StringUtils.isEmpty(password)) {
             throw new AuthenticationException("密码不能为空！");
         }
-        User user = this.shiroService.getUser(username);
-        if (user == null) {
+        Object object = this.shiroService.getUser(username);
+        if (object == null) {
             throw new AuthenticationException("用户不存在");
         }
+        User user = new User();
+        BeanUtils.copyProperties(object,user);
+        Assert.notNull(user.getUserName(),"shiroService返回的对象不能缺少userName属性");
+        Assert.notNull(user.getPassword(),"shiroService返回的对象不能缺少password属性");
         if (user.isLocked()) {
             throw new LockedAccountException("您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理！");
         }
         if (user.getCredentialExpiredDate() != null && new Date().compareTo(user.getCredentialExpiredDate()) > -1) {
-            throw new AuthenticationException("密码已经过期，请联系你的管理员进行处理！");
+            throw new ExpiredCredentialsException("密码已经过期，请联系你的管理员进行处理！");
+        }
+        if(!user.isValid()){
+            throw new DisabledAccountException("当前用户已经被禁用");
         }
         username = user.getUserName();
         ByteSource credentialsSalt = ByteSource.Util.bytes(username);

@@ -1,5 +1,6 @@
 package com.ueboot.shiro.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -8,14 +9,14 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * swagger2相关配置
+ * 默认不放开，防止发布生产时自动开放了。需要集成方根据实际场景放开配置
  * @author yangkui
  */
 @Configuration
-@EnableSwagger2
+@ConditionalOnProperty(value = "ueboot.shiro.swagger.enable",havingValue = "true")
 public class Swagger2 {
     @Bean
     public Docket createRestApi() {

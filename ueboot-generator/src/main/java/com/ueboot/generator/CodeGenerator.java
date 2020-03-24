@@ -288,7 +288,7 @@ class CodeGenerator {
         p.setProperty(Velocity.OUTPUT_ENCODING, "UTF-8");
         Velocity.init(p);
 
-        Template template = Velocity.getTemplate("velocity" + separator + "ueboot" + separator + templateName, "UTF-8");
+        Template template = Velocity.getTemplate("velocity" + separator + "uebootv2" + separator + templateName, "UTF-8");
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         return writer.toString();

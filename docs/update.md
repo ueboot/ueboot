@@ -1,5 +1,32 @@
+## 2.0版本更新记录
+- 该版本采用最新的vue-cli构建，同时升级了iview等主要组件的版本。1.7.x版本可以无缝升级到此版本
+- 修改内容：
+    - main.js `import 'ueboot/dist/styles/ueboot.css'` 改为： `import 'ueboot/lib/ueboot.css'`
+    - main.js 增加iview样式 
+        ```
+        import ViewUI from 'view-design';
+         import 'view-design/dist/styles/iview.css';
+         Vue.use(ViewUI);
+      ```
+     - router.js当中的引用到ueboot相关的页面，也需要修改
+     原代码`import {PageLogin, PageMain, PageShiroUser, PageShiroRole, PageShiroResources} from 'ueboot'` 改为`import ueboot from 'ueboot'`
+     示例:```
+        {
+           path: '/ueboot/shiro/User',
+           name: 'User',
+           component: ueboot.PageShiroUser
+         },
+     ```
+- 2.1.0
+    - 升级iview到iview-design组件，版本变更为4.1.3
+    - 调整Main.vue页面布局，解决样式错乱问题。直接使用iview布局
+- 2.0.3 
+    - 初始版本发布，升级iview等组件
+
 
 ## 1.7版本更新记录
+- v1.7.48 
+    - axios增加confirmToLogin属性，用于异步请求发生需要跳转到登录页面时，是否弹出确认提示框，默认为true
 - v1.7.40
     - 登录页面增加登录成功后返回的回调事件，可以自定义实现登录成功后跳转
     - 

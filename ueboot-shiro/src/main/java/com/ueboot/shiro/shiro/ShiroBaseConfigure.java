@@ -4,6 +4,7 @@ package com.ueboot.shiro.shiro;
 import com.ueboot.core.condition.RedisDisabledCondition;
 import com.ueboot.core.condition.RedisEnableCondition;
 import com.ueboot.shiro.shiro.auditor.JpaAuditingAwareImpl;
+import com.ueboot.shiro.shiro.cache.RedisCache;
 import com.ueboot.shiro.shiro.cache.ShiroRedisCacheManger;
 import com.ueboot.shiro.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +41,8 @@ import java.util.Map;
 @Configuration
 @Slf4j
 public class ShiroBaseConfigure {
+    //shiro存放用户信息到缓存当中的key值，默认格式为：ueboot-shiro:username
+    public static final String CACHE_REDIS_KEY="ueboot-shiro";
     /**
      * 当shiroService对应的bean不存在存在时，会使用默认数据
      *
@@ -73,7 +77,7 @@ public class ShiroBaseConfigure {
             protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json");
-                response.getWriter().write("{\"code\":401,\"errorMsg\":\"尚未登录，请登录!\"}");
+                response.getWriter().write("{\"code\":401,\"errorMsg\":\"尚未登录，请登录\"}");
             }
         });
         bean.setFilters(filterMap);
@@ -90,7 +94,7 @@ public class ShiroBaseConfigure {
 
     @Bean
     public CacheManager getCacheManager(RedisTemplate<Object, Object> redisTemplate) {
-        return new ShiroRedisCacheManger("ueboot-shiro", redisTemplate);
+        return new ShiroRedisCacheManger(RedisCache.keyNamespace, redisTemplate);
     }
 
     /**
@@ -106,7 +110,6 @@ public class ShiroBaseConfigure {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(realm);
         //使用自定义的Redis缓存实现，依赖redisTemplate，keyNamespace可以默认为空
-
         securityManager.setCacheManager(this.getCacheManager(redisTemplate));
         return securityManager;
     }
@@ -182,6 +185,7 @@ public class ShiroBaseConfigure {
      * 增加审计记录，根据登录用户补充创建人、修改人
      */
     @Bean
+    @ConditionalOnMissingBean
     public AuditorAware auditorAware() {
         return new JpaAuditingAwareImpl();
     }

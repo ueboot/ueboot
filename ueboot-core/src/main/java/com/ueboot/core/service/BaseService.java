@@ -29,4 +29,5 @@ public interface BaseService<T> {
 
     void delete(Long[] ids);
     void delete(Long id);
+    void delete(T object);
 }

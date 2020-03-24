@@ -1,0 +1,49 @@
+{
+  "form": {
+    "setting": {
+      "autoLoad": true,
+      "labelWidth": 80,
+      "colsNum": 2,
+      "modal": {
+        "title": "",
+        "showClose": true,
+        "width": 860
+      }
+    },
+    "fields": [
+      {
+        "label": "",
+        "field": "",
+        "": ""
+      },
+      {}
+    ]
+  },
+  "grid": {
+    "pageable": {
+      "page": 1,
+      "size": 20
+    },
+    "toolbar": [
+      {
+        "key": "import",
+        "api": ""
+      },
+      {
+        "key": "export",
+        "api": ""
+      },
+      {
+        "api": ""
+      },
+      {}
+    ],
+    "columns": []
+  },
+  "operations": [
+    {
+      "api": ""
+    },
+    {}
+  ]
+}

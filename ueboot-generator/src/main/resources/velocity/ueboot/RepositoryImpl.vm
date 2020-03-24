@@ -8,18 +8,18 @@ package ${repositoryPackageName}.impl;
 import ${entityPackageName}.${entityFullName};
 import org.springframework.stereotype.Repository;
 import com.ueboot.core.jpa.repository.DefaultJpaRepository;
-import ${repositoryPackageName}.${entityFullName}BaseRepository;
+import ${repositoryPackageName}.${entityName}BaseRepository;
 import lombok.extern.slf4j.Slf4j;
 
 /**
 * 自定义接口实现类，可以使用父类DefaultJpaRepository当中的find(),findBySql等方法实现自定义的StringQuery查询
-* 相关使用示例，参见文档http://docs.ueboot.com
+* 相关使用示例，参见文档http://www.ueboot.com
 * Created on ${DATE}
 * @author ${USER}
-* @since 2.1.0 by ueboot-generator
+* @since 3.0.0 by ueboot-generator
 */
 @Slf4j
 @Repository
-public class ${entityName}RepositoryImpl extends DefaultJpaRepository<${entityFullName},Long> implements ${entityFullName}BaseRepository {
+public class ${entityName}RepositoryImpl extends DefaultJpaRepository<${entityFullName},Long> implements ${entityName}BaseRepository {
 
 }

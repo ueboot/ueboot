@@ -1,6 +1,6 @@
 文档最近更新时间  {docsify-updated}
 ## 1. 概要介绍
-  - ueboot是一个基于`spring boot + vue2.0+iview3.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
+  - ueboot是一个基于`spring boot2.0 + vue2.0+iview3.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
   - 基于iViewUI提供了一套CRUD快速开发UI组件,只需要配置json即可完成单表的CRUD功能，配合后端Java能在1分钟内完成开发。
   - 平台默认提供了安全防范，防止XSS攻击、SQL注入等。
   - 提供代码生成器，生成页面和Java代码，避免纯粹重复劳动，生成的代码完全可以自主二次修改。
@@ -13,13 +13,11 @@
 
 | 序号 | 组件名称 | 版本号 |说明 |
 | ------ | ------ | ------ |------ |
-1 | ueboot-core | 2.1.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
-2 | ueboot-shiro|2.1.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
-3 | ueboot-parent|2.1.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
-4 | ueboot-generator|2.1.0-SNAPSHOT|代码生成器，通可以快速生成前后端代码
-5 | ueboot-ui|1.5.23|前端UI组件，提供了一套快速开发的CRUD、Tree、权限配置界面等组件
-6 | ueboot-excel|xxx|（开发中）excel相关功能
-7 | ueboot-weixin|xxx|（开发中）微信相关功能
+1 | ueboot-core | 3.0.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
+2 | ueboot-shiro|3.0.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
+3 | ueboot-parent|3.0.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
+4 | ueboot-generator|3.0.2|代码生成器，通可以快速生成前后端代码
+5 | ueboot-ui|1.7.48|前端UI组件，提供了一套快速开发的CRUD、Tree、权限配置界面等组件
 
 
 ### 2.1 ueboot-core
@@ -58,7 +56,7 @@
  <parent>
         <groupId>com.ueboot</groupId>
         <artifactId>ueboot-parent</artifactId>
-        <version>2.1.0-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath/> <!-- lookup parent from api -->
     </parent>
 ```

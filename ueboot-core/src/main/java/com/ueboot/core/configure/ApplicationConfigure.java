@@ -6,6 +6,7 @@
 
 package com.ueboot.core.configure;
 
+import com.ueboot.core.service.HttpRequestValidatorService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ public class ApplicationConfigure{
 
     @Bean
     @ConditionalOnMissingBean(name = "fastJsonHttpMessageConverter")
-    public Log4jFastJsonHttpMessageConverter fastJsonHttpMessageConverter() {
-        return new Log4jFastJsonHttpMessageConverter();
+    public Log4jFastJsonHttpMessageConverter fastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService) {
+        return new Log4jFastJsonHttpMessageConverter(httpRequestValidatorService);
     }
 }

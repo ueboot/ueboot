@@ -60,5 +60,11 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         getBaseRepository().delete(id);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class, timeout = 30, propagation = Propagation.REQUIRED)
+    public void delete(T object) {
+        getBaseRepository().delete(object);
+    }
+
     protected abstract BaseRepository getBaseRepository();
 }

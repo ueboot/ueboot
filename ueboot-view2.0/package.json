@@ -1,0 +1,86 @@
+{
+  "name": "ueboot",
+  "version": "2.1.2",
+  "description": "ueboot是一个基于`spring boot2.x+ + vue2.x+iview4.x`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）",
+  "author": "ueboot",
+  "homepage": "http://www.ueboot.com",
+  "keywords": [
+    "iview",
+    "vue",
+    "vue.js",
+    "component",
+    "components",
+    "ui",
+    "framework",
+    "ueboot"
+  ],
+  "main": "lib/ueboot.common.js",
+  "files": [
+    "lib",
+    "packages"
+  ],
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name ueboot --dest lib packages/index.js",
+    "publish": "npm run lib && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ueboot/ueboot.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ueboot/ueboot/issues"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-polyfill": "^6.26.0",
+    "core-js": "^3.6.4",
+    "deep-extend": "^0.6.0",
+    "font-awesome": "^4.7.0",
+    "view-design": "^4.1.3",
+    "less": "^3.11.1",
+    "less-loader": "^5.0.0",
+    "moment": "^2.24.0",
+    "vue": "^2.6.11",
+    "vue-color": "^2.7.1",
+    "vue-router": "^3.1.6"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.2.0",
+    "@vue/cli-plugin-eslint": "^4.2.0",
+    "@vue/cli-service": "^4.2.0",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.1.2",
+
+    "vue-template-compiler": "^2.6.11"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "no-unused-vars": 1
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}

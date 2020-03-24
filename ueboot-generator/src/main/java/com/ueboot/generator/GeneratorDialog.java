@@ -88,6 +88,9 @@ public class GeneratorDialog extends JDialog {
                 if (StringUtil.isNotBlank(entityPackageNameValue)) {
                     String entityName = entityPackageNameValue.substring(entityPackageNameValue.lastIndexOf("."));
                     entityName = entityName.toLowerCase();
+                    if(entityName.endsWith("Entity")){
+                        entityName = entityName.substring(0,entityName.lastIndexOf("Entity"));
+                    }
                             entityPackageNameValue = entityPackageNameValue.substring(0, entityPackageNameValue.lastIndexOf("."));
                     if (StringUtil.isBlank(repositoryPackageName.getText())) {
                         repositoryPackageName.setText(entityPackageNameValue.replace("entity", "repository")+entityName);

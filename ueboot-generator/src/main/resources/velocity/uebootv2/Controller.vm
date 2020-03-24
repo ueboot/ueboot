@@ -1,0 +1,114 @@
+package ${controllerPackageName};
+
+import com.ueboot.core.controller.BasicController;
+import com.ueboot.core.exception.BusinessException;
+import com.ueboot.core.http.response.Response;
+import ${controllerPackageName}.vo.*;
+import ${entityPackageName}.${entityFullName};
+import ${servicePackageName}.${entityName}Service;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.util.Assert;
+import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.web.bind.annotation.*;
+import javax.annotation.Resource;
+
+import java.util.List;
+import java.util.Optional;
+
+
+/**
+ *
+ * @author ${USER}
+ */
+@Slf4j
+@RestController
+@RequestMapping(value = "/private$requestPath${lowEntityName}/")
+public class ${entityName}Controller extends BasicController<${entityFullName}> {
+
+    @Resource
+    private ${entityName}Service ${lowEntityName}Service;
+
+    /**
+    *  进行分页查询
+    *
+    * @param pageable 分页对象
+    * @param req 请求对象
+    * @return 已分页的数据对象集合
+    */
+    @PostMapping(value = PAGE)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + PAGE)
+    public Response<Page<${entityName}Resp>> page(@PageableDefault(value = 15, sort = { "id" }, direction = Sort.Direction.ASC)
+                                                     Pageable pageable, @RequestBody(required = false) ${entityName}FindReq req){
+        Page<${entityFullName}> ${lowEntityName}Page = ${lowEntityName}Service.pagingBy(pageable);
+        return converterDTV.map(${lowEntityName}Page, ${entityName}Resp::to${entityName}Resp);
+    }
+
+    /**
+    * 数据列表查询
+    *
+    * @return 数据对象集合
+    */
+    @PostMapping(value = LIST)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + LIST)
+    public Response<List<${entityName}Resp>> list() {
+        List<${entityFullName}> ${lowEntityName}List = ${lowEntityName}Service.findAll();
+        return converterDTV.map(${lowEntityName}List, ${entityName}Resp::to${entityName}Resp);
+    }
+
+    /**
+    * 数据添加
+    *
+    * @param req 数据新增请求对象
+    * @return 主键ID
+    */
+    @PostMapping(value = ADD)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + ADD)
+    public Response<Long> add(@RequestBody ${entityName}Req req) {
+        return new Response<>(${lowEntityName}Service.save(req.to${entityFullName}()).getId());
+    }
+
+    /**
+    * 数据修改
+    *
+    * @param req 数据修改请求对象
+    */
+    @PostMapping(value = UPDATE)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + UPDATE)
+    public Response<Long> update(@RequestBody ${entityName}Req req) {
+        return new Response<>(${lowEntityName}Service.save(req.to${entityFullName}()).getId());
+    }
+
+    /**
+    * 批量删除
+    *
+    * @param ids 删除数据的主键ID集合
+    */
+    @PostMapping(value = DELETE)
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + DELETE)
+    public Response<Void> delete(Long[] ids) {
+        for (Long id: ids) {
+            ${entityFullName} entity = ${lowEntityName}Service.findById(id);
+            ${lowEntityName}Service.delete(entity);
+        }
+        return new Response<>();
+    }
+
+    /**
+    * 根据主键ID获取单条记录的明细信息
+    *
+    * @param id 请求ID
+    * @return 明细信息数据对象
+    */
+    @PostMapping(value = GET + "/{id}")
+    @RequiresPermissions(value = "${lowEntityName}:${lowEntityName}:" + GET)
+    public Response<${entityName}Resp> get(@PathVariable Long id) {
+        Assert.notNull(id, "修改缺少关键参数");
+        Optional<${entityFullName}> optional${entityName} = ${lowEntityName}Service.findById(id);
+        return optional${entityName}.map(${lowEntityName} -> new Response<>(${entityName}Resp.to${entityName}Resp(${lowEntityName}))).orElseGet(() -> new Response<>(new ${entityName}Resp()));
+    }
+}

@@ -16,6 +16,7 @@ import com.ueboot.shiro.service.user.UserService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
 import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.UserRealm;
+import com.ueboot.shiro.shiro.credential.RetryLimitHashedCredentialsMatcher;
 import com.ueboot.shiro.util.PasswordUtil;
 import jodd.datetime.JDateTime;
 import jodd.util.StringUtil;
@@ -26,10 +27,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.MessageFormat;
 import java.util.Date;
 
 
@@ -52,6 +55,9 @@ public class UserController {
     // shiro 权限日志记录
     @Resource
     private ShiroEventListener shiroEventListener;
+
+    @Resource
+    private RedisTemplate<String,String> redisTemplate;
 
 
     @RequiresPermissions("ueboot:user:read")
@@ -93,6 +99,11 @@ public class UserController {
                 Date expiredDate = dateTime.addMonth(this.shiroService.getPasswordExpiredMonth()).convertToDate();
                 entity.setCredentialExpiredDate(expiredDate);
             }
+        }
+        //解锁
+        if(!req.isLocked()){
+            String key = MessageFormat.format(RetryLimitHashedCredentialsMatcher .PASSWORD_RETRY_CACHE,req.getUserName());
+            redisTemplate.delete(key);
         }
         userService.save(entity);
 

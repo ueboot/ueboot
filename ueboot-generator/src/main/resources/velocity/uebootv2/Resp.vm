@@ -1,0 +1,24 @@
+package ${controllerPackageName}.vo;
+
+import ${entityPackageName}.${entityFullName};
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.BeanUtils;
+
+/**
+* 用于前端发起查询请求时，返回查询结果
+*
+* @author ${USER}
+*/
+@Setter
+@Getter
+public class ${entityName}Resp {
+#foreach($object in ${fields})
+    private $object.type $object.name;
+#end
+    public static ${entityName}Resp to${entityName}Resp(${entityName}Entity source){
+        ${entityName}Resp ${lowEntityName}Resp = new ${entityName}Resp();
+        BeanUtils.copyProperties(source, ${lowEntityName}Resp);
+        return ${lowEntityName}Resp;
+    }
+}

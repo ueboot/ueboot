@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  */
 public class XSSUtil {
     private static Logger logger = LoggerFactory.getLogger(XSSUtil.class);
-    private static String inj_str = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
+    private static String injStr = "'|and|exec|execute|insert|select|delete|update|count|drop|*|%|chr|mid|master|truncate|" +
             "char|declare|sitename|net user|xp_cmdshell|;|or|-|+|,|like'|and|exec|execute|insert|create|drop|" +
             "table|from|grant|use|group_concat|column_name|" +
             "information_schema.columns|table_schema|union|where|select|delete|update|order|by|count|*|" +
@@ -26,7 +26,7 @@ public class XSSUtil {
      * @return 校验后的字符串
      */
     public static String checkXssStr(String value) {
-        if (StringUtil.isNotBlank(value) && sql_inj(value)) {
+        if (StringUtil.isNotBlank(value) && sqlInject(value)) {
             logger.error("提交参数存在非法字符！,value:{}", value);
             throw new RuntimeException("提交参数存在非法字符！value:" + value);
         }
@@ -40,33 +40,33 @@ public class XSSUtil {
      * @param str 需要校验的字符串
      * @return 校验过后的字符串
      */
-    private static boolean sql_inj(String str) {
-        String[] inj_stra = inj_str.split("\\|");
+    private static boolean sqlInject(String str) {
+        String[] injStra = injStr.split("\\|");
 
-        for (int i = 0; i < inj_stra.length; i++) {
-            if (str.toLowerCase().indexOf(" " + inj_stra[i] + " ") >= 0) {
+        for (String s : injStra) {
+            if (str.toLowerCase().contains(" " + s + " ")) {
                 return true;
             }
         }
         return false;
     }
 
-    private static Pattern p1 = Pattern.compile("<script.*?>", Pattern.CASE_INSENSITIVE);
+   /* private static Pattern p1 = Pattern.compile("<script.*?>", Pattern.CASE_INSENSITIVE);
     private static Pattern p2 = Pattern.compile("</script>", Pattern.CASE_INSENSITIVE);
     private static Pattern p3 = Pattern.compile("<iframe.*?>", Pattern.CASE_INSENSITIVE);
-    private static Pattern p4 = Pattern.compile("</iframe>", Pattern.CASE_INSENSITIVE);
+    private static Pattern p4 = Pattern.compile("</iframe>", Pattern.CASE_INSENSITIVE);*/
+    private static Pattern p5 = Pattern.compile("<", Pattern.CASE_INSENSITIVE);
+    private static Pattern p6 = Pattern.compile(">", Pattern.CASE_INSENSITIVE);
 
     /**
-     * 脚本注入检测
+     * 脚本注入检测 只对<>符号进行转义即可
      *
      * @param value 需要校验的字符串
      * @return 校验过后的字符串
      */
     private static String scriptingFilter(String value) {
-        String str = p1.matcher(value).replaceAll("&lt;/script&gt;");
-        str = p2.matcher(str).replaceAll("&lt;/script&gt;");
-        str = p3.matcher(str).replaceAll("&lt;/iframe&gt;");
-        str = p4.matcher(str).replaceAll("&lt;/iframe&gt;");
+        String str = p5.matcher(value).replaceAll("&lt;");
+        str = p6.matcher(str).replaceAll("&gt;");
         return str;
     }
 

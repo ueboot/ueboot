@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 * 3.Service类注入接口时直接注入 ${entityFullName}Repository接口即可，当前接口不需要注入
 * Created on ${DATE}
 * @author ${USER}
-* @since 2.1.0 by ueboot-generator
+* @since 3.0.0 by ueboot-generator
 */
 public interface ${entityName}BaseRepository  {
 

@@ -1,0 +1,18 @@
+package ${repositoryPackageName};
+
+import ${entityPackageName}.${entityFullName};
+import com.ueboot.core.repository.BaseRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+/**
+* 规范要求：凡是使用Spring Data JPA语法进行对象数据持久化在此类进行编写
+*
+* @author ${USER}
+*/
+@Repository
+public interface ${entityName}Repository extends BaseRepository<${entityFullName}, Long>,${entityName}BaseRepository {
+
+
+}

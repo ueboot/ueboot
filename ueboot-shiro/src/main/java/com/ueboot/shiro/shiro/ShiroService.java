@@ -1,9 +1,6 @@
 package com.ueboot.shiro.shiro;
 
 
-import com.ueboot.shiro.entity.User;
-
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,12 +34,16 @@ public interface ShiroService {
 
 
     /**
-     * 根据用户名用户信息
+     * 根据用户名获取用户信息，要求返回的对象当中必须包含如下属性名：
+     * 1:userName
+     * 2:password
+     * 3:locked
+     * 4:credentialExpiredDate
      *
      * @param username 用户名
-     * @return 是否存在
+     * @return 用户对象，返回的对象需要有固定的几个属性，用于判断密码、是否过期等
      */
-    User getUser(String username);
+    Object getUser(String username);
 
     /**
      * 根据用户名查询登录成功后的返回结果给前端登录成功请求
@@ -66,7 +67,7 @@ public interface ShiroService {
      * @param roleCodes 角色代码列表
      * @return 用户权限列表
      */
-    Set<String> getRolePermission(Set<String> roleCodes);
+    Set<String> getRolePermission(String userName,Set<String> roleCodes);
 
     /**
      * 获取密码过期月份数。新用户和修改密码后，会自动将当前过期时间设置为当前时间往后几个月

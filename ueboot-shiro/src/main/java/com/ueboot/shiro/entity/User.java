@@ -54,6 +54,12 @@ public class User extends AbstractVersionEntity<Long> {
     private boolean locked;
 
     /**
+     * 是否有效，无效后无法登录与锁定效果类似
+     */
+    @Column(name = "valid")
+    private boolean valid = Boolean.TRUE;
+
+    /**
      * 密码过期日期，如果为空，则永远不过期
      */
     @Column(name = "CREDENTIAL_EXPIRED_DATE")

@@ -11,7 +11,6 @@
     <modules>
         <module>ueboot-parent</module>
         <module>ueboot-core</module>
-        <module>ueboot-excel</module>
         <module>ueboot-shiro</module>
         <module>ueboot-generator</module>
         <module>ueboot-cryption</module>
@@ -53,7 +52,7 @@
         <java.version>1.8</java.version>
         <fastjson.version>1.2.31</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
-        <shiro.version>1.5.0</shiro.version>
+       <shiro.version>1.5.1</shiro.version>
         <jackson.version>2.9.8</jackson.version>
         <jackson.databind.version>2.9.10.3</jackson.databind.version>
     </properties>
@@ -132,6 +131,11 @@
                 <version>2.5</version>
             </dependency>
             <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.4</version>
+            </dependency>
+            <dependency>
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>2.8.0</version>
@@ -203,11 +207,6 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-annotations</artifactId>
                 <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc</artifactId>
-                <version>8</version>
             </dependency>
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -368,6 +367,59 @@
                 <repository>
                     <id>xq-releases</id>
                     <url>http://maven.xiqiao.io/content/repositories/ueboot-release</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <!--部署到ccic maven私服-->
+        <profile>
+            <id>deploy-maven.ccic</id>
+            <build>
+                <plugins>
+                    <!--构建jar包时，同时构建源码和java-doc文件-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <additionalparam>-Xdoclint:none</additionalparam>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <!--配置将jar包上传到maven中央仓库的地址
+                用户名/密码：deptdev2/deptdev2
+            -->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ccic-snapshot</id>
+                    <url>http://10.1.13.7:27897/nexus/repository/Snapshots-Dev2/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ccic-releases</id>
+                    <url> http://10.1.13.7:27897/nexus/repository/Releases-Dev2/</url>
                 </repository>
             </distributionManagement>
         </profile>

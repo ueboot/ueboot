@@ -7,10 +7,10 @@ server:
         name: ueboot-shiro
 spring:
   cache:
-    type: redis
+    type: none
     cache-names: systemCache
   session:
-    store-type: redis
+    store-type: none
   servlet:
     multipart:
       enabled: true

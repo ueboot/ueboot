@@ -14,19 +14,19 @@ import java.util.Set;
  */
 public class RedisCache implements Cache {
 
-    private String keyNamespace = "ueboot_shiro";
+    public static String keyNamespace = "ueboot_shiro";
 
     private RedisTemplate<Object,Object> redisTemplate;
 
-    public RedisCache(RedisTemplate<Object, Object> redisTemplate,String keyNamespace) {
+    public RedisCache(RedisTemplate<Object, Object> redisTemplate,String namespace) {
         this.redisTemplate = redisTemplate;
-        if(StringUtils.hasText(keyNamespace)){
-            this.keyNamespace = keyNamespace;
+        if(StringUtils.hasText(namespace)){
+            keyNamespace = namespace;
         }
     }
 
     private String getKey(Object key){
-        return  this.keyNamespace+":"+key;
+        return  keyNamespace+":"+key;
     }
 
     @Override
