@@ -5,7 +5,7 @@
 
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-framework</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
     <name>ueboot-framework</name>
     <modules>
@@ -43,11 +43,11 @@
     </developers>
     <properties>
         <!--每次发布当前模块时，需要修改这里的版本号-->
-        <ueboot.core.version>3.0.0-SNAPSHOT</ueboot.core.version>
-        <ueboot.generator.version>3.0.0-SNAPSHOT</ueboot.generator.version>
-        <ueboot.shiro.version>3.0.0-SNAPSHOT</ueboot.shiro.version>
-        <ueboot.excel.version>3.0.0-SNAPSHOT</ueboot.excel.version>
-        <ueboot.cryption.version>1.0.0-SNAPSHOT</ueboot.cryption.version>
+        <ueboot.core.version>3.0.0</ueboot.core.version>
+        <ueboot.generator.version>3.0.0</ueboot.generator.version>
+        <ueboot.shiro.version>3.0.0</ueboot.shiro.version>
+        <ueboot.excel.version>3.0.0</ueboot.excel.version>
+        <ueboot.cryption.version>3.0.0</ueboot.cryption.version>
 
         <java.version>1.8</java.version>
         <fastjson.version>1.2.31</fastjson.version>

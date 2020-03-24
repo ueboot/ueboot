@@ -11,18 +11,16 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-parent</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
+    <version>3.0.0</version>
     <packaging>pom</packaging>
 
     <properties>
         <!--！！！ 这里定义的所有配置与框架代码本身需要的依赖配置无任何关系，框架所需要的依赖配置在最外面的pom.xml当中  ！！！-->
         <!--当前pom文件只用于发布后，基于该框架开发的第三方系统使用。直接继承该parent即可，无需配置ueboot所需要的组件 -->
         <!--每次发布ueboot模块时，如果新增了版本号，则需要修改这里的版本号-->
-        <ueboot.core.version>3.0.0-SNAPSHOT</ueboot.core.version>
+        <ueboot.core.version>3.0.0</ueboot.core.version>
         <ueboot.generator.version>3.0.2</ueboot.generator.version>
-        <ueboot.shiro.version>3.0.0-SNAPSHOT</ueboot.shiro.version>
-        <ueboot.excel.version>3.0.0-SNAPSHOT</ueboot.excel.version>
-        <ueboot.file.version>3.0.0-SNAPSHOT</ueboot.file.version>
+        <ueboot.shiro.version>3.0.0</ueboot.shiro.version>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.21</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
