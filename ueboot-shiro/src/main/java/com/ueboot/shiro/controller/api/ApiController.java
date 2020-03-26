@@ -1,6 +1,7 @@
 package com.ueboot.shiro.controller.api;
 
 
+import cn.hutool.captcha.LineCaptcha;
 import com.alibaba.fastjson.JSON;
 import com.ueboot.core.exception.BusinessException;
 import com.ueboot.core.http.response.Response;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -203,12 +205,18 @@ public class ApiController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0L);
         response.setContentType("image/jpeg");
-        String captcha = CaptchaUtils.generate(4);
-        HttpSession session = request.getSession();
-        session.setAttribute(CAPTCHA_KEY, captcha.toLowerCase());
         int w = 200;
         int h = 80;
-        CaptchaUtils.outputImage(w, h, response.getOutputStream(), captcha);
+        LineCaptcha captcha = CaptchaUtils.getLineCaptcha(w,h);
+        try {
+            HttpSession session = request.getSession();
+            session.setAttribute(CAPTCHA_KEY, captcha.getCode().toLowerCase());
+            ImageIO.write(captcha.getImage(), "jpg", response.getOutputStream());
+        } catch (IOException e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessException("验证码生成异常");
+        }
+
     }
 
     private void lockAccount(String userName) {

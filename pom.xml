@@ -54,6 +54,7 @@
         <apache.poi.version>3.14</apache.poi.version>
        <shiro.version>1.5.1</shiro.version>
         <jackson.version>2.9.8</jackson.version>
+        <hutool.version>5.2.4</hutool.version>
         <jackson.databind.version>2.9.10.3</jackson.databind.version>
     </properties>
 
@@ -235,7 +236,11 @@
                 <artifactId>springfox-swagger-ui</artifactId>
                 <version>2.9.2</version>
             </dependency>
-
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <profiles>

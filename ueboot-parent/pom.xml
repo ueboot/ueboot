@@ -28,7 +28,7 @@
         <apache.poi.version>3.14</apache.poi.version>
         <oss.version>2.2.1</oss.version>
         <commons-fileupload.version>1.3.2</commons-fileupload.version>
-        <hutool.version>4.1.12</hutool.version>
+        <hutool.version>5.2.4</hutool.version>
         <spring.boot.starter.swagger.version>1.5.1.RELEASE</spring.boot.starter.swagger.version>
         <commons-net.version>3.3</commons-net.version>
         <poi-ooxml.version>4.1.0</poi-ooxml.version>
