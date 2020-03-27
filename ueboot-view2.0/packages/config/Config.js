@@ -21,7 +21,16 @@ let ueboot_config = {
         bgImage:'@/asserts/graphic3.svg',
         formTitle:'系统登录',
         loginUrl:'/ueboot/shiro/public/login',
-        showCaptcha:true
+        captcha:{
+            //是否显示验证码，需要搭配后端的配置
+            show:true,
+            //验证码长度，最小4位
+            codeCount:6,
+            //验证码宽度，最小200
+            width:220,
+            //验证码高度，最新80
+            height:80
+        }
     },
     page_main: {
         //右上角显示的用户名取值的key,从登录成功后的ueboot_login_info当中获取

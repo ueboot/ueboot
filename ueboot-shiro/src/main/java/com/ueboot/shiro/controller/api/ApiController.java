@@ -2,6 +2,7 @@ package com.ueboot.shiro.controller.api;
 
 
 import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import com.ueboot.core.exception.BusinessException;
 import com.ueboot.core.http.response.Response;
@@ -205,9 +206,23 @@ public class ApiController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0L);
         response.setContentType("image/jpeg");
+        String codeCountStr = request.getParameter("codeCount");
+        String widthStr = request.getParameter("width");
+        String heightStr = request.getParameter("height");
+        int codeCount = 4;
         int w = 200;
         int h = 80;
-        LineCaptcha captcha = CaptchaUtils.getLineCaptcha(w,h);
+        if(StrUtil.isNotBlank(codeCountStr)){
+            codeCount = Integer.parseInt(codeCountStr);
+        }
+        if(StrUtil.isNotBlank(widthStr)){
+            w = Integer.parseInt(widthStr);
+        }
+        if(StrUtil.isNotBlank(heightStr)){
+            h = Integer.parseInt(heightStr);
+        }
+
+        LineCaptcha captcha = CaptchaUtils.getLineCaptcha(w,h,codeCount);
         try {
             HttpSession session = request.getSession();
             session.setAttribute(CAPTCHA_KEY, captcha.getCode().toLowerCase());
@@ -216,15 +231,5 @@ public class ApiController {
             log.error(e.getMessage(),e);
             throw new BusinessException("验证码生成异常");
         }
-
     }
-
-    private void lockAccount(String userName) {
-        if (!StringUtils.isEmpty(userName)) {
-            User user = this.userService.findByUserName(userName);
-            user.setLocked(true);
-            this.userService.save(user);
-        }
-    }
-
 }

@@ -30,7 +30,6 @@ import javax.imageio.ImageIO;
 public class CaptchaUtils {
     public static final String VERIFY_CODES = "23456789ABCDEFGHKMNPQRSTUVWXYZ";
     private static Random random = new Random();
-    private static RandomGenerator randomGenerator = new RandomGenerator("123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ", 4);
 
     public CaptchaUtils() {
     }
@@ -43,9 +42,14 @@ public class CaptchaUtils {
      * 使用hutool工具类生成验证码
      * @param w 图片宽度
      * @param h 图片高度
+     * @param codeCount 字符长度
      * @return 生产好的验证码，可以从中获取到code和图片
      */
-    public static LineCaptcha getLineCaptcha(int w, int h){
+    public static LineCaptcha getLineCaptcha(int w, int h,int codeCount){
+        if(codeCount<4){
+            codeCount =4;
+        }
+        RandomGenerator randomGenerator = new RandomGenerator("123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ", codeCount);
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(w, h);
         lineCaptcha.setGenerator(randomGenerator);
         lineCaptcha.createCode();
