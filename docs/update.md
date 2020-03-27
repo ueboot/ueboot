@@ -17,9 +17,24 @@
            component: ueboot.PageShiroUser
          },
      ```
+- 2.1.3
+    - page_login.captcha增加 多个属性用于控制验证码样式和长度
+      ```javascript
+          captcha:{
+              //是否显示验证码，需要搭配后端的配置
+              show:true,
+              //验证码长度，最小4位
+              codeCount:6,
+              //验证码宽度，最小200
+              width:220,
+              //验证码高度，最新80
+              height:80
+          }
+      ```
 - 2.1.0
     - 升级iview到iview-design组件，版本变更为4.1.3
     - 调整Main.vue页面布局，解决样式错乱问题。直接使用iview布局
+    
 - 2.0.3 
     - 初始版本发布，升级iview等组件
 

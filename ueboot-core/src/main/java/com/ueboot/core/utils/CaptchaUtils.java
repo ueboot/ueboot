@@ -1,3 +1,4 @@
+
 package com.ueboot.core.utils;
 
 import cn.hutool.captcha.CaptchaUtil;
@@ -23,14 +24,12 @@ import javax.imageio.ImageIO;
 
 /**
  * 验证码生成工具
- *
  * @author yangkui
  */
 @Slf4j
 public class CaptchaUtils {
     public static final String VERIFY_CODES = "23456789ABCDEFGHKMNPQRSTUVWXYZ";
     private static Random random = new Random();
-    private static RandomGenerator randomGenerator = new RandomGenerator("123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ", 6);
 
     public CaptchaUtils() {
     }
@@ -41,12 +40,16 @@ public class CaptchaUtils {
 
     /**
      * 使用hutool工具类生成验证码
-     *
      * @param w 图片宽度
      * @param h 图片高度
+     * @param codeCount 字符长度
      * @return 生产好的验证码，可以从中获取到code和图片
      */
-    public static LineCaptcha getLineCaptcha(int w, int h) {
+    public static LineCaptcha getLineCaptcha(int w, int h,int codeCount){
+        if(codeCount<4){
+            codeCount =4;
+        }
+        RandomGenerator randomGenerator = new RandomGenerator("123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ", codeCount);
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(w, h);
         lineCaptcha.setGenerator(randomGenerator);
         lineCaptcha.createCode();
@@ -55,7 +58,7 @@ public class CaptchaUtils {
     }
 
     public static String generate(int length, String sources) {
-        if (sources == null || sources.length() == 0) {
+        if(sources == null || sources.length() == 0) {
             sources = "23456789ABCDEFGHKMNPQRSTUVWXYZ";
         }
 
@@ -63,7 +66,7 @@ public class CaptchaUtils {
         Random rand = new Random(System.currentTimeMillis());
         StringBuilder verifyCode = new StringBuilder(length);
 
-        for (int i = 0; i < length; ++i) {
+        for(int i = 0; i < length; ++i) {
             verifyCode.append(sources.charAt(rand.nextInt(codesLen - 1)));
         }
 
@@ -83,16 +86,16 @@ public class CaptchaUtils {
     }
 
     public static void outputImage(int w, int h, File outputFile, String code) throws IOException {
-        if (outputFile != null) {
+        if(outputFile != null) {
             File dir = outputFile.getParentFile();
-            if (!dir.exists()) {
+            if(!dir.exists()) {
                 dir.mkdirs();
             }
 
             try {
                 outputFile.createNewFile();
                 FileOutputStream fos = new FileOutputStream(outputFile);
-                outputImage(w, h, (OutputStream) fos, code);
+                outputImage(w, h, (OutputStream)fos, code);
                 fos.close();
             } catch (IOException var6) {
                 throw var6;
@@ -110,7 +113,7 @@ public class CaptchaUtils {
         Color[] colorSpaces = new Color[]{Color.WHITE, Color.CYAN, Color.GRAY, Color.LIGHT_GRAY, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.YELLOW};
         float[] fractions = new float[colors.length];
 
-        for (int i = 0; i < colors.length; ++i) {
+        for(int i = 0; i < colors.length; ++i) {
             colors[i] = colorSpaces[rand.nextInt(colorSpaces.length)];
             fractions[i] = rand.nextFloat();
         }
@@ -128,7 +131,7 @@ public class CaptchaUtils {
         int fontSize;
         int x;
         int y;
-        for (int i = 0; i < 20; ++i) {
+        for(int i = 0; i < 20; ++i) {
             area = random.nextInt(w - 1);
             fontSize = random.nextInt(h - 1);
             x = random.nextInt(6) + 1;
@@ -137,10 +140,10 @@ public class CaptchaUtils {
         }
 
         float yawpRate = 0.05F;
-        area = (int) (yawpRate * (float) w * (float) h);
+        area = (int)(yawpRate * (float)w * (float)h);
 
         int i;
-        for (fontSize = 0; fontSize < area; ++fontSize) {
+        for(fontSize = 0; fontSize < area; ++fontSize) {
             x = random.nextInt(w);
             y = random.nextInt(h);
             i = getRandomIntColor();
@@ -154,9 +157,9 @@ public class CaptchaUtils {
         g2.setFont(font);
         char[] chars = code.toCharArray();
 
-        for (i = 0; i < verifySize; ++i) {
+        for(i = 0; i < verifySize; ++i) {
             AffineTransform affine = new AffineTransform();
-            affine.setToRotation(0.7853981633974483D * rand.nextDouble() * (double) (rand.nextBoolean() ? 1 : -1), (double) (w / verifySize * i + fontSize / 2), (double) (h / 2));
+            affine.setToRotation(0.7853981633974483D * rand.nextDouble() * (double)(rand.nextBoolean()?1:-1), (double)(w / verifySize * i + fontSize / 2), (double)(h / 2));
             g2.setTransform(affine);
             g2.drawChars(chars, i, 1, (w - 10) / verifySize * i + 5, h / 2 + fontSize / 2 - 10);
         }
@@ -166,11 +169,11 @@ public class CaptchaUtils {
     }
 
     private static Color getRandColor(int fc, int bc) {
-        if (fc > 255) {
+        if(fc > 255) {
             fc = 255;
         }
 
-        if (bc > 255) {
+        if(bc > 255) {
             bc = 255;
         }
 
@@ -186,7 +189,7 @@ public class CaptchaUtils {
         int[] var2 = rgb;
         int var3 = rgb.length;
 
-        for (int var4 = 0; var4 < var3; ++var4) {
+        for(int var4 = 0; var4 < var3; ++var4) {
             int c = var2[var4];
             color <<= 8;
             color |= c;
@@ -198,7 +201,7 @@ public class CaptchaUtils {
     private static int[] getRandomRgb() {
         int[] rgb = new int[3];
 
-        for (int i = 0; i < 3; ++i) {
+        for(int i = 0; i < 3; ++i) {
             rgb[i] = random.nextInt(255);
         }
 
@@ -216,13 +219,13 @@ public class CaptchaUtils {
         int frames = 1;
         int phase = random.nextInt(2);
 
-        for (int i = 0; i < h1; ++i) {
-            double d = (double) (period >> 1) * Math.sin((double) i / (double) period + 6.283185307179586D * (double) phase / (double) frames);
-            g.copyArea(0, i, w1, 1, (int) d, 0);
-            if (borderGap) {
+        for(int i = 0; i < h1; ++i) {
+            double d = (double)(period >> 1) * Math.sin((double)i / (double)period + 6.283185307179586D * (double)phase / (double)frames);
+            g.copyArea(0, i, w1, 1, (int)d, 0);
+            if(borderGap) {
                 g.setColor(color);
-                g.drawLine((int) d, i, 0, i);
-                g.drawLine((int) d + w1, i, w1, i);
+                g.drawLine((int)d, i, 0, i);
+                g.drawLine((int)d + w1, i, w1, i);
             }
         }
 
@@ -234,24 +237,24 @@ public class CaptchaUtils {
         int frames = 20;
         int phase = 7;
 
-        for (int i = 0; i < w1; ++i) {
-            double d = (double) (period >> 1) * Math.sin((double) i / (double) period + 6.283185307179586D * (double) phase / (double) frames);
-            g.copyArea(i, 0, 1, h1, 0, (int) d);
-            if (borderGap) {
+        for(int i = 0; i < w1; ++i) {
+            double d = (double)(period >> 1) * Math.sin((double)i / (double)period + 6.283185307179586D * (double)phase / (double)frames);
+            g.copyArea(i, 0, 1, h1, 0, (int)d);
+            if(borderGap) {
                 g.setColor(color);
-                g.drawLine(i, (int) d, i, 0);
-                g.drawLine(i, (int) d + h1, i, h1);
+                g.drawLine(i, (int)d, i, 0);
+                g.drawLine(i, (int)d + h1, i, h1);
             }
         }
 
     }
 
     public static void main(String[] args) throws IOException {
-        File dir = new File("./");
+        File dir = new File("/Users/yangkui");
         int w = 200;
         int h = 80;
-        String verifyCode = generate(6);
+        String verifyCode = generate(4);
         File file = new File(dir, verifyCode + ".jpg");
-        outputImage(w, h, (File) file, verifyCode);
+        outputImage(w, h, (File)file, verifyCode);
     }
 }

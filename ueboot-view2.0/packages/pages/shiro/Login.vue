@@ -14,10 +14,10 @@
                         <Form ref="formCustom" :model="formCustom" class="login-container">
                             <i-input v-model="formCustom.username" placeholder="请输入登录账号"></i-input>
                             <i-input v-model="formCustom.password" type="password" placeholder="请输入密码"></i-input>
-                            <Row type="flex" justify="space-between"  v-if="config.page_login.showCaptcha">
+                            <Row type="flex" justify="space-between"  v-if="config.page_login.captcha.show">
                                 <i-col span="16">
                                     <i-input type="text" @on-enter="handleSubmit('formCustom')"
-                                             v-model="formCustom.captcha" :maxlength="4"
+                                             v-model="formCustom.captcha" :maxlength="config.page_login.captcha.codeCount"
                                              placeholder="请输入验证码"></i-input>
                                 </i-col>
                                 <i-col span="8">
@@ -59,10 +59,10 @@
                                     <i-input v-model="formCustom.username" placeholder="请输入登录账号"></i-input>
                                     <i-input v-model="formCustom.password" type="password"
                                              placeholder="请输入密码"></i-input>
-                                    <Row type="flex" justify="space-between" v-if="config.page_login.showCaptcha">
+                                    <Row type="flex" justify="space-between" v-if="config.page_login.captcha.show">
                                         <i-col span="16">
                                             <i-input type="text" @on-enter="handleSubmit('formCustom')"
-                                                     v-model="formCustom.captcha" :maxlength="4"
+                                                     v-model="formCustom.captcha" :maxlength="config.page_login.captcha.codeCount"
                                                      placeholder="请输入验证码"></i-input>
                                         </i-col>
                                         <i-col span="8">
@@ -114,37 +114,37 @@ export default {
         this.$Message.error({
           content: '账号不能为空',
           duration: 3
-        })
+        });
         return
       }
       if (this.formCustom.password === '') {
         this.$Message.error({
           content: '密码不能为空',
           duration: 3
-        })
+        });
         return
       }
-      if (this.config.page_login.showCaptcha && this.formCustom.captcha === '') {
+      if (this.config.page_login.captcha.show && this.formCustom.captcha === '') {
         this.$Message.error({
           content: '验证码不能为空',
           duration: 3
-        })
+        });
         return
       }
-      this.loading = true
+      this.loading = true;
       this.$axios.post(this.config.page_login.loginUrl, this.formCustom).then(response => {
-        this.$Message.success('登录成功')
+        this.$Message.success('登录成功');
         if (response.body) {
           window.sessionStorage.setItem('ueboot_login_info', JSON.stringify(response.body))
         }
-        this.loading = false
+        this.loading = false;
         if (util.isFunction(this.config.page_login.successCallBack)) {
           this.config.page_login.successCallBack(response.body, this)
         } else {
           this.$router.push(this.config.page_login.successRouter)
         }
       }, () => {
-        if(this.config.page_login.showCaptcha){
+        if(this.config.page_login.captcha.show){
           this.changeCaptchaUrl();
           this.formCustom.captcha = ''
         }
@@ -154,7 +154,17 @@ export default {
   },
   computed: {
     captchaUrl: function () {
-      return this.config.axios.baseURL + '/ueboot/shiro/public/captcha?time=' + this.now
+      let url = '?time=' + this.now;
+      if(this.config.page_login.captcha.codeCount>4){
+         url+="&codeCount="+this.config.page_login.captcha.codeCount;
+      }
+      if(this.config.page_login.captcha.width>200){
+        url+="&w="+this.config.page_login.captcha.width;
+      }
+      if(this.config.page_login.captcha.height>80){
+        url+="&h="+this.config.page_login.captcha.height;
+      }
+      return this.config.axios.baseURL + '/ueboot/shiro/public/captcha'+url
     }
   },
   created () {
