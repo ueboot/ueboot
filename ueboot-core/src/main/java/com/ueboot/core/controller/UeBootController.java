@@ -26,31 +26,30 @@ public class UeBootController {
      * 获取验证码
      *
      * @param sessionKey 保存到session当中的key,校验时需要使用
-     * @param width 验证码宽度
-     * @param height 验证码高度
-     * @param length  验证码长度
-     * @param request  request
-     * @param response response
+     * @param width      验证码宽度
+     * @param height     验证码高度
+     * @param length     验证码长度
+     * @param request    request
+     * @param response   response
      * @throws IOException IOException
      */
     @RequestMapping(value = "/public/captcha/{sessionKey}/{width}/{height}/{length}", method = RequestMethod.GET)
-    public void captcha(@PathVariable String sessionKey, @PathVariable(required = false)
-            int width,@PathVariable(required = false) int height, @PathVariable(required = false) int length, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void captcha(@PathVariable String sessionKey, @PathVariable(required = false) int width, @PathVariable(required = false) int height, @PathVariable(required = false) int length, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setHeader("Pragma", "No-cache");
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0L);
         response.setContentType("image/jpeg");
-        String captcha = CaptchaUtils.generate(length ==0 ?4:length);
+        String captcha = CaptchaUtils.generate(length == 0 ? 6 : length);
         HttpSession session = request.getSession(true);
         session.setAttribute(sessionKey, captcha.toLowerCase());
-        if(width>200){
+        if (width > 200) {
             width = 200;
         }
-        if(height>100){
-            height=100;
+        if (height > 100) {
+            height = 100;
         }
-        int w = width ==0?200:width;
-        int h = height==0?80:height;
+        int w = width == 0 ? 200 : width;
+        int h = height == 0 ? 80 : height;
         CaptchaUtils.outputImage(w, h, response.getOutputStream(), captcha);
     }
 }
