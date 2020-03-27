@@ -20,7 +20,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 
-@Table(name = "SYS_USER")
+@Table(name = "PROPERTY_SYS_USER")
 public class User extends AbstractVersionEntity<Long> {
     @Id
     @Column(name = "ID")

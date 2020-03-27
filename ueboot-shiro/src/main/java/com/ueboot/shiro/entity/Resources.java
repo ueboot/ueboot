@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "SYS_RESOURCES")
+@Table(name = "PROPERTY_SYS_RESOURCES")
 public class Resources extends AbstractVersionEntity<Long> {
 
     /**
