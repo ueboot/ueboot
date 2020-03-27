@@ -1,6 +1,6 @@
 {
   "name": "ueboot",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "ueboot是一个基于`spring boot2.x+ + vue2.x+iview4.x`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）",
   "author": "ueboot",
   "homepage": "http://www.ueboot.com",

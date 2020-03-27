@@ -25,7 +25,7 @@ let ueboot_config = {
             //是否显示验证码，需要搭配后端的配置
             show:true,
             //验证码长度，最小4位
-            codeCount:6,
+            codeCount:4,
             //验证码宽度，最小200
             width:220,
             //验证码高度，最新80
