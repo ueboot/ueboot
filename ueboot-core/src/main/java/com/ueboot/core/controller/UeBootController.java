@@ -39,7 +39,7 @@ public class UeBootController {
         response.setHeader("Cache-Control", "no-cache");
         response.setDateHeader("Expires", 0L);
         response.setContentType("image/jpeg");
-        String captcha = CaptchaUtils.generate(length == 0 ? 6 : length);
+        String captcha = CaptchaUtils.generate(6);
         HttpSession session = request.getSession(true);
         session.setAttribute(sessionKey, captcha.toLowerCase());
         if (width > 200) {
