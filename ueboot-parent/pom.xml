@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.3.RELEASE</version>
+        <version>2.2.6.RELEASE</version>
         <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -18,11 +18,11 @@
         <!--！！！ 这里定义的所有配置与框架代码本身需要的依赖配置无任何关系，框架所需要的依赖配置在最外面的pom.xml当中  ！！！-->
         <!--当前pom文件只用于发布后，基于该框架开发的第三方系统使用。直接继承该parent即可，无需配置ueboot所需要的组件 -->
         <!--每次发布ueboot模块时，如果新增了版本号，则需要修改这里的版本号-->
-        <ueboot.core.version>3.0.0-SNAPSHOT</ueboot.core.version>
+        <ueboot.core.version>3.0.1-SNAPSHOT</ueboot.core.version>
         <ueboot.generator.version>3.0.2</ueboot.generator.version>
-        <ueboot.shiro.version>3.0.0-SNAPSHOT</ueboot.shiro.version>
-        <ueboot.excel.version>3.0.0-SNAPSHOT</ueboot.excel.version>
-        <ueboot.file.version>3.0.0-SNAPSHOT</ueboot.file.version>
+        <ueboot.shiro.version>3.0.1-SNAPSHOT</ueboot.shiro.version>
+        <ueboot.excel.version>3.0.1-SNAPSHOT</ueboot.excel.version>
+        <ueboot.file.version>3.0.1-SNAPSHOT</ueboot.file.version>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.21</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
@@ -249,59 +249,6 @@
                 <repository>
                     <id>xq-releases</id>
                     <url>http://maven.xiqiao.io/content/repositories/ueboot-release</url>
-                </repository>
-            </distributionManagement>
-        </profile>
-        <!--部署到ccic maven私服-->
-        <profile>
-            <id>deploy-maven.ccic</id>
-            <build>
-                <plugins>
-                    <!--构建jar包时，同时构建源码和java-doc文件-->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>2.2.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.9.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                                <configuration>
-                                    <additionalparam>-Xdoclint:none</additionalparam>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-
-            <!--配置将jar包上传到maven中央仓库的地址
-                用户名/密码：deptdev2/deptdev2
-            -->
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>ccic-snapshot</id>
-                    <url>http://10.1.13.7:27897/nexus/repository/Snapshots-Dev2/</url>
-                </snapshotRepository>
-                <repository>
-                    <id>ccic-releases</id>
-                    <url> http://10.1.13.7:27897/nexus/repository/Releases-Dev2/</url>
                 </repository>
             </distributionManagement>
         </profile>
