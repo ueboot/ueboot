@@ -52,6 +52,30 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
+            <exclusions>
+                <!--排除有冲突的版本-->
+                <exclusion>
+                    <groupId>org.springframework.plugin</groupId>
+                    <artifactId>spring-plugin-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework.plugin</groupId>
+                    <artifactId>spring-plugin-metadata</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--引入2.0版本防止出现：Correct the classpath of your application so that it contains a single,
+           compatible version of org.springframework.plugin.core.PluginRegistry 异常
+       -->
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>2.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-metadata</artifactId>
+            <version>2.0.0.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>

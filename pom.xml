@@ -52,7 +52,7 @@
         <apache.poi.version>3.14</apache.poi.version>
        <shiro.version>1.5.1</shiro.version>
         <jackson.version>2.9.8</jackson.version>
-        <hutool.version>5.2.4</hutool.version>
+        <hutool.version>5.2.5</hutool.version>
         <jackson.databind.version>2.10.3</jackson.databind.version>
     </properties>
 
