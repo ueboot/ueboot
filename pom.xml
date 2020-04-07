@@ -321,6 +321,58 @@
                 </repository>
             </distributionManagement>
         </profile>
+
+        <!--部署到maven.xiqiao.io-->
+        <profile>
+            <id>release-xiqiao</id>
+            <build>
+                <plugins>
+                    <!--构建jar包时，同时构建源码和java-doc文件-->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.2.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.9.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <additionalparam>-Xdoclint:none</additionalparam>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <!--配置将jar包上传到maven中央仓库的地址-->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>xq-snapshot</id>
+                    <url>http://maven.xiqiao.io/content/repositories/ueboot-snapshot</url>
+                </snapshotRepository>
+                <repository>
+                    <id>xq-releases</id>
+                    <url>http://maven.xiqiao.io/content/repositories/ueboot-release</url>
+                </repository>
+            </distributionManagement>
+        </profile>
     </profiles>
 
     <repositories>
