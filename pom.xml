@@ -51,7 +51,7 @@
         <fastjson.version>1.2.68</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
        <shiro.version>1.5.1</shiro.version>
-        <jackson.version>2.9.8</jackson.version>
+        <jackson.version>2.10.3</jackson.version>
         <hutool.version>5.2.5</hutool.version>
         <jackson.databind.version>2.10.3</jackson.databind.version>
     </properties>
@@ -224,21 +224,31 @@
                 <version>2.1.0</version>
             </dependency>
             <!--swagger接口-->
+            <!--引入3.0.0版本防止出现：Correct the classpath of your application so that it contains a single,
+            compatible version of org.springframework.plugin.core.PluginRegistry 异常
+        -->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
-                <version>2.9.2</version>
+                <version>3.0.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
-                <version>2.9.2</version>
+                <version>3.0.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-data-rest</artifactId>
+                <version>3.0.0-SNAPSHOT</version>
+            </dependency>
+
             <dependency>
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
     <profiles>
@@ -383,6 +393,14 @@
             <releases>
                 <enabled>true</enabled>
             </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jcenter-snapshots</id>
+            <name>jcenter</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
