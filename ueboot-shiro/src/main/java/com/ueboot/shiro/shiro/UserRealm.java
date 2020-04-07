@@ -84,4 +84,12 @@ public class UserRealm extends AuthorizingRealm {
 
     }
 
+    /**
+     * 是否开启缓存
+     * @return
+     */
+    @Override
+    public boolean isAuthorizationCachingEnabled() {
+        return shiroService.isAuthorizationCachingEnabled();
+    }
 }

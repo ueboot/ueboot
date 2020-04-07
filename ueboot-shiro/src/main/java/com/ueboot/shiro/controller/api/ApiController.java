@@ -14,6 +14,7 @@ import com.ueboot.shiro.service.user.UserService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
 import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.UserRealm;
+import com.ueboot.shiro.shiro.cache.RedisCache;
 import com.ueboot.shiro.shiro.handler.ShiroExceptionHandler;
 import com.ueboot.shiro.shiro.processor.ShiroProcessor;
 import com.ueboot.shiro.util.PasswordUtil;
@@ -22,13 +23,17 @@ import io.swagger.annotations.ApiOperation;
 import jodd.datetime.JDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.cache.Cache;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,7 +92,6 @@ public class ApiController {
             throw new BusinessException("验证码不正确!");
         }
         String loginMessage="";
-        String sessionId = session.getId();
         shiroEventListener.beforeLogin(params.getUsername(), params.getCaptcha());
         ShiroExceptionHandler.set(params.getUsername());
         this.shiroProcessor.login(params.getUsername(), params.getPassword());
