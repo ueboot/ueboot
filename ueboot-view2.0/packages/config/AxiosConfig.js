@@ -26,6 +26,7 @@ export default class AxiosConfig {
             if ( conf && conf.baseURL ) {
                 config.baseURL = conf.baseURL;
             }
+            config.credentials ='include';
             return config;
         }, function (error) {
             iView.LoadingBar.error();

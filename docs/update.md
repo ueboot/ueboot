@@ -1,6 +1,9 @@
 ## ueboot-parent更新记录
-- 3.0.1 
+- 3.1.0 
     - 更新spring boot版本到2.2.6
+    - 更新了依赖组件的版本到最新可用版本
+    - 升级时swagger组件需要调整，避免版本冲突
+    - 升级后repository当中的findById方法需要去除。
 ## ueboot-view 2.0版本更新记录
 - 该版本采用最新的vue-cli构建，同时升级了iview等主要组件的版本。1.7.x版本可以无缝升级到此版本
 - 修改内容：
