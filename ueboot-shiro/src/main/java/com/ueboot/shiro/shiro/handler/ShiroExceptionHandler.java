@@ -89,7 +89,7 @@ public class ShiroExceptionHandler {
     }
 
     @ExceptionHandler(AuthenticationException.class)
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
     public Response<Void> handleException(AuthenticationException e) {
         log.error(e.getMessage());
