@@ -37,12 +37,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        <!--迁移期间用于自动识别1.5到2.0之间的配置差异-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-properties-migrator</artifactId>
-            <scope>runtime</scope>
-        </dependency>
         <!--配置文件加密，解决数据库配置有密码的问题-->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
