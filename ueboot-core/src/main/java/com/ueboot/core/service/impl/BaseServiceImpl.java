@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -50,14 +51,14 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     @Transactional(rollbackFor = Exception.class, timeout = 30, propagation = Propagation.REQUIRED)
     public void delete(Long[] ids) {
         for (Long id : ids) {
-            getBaseRepository().delete(id);
+            getBaseRepository().deleteById(id);
         }
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class, timeout = 30, propagation = Propagation.REQUIRED)
     public void delete(Long id) {
-        getBaseRepository().delete(id);
+        getBaseRepository().deleteById(id);
     }
 
     @Override
@@ -66,5 +67,5 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
         getBaseRepository().delete(object);
     }
 
-    protected abstract BaseRepository getBaseRepository();
+    protected abstract BaseRepository  getBaseRepository();
 }
