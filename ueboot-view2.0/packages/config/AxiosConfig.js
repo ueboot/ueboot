@@ -57,7 +57,7 @@ export default class AxiosConfig {
                 let msg = error.response.data.message;
                 //默认提示页面配置的话术
                 if(error.response.status === 401){
-                    msg = conf.axios.notLoginMsg|| error.response.data.message
+                    msg = conf.notLoginMsg|| error.response.data.message
                 }
                 toLogin(conf,msg);
                 return Promise.reject(error.response.data);
