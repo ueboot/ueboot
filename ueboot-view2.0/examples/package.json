@@ -1,30 +1,9 @@
 {
   "name": "ueboot-examples",
   "version": "2.1.7",
-  "description": "ueboot是一个基于`spring boot2.x+ + vue2.x+iview4.x`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）",
-  "author": "ueboot",
-  "homepage": "http://www.ueboot.com",
-  "keywords": [
-    "iview",
-    "vue",
-    "vue.js",
-    "component",
-    "components",
-    "ui",
-    "framework",
-    "ueboot"
-  ],
-  "main": "lib/ueboot.common.js",
-  "files": [
-    "lib",
-    "packages"
-  ],
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "lib": "vue-cli-service build --target lib --name ueboot --dest lib packages/index.js",
-    "publish": "npm run lib && npm publish"
+    "build": "vue-cli-service build"
   },
   "repository": {
     "type": "git",
