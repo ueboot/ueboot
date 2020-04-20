@@ -98,7 +98,7 @@ export default {
   },
   watch: {
     // 监听原始数据，发生变化后重新初始化值，并重新渲染树结构
-    tree: function (newValue, oldValue) {
+    tree: function (newValue) {
       if (this.async) {
         // 异步加载时，数据通过异步方法获取
         this.treeData = []
@@ -242,7 +242,7 @@ export default {
       this.$emit('input', oriItem.id)
       this.$emit('item-click', oriNode, oriItem, e)
     },
-    handleSingleSelectItems (oriNode, oriItem) {
+    handleSingleSelectItems (oriNode) {
       this.handleRecursionNodeChilds(this, node => {
         if (node.model) {
           node.model.selected = false
@@ -251,7 +251,7 @@ export default {
       })
       oriNode.model.selected = true
     },
-    handleBatchSelectItems (oriNode, oriItem) {
+    handleBatchSelectItems (oriNode) {
       this.handleRecursionNodeChilds(oriNode, node => {
         if (node.model.disabled) return
         node.model.selected = oriNode.model.selected
@@ -264,7 +264,7 @@ export default {
       }
       this.$emit('item-toggle', oriNode, oriItem, e)
     },
-    handleAsyncLoad (oriParent, oriNode, oriItem) {
+    handleAsyncLoad (oriParent, oriNode) {
       let self = this
       if (this.async) {
         this.asyncFun(oriNode, (data) => {

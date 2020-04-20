@@ -279,7 +279,7 @@ export default {
         client.send(fmData)
       }).then(
         // 上传成功
-        function (resData) {
+        function () {
           that.files = ''
           that.loading = 0
           that.$Notice.success({

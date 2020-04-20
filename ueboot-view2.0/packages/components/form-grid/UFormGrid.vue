@@ -1359,14 +1359,14 @@ export default {
 
           Log.d('要删除的数据:%o', params)
           this.formGrid.toolbar.delete.loading = true
-          this.$axios.post(this.formGrid.options.url.delete, data, params).then(response => {
+          this.$axios.post(this.formGrid.options.url.delete, data, params).then(() => {
             this.formGrid.toolbar.delete.loading = false
             this.$Notice.success({
               title: '删除成功',
               desc: ''
             })
             this.pageData()
-          }).catch(response => {
+          }).catch(() => {
             this.formGrid.toolbar.delete.loading = false
             this.$forceUpdate()
             return false
@@ -1378,7 +1378,7 @@ export default {
       })
     },
     // 选中某一项触发，返回值为 selection 和 row，分别为已选项和刚选择的项。
-    onSelect (selection) {
+    onSelect () {
 
     },
     // 只要选中项发生变化时就会触发，返回值为 selection，已选项。
@@ -1387,7 +1387,7 @@ export default {
       Log.d('####onSelectionChange,%o', selection)
     },
     // 点击全选时触发，返回值为 selection，已选项。
-    onSelectAll (selection) {
+    onSelectAll () {
 
     },
     // 按钮点击事件
@@ -1397,17 +1397,11 @@ export default {
       }
     },
     // 级联框格式化
-    cascaderFormat (labels, selectedData) {
+    cascaderFormat (labels) {
       Log.d('###cascaderFormat,%o', labels)
       return labels.length > 0 ? labels.join('/') : ''
     },
-    ccOnChange (value, selectedData) {
-    },
-    // TODO 返回用户选中的行数据给到按钮操作当中。
-    // table当中点击查看按钮事件
-    tableViewClick (params) {
-    },
-    // 渲染表格自定义列样式
+       // 渲染表格自定义列样式
     renderColumn () {
       this.formGrid.table.columns.forEach((c) => {
         if (c.renderType && !util.isFunction(c.render)) {
@@ -1536,7 +1530,7 @@ export default {
         }
 
         let array = []
-        this.formGrid.table.operation.buttons.forEach((b, index) => {
+        this.formGrid.table.operation.buttons.forEach((b) => {
           if (b.show) {
             array.push(create(h, params, b.theme, b.label, b.click, b.ghost))
           }
@@ -1591,14 +1585,14 @@ export default {
       }
     },
     // 操作查看按钮
-    optViewClick (row, index) {
+    optViewClick (row) {
       this.$set(this.formGrid.form, 'data', {})
       this.setFormColumns('view')
       this.formGrid.form.isView = true
       this.getFormData(row, 'view')
     },
     // 操作编辑按钮
-    optEditClick (row, index) {
+    optEditClick (row) {
       this.setFormColumns('edit')
       this.formGrid.form.isEdit = true
       this.getFormData(row, 'edit')
@@ -1627,7 +1621,7 @@ export default {
       }
     },
     // 操作删除按钮
-    optDeleteClick (row, index) {
+    optDeleteClick (row) {
       this.$Modal.confirm({
         title: '删除数据',
         content: '<span style="color:red">确定删除该记录吗？</span>',
@@ -1649,7 +1643,7 @@ export default {
           params['params'][key] = keys.toString()
 
           Log.d('delete params :%o', params)
-          this.$axios.post(this.formGrid.options.url.delete, data, params).then(response => {
+          this.$axios.post(this.formGrid.options.url.delete, data, params).then(() => {
             this.pageData()
           }).catch(response => {
             this.noticeError('数据删除失败', response.message ? response.message : '系统或网络异常')
@@ -1732,7 +1726,7 @@ export default {
         this.setExportButtonStatus(false, false)
         this.defaultExport(columns, body)
         this.$forceUpdate()
-      }).catch(response => {
+      }).catch(() => {
         this.setExportButtonStatus(false, false)
         this.$set(this.formGrid.table, 'data', [])
         this.noticeError('数据查询出现异常', '系统服务或网络异常')

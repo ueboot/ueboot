@@ -106,7 +106,7 @@ export default {
       this.model = newValue
     },
     'model.opened': {
-      handler: function (val, oldVal) {
+      handler: function () {
         this.onItemToggle(this, this.model)
         this.handleGroupMaxHeight()
       },
@@ -180,7 +180,7 @@ export default {
 
   },
   methods: {
-    handleItemToggle (e) {
+    handleItemToggle () {
       if (this.isFolder) {
         this.$nextTick(() => {
           this.model.opened = !this.model.opened

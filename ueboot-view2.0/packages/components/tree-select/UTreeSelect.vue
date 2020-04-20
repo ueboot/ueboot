@@ -121,16 +121,16 @@ export default {
 
   // 监听父节点的值发生变化后，动态修改内部的数据
   watch: {
-    value: function (newValue, oldValue) {
+    value: function (newValue) {
       this.selectId = parseInt(newValue)
       this.inputValue = this.treeMap[newValue] ? this.treeMap[newValue].name : ''
     },
-    tree: function (newValue, oldValue) {
+    tree: function (newValue) {
       this.treeData = newValue
       // tree的数据发生变化时需要重新初始化搜索树数据
       this.initTreeMap(this.treeData, this.value)
     },
-    inputValue: function (newValue, oldValue) {
+    inputValue: function (newValue) {
       // 如果没有选择任何内容，则树结构恢复原始状态
       if (newValue === '' || newValue === null) {
         this.$nextTick(() => {
@@ -194,7 +194,7 @@ export default {
         }
       })
     },
-    inputOnSearch (event) {
+    inputOnSearch () {
       if (this.inputValue !== '' && this.inputValue !== null) {
         this.treeData = this.searchTree(this.searchTreeData, this.inputValue)
         this.isSearchTree = true
