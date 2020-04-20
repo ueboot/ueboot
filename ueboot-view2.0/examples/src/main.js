@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router'
-import ueboot from '../packages/index'
-import 'babel-polyfill'
+import ueboot from '../../src/index'
 import ViewUI from 'view-design';
 Vue.use(ViewUI);
 // import style

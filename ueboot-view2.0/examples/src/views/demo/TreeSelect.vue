@@ -28,7 +28,7 @@
 
 <script type='application/javascript'>
 
-import UTreeSelect from '../../../packages/components/tree-select/UTreeSelect'
+import UTreeSelect from '../../../../src/components/tree-select/UTreeSelect'
 import ColorPicker from './ColorPicker'
 export default {
   components: { UTreeSelect, ColorPicker },

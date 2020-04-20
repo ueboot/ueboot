@@ -14,7 +14,7 @@ import Areas from '../views/setting/Areas.vue'
 import Activities from '../views/activity/Activities.vue'
 import SecKillActivity from '../views/activity/SecKillActivity.vue'
 import TreeSelect from '../views/demo/TreeSelect'
-import ueboot from '../../packages/index'
+import ueboot from '../../../src/index'
 
 Vue.use(Router)
 
