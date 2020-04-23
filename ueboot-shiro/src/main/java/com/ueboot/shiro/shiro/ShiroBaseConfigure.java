@@ -41,8 +41,7 @@ import java.util.Map;
 @Configuration
 @Slf4j
 public class ShiroBaseConfigure {
-    //shiro存放用户信息到缓存当中的key值，默认格式为：ueboot-shiro:username
-    public static final String CACHE_REDIS_KEY="ueboot-shiro";
+
     /**
      * 当shiroService对应的bean不存在存在时，会使用默认数据
      *
@@ -93,6 +92,7 @@ public class ShiroBaseConfigure {
 
 
     @Bean
+    @Conditional(RedisEnableCondition.class)
     public CacheManager getCacheManager(RedisTemplate<Object, Object> redisTemplate) {
         return new ShiroRedisCacheManger(RedisCache.keyNamespace, redisTemplate);
     }

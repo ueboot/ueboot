@@ -21,7 +21,7 @@ public interface ShiroService {
      {@code
       Map<String, String> map = new HashMap<>(10);
       //配置指定路径是否需要登录、或不需要登录,示例
-     
+
       //所有/public开头的路径都不需要登录即可访问
       map.put("/public/", "anon");
       //所有路径需要授权才可以访问，和上面的配置作为互补。
@@ -74,5 +74,13 @@ public interface ShiroService {
      * @return 过期月份数
      */
     int getPasswordExpiredMonth();
+
+    /**
+     * 是否开启shiro缓存，默认是开启状态。如果关闭，则每次登录后都会重新调用getRolePermission获取登录用户的权限
+     * @return
+     */
+    default boolean isAuthorizationCachingEnabled(){
+        return false;
+    }
 
 }
