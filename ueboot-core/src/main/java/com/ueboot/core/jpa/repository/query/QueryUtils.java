@@ -57,7 +57,7 @@ public class QueryUtils {
         Assert.notNull(queryString);
         queryString = removeFetch(queryString);
         queryString = removeOrderBy(queryString);
-        int beginPos = queryString.toLowerCase().indexOf("from");
+        int beginPos = queryString.toLowerCase().indexOf(" from ");
         Assert.isTrue(beginPos != -1, " the jpql : " + queryString + " must has a keyword 'from'");
         return queryString.substring(beginPos);
     }
