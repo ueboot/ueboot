@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "T_SYS_PERMISSION")
+@Table(name = "SYS_PERMISSION")
 public class Permission extends AbstractVersionEntity<Long> {
 
     @Id

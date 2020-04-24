@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "T_SYS_ROLE")
+@Table(name = "SYS_ROLE")
 public class Role extends AbstractVersionEntity<Long> {
 
     @Id
