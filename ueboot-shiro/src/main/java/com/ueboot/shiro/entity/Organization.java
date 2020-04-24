@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "SYS_ORGANIZATION")
+@Table(name = "T_SYS_ORGANIZATION")
 public class Organization extends AbstractVersionEntity<Long> {
 
 
