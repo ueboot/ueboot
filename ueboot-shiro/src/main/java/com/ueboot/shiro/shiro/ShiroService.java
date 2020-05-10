@@ -80,7 +80,7 @@ public interface ShiroService {
      * @return
      */
     default boolean isAuthorizationCachingEnabled(){
-        return false;
+        return true;
     }
 
 }
