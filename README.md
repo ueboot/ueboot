@@ -2,38 +2,32 @@
 
 http://www.ueboot.com
 
-当前使用springboot版本为2.x
+当前使用springboot版本为2.2.6 + vue2.6.x + iview4.0.x
 
 # 脚手架工程
- https://github.com/ueboot/ueboot-starter
-   当前项目为框架核心代码，无法直接运行使用，可以基于脚手架做二次开发。脚手架工程提供了最基础的代码架构，只需要要导入初始数据库即可。
+当前项目为框架核心代码，无法直接运行使用(ueboot-shiro可以本地运行测试)，可以基于脚手架做二次开发。脚手架工程提供了最基础的代码架构，只需要要导入初始数据库即可。
+ 脚手架工程地址:` https://github.com/ueboot/ueboot-starter`
+   
 ## 1. 概要介绍
-  - ueboot是一个基于`spring boot2 + vue2.0+iview3.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
+  - ueboot是一个基于`spring boot2 + vue2.0+iview4.0`的基础开发平台，通过这个平台可以快速完成某些CRUD功能的系统（从前端到后端快速实现）
   - 基于iViewUI提供了一套CRUD快速开发UI组件,只需要配置json即可完成单表的CRUD功能，配合后端Java能在1分钟内完成开发。
   - 平台默认提供了安全防范，防止XSS攻击、SQL注入等。
   - 提供代码生成器，生成页面和Java代码，避免纯粹重再复劳动，生成的代码完全可以自主二次修改。
   - 提供最佳实践的开发约定（Maven模块管理、前后端接口、异常、日志、权限等），便于小组协同开发。
   - 基于平台进行二次开发，完全不受平台功能限制，平台提供的功能仅仅帮助大家做了一些开发约定和最佳实践，基于这些约定和最佳实践，让开发提高开发效率，并且保持规范一致性，本质上仅仅是一个基础的开发框架，和自己从零开始搭建的开发框架没任何区别。
-
- 
-## 2. 包含的功能
-
-
+## 2. 模块介绍
 | 序号 | 组件名称 | 版本号 |说明 |
 | ------ | ------ | ------ |------ |
-1 | ueboot-core | 3.0.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
-2 | ueboot-shiro|3.0.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
-3 | ueboot-parent|3.0.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
-4 | ueboot-generator|3.0.0-SNAPSHOT|代码生成器，通可以快速生成前后端代码
-5 | ueboot-ui|1.5.23|前端UI组件，提供了一套快速开发的CRUD、Tree、权限配置界面等组件
-6 | ueboot-excel|xxx|（开发中）excel相关功能
-7 | ueboot-weixin|xxx|（开发中）微信相关功能
-
+1 | ueboot-core | 3.1.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
+2 | ueboot-shiro| 3.1.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
+3 | ueboot-parent| 3.1.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
+4 | ueboot-generator| 3.1.0-SNAPSHOT|代码生成器，通可以快速生成前后端代码
+5 | ueboot-ui|2.1.8 |前端UI组件，提供了一套快速开发的CRUD、Tree、权限配置界面等组件
+6 | ueboot-cryption|3.1.0-SNAPSHOT |后端加密组件，用于加解密请求参数使用，需要搭配前台加密组件
 
 
 ### 2.1 ueboot-core
     ueboot核心功能，包含了基于spring boot所需要的基础的bean定义以及自定义的一套jpa查询组件。
-
 - 对所有请求和返回的json内容提供日志打印
 
 - 对所有请求内容进行xss拦截\sql注入
@@ -68,7 +62,7 @@ http://www.ueboot.com
  <parent>
         <groupId>com.ueboot</groupId>
         <artifactId>ueboot-parent</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version> 3.1.0-SNAPSHOT</version>
         <relativePath/> 
     </parent>
 ```
@@ -127,7 +121,7 @@ http://www.ueboot.com
 ## 4.pom修改版本号
 ```bash
    -- 在项目根目录下直接执行如下命令
-    mvn versions:set -DnewVersion=3.0.0-SNAPSHOT
+    mvn versions:set -DnewVersion= 3.1.0-SNAPSHOT
     -- 手工修改ueboot-parent目录下的pom.xml当中涉及到ueboot的版本号
 
 ```
