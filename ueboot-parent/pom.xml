@@ -37,6 +37,7 @@
         <jackson.version>2.9.9</jackson.version>
         <jackson.databind.version>2.9.10.4</jackson.databind.version>
         <ojdbc.version>11.2.0.3</ojdbc.version>
+        <spring.plugin.core>2.0.0.RELEASE</spring.plugin.core>
     </properties>
 
     <!--声明依赖，当前项目所需要的依赖jar包和对应的版本。在使用时，直接继承改配置文件即可，无需关心ueboot所需要依赖那些jar包-->
@@ -109,6 +110,16 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-core</artifactId>
+            <version>${spring.plugin.core}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.plugin</groupId>
+            <artifactId>spring-plugin-metadata</artifactId>
+            <version>${spring.plugin.core}</version>
         </dependency>
     </dependencies>
     <!--deploy到maven仓库时，当前模块需要单独定义Deploy到指定仓库,无法在外部的root pom当中直接deploy到maven仓库-->
