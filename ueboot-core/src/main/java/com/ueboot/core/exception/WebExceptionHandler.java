@@ -87,10 +87,12 @@ public class WebExceptionHandler {
     }
 
 
+
     @ExceptionHandler({BusinessException.class})
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public Response<Void> handleBusinessException(BusinessException e) {
+        log.error("业务异常:{}",e.getMessage());
         return new Response<>(e.getCode() == null ? HttpStatus.INTERNAL_SERVER_ERROR.value() + "" : e.getCode(), e.getMessage(), null);
     }
 
@@ -99,9 +101,9 @@ public class WebExceptionHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ResponseBody
     public Response<Void> handleIllegalArgumentExceptions(final Exception e, final WebRequest req) {
+        log.error("请求参数异常:{}",e.getMessage(),e);
         return new Response<>(HttpStatus.BAD_REQUEST.value() + "", e.getMessage(), null);
     }
-
 
     /**
      * 全局处理Exception
