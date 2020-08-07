@@ -19,7 +19,7 @@
         <!--当前pom文件只用于发布后，基于该框架开发的第三方系统使用。直接继承该parent即可，无需配置ueboot所需要的组件 -->
         <!--每次发布ueboot模块时，如果新增了版本号，则需要修改这里的版本号-->
         <ueboot.core.version>3.1.0-SNAPSHOT</ueboot.core.version>
-        <ueboot.generator.version>3.1.0-SNAPSHOT</ueboot.generator.version>
+        <ueboot.generator.version>3.1.0</ueboot.generator.version>
         <ueboot.shiro.version>3.1.0-SNAPSHOT</ueboot.shiro.version>
         <ueboot.excel.version>3.1.0-SNAPSHOT</ueboot.excel.version>
         <ueboot.file.version>3.1.0-SNAPSHOT</ueboot.file.version>
