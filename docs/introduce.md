@@ -13,10 +13,10 @@
 
 | 序号 | 组件名称 | 版本号 |说明 |
 | ------ | ------ | ------ |------ |
-1 | ueboot-core | 3.0.0|java核心模块，含安全拦截、统一异常、数据库查询等
-2 | ueboot-shiro|3.0.0|权限管理模块，包含了整个权限功能后端代码和前端页面
-3 | ueboot-parent|3.0.0|pom.xml文件，开发项目继承此文件即可使用所有组件功能
-4 | ueboot-generator|3.0.2|代码生成器，通可以快速生成前后端代码
+1 | ueboot-core | 3.2.0-SNAPSHOT|java核心模块，含安全拦截、统一异常、数据库查询等
+2 | ueboot-shiro|3.2.0-SNAPSHOT|权限管理模块，包含了整个权限功能后端代码和前端页面
+3 | ueboot-parent|3.2.0-SNAPSHOT|pom.xml文件，开发项目继承此文件即可使用所有组件功能
+4 | ueboot-generator|3.1.0|代码生成器，通可以快速生成前后端代码
 5 | ueboot-ui|2.1.4|前端UI组件，提供了一套快速开发的CRUD、Tree、权限配置界面等组件
 
 

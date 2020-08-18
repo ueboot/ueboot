@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -43,14 +44,15 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
     public final static Charset UTF8 = Charset.forName("UTF-8");
 
     private Charset charset = UTF8;
-    private HttpRequestValidatorService httpRequestValidatorService;
+    private List<HttpRequestValidatorService> httpRequestValidatorServices;
+
     private Validator validator;
 
     private SerializerFeature[] features =new SerializerFeature[]{SerializerFeature.DisableCircularReferenceDetect};
 
-    public Log4jFastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService) {
+    public Log4jFastJsonHttpMessageConverter( List<HttpRequestValidatorService> httpRequestValidatorServices) {
         super(new MediaType("application", "json", UTF8), new MediaType("application", "*+json", UTF8));
-        this.httpRequestValidatorService = httpRequestValidatorService;
+        this.httpRequestValidatorServices = httpRequestValidatorServices;
     }
 
     @Override
@@ -120,23 +122,25 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         Object reqBody = JSON.parseObject(bytes, 0, bytes.length, charset.newDecoder(), clazz);
 
         Set<ConstraintViolation<Object>> validRetval = this.getValidator().validate(reqBody);
+        final String validateJsonStr = jsonStr;
         //自定义处理校验结论
-        if(!httpRequestValidatorService.doValidatorMsg(validRetval)){
-            StringBuilder sb = new StringBuilder();
-            // 校验失败
-            if (!validRetval.isEmpty()) {
-                for (ConstraintViolation<Object> t : validRetval) {
-                    sb.append(t.getPropertyPath()).append(t.getMessage()).append(",");
+        this.httpRequestValidatorServices.forEach((service)->{
+            if(!service.doValidatorMsg(validRetval)){
+                StringBuilder sb = new StringBuilder();
+                // 校验失败
+                if (!validRetval.isEmpty()) {
+                    for (ConstraintViolation<Object> t : validRetval) {
+                        sb.append(t.getPropertyPath()).append(t.getMessage()).append(",");
+                    }
+                }
+                String checkError = sb.toString();
+                if (!isEmpty(checkError)) {
+                    checkError = "请求参数格式校验不通过：" + checkError;
+                    throw new BusinessException(checkError);
                 }
             }
-            String checkError = sb.toString();
-            if (!isEmpty(checkError)) {
-                checkError = "请求参数格式校验不通过：" + checkError;
-                throw new BusinessException(checkError);
-            }
-        }
-        httpRequestValidatorService.validator(jsonStr,clazz);
-
+            service.validator(validateJsonStr,clazz);
+        });
         return reqBody;
     }
 

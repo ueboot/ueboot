@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+import java.util.List;
+
 /**
  * 描述:应用基础配置
  * 支持模型类的审计注解
@@ -25,7 +27,7 @@ public class ApplicationConfigure{
 
     @Bean
     @ConditionalOnMissingBean(name = "fastJsonHttpMessageConverter")
-    public Log4jFastJsonHttpMessageConverter fastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService) {
-        return new Log4jFastJsonHttpMessageConverter(httpRequestValidatorService);
+    public Log4jFastJsonHttpMessageConverter fastJsonHttpMessageConverter( List<HttpRequestValidatorService> httpRequestValidatorServices) {
+        return new Log4jFastJsonHttpMessageConverter(httpRequestValidatorServices);
     }
 }

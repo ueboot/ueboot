@@ -66,3 +66,10 @@ jasypt:
   encryptor:
     # 加密用到的秘钥
     password: ueboot
+# 是否开启dataway
+HASOR_DATAQL_DATAWAY: true
+# 是否开启interface-ui界面
+HASOR_DATAQL_DATAWAY_ADMIN: true
+#必须设置方言为mysql，分页查询用到
+HASOR_DATAQL_FX_PAGE_DIALECT: mysql
+

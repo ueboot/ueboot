@@ -5,7 +5,7 @@
 
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-framework</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>ueboot-framework</name>
     <modules>
@@ -43,17 +43,18 @@
     </developers>
     <properties>
         <!--每次发布当前模块时，需要修改这里的版本号-->
-        <ueboot.core.version>3.1.0-SNAPSHOT</ueboot.core.version>
-        <ueboot.generator.version>3.1.0-SNAPSHOT</ueboot.generator.version>
-        <ueboot.shiro.version>3.1.0-SNAPSHOT</ueboot.shiro.version>
-        <ueboot.excel.version>3.1.0-SNAPSHOT</ueboot.excel.version>
+        <ueboot.core.version>3.2.0-SNAPSHOT</ueboot.core.version>
+        <ueboot.generator.version>3.1.0</ueboot.generator.version>
+        <ueboot.shiro.version>3.2.0-SNAPSHOT</ueboot.shiro.version>
+        <ueboot.excel.version>3.2.0-SNAPSHOT</ueboot.excel.version>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.73</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
         <shiro.version>1.5.1</shiro.version>
         <jackson.version>2.11.0</jackson.version>
-        <hutool.version>5.2.5</hutool.version>
+        <hutool.version>5.4.0</hutool.version>
         <jackson.databind.version>2.11.0</jackson.databind.version>
+        <hasor.version>4.1.13</hasor.version>
     </properties>
 
     <dependencyManagement>
@@ -258,7 +259,29 @@
                 <artifactId>spring-plugin-metadata</artifactId>
                 <version>2.0.0.RELEASE</version>
             </dependency>
+            <!--DataQL 依赖-->
+            <dependency>
+                <groupId>net.hasor</groupId>
+                <artifactId>hasor-spring</artifactId>
+                <version>${hasor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.hasor</groupId>
+                <artifactId>hasor-core</artifactId>
+                <version>${hasor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.hasor</groupId>
+                <artifactId>hasor-dataway</artifactId>
+                <version>${hasor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.hasor</groupId>
+                <artifactId>hasor-db</artifactId>
+                <version>${hasor.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
     <profiles>
         <!--配置将jar包上传到maven中央仓库的地址-->

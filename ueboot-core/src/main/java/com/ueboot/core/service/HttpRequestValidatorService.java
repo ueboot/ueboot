@@ -1,5 +1,8 @@
 package com.ueboot.core.service;
 
+import net.hasor.dataway.spi.ApiInfo;
+import net.hasor.utils.future.BasicFuture;
+
 import javax.validation.ConstraintViolation;
 import java.util.Set;
 
@@ -28,4 +31,11 @@ public interface HttpRequestValidatorService {
     default boolean doValidatorMsg(Set<ConstraintViolation<Object>> violations){
         return false;
     }
+
+   /**
+     * 在接口执行之前，可以通过这个 SPI 实现接口缓存\权限校验\接口参数判断等
+     * @param apiInfo API 请求信息。
+     * @param future 可以提前响应结果。
+     */
+    default void preExecute(ApiInfo apiInfo, BasicFuture<Object> future){};
 }
