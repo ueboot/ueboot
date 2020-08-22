@@ -121,7 +121,7 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>RELEASE</version>
+            <version>20.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -136,10 +136,6 @@
         <dependency>
             <groupId>net.hasor</groupId>
             <artifactId>hasor-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>net.hasor</groupId>
-            <artifactId>hasor-db</artifactId>
         </dependency>
         <dependency>
             <groupId>net.hasor</groupId>
