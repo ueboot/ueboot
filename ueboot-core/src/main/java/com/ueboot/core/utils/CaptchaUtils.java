@@ -49,8 +49,8 @@ public class CaptchaUtils {
         if(codeCount<4){
             codeCount =4;
         }
-        RandomGenerator randomGenerator = new RandomGenerator("123456789abcdefghijklmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ", codeCount);
-        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(w, h);
+        RandomGenerator randomGenerator = new RandomGenerator("123456789abcdefghjkmnpqrstuwxyzABCDEFGHJKMNPQRSTUWXYZ", codeCount);
+        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(w, h,codeCount,50);
         lineCaptcha.setGenerator(randomGenerator);
         lineCaptcha.createCode();
         return lineCaptcha;
