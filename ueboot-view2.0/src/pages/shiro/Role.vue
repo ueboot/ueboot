@@ -26,6 +26,8 @@
 
 <script>
 
+  import config from "../../config/Config";
+
   const ch = document.documentElement.clientHeight;
   const height = Math.round(ch * 0.75);
 
@@ -98,8 +100,8 @@
           ]
         },
         table: {
-          height:height,
-          showCheckbox: false,
+            height:config.getConfig().PageShiroResource.fixTableHeight?height:null,
+            showCheckbox: false,
           rowClick: (row, index) => {
             this.$refs['formGrid'].$refs['dataTable'].toggleSelect(index)
           },

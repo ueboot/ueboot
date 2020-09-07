@@ -70,6 +70,18 @@ let ueboot_config = {
         //退出登录成功后跳转的路由配置
         logoutSuccessRouter:{name:'PageLogin'}
     },
+    PageShiroResource:{
+        //是否固定表格高度，默认为true
+      fixTableHeight:false,
+    },
+    PageShiroRole:{
+        //是否固定表格高度，默认为true
+        fixTableHeight:false,
+    },
+    PageShiroUser:{
+        //是否固定表格高度，默认为true
+        fixTableHeight:false,
+    },
     axios: {
         //异步请求发生需要跳转到登录页面时，是否弹出确认提示框，默认为true
         confirmToLogin:true,

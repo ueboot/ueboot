@@ -23,6 +23,8 @@
            component: ueboot.PageShiroUser
          },
      ```
+- 2.1.9
+    - 解决资源添加时，表单无法校验问题
 - 2.1.3
     - page_login.captcha增加 多个属性用于控制验证码样式和长度
       ```javascript
