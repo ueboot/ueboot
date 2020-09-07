@@ -233,7 +233,10 @@ export default {
             c.view = { show: false }
             c.required = false
           }
-        })
+          if("resourceType"===c.name){
+              c.init ="菜单组"
+          }
+        });
       } else if (value === '功能') {
         // 隐藏部分字段
         this.formGrid.form.columns.forEach((c) => {
@@ -243,6 +246,9 @@ export default {
             c.view = { show: false }
             c.required = false
           }
+            if("resourceType"===c.name){
+                c.init ="功能"
+            }
         })
       } else {
         this.formGrid.form.columns.forEach((c) => {
@@ -255,6 +261,9 @@ export default {
           if (['fontColor', 'iconName'].includes(c.name)) {
             c.required = false
           }
+            if("resourceType"===c.name){
+                c.init ="菜单"
+            }
         })
       }
     },

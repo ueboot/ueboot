@@ -36,8 +36,13 @@ public class ResourcesRepositoryImpl extends DefaultJpaRepository<Resources,Long
     @Override
     public Page<Resources> findByParentId(Pageable pageable, Long parentId) {
         StringQuery query  = StringQuery.newQuery();
-        query.query("from "+Resources.class.getName()+" a where a.parent.id = :parentId or a.id = :parentId")
-                .param("parentId",parentId).predicate(true).build();
+        query.query("from "+Resources.class.getName()+" a where (1=1) ")
+                .predicateNotNull(parentId)
+                .query(" and a.parent.id = :parentId or a.id = :parentId")
+                .param("parentId",parentId)
+                .predicateIsNull(parentId)
+                .query(" and a.parent.id is null")
+                .predicate(true).build();
         return find(query,pageable);
     }
 }
