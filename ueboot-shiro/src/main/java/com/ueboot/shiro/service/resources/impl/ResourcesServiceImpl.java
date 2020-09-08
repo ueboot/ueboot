@@ -91,6 +91,8 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
                 PermissionBo bo = new PermissionBo();
                 BeanUtils.copyProperties(r, bo);
                 bo.setResourceId(r.getId());
+                bo.setResourceName(r.getName());
+                bo.setParentId(r.getParent()!=null?r.getParent().getId():null);
                 resources.add(bo);
             });
             return resources;
