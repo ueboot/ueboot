@@ -7,6 +7,7 @@ package com.ueboot.shiro.service.resources;
 
 import com.ueboot.core.service.BaseService;
 import com.ueboot.shiro.entity.Resources;
+import com.ueboot.shiro.repository.permission.bo.PermissionBo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,7 +25,7 @@ public interface ResourcesService extends BaseService<Resources> {
      * @param username 用户名
      * @return 当前用户授权后的资源列表
      */
-    Collection<Resources> getUserResources(String username);
+    Collection<PermissionBo> getUserResources(String username);
 
     /**
      * 根据资源类型查找资源列表

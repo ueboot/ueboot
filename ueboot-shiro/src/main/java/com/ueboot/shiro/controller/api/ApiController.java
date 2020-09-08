@@ -9,6 +9,7 @@ import com.ueboot.core.http.response.Response;
 import com.ueboot.core.utils.CaptchaUtils;
 import com.ueboot.shiro.entity.Resources;
 import com.ueboot.shiro.entity.User;
+import com.ueboot.shiro.repository.permission.bo.PermissionBo;
 import com.ueboot.shiro.service.resources.ResourcesService;
 import com.ueboot.shiro.service.user.UserService;
 import com.ueboot.shiro.shiro.ShiroEventListener;
@@ -152,32 +153,39 @@ public class ApiController {
     public Response<List<MenuVo>> menus() {
         Subject currentUser = SecurityUtils.getSubject();
         String username = (String) currentUser.getPrincipal();
+        Collection<PermissionBo>  resources = this.resourcesService.getUserResources(username);
 
-        Collection<Resources> resources = this.resourcesService.getUserResources(username);
         //查询出所有菜单组资源。防止授权时未勾选菜单组，导致前端页面没有菜单出现
         List<Resources> groups = this.resourcesService.findByResourceType(Resources.RESOURCE_TYPE_GROUP);
         List<MenuVo> body = new ArrayList<>();
-        List<Resources> parents = new ArrayList<>();
-        Map<Long, Resources> resourcesMap = new HashMap<>();
-        for (Resources resource : resources) {
+        List<Long> parents = new ArrayList<>();
+        Map<Long, PermissionBo> resourcesMap = new HashMap<>();
+        for (PermissionBo resource : resources) {
             if (Resources.RESOURCE_TYPE_BUTTON.equals(resource.getResourceType())) {
                 continue;
             }
-            if (resource.getParent() != null) {
-                parents.add(resource.getParent());
+            if (resource.getParentId() != null) {
+                parents.add(resource.getParentId());
             }
-            resourcesMap.put(resource.getId(), resource);
-            body.add(assembleMenuVo(resource));
+            if(resourcesMap.get(resource.getResourceId())==null){
+                resourcesMap.put(resource.getResourceId(), resource);
+                body.add(assembleMenuVo(resource));
+            }
         }
         //查找所有父节点是否在结果集当中，不在则需要获取
         parents.forEach((p) -> {
-            Resources parent = resourcesMap.get(p.getId());
+            PermissionBo parent = resourcesMap.get(p);
             if (parent == null) {
                 Iterator<Resources> it = groups.iterator();
                 while (it.hasNext()) {
                     Resources g = it.next();
-                    if (p.getId().equals(g.getId())) {
-                        body.add(assembleMenuVo(g));
+                    if (p.equals(g.getId())) {
+                        PermissionBo bo = new PermissionBo();
+                        BeanUtils.copyProperties(g,bo);
+                        bo.setResourceId(g.getId());
+                        bo.setResourceName(g.getName());
+                        bo.setParentId(g.getParent()!=null?g.getParent().getId():null);
+                        body.add(assembleMenuVo(bo));
                         groups.remove(g);
                     }
                 }
@@ -186,12 +194,11 @@ public class ApiController {
         return new Response<>(body);
     }
 
-    private MenuVo assembleMenuVo(Resources resource) {
+    private MenuVo assembleMenuVo( PermissionBo resource) {
         MenuVo menu = new MenuVo();
         BeanUtils.copyProperties(resource, menu);
-        if (resource.getParent() != null) {
-            menu.setParentId(resource.getParent().getId());
-        }
+        menu.setId(resource.getResourceId());
+        menu.setName(resource.getResourceName());
         menu.setThemeJson(StringUtils.isEmpty(resource.getThemeJson()) ? new HashMap() : JSON.parseObject(resource.getThemeJson(), Map.class));
         return menu;
     }

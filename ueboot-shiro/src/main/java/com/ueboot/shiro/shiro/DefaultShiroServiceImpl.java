@@ -1,9 +1,9 @@
 package com.ueboot.shiro.shiro;
 
-import com.ueboot.shiro.entity.Permission;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.entity.UserRole;
 import com.ueboot.shiro.repository.permission.PermissionRepository;
+import com.ueboot.shiro.repository.permission.bo.PermissionBo;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.user.UserService;
 import org.apache.shiro.util.StringUtils;
@@ -105,12 +105,12 @@ public class DefaultShiroServiceImpl implements ShiroService {
     @Override
     public Set<String> getRolePermission(String username,Set<String> roleNames) {
 
-        List<Permission> permissionList = this.permissionRepository.findByRoleNameIn(roleNames);
+        List<PermissionBo> permissionList = this.permissionRepository.findPermissionsByRoleNameIn(roleNames);
 
         Set<String> names = new HashSet<>();
-        for (Permission p : permissionList) {
-            if(StringUtils.hasText(p.getResource().getPermission())){
-                names.add(p.getResource().getPermission());
+        for (PermissionBo p : permissionList) {
+            if(StringUtils.hasText(p.getPermission())){
+                names.add(p.getPermission());
             }
         }
         return names;

@@ -5,7 +5,7 @@ module.exports = {
     proxy: {
       //本地代理
       '/ueboot/*': {
-        target: 'http://localhost:8000',
+        target: 'http://localhost:6000',
         debug: true,
         changeOrigin: true,
         secure: false

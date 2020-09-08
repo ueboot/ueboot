@@ -1,6 +1,6 @@
 {
   "name": "ueboot-examples",
-  "version": "2.1.7",
+  "version": "2.1.9",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
