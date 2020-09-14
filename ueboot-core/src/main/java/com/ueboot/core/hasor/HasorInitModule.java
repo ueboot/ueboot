@@ -12,6 +12,7 @@ import net.hasor.db.JdbcModule;
 import net.hasor.db.Level;
 import net.hasor.utils.json.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
@@ -24,6 +25,7 @@ import java.util.List;
 @DimModule
 @Component
 @Slf4j
+@ConditionalOnMissingBean(name = "hasorInitModule")
 public class HasorInitModule implements net.hasor.core.Module {
     @Autowired
     private DataSource dataSource ;
