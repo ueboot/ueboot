@@ -1,9 +1,9 @@
 package com.ueboot.shiro.shiro;
 
-import com.ueboot.shiro.entity.Permission;
 import com.ueboot.shiro.entity.User;
 import com.ueboot.shiro.entity.UserRole;
 import com.ueboot.shiro.repository.permission.PermissionRepository;
+import com.ueboot.shiro.repository.permission.bo.PermissionBo;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.user.UserService;
 import org.apache.shiro.util.StringUtils;
@@ -15,10 +15,11 @@ import java.util.*;
 
 /**
  * 默认的shiro查询实现，如果业务系统需要自己定制相关类，可以定一个bean名称为shiroService的类即可，并且实现ShrioService接口
+ *
  * @author yangkui
  */
 @Component
-@ConditionalOnMissingBean(name="shiroService")
+@ConditionalOnMissingBean(name = "shiroService")
 public class DefaultShiroServiceImpl implements ShiroService {
 
     @Resource
@@ -50,8 +51,8 @@ public class DefaultShiroServiceImpl implements ShiroService {
     @Override
     public Map<String, String> addFilterChainDefinition() {
         Map<String, String> map = new HashMap<>(10);
-        map.put("/swagger-resources/","anon");
-        map.put("/swagger-ui.html","anon");
+        map.put("/swagger-resources/", "anon");
+        map.put("/swagger-ui.html", "anon");
         return map;
     }
 
@@ -74,9 +75,9 @@ public class DefaultShiroServiceImpl implements ShiroService {
      */
     @Override
     public Map<String, Object> getLoginSuccessInfo(String username) {
-        Map<String,Object> map = new HashMap<>();
-        map.put("username",username);
-        map.put("from","ueboot-framework");
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", username);
+        map.put("from", "ueboot-framework");
         return map;
     }
 
@@ -103,14 +104,20 @@ public class DefaultShiroServiceImpl implements ShiroService {
      * @return 用户权限列表
      */
     @Override
-    public Set<String> getRolePermission(String username,Set<String> roleNames) {
+    public Set<String> getRolePermission(String username, Set<String> roleNames) {
 
-        List<Permission> permissionList = this.permissionRepository.findByRoleNameIn(roleNames);
+        List<PermissionBo> permissionList = this.permissionRepository.findPermissionsByRoleNameIn(roleNames);
 
         Set<String> names = new HashSet<>();
-        for (Permission p : permissionList) {
-            if(StringUtils.hasText(p.getResource().getPermission())){
-                names.add(p.getResource().getPermission());
+        for (PermissionBo p : permissionList) {
+            if (StringUtils.hasText(p.getPermission())) {
+                //支持一个权限标识里面有多个权限标识操作，使用,分割
+                if (p.getPermission().contains(",")) {
+                    String[] strs = p.getPermission().split(",");
+                    Collections.addAll(names, strs);
+                } else {
+                    names.add(p.getPermission());
+                }
             }
         }
         return names;

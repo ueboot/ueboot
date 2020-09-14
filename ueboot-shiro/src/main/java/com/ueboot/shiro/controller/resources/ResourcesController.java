@@ -70,11 +70,7 @@ public class ResourcesController {
     public Response<Page<ResourcesResp>> page(@PageableDefault(value = 15, sort = {"id"}, direction = Sort.Direction.ASC)
                                                       Pageable pageable, @RequestBody(required = false) ResourcesFindReq req) {
         Page<Resources> entities = null;
-        if (req.getParentId() == null) {
-            entities = resourcesService.findBy(pageable);
-        } else {
-            entities = resourcesService.findByParentId(pageable, req.getParentId());
-        }
+        entities = resourcesService.findByParentId(pageable, req.getParentId());
         Page<ResourcesResp> body = entities.map(entity -> {
             ResourcesResp resp = new ResourcesResp();
             BeanUtils.copyProperties(entity, resp);

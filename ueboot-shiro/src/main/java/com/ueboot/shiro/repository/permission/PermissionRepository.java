@@ -7,6 +7,7 @@ package com.ueboot.shiro.repository.permission;
 
 import com.ueboot.shiro.entity.Permission;
 import com.ueboot.core.repository.BaseRepository;
+import com.ueboot.shiro.repository.permission.bo.PermissionBo;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,6 +27,8 @@ public interface PermissionRepository extends BaseRepository<Permission, Long>,P
      * @return 权限列表
      */
     List<Permission> findByRoleNameIn(Set<String> roleNames);
+
+
 
     /**
      * 根据角色获取权限列表

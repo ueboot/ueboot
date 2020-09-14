@@ -243,6 +243,11 @@
                 <artifactId>springfox-data-rest</artifactId>
                 <version>LATEST</version>
             </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-spring-web</artifactId>
+                <version>3.0.1-SNAPSHOT</version>
+            </dependency>
 
             <dependency>
                 <groupId>cn.hutool</groupId>

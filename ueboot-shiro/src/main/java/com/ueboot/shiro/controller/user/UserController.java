@@ -101,7 +101,7 @@ public class UserController {
         }
         //解锁
         if(!req.isLocked()){
-            String key = MessageFormat.format(RetryLimitHashedCredentialsMatcher .PASSWORD_RETRY_CACHE,req.getUserName());
+            String key = MessageFormat.format(RetryLimitHashedCredentialsMatcher.PASSWORD_RETRY_CACHE,req.getUserName());
             redisTemplate.delete(key);
         }
         userService.save(entity);

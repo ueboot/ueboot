@@ -328,7 +328,9 @@
                    :size="formGrid.table.size" @on-row-click="formGrid.table.rowClick"
                    @on-row-dblclick="formGrid.table.rowDblClick" @on-expand="formGrid.table.expand"
                    :no-data-text="table.noDataText" @on-selection-change="onSelectionChange" :ref="tableRef"
-                   @on-select="onSelect" @on-select-all="onSelectAll"></Table>
+                   @on-select="onSelect" @on-select-all="onSelectAll">
+
+            </Table>
         </Row>
         <!--page-->
         <Row style="margin-top: 10px;" justify="end" type="flex">

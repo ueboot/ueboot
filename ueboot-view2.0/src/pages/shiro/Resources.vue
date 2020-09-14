@@ -24,6 +24,7 @@
 import deepExtend from 'deep-extend'
 const ch = document.documentElement.clientHeight;
 const height = Math.round(ch * 0.75);
+import config from '../../config/Config'
 
 export default {
   name: 'Resources',
@@ -134,7 +135,7 @@ export default {
           }
         },
         table: {
-          height:height,
+          height:config.getConfig().PageShiroResource.fixTableHeight?height:null,
           rowClick: (row, index) => {
             this.$refs['formGrid'].$refs['dataTable'].toggleSelect(index)
           },
@@ -233,7 +234,10 @@ export default {
             c.view = { show: false }
             c.required = false
           }
-        })
+          if("resourceType"===c.name){
+              c.init ="菜单组"
+          }
+        });
       } else if (value === '功能') {
         // 隐藏部分字段
         this.formGrid.form.columns.forEach((c) => {
@@ -243,6 +247,9 @@ export default {
             c.view = { show: false }
             c.required = false
           }
+            if("resourceType"===c.name){
+                c.init ="功能"
+            }
         })
       } else {
         this.formGrid.form.columns.forEach((c) => {
@@ -255,6 +262,9 @@ export default {
           if (['fontColor', 'iconName'].includes(c.name)) {
             c.required = false
           }
+            if("resourceType"===c.name){
+                c.init ="菜单"
+            }
         })
       }
     },
@@ -262,8 +272,9 @@ export default {
       // 查询当前节点下的子节点，更改grid查询条件.和弹出表单当中的下拉框
       this.$set(this.formGrid.toolbar.superFilter.columns[0], 'init', oriItem.id)
       this.$set(this.formGrid.form.columns[2], 'init', oriItem.id)
-
-      this.$refs.formGrid.$emit('reloadData')
+        this.$nextTick(()=>{
+            this.$refs.formGrid.$emit('reloadData')
+        })
     }
   }
 }

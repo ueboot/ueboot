@@ -41,6 +41,8 @@
 </template>
 
 <script>
+  import config from "../../config/Config";
+
   const ch = document.documentElement.clientHeight;
   const height = Math.round(ch * 0.75);
 export default {
@@ -119,8 +121,8 @@ export default {
           ]
         },
         table: {
-          height:height,
-          rowClick: (row, index) => {
+            height:config.getConfig().PageShiroResource.fixTableHeight?height:null,
+            rowClick: (row, index) => {
             this.$refs['formGrid'].$refs['dataTable'].toggleSelect(index)
           },
           operation: {

@@ -59,6 +59,10 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-data-rest</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-spring-web</artifactId>
+        </dependency>
         <!--DataQL 依赖-->
         <dependency>
             <groupId>net.hasor</groupId>

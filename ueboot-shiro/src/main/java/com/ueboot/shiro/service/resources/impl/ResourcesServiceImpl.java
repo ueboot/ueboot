@@ -11,6 +11,7 @@ import com.ueboot.shiro.entity.Permission;
 import com.ueboot.shiro.entity.Resources;
 import com.ueboot.shiro.entity.UserRole;
 import com.ueboot.shiro.repository.permission.PermissionRepository;
+import com.ueboot.shiro.repository.permission.bo.PermissionBo;
 import com.ueboot.shiro.repository.resources.ResourcesRepository;
 import com.ueboot.shiro.repository.userrole.UserRoleRepository;
 import com.ueboot.shiro.service.resources.ResourcesService;
@@ -19,7 +20,9 @@ import com.ueboot.shiro.shiro.ShiroService;
 import com.ueboot.shiro.shiro.UserRealm;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -80,21 +83,26 @@ public class ResourcesServiceImpl extends BaseServiceImpl<Resources> implements 
      * @return 当前用户授权后的资源列表
      */
     @Override
-    public Collection<Resources> getUserResources(String username) {
+    public Collection<PermissionBo> getUserResources(String username) {
         //root用户返回所有菜单，防止root账户还需要授权才能访问
         if (UserRealm.SUPER_USER.equals(username)) {
-            return this.resourcesRepository.findAll();
+            final Collection<PermissionBo> resources = new ArrayList<>();
+            this.resourcesRepository.findAll().forEach((r) -> {
+                PermissionBo bo = new PermissionBo();
+                BeanUtils.copyProperties(r, bo);
+                bo.setResourceId(r.getId());
+                bo.setResourceName(r.getName());
+                bo.setParentId(r.getParent()!=null?r.getParent().getId():null);
+                resources.add(bo);
+            });
+            return resources;
         }
 
         //找出用户的角色，根据角色查找用户的菜单
         //直接调用shiroService的实现方式，防止使用框架方需要自定义角色获取方式
         Set<String> roleNames = shiroService.getUserRoleNames(username);
-        List<Permission> permissions = permissionRepository.findByRoleNameIn(roleNames);
-        Map<Long, Resources> resourcesMap = new HashMap<>();
-        permissions.forEach((p) -> {
-            resourcesMap.put(p.getResource().getId(), p.getResource());
-        });
-        return resourcesMap.values();
+        List<PermissionBo> permissions = permissionRepository.findPermissionsByRoleNameIn(roleNames);
+        return permissions;
     }
 
     @Override
