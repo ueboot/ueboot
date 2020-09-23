@@ -54,6 +54,8 @@
         <jackson.version>2.10.3</jackson.version>
         <hutool.version>5.2.5</hutool.version>
         <jackson.databind.version>2.10.3</jackson.databind.version>
+        <jakarta-validation.version>2.0.2</jakarta-validation.version>
+        <hibernate.validation.version>5.2.4.Final</hibernate.validation.version>
     </properties>
 
     <dependencyManagement>
@@ -253,7 +255,17 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <dependency>
+                <groupId>jakarta.validation</groupId>
+                <artifactId>jakarta.validation-api</artifactId>
+                <version>${jakarta-validation.version}</version>
+            </dependency>
 
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validation.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <profiles>

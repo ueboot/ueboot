@@ -9,7 +9,8 @@ package com.ueboot.shiro.controller.organization.vo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.*;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 用于前端发起对象保存和更新请求时，接收请求参数

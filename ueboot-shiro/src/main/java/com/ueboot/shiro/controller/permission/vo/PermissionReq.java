@@ -9,7 +9,6 @@ package com.ueboot.shiro.controller.permission.vo;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.*;
 
 import javax.validation.constraints.NotNull;
 
