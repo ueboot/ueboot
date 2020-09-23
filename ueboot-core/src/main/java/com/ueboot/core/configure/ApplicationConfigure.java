@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 /**
  * 描述:应用基础配置
@@ -25,7 +26,7 @@ public class ApplicationConfigure{
 
     @Bean
     @ConditionalOnMissingBean(name = "fastJsonHttpMessageConverter")
-    public Log4jFastJsonHttpMessageConverter fastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService) {
-        return new Log4jFastJsonHttpMessageConverter(httpRequestValidatorService);
+    public Log4jFastJsonHttpMessageConverter fastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService, SpringValidatorAdapter springValidatorAdapter) {
+        return new Log4jFastJsonHttpMessageConverter(httpRequestValidatorService,springValidatorAdapter);
     }
 }

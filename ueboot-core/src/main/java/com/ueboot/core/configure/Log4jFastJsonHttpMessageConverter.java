@@ -16,6 +16,7 @@ import org.springframework.http.converter.AbstractHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -48,9 +49,10 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
 
     private SerializerFeature[] features =new SerializerFeature[]{SerializerFeature.DisableCircularReferenceDetect};
 
-    public Log4jFastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService) {
+    public Log4jFastJsonHttpMessageConverter(HttpRequestValidatorService httpRequestValidatorService,SpringValidatorAdapter springValidatorAdapter) {
         super(new MediaType("application", "json", UTF8), new MediaType("application", "*+json", UTF8));
         this.httpRequestValidatorService = httpRequestValidatorService;
+        this.validator = springValidatorAdapter;
     }
 
     @Override
@@ -80,9 +82,7 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         if(this.validator!=null){
             return this.validator;
         }
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        this.validator = factory.getValidator();
-        return this.validator;
+        return null;
     }
 
     @Override
