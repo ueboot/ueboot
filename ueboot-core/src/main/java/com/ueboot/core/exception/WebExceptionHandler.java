@@ -34,7 +34,7 @@ public class WebExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(UnknownAccountException e) {
         log.error("进行登录验证..验证未通过,未知账户 {}",e.getMessage());
-        return new Response<>(HttpStatus.OK.value() + "", "验证未通过,未知账户", null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "验证未通过,未知账户", null);
     }
 
     @ExceptionHandler(DisabledAccountException.class)
@@ -47,19 +47,19 @@ public class WebExceptionHandler {
     @ResponseBody
     public Response<Void> handleException(IncorrectCredentialsException e) {
         log.error("用户名或密码错误:{}",e.getMessage());
-        return new Response<>(HttpStatus.OK.value() + "", "用户名或密码错误", null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "用户名或密码错误", null);
     }
     @ExceptionHandler(LockedAccountException.class)
     @ResponseBody
     public Response<Void> handleException(LockedAccountException e) {
         log.error("进行登录验证..验证未通过,账户已锁定 {}",e.getMessage());
-        return new Response<>(HttpStatus.OK.value()+ "", "您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value()+ "", "您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
     }
     @ExceptionHandler(ExcessiveAttemptsException.class)
     @ResponseBody
     public Response<Void> handleException(ExcessiveAttemptsException e) {
         log.error("进行登录验证..验证未通过,错误次数过多 {}",e.getMessage());
-        return new Response<>(HttpStatus.OK.value() + "", "登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
     }
     //无权限的请求，返回403，前端会进行页面提示无权限访问
     @ExceptionHandler(AuthorizationException.class)
