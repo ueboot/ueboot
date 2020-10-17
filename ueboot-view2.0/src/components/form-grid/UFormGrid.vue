@@ -1772,7 +1772,7 @@ export default {
   },
   mounted () {
     if (this.formGrid.options.autoLoad) {
-      this.pageData()
+      this.superFilterSearch()
     }
     this.$nextTick(function () {
       // 添加监听器

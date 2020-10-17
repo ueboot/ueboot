@@ -51,7 +51,7 @@ public class ShiroExceptionHandler {
         shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
         ShiroExceptionHandler.remove();
         log.error("进行登录验证..验证未通过,未知账户 {}",e.getMessage());
-        return new Response<>(HttpStatus.OK.value() + "", "验证未通过,未知账户", null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "验证未通过,未知账户", null);
     }
     @ExceptionHandler(IncorrectCredentialsException.class)
     @ResponseBody
@@ -59,7 +59,7 @@ public class ShiroExceptionHandler {
         log.error("用户名或密码错误:{}",e.getMessage());
         shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
         ShiroExceptionHandler.remove();
-        return new Response<>(HttpStatus.OK.value() + "", "用户名或密码错误", null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "用户名或密码错误", null);
     }
     @ExceptionHandler(LockedAccountException.class)
     @ResponseBody
@@ -67,7 +67,7 @@ public class ShiroExceptionHandler {
         log.error("进行登录验证..验证未通过,账户已锁定 {}",e.getMessage());
         shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
         ShiroExceptionHandler.remove();
-        return new Response<>(HttpStatus.OK.value()+ "", "您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value()+ "", "您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
     }
     @ExceptionHandler(ExcessiveAttemptsException.class)
     @ResponseBody
@@ -75,7 +75,7 @@ public class ShiroExceptionHandler {
         log.error("进行登录验证..验证未通过,错误次数过多 {}",e.getMessage());
         shiroEventListener.afterLogin(currentUserName.get(),false,e.getMessage());
         ShiroExceptionHandler.remove();
-        return new Response<>(HttpStatus.OK.value() + "", "登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
+        return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value() + "", "登录信息已累计输错5次，您的用户名已被锁定，请在1小时后进行登录 或 请联系你的管理员进行处理", null);
     }
     //无权限的请求，返回403，前端会进行页面提示无权限访问
     @ExceptionHandler(AuthorizationException.class)

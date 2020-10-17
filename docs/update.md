@@ -23,6 +23,8 @@
            component: ueboot.PageShiroUser
          },
      ```
+- 2.1.11
+    - 解决默认初始化加载时未执行formGrid.toolbar.superFilter.submitBefore方法问题
 - 2.1.9
     - 解决资源添加时，表单无法校验问题
 - 2.1.3

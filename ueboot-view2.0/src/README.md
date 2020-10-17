@@ -5,7 +5,7 @@
   - 新组件和大的新功能增加，增加第二位版本号，并且能兼容老版本
   - 有版本无法兼容时，增加大版本号。
 - 本地执行`npm run publish` 会将源码打包成ueboot.js文件
-- 再本地执行 `npm publish` 发布到npmjs.org仓库当中
+- 在本地执行 `npm publish` 发布到npmjs.org仓库当中
   - 如果是第一次执行，可能要求进行登录。
   - 执行 `npm login` 输入用户名: ueboot 密码:78  email:ok@xiqiao.io
   - 登录成功后再次执行 `npm publish`即可。
