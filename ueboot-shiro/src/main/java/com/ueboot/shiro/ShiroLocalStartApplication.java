@@ -1,9 +1,6 @@
 package com.ueboot.shiro;
 
 
-import net.hasor.spring.boot.EnableHasor;
-import net.hasor.spring.boot.EnableHasorWeb;
-import net.hasor.spring.boot.WorkAt;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
@@ -22,8 +19,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableTransactionManagement
 @ComponentScan(value = {"com.ueboot.core","com.ueboot.shiro"})
 @EnableSwagger2
-@EnableHasorWeb(at = WorkAt.Interceptor)
-@EnableHasor(useProperties = true)
 public class ShiroLocalStartApplication {
     public static void main(String[] args) {
         SpringApplication.run(ShiroLocalStartApplication.class, args);

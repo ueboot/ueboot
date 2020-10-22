@@ -63,16 +63,6 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-spring-web</artifactId>
         </dependency>
-        <!--DataQL 依赖-->
-        <dependency>
-            <groupId>net.hasor</groupId>
-            <artifactId>hasor-spring</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>net.hasor</groupId>
-            <artifactId>hasor-dataway</artifactId>
-        </dependency>
 
     </dependencies>
 </project>

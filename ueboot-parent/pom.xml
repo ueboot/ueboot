@@ -142,17 +142,6 @@
             <artifactId>springfox-data-rest</artifactId>
             <version>LATEST</version>
         </dependency>
-        <!--DataQL 依赖-->
-        <dependency>
-            <groupId>net.hasor</groupId>
-            <artifactId>hasor-spring</artifactId>
-            <version>${hasor.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.hasor</groupId>
-            <artifactId>hasor-dataway</artifactId>
-            <version>${hasor.version}</version>
-        </dependency>
 
     </dependencies>
     <!--deploy到maven仓库时，当前模块需要单独定义Deploy到指定仓库,无法在外部的root pom当中直接deploy到maven仓库-->
