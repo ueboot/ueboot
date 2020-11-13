@@ -1,5 +1,6 @@
 package com.ueboot.shiro.util;
 
+import com.alibaba.druid.filter.config.ConfigTools;
 import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.shiro.util.ByteSource;
 
@@ -22,6 +23,23 @@ public class PasswordUtil {
         int hashIterations = 2;
         Sha512Hash hash = new Sha512Hash(password,salt,hashIterations);
         return hash.toString();
+    }
+
+    /**
+     * 获取druid数据库密码加密值
+     * @param dbPassword 需要加密的数据库密码
+     * @return  数组下标0 privateKey 无用
+     *          数组下标1 publicKey 用于 spring.datasource.druid.connection-properties:当中的config.decrypt.key
+     *          数组下标2 password  用于 spring.datasource.password属性
+     */
+    public static String[] dbPassword(String dbPassword){
+        try {
+            String[] arr = ConfigTools.genKeyPair(512);
+            return  new String[]{arr[0],arr[1],ConfigTools.encrypt(arr[0], dbPassword)};
+        }catch (Exception e){
+            //忽略
+        }
+        return null;
     }
 
 }
