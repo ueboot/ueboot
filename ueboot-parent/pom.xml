@@ -39,6 +39,8 @@
         <ojdbc.version>11.2.0.3</ojdbc.version>
         <jakarta-validation.version>2.0.2</jakarta-validation.version>
         <hibernate.validation.version>6.1.0.Final</hibernate.validation.version>
+        <druid.version>1.1.22</druid.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <!--声明依赖，当前项目所需要的依赖jar包和对应的版本。在使用时，直接继承改配置文件即可，无需关心ueboot所需要依赖那些jar包-->
@@ -121,6 +123,17 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate.validation.version}</version>
+        </dependency>
+        <!--数据库链接池相关依赖、druid和log4j-->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
         </dependency>
     </dependencies>
     <!--deploy到maven仓库时，当前模块需要单独定义Deploy到指定仓库,无法在外部的root pom当中直接deploy到maven仓库-->

@@ -56,6 +56,8 @@
         <jackson.databind.version>2.10.3</jackson.databind.version>
         <jakarta-validation.version>2.0.2</jakarta-validation.version>
         <hibernate.validation.version>6.1.0.Final</hibernate.validation.version>
+        <druid.version>1.1.22</druid.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencyManagement>
@@ -265,6 +267,17 @@
                 <groupId>org.hibernate</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>${hibernate.validation.version}</version>
+            </dependency>
+            <!--数据库链接池相关依赖、druid和log4j-->
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
