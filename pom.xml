@@ -5,7 +5,7 @@
 
     <groupId>com.ueboot</groupId>
     <artifactId>ueboot-framework</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.1.0</version>
     <packaging>pom</packaging>
     <name>ueboot-framework</name>
     <modules>
@@ -13,7 +13,6 @@
         <module>ueboot-core</module>
         <module>ueboot-shiro</module>
         <module>ueboot-generator</module>
-        <module>ueboot-cryption</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
