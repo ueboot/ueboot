@@ -85,13 +85,7 @@ INSERT INTO `sys_permission` VALUES (402, NULL, NULL, 'root', '2018-10-23 23:38:
 INSERT INTO `sys_permission` VALUES (403, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 14, 1);
 INSERT INTO `sys_permission` VALUES (404, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 15, 1);
 INSERT INTO `sys_permission` VALUES (405, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 16, 1);
-INSERT INTO `sys_permission` VALUES (406, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 27, 1);
-INSERT INTO `sys_permission` VALUES (407, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 28, 1);
-INSERT INTO `sys_permission` VALUES (408, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 30, 1);
-INSERT INTO `sys_permission` VALUES (409, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 31, 1);
-INSERT INTO `sys_permission` VALUES (410, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 34, 1);
-INSERT INTO `sys_permission` VALUES (411, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 29, 1);
-INSERT INTO `sys_permission` VALUES (412, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 35, 1);
+INSERT INTO `sys_permission` VALUES (406, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 25, 1);
 COMMIT;
 
 -- ----------------------------
@@ -132,6 +126,7 @@ INSERT INTO `sys_resources` VALUES (10, b'1', '删除', 'ueboot:user:delete', NU
 INSERT INTO `sys_resources` VALUES (11, b'1', '查询', 'ueboot:role:read', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '角色管理', 5);
 INSERT INTO `sys_resources` VALUES (12, b'1', '添加与修改', 'ueboot:role:save', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '角色管理', 5);
 INSERT INTO `sys_resources` VALUES (13, b'1', '删除', 'ueboot:role:delete', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '角色管理', 5);
+INSERT INTO `sys_resources` VALUES (25, b'1', '角色授权', 'ueboot:permission:read,ueboot:permission:save,ueboot:permission:delete', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '角色管理', 5);
 INSERT INTO `sys_resources` VALUES (14, b'1', '查询', 'ueboot:resources:read', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '资源管理', 6);
 INSERT INTO `sys_resources` VALUES (15, b'1', '添加与修改', 'ueboot:resources:save', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '资源管理', 6);
 INSERT INTO `sys_resources` VALUES (16, b'1', '删除', 'ueboot:resources:delete', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '资源管理', 6);
@@ -140,13 +135,6 @@ INSERT INTO `sys_resources` VALUES (21, b'1', '分配角色', 'ueboot:userRole:s
 INSERT INTO `sys_resources` VALUES (22, b'1', '资源列表查询', 'ueboot:resources:read', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '角色管理', 5);
 INSERT INTO `sys_resources` VALUES (23, b'1', '权限查询', 'ueboot:userRole:read', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '角色管理', 5);
 INSERT INTO `sys_resources` VALUES (24, b'1', '权限分配', 'ueboot:userRole:save', NULL, '功能', NULL, NULL, NULL, NULL, NULL, NULL, '角色管理', 5);
-INSERT INTO `sys_resources` VALUES (27, b'1', '有三级菜单', NULL, NULL, '菜单组', NULL, NULL, 'root', '2018-09-08 09:05:51', 'root', '2018-09-08 09:05:51', '权限管理', 3);
-INSERT INTO `sys_resources` VALUES (28, b'1', 'FormGrid', 'a', 2, '菜单', NULL, '/crud', 'root', '2018-09-08 09:06:17', 'root', '2018-09-08 09:24:13', '有三级菜单', 27);
-INSERT INTO `sys_resources` VALUES (29, b'1', '三级菜单组', NULL, 2, '菜单组', NULL, NULL, 'root', '2018-09-08 09:06:43', 'root', '2018-09-08 09:06:43', '权限管理', 3);
-INSERT INTO `sys_resources` VALUES (30, b'1', 'Tree', 'b', 5, '菜单', NULL, '/tree', 'root', '2018-09-08 09:56:44', 'root', '2018-09-08 09:56:44', '有三级菜单', 27);
-INSERT INTO `sys_resources` VALUES (31, b'1', 'FormDemo', '2', NULL, '菜单', NULL, '/FormDemo', 'root', '2018-09-13 21:34:50', 'root', '2018-09-13 21:34:50', '有三级菜单', 27);
-INSERT INTO `sys_resources` VALUES (34, b'1', 'treeSelect', 'treeSelect', NULL, '菜单', NULL, '/treeSelect', 'root', '2018-09-28 15:42:56', 'root', '2018-09-28 15:43:32', '有三级菜单', 27);
-INSERT INTO `sys_resources` VALUES (35, b'1', 'crud', 'crud', NULL, '菜单', NULL, '/crud', 'root', '2018-09-28 19:52:03', 'root', '2018-09-28 19:52:03', '三级菜单组', 29);
 COMMIT;
 
 -- ----------------------------
