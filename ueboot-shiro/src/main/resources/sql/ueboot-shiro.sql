@@ -17,20 +17,6 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
--- ----------------------------
--- Table structure for operation_log
--- ----------------------------
-DROP TABLE IF EXISTS `operation_log`;
-CREATE TABLE `operation_log` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `created_by` bigint(20) DEFAULT NULL,
-  `created_date` datetime(6) DEFAULT NULL,
-  `last_modified_by` bigint(20) DEFAULT NULL,
-  `last_modified_date` datetime(6) DEFAULT NULL,
-  `user_id` bigint(20) DEFAULT NULL,
-  `user_no` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for sys_organization
