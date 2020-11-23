@@ -196,9 +196,14 @@ CREATE TABLE `sys_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
+alter table sys_user
+	add valid bit default 1 null comment '是否有效';
+
 -- ----------------------------
 -- Records of sys_user
+-- 默认用户名：root 密码:111111
 -- ----------------------------
+
 BEGIN;
 INSERT INTO `sys_user` VALUES (1, NULL, NULL, 'root', '2018-10-13 23:50:51', NULL, 'd71e762f824bd6f39c505fa6804a3a20f3dc7e2fd8b4a0a5691bfd5326c061e2d84a0ee306a864955599f92c03840c5db3706a21484e8a0ee35539951e1f042b', 'root', '2099-03-30 14:18:21', b'0', '超级管理员', '1,2,');
 COMMIT;
