@@ -81,33 +81,6 @@ CREATE TABLE `sys_permission` (
 -- Records of sys_permission
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_permission` VALUES (327, NULL, NULL, 'root', '2018-10-15 08:43:27', 'root', '2018-10-15 08:43:27', 3, 5);
-INSERT INTO `sys_permission` VALUES (328, NULL, NULL, 'root', '2018-10-15 08:43:27', 'root', '2018-10-15 08:43:27', 4, 5);
-INSERT INTO `sys_permission` VALUES (329, NULL, NULL, 'root', '2018-10-15 08:43:27', 'root', '2018-10-15 08:43:27', 9, 5);
-INSERT INTO `sys_permission` VALUES (330, NULL, NULL, 'root', '2018-10-15 08:43:27', 'root', '2018-10-15 08:43:27', 10, 5);
-INSERT INTO `sys_permission` VALUES (331, NULL, NULL, 'root', '2018-10-15 08:43:27', 'root', '2018-10-15 08:43:27', 20, 5);
-INSERT INTO `sys_permission` VALUES (332, NULL, NULL, 'root', '2018-10-15 08:43:27', 'root', '2018-10-15 08:43:27', 21, 5);
-INSERT INTO `sys_permission` VALUES (333, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 3, 2);
-INSERT INTO `sys_permission` VALUES (334, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 4, 2);
-INSERT INTO `sys_permission` VALUES (335, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 8, 2);
-INSERT INTO `sys_permission` VALUES (336, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 9, 2);
-INSERT INTO `sys_permission` VALUES (337, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 10, 2);
-INSERT INTO `sys_permission` VALUES (338, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 20, 2);
-INSERT INTO `sys_permission` VALUES (339, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 21, 2);
-INSERT INTO `sys_permission` VALUES (340, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 5, 2);
-INSERT INTO `sys_permission` VALUES (341, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 11, 2);
-INSERT INTO `sys_permission` VALUES (342, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 12, 2);
-INSERT INTO `sys_permission` VALUES (343, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 13, 2);
-INSERT INTO `sys_permission` VALUES (344, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 22, 2);
-INSERT INTO `sys_permission` VALUES (345, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 23, 2);
-INSERT INTO `sys_permission` VALUES (346, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 24, 2);
-INSERT INTO `sys_permission` VALUES (347, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 6, 2);
-INSERT INTO `sys_permission` VALUES (348, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 14, 2);
-INSERT INTO `sys_permission` VALUES (349, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 15, 2);
-INSERT INTO `sys_permission` VALUES (350, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 16, 2);
-INSERT INTO `sys_permission` VALUES (351, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 27, 2);
-INSERT INTO `sys_permission` VALUES (352, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 30, 2);
-INSERT INTO `sys_permission` VALUES (353, NULL, NULL, 'root', '2018-10-15 08:43:41', 'root', '2018-10-15 08:43:41', 29, 2);
 INSERT INTO `sys_permission` VALUES (388, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 3, 1);
 INSERT INTO `sys_permission` VALUES (389, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 4, 1);
 INSERT INTO `sys_permission` VALUES (390, NULL, NULL, 'root', '2018-10-23 23:38:40', 'root', '2018-10-23 23:38:40', 8, 1);
@@ -215,8 +188,6 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_role` VALUES (1, NULL, NULL, NULL, NULL, b'1', NULL, '最高用户权限', '超级管理员', NULL, NULL);
-INSERT INTO `sys_role` VALUES (2, NULL, NULL, NULL, NULL, b'1', NULL, NULL, '业务管理员', NULL, NULL);
-INSERT INTO `sys_role` VALUES (5, 'root', '2018-10-01 13:01:09', 'root', '2018-10-01 13:01:09', b'1', NULL, 'NAME_TEST', 'NAME_TEST', NULL, NULL);
 COMMIT;
 
 -- ----------------------------
@@ -243,11 +214,7 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (1, NULL, NULL, 'root', '2018-10-13 23:50:51', NULL, 'd71e762f824bd6f39c505fa6804a3a20f3dc7e2fd8b4a0a5691bfd5326c061e2d84a0ee306a864955599f92c03840c5db3706a21484e8a0ee35539951e1f042b', 'root', '2019-03-30 14:18:21', b'0', '超级管理员,业务管理员', '1,2,');
-INSERT INTO `sys_user` VALUES (2, NULL, NULL, 'root', '2018-10-13 23:50:46', NULL, 'd02db260d58a26d777bfa1c8dd41b2a0492024e64cd69c3401223dcea60c8b3d2a44276748e0de9e763b630e84ef1a362b8ed370a9849a2346df769a25c3f8f3', 'admin', '2019-03-30 17:42:45', b'0', '', '');
-INSERT INTO `sys_user` VALUES (6, NULL, NULL, NULL, '2018-09-04 20:33:24', NULL, '5c83a5d1967a3d317daeb97a6ec6bd16d508d1f595c6f32acaa24b760556afbbf7565ee87205bf313d0e6956ff6e26121a3a454e155a5cff118f77dc78963730', 'test', '2019-03-04 20:33:24', b'0', '', '');
-INSERT INTO `sys_user` VALUES (7, NULL, '2018-09-04 20:33:13', 'root', '2018-10-13 23:50:28', NULL, '487aa1bb7ee37abe3b4f7c696b7fdc95246b9f3059da58f9b84ee6fe9e294ce02d895b0ef9a78acce65224ff439e042043075b78f1d4c3c26f22b8037982eef1', 'test2', '2019-03-04 20:45:38', b'0', '', '');
-INSERT INTO `sys_user` VALUES (9, 'root', '2018-09-30 18:48:37', 'root', '2018-10-01 13:01:54', NULL, 'c3e12da9af6b5b518ea96e77b313550f40885c73198ac67f0b57b1af90f0f67950b7f32c57180529e18081847c1b4640a459b6358abf6cbe48591119bb1bce19', '111', '2019-03-30 18:48:37', b'0', 'NAME_TEST', '5,');
+INSERT INTO `sys_user` VALUES (1, NULL, NULL, 'root', '2018-10-13 23:50:51', NULL, 'd71e762f824bd6f39c505fa6804a3a20f3dc7e2fd8b4a0a5691bfd5326c061e2d84a0ee306a864955599f92c03840c5db3706a21484e8a0ee35539951e1f042b', 'root', '2099-03-30 14:18:21', b'0', '超级管理员', '1,2,');
 COMMIT;
 
 -- ----------------------------
@@ -273,9 +240,7 @@ CREATE TABLE `sys_user_role` (
 -- Records of sys_user_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_role` VALUES (32, 5, 9, 'root', '2018-10-01 13:01:54', 'root', '2018-10-01 13:01:54');
 INSERT INTO `sys_user_role` VALUES (33, 1, 1, 'root', '2018-10-13 23:50:51', 'root', '2018-10-13 23:50:51');
-INSERT INTO `sys_user_role` VALUES (34, 2, 1, 'root', '2018-10-13 23:50:51', 'root', '2018-10-13 23:50:51');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
