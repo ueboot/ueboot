@@ -18,6 +18,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Repository
 public class ${entityName}RepositoryImpl extends DefaultJpaRepository<${entityFullName},Long> implements ${entityName}BaseRepository {
-
+    /**
+    * 进行分页查询
+    *
+    * @param pageable 分页对象
+    * @return 已分页的数据对象
+    */
+    @Override
+    public Page<${entityFullName}> pagingBy(Pageable pageable) {
+        StringQuery stringQuery = StringQuery.newQuery()
+        .query("from " + ${entityFullName}.class.getName() + "");
+        return findByPage(stringQuery, pageable);
+    }
 
 }
