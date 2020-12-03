@@ -141,4 +141,5 @@ http://www.ueboot.com
 ## 6.发布记录
 - 2.2.0-release\2.2.1-release 2018年左右发布的版本，已经不再维护，仅保留代码
 - 3.0.0-release 2019年左右发布的版本，与2.2.0存在不兼容（主要是ueboot-view组件不兼容），属于bug维护，已经有部分生产项目在使用，不在新增新的特性
-- 3.1.0 当前最新开发内容，采用最新的spring boot \iview版本开发
+- 3.1.0-release 2020年11月发布了一个版本到maven中央仓库 采用最新的spring boot \iview版本开发
+- master 3.2.0-SNAPSHOT 日常快照版本开发 

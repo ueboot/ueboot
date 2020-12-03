@@ -105,7 +105,7 @@ public class Log4jFastJsonHttpMessageConverter extends AbstractHttpMessageConver
         String jsonStr = new String(bytes);
         //防止xss攻击，sql注入
         XSSNotCheck notCheck = clazz.getAnnotation(XSSNotCheck.class);
-        //加了注解则不仅限xss字段拦截
+        //加了注解则不进行xss字段拦截
         if(notCheck==null){
             jsonStr = XSSUtil.checkXssStr(jsonStr);
         }else{
