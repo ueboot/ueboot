@@ -193,7 +193,7 @@ alter table sys_user
 -- ----------------------------
 
 BEGIN;
-INSERT INTO `sys_user` VALUES (1, NULL, NULL, 'root', '2018-10-13 23:50:51', NULL, 'd71e762f824bd6f39c505fa6804a3a20f3dc7e2fd8b4a0a5691bfd5326c061e2d84a0ee306a864955599f92c03840c5db3706a21484e8a0ee35539951e1f042b', 'root', '2099-03-30 14:18:21', b'0', '超级管理员', '1,2,');
+INSERT INTO `sys_user` VALUES (1, NULL, NULL, 'root', '2018-10-13 23:50:51', NULL, 'd71e762f824bd6f39c505fa6804a3a20f3dc7e2fd8b4a0a5691bfd5326c061e2d84a0ee306a864955599f92c03840c5db3706a21484e8a0ee35539951e1f042b', 'root', '2099-03-30 14:18:21', b'0', '超级管理员', '1,2,',b'1');
 COMMIT;
 
 -- ----------------------------
