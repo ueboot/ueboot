@@ -35,7 +35,7 @@
         <jodd.version>3.9.1</jodd.version>
         <ok.http.version>3.14.1</ok.http.version>
         <jackson.version>2.10.3</jackson.version>
-        <jackson.databind.version>2.10.3</jackson.databind.version>
+        <jackson.databind.version>2.10.5.1</jackson.databind.version>
         <ojdbc.version>11.2.0.3</ojdbc.version>
         <jakarta-validation.version>2.0.2</jakarta-validation.version>
         <hibernate.validation.version>6.1.0.Final</hibernate.validation.version>
