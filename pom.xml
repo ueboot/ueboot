@@ -50,7 +50,7 @@
         <java.version>1.8</java.version>
         <fastjson.version>1.2.68</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
-        <shiro.version>1.5.1</shiro.version>
+        <shiro.version>1.8.0</shiro.version>
         <jackson.version>2.10.3</jackson.version>
         <hutool.version>5.2.5</hutool.version>
         <jackson.databind.version>2.10.3</jackson.databind.version>
