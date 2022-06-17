@@ -48,7 +48,7 @@
         <ueboot.shiro.version>3.1.0-SNAPSHOT</ueboot.shiro.version>
         <ueboot.excel.version>3.1.0-SNAPSHOT</ueboot.excel.version>
         <java.version>1.8</java.version>
-        <fastjson.version>1.2.68</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <apache.poi.version>3.14</apache.poi.version>
         <shiro.version>1.5.1</shiro.version>
         <jackson.version>2.10.3</jackson.version>
