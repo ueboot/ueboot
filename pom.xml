@@ -53,7 +53,7 @@
         <shiro.version>1.5.1</shiro.version>
         <jackson.version>2.10.3</jackson.version>
         <hutool.version>5.2.5</hutool.version>
-        <jackson.databind.version>2.10.3</jackson.databind.version>
+        <jackson.databind.version>2.12.7.1</jackson.databind.version>
         <jakarta-validation.version>2.0.2</jakarta-validation.version>
         <hibernate.validation.version>6.1.0.Final</hibernate.validation.version>
         <druid.version>1.1.22</druid.version>
