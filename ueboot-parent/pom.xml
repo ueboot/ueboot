@@ -28,7 +28,7 @@
         <oss.version>2.2.1</oss.version>
         <commons-fileupload.version>1.3.2</commons-fileupload.version>
         <hutool.version>5.2.5</hutool.version>
-        <commons-net.version>3.3</commons-net.version>
+        <commons-net.version>3.9.0</commons-net.version>
         <poi-ooxml.version>4.1.0</poi-ooxml.version>
         <commons-lang3.version>3.7</commons-lang3.version>
         <commons-io.version>2.5</commons-io.version>
